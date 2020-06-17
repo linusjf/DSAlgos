@@ -7,7 +7,6 @@
   <groupId>ds</groupId>
   <artifactId>DSAlgos</artifactId>
   <version>1.0-SNAPSHOT</version>
-
   <name>DSAlgos</name>
   <description>
     Data Structures and Algorithms
@@ -132,7 +131,24 @@
     <version>1.8</version>
 </dependency>
                 </dependencies>
-            </plugin>
+              </plugin>
+                <plugin>
+  <groupId>au.com.acegi</groupId>
+  <artifactId>xml-format-maven-plugin</artifactId>
+  <version>3.1.2</version>
+  <executions>
+    <execution>
+      <id>xml-format</id>
+        <phase>process-sources</phase>
+        <goals>
+          <goal>xml-format</goal>
+        </goals>
+      <configuration>
+        <indentSize>2</indentSize>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
       </plugins>
     </pluginManagement>
   </build>
