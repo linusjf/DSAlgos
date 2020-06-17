@@ -19,14 +19,10 @@
     <maven.site.plugin.version>3.8.2</maven.site.plugin.version>
     <maven.spotbugs.plugin.version>4.0.0</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.13.0</maven.pmd.plugin.version>
-    <pmd.version>6.24.0</pmd.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <junit-jupiter.version>5.6.2</junit-jupiter.version>
         <!-- optional : if we want to use a junit4 specific version -->
-    <junit.version>4.13</junit.version>
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
-    <checkstyle.version>8.33</checkstyle.version>
     <maven.versions.plugin.version>2.7</maven.versions.plugin.version>
     <java.version>11</java.version>
   </properties>
@@ -35,25 +31,26 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter.version}</version>
+            <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
         <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit-jupiter.version}</version>
+            <version>5.6.2</version>
+            <scope>test</scope>
         </dependency>
         <!-- Optional : override the JUnit 4 API version provided by junit-vintage-engine -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>4.13</version>
             <scope>test</scope>
           </dependency>
       </dependencies>
   <build>
-    <defaultGoal>install</defaultGoal>
+    <defaultGoal>clean install</defaultGoal>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -86,7 +83,6 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.7.1</version>
@@ -103,11 +99,20 @@
               <configLocation>checkstyle.xml</configLocation>
               <propertiesLocation>${basedir}/checkstyle.properties</propertiesLocation>
             </configuration>
+              <executions>
+        <execution>
+        <id>checkstyle</id>
+        <phase>process-sources</phase>
+        <goals>
+            <goal>check</goal>
+        </goals>
+        </execution>
+    </executions>
             <dependencies>
 <dependency>
     <groupId>com.puppycrawl.tools</groupId>
     <artifactId>checkstyle</artifactId>
-    <version>${checkstyle.version}</version>
+    <version>8.33</version>
 </dependency>
             </dependencies>
           </plugin>
@@ -115,6 +120,15 @@
                 <groupId>com.coveo</groupId>
                 <artifactId>fmt-maven-plugin</artifactId>
                 <version>2.10</version>
+                <executions>
+                    <execution>
+        <id>format</id>
+        <phase>validate</phase>
+                        <goals>
+                            <goal>format</goal>
+                          </goals>
+                    </execution>
+                </executions>
                 <dependencies>
 <dependency>
     <groupId>com.google.googlejavaformat</groupId>
@@ -122,13 +136,6 @@
     <version>1.8</version>
 </dependency>
                 </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
       </plugins>
     </pluginManagement>
