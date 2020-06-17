@@ -21,27 +21,23 @@
     <maven.pmd.plugin.version>3.13.0</maven.pmd.plugin.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-        <!-- optional : if we want to use a junit4 specific version -->
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
     <maven.versions.plugin.version>2.7</maven.versions.plugin.version>
     <java.version>11</java.version>
   </properties>
   <dependencies>
-    <!--JUnit Jupiter Engine to depend on the JUnit5 engine and JUnit 5 API -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
-        <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- Optional : override the JUnit 4 API version provided by junit-vintage-engine -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -50,7 +46,7 @@
           </dependency>
       </dependencies>
   <build>
-    <defaultGoal>clean install</defaultGoal>
+    <defaultGoal>clean verify</defaultGoal>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -123,7 +119,7 @@
                 <executions>
                     <execution>
         <id>format</id>
-        <phase>validate</phase>
+        <phase>process-sources</phase>
                         <goals>
                             <goal>format</goal>
                           </goals>
