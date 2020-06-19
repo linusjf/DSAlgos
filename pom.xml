@@ -30,6 +30,8 @@
     <xml.format.maven.plugin.version>3.1.2</xml.format.maven.plugin.version>
     <fmt.maven.plugin.version>2.10</fmt.maven.plugin.version>
     <maven.versions.plugin.version>2.7</maven.versions.plugin.version>
+    <maven.antrun.plugin.version>3.0.0</maven.antrun.plugin.version>
+    <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
   </properties>
   <dependencies>
@@ -51,12 +53,6 @@
       <version>4.13</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean install</defaultGoal>
@@ -75,15 +71,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven.compiler.plugin.version}</version>
-          <configuration>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-              </path>
-            </annotationProcessorPaths>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -280,6 +267,78 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>${lombok.maven.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>delombok</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+              <configuration>
+                <addOutputDirectory>true</addOutputDirectory>
+                <sourceDirectory>src/main/java</sourceDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-delombok</id>
+              <phase>generate-test-sources</phase>
+              <goals>
+                <goal>testDelombok</goal>
+              </goals>
+              <configuration>
+                <addOutputDirectory>true</addOutputDirectory>
+                <sourceDirectory>src/test/java</sourceDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>${maven.antrun.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>sources</id>
+              <phase>generate-sources</phase>
+              <configuration>
+                <target>
+                  <copy todir="${basedir}/src/main/java">
+                    <fileset dir="${basedir}/target/generated-sources/delombok"/>
+                  </copy>
+                  <delete dir="${basedir}/target/generated-sources/delombok"/>
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>tests</id>
+              <phase>generate-test-sources</phase>
+              <configuration>
+                <target>
+                  <copy todir="${basedir}/src/test/java">
+                    <fileset dir="${basedir}/target/generated-test-sources/delombok"/>
+                  </copy>
+                  <delete dir="${basedir}/target/generated-test-sources/delombok"/>
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -310,6 +369,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>${maven.antrun.plugin.version}</version>
       </plugin>
     </plugins>
   </build>
