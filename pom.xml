@@ -30,6 +30,7 @@
     <xml.format.maven.plugin.version>3.1.2</xml.format.maven.plugin.version>
     <fmt.maven.plugin.version>2.10</fmt.maven.plugin.version>
     <maven.versions.plugin.version>2.7</maven.versions.plugin.version>
+    <lombok.version>1.18.12</lombok.version>
   </properties>
   <dependencies>
     <dependency>
@@ -50,6 +51,12 @@
       <version>4.13</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean install</defaultGoal>
@@ -68,6 +75,15 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${maven.compiler.plugin.version}</version>
+          <configuration>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
