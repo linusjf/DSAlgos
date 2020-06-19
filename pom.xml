@@ -31,6 +31,7 @@
     <fmt.maven.plugin.version>2.10</fmt.maven.plugin.version>
     <maven.versions.plugin.version>2.7</maven.versions.plugin.version>
     <maven.antrun.plugin.version>3.0.0</maven.antrun.plugin.version>
+    <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
   </properties>
@@ -339,6 +340,23 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven.dependency.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>purge-local-dependencies</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>purge-local-repository</goal>
+              </goals>
+              <configuration>
+                <excludes/>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -377,6 +395,10 @@
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>${maven.antrun.plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
