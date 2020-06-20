@@ -37,19 +37,32 @@
     <lombok.version>1.18.12</lombok.version>
     <spotbugs.excludeFilterFile/>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
+      <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>1.7.0-M1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.0-M1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>1.7.0-M1</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.7.0-M1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -142,11 +155,12 @@
             <consoleOutput>true</consoleOutput>
             <failsOnError>false</failsOnError>
             <failOnViolation>false</failOnViolation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
           </configuration>
           <executions>
             <execution>
               <id>checkstyle</id>
-              <phase>process-sources</phase>
+              <phase>verify</phase>
               <goals>
                 <goal>check</goal>
               </goals>
@@ -159,6 +173,48 @@
               <version>8.33</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven.pmd.plugin.version}</version>
+          <configuration>
+            <rulesets>
+              <ruleset>pmdrules.xml</ruleset>
+            </rulesets>
+            <linkXRef>false</linkXRef>
+            <analysisCache>true</analysisCache>
+            <analysisCacheLocation>pmd.cache</analysisCacheLocation>
+            <includeTests>true</includeTests>
+            <skipEmptyReport>true</skipEmptyReport>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-core</artifactId>
+              <version>6.24.0</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-java</artifactId>
+              <version>6.24.0</version>
+            </dependency>
+            <dependency>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-xml</artifactId>
+              <version>6.24.0</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>pmd</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>pmd</goal>
+                <goal>cpd</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
@@ -242,48 +298,6 @@
                   </requireOS>
                 </rules>
               </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>${maven.pmd.plugin.version}</version>
-          <configuration>
-            <rulesets>
-              <ruleset>pmdrules.xml</ruleset>
-            </rulesets>
-            <linkXRef>false</linkXRef>
-            <analysisCache>true</analysisCache>
-            <analysisCacheLocation>pmd.cache</analysisCacheLocation>
-            <includeTests>true</includeTests>
-            <skipEmptyReport>true</skipEmptyReport>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-core</artifactId>
-              <version>6.24.0</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-java</artifactId>
-              <version>6.24.0</version>
-            </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-xml</artifactId>
-              <version>6.24.0</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>pmd</id>
-              <phase>process-sources</phase>
-              <goals>
-                <goal>pmd</goal>
-                <goal>cpd</goal>
-              </goals>
             </execution>
           </executions>
         </plugin>

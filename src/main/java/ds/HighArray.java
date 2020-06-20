@@ -1,8 +1,9 @@
 package ds;
 
 /**
- * HighArray.java. * demonstrates array class with high-level interface * to run this program:
- * C&gt;java HighArrayApp
+ * Demonstrates array class with high-level interface.
+ *
+ * <p>To run this program: C&gt;java
  */
 public class HighArray {
   @SuppressWarnings("all")
@@ -24,40 +25,35 @@ public class HighArray {
   }
 
   // -----------------------------------------------------------
-  public boolean find(long searchKey) {
+  public int findIndex(long searchKey) {
     // find specified value
-    int j;
-    for (j = 0; j < nElems; j++) if (a[j] == searchKey) return true;
-    return false;
+    for (int j = 0; j < nElems; j++) if (a[j] == searchKey) return j;
+    return -1;
+  }
+
+  // -----------------------------------------------------------
+  public boolean find(long searchKey) {
+    return findIndex(searchKey) >= 0;
   }
 
   // put element into array
   // -----------------------------------------------------------
   public void insert(long value) {
-    a[nElems] = value;
     // insert it
-    nElems++;
+    a[nElems] = value;
     // increment size
+    ++nElems;
   }
 
   // -----------------------------------------------------------
   public boolean delete(long value) {
-    int j;
-    for (j = 0; j < nElems; j++)
-      // look for it
-      if (value == a[j]) break;
-    if (j == nElems)
-      // can’t find it
-      return false;
-    else {
-      // found it
-      for (int k = j; k < nElems; k++)
-        // move higher ones down
-        a[k] = a[k + 1];
-      nElems--;
-      // decrement size
-      return true;
-    }
+    int j = findIndex(value);
+    if (j == -1) return false;
+    // move higher ones down
+    for (int k = j; k < nElems; k++) a[k] = a[k + 1];
+    // decrement size
+    --nElems;
+    return true;
   }
 
   // displays array contents
