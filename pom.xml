@@ -142,6 +142,8 @@
           <configuration>
             <configLocation>checkstyle.xml</configLocation>
             <propertiesLocation>${basedir}/checkstyle.properties</propertiesLocation>
+            <consoleOutput>true</consoleOutput>
+            <failsOnError>false</failsOnError>
           </configuration>
           <executions>
             <execution>
