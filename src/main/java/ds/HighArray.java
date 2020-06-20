@@ -23,18 +23,8 @@ public class HighArray {
   public boolean find(long searchKey) {
     // find specified value
     int j;
-    for (j = 0; j < nElems; j++)
-      // for each element,
-      if (a[j] == searchKey)
-        // found item?
-        break;
-    // exit loop before end
-    if (j == nElems)
-      // gone to end?
-      return false;
-    // yes, can’t find it
-    else return true;
-    // no, found it
+    for (j = 0; j < nElems; j++) if (a[j] == searchKey) return true;
+    return false;
   }
 
   // put element into array
@@ -68,11 +58,9 @@ public class HighArray {
 
   // displays array contents
   // -----------------------------------------------------------
+  @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
   public void display() {
-    for (int j = 0; j < nElems; j++)
-      // for each element,
-      System.out.print(a[j] + " ");
-    // display it
+    for (int j = 0; j < nElems; j++) System.out.print(a[j] + " ");
     System.out.println("");
   }
 }

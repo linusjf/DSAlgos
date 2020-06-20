@@ -252,6 +252,10 @@
               <ruleset>pmdrules.xml</ruleset>
             </rulesets>
             <linkXRef>false</linkXRef>
+            <analysisCache>true</analysisCache>
+            <analysisCacheLocation>pmd.cache</analysisCacheLocation>
+            <includeTests>true</includeTests>
+            <skipEmptyReport>true</skipEmptyReport>
           </configuration>
           <dependencies>
             <dependency>
