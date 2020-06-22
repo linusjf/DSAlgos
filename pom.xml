@@ -440,7 +440,7 @@
                       <limit>
                         <counter>INSTRUCTION</counter>
                         <value>COVEREDRATIO</value>
-                        <minimum>0.80</minimum>
+                        <minimum>100%</minimum>
                       </limit>
                       <limit>
                         <counter>CLASS</counter>
@@ -458,7 +458,20 @@
                       <limit>
                         <counter>LINE</counter>
                         <value>COVEREDRATIO</value>
-                        <minimum>50%</minimum>
+                        <minimum>100%</minimum>
+                      </limit>
+                    </limits>
+                  </rule>
+                  <rule>
+                    <element>METHOD</element>
+                    <excludes>
+                      <exclude>*Test</exclude>
+                    </excludes>
+                    <limits>
+                      <limit>
+                        <counter>BRANCH</counter>
+                        <value>COVEREDRATIO</value>
+                        <minimum>100%</minimum>
                       </limit>
                     </limits>
                   </rule>

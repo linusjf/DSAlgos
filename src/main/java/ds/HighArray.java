@@ -45,6 +45,12 @@ public class HighArray {
     ++nElems;
   }
 
+  // clear array
+  // -----------------------------------------------------------
+  public void clear() {
+    nElems = 0;
+  }
+
   // -----------------------------------------------------------
   public boolean delete(long value) {
     int j = findIndex(value);

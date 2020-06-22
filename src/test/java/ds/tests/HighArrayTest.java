@@ -44,6 +44,7 @@ class HighArrayTest {
   }
 
   @Test
+  @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindIndexFalse() {
     int searchKey = 35;
@@ -52,6 +53,16 @@ class HighArrayTest {
   }
 
   @Test
+  @Order(4)
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testFindFalse() {
+    int searchKey = 35;
+    // search for item
+    assertFalse(arr.find(searchKey), () -> "Key " + searchKey + " not available");
+  }
+
+  @Test
+  @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindIndexTrue() {
     int searchKey = 11;
@@ -60,6 +71,7 @@ class HighArrayTest {
   }
 
   @Test
+  @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindTrue() {
     int searchKey = 11;
@@ -70,10 +82,28 @@ class HighArrayTest {
   @Test
   @Order(2)
   @SuppressWarnings("checkstyle:magicnumber")
-  public void testDelete() {
+  public void testDeleteTrue() {
     LOGGER.info(() -> arr.toString());
     assertTrue(
         () -> arr.delete(00) && arr.delete(55) && arr.delete(99),
         () -> "Elements 00, 55, 99 deleted");
+  }
+
+  @Test
+  @Order(3)
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testDeleteFalse() {
+    LOGGER.info(() -> arr.toString());
+    assertFalse(
+        () -> arr.delete(00) || arr.delete(55) || arr.delete(99),
+        () -> "Elements 00, 55, 99 deleted");
+  }
+
+  @Test
+  @Order(5)
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testClear() {
+    arr.clear();
+    assertEquals(arr.count(), 0, () -> "Array cleared");
   }
 }
