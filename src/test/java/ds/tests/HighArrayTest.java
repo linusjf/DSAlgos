@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.logging.Logger;
@@ -105,5 +106,38 @@ class HighArrayTest {
   public void testClear() {
     arr.clear();
     assertEquals(arr.count(), 0, () -> "Array cleared");
+  }
+
+  @Test
+  @Order(6)
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testToString() {
+    // insert 3 items
+    arr.insert(77);
+    arr.insert(99);
+    arr.insert(44);
+    StringBuilder sb = new StringBuilder();
+    sb.append("nElems = ").append(3).append(System.lineSeparator());
+    sb.append("77 99 44 ");
+    assertEquals(arr.toString(), sb.toString(), "Strings equal.");
+  }
+
+  @Test
+  @Order(7)
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testDisplay() {
+    HighArray highArray = spy(arr);
+
+    doAnswer(
+            i -> {
+            i.callRealMethod();
+            return null;
+            })
+        .when(highArray)
+        .display();
+    highArray.display();
+    doCallRealMethod().when(highArray).display();
+    highArray.display();
+    verify(highArray, times(2)).display();
   }
 }
