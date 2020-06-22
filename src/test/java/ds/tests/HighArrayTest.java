@@ -5,6 +5,8 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.logging.Logger;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -130,8 +132,8 @@ class HighArrayTest {
 
     doAnswer(
             i -> {
-            i.callRealMethod();
-            return null;
+              i.callRealMethod();
+              return null;
             })
         .when(highArray)
         .display();
@@ -139,5 +141,35 @@ class HighArrayTest {
     doCallRealMethod().when(highArray).display();
     highArray.display();
     verify(highArray, times(2)).display();
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(HighArray.class)
+        .withRedefinedSuperclass()
+        .withRedefinedSubclass(HighArrayExt.class)
+        .suppress(Warning.NONFINAL_FIELDS)
+        .verify();
+  }
+
+  @Test
+  public void leafNodeEquals() {
+
+    EqualsVerifier.forClass(HighArray.class)
+        .withRedefinedSuperclass()
+        .withRedefinedSubclass(HighArrayExt.class)
+        .suppress(Warning.NONFINAL_FIELDS)
+        .verify();
+  }
+
+  static class HighArrayExt extends HighArray {
+    HighArrayExt(int size) {
+      super(size);
+    }
+
+    @Override
+    public boolean canEqual(Object obj) {
+      return false;
+    }
   }
 }

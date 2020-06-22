@@ -10,7 +10,7 @@ public class HighArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
-  private long[] a;
+  private final long[] a;
   // ref to array a
   private int nElems;
 
@@ -79,5 +79,32 @@ public class HighArray {
 
   public int count() {
     return nElems;
+  }
+
+  @Override
+  @SuppressWarnings("all")
+  public boolean equals(final Object o) {
+    if (o == this) return true;
+    if (!(o instanceof HighArray)) return false;
+    final HighArray other = (HighArray) o;
+    if (!other.canEqual((Object) this)) return false;
+    if (!java.util.Arrays.equals(this.a, other.a)) return false;
+    if (this.nElems != other.nElems) return false;
+    return true;
+  }
+
+  @SuppressWarnings("all")
+  protected boolean canEqual(final Object other) {
+    return other instanceof HighArray;
+  }
+
+  @Override
+  @SuppressWarnings("all")
+  public final int hashCode() {
+    final int PRIME = 59;
+    int result = 1;
+    result = result * PRIME + java.util.Arrays.hashCode(this.a);
+    result = result * PRIME + this.nElems;
+    return result;
   }
 }
