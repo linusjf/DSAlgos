@@ -60,8 +60,15 @@ public class HighArray {
   // -----------------------------------------------------------
   @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
   public void display() {
-    for (int j = 0; j < nElems; j++) System.out.print(a[j] + " ");
-    System.out.println("");
+    System.out.println(this);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("nElems = ").append(nElems).append(System.lineSeparator());
+    for (int j = 0; j < nElems; j++) sb.append(a[j]).append(' ');
+    return sb.toString();
   }
 
   public int count() {
