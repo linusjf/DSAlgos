@@ -63,4 +63,8 @@ public class HighArray {
     for (int j = 0; j < nElems; j++) System.out.print(a[j] + " ");
     System.out.println("");
   }
+
+  public int count() {
+    return nElems;
+  }
 }
