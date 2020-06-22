@@ -13,6 +13,7 @@ class HighArrayTest {
   HighArray arr;
 
   @BeforeAll
+  @SuppressWarnings("checkstyle:magicnumber")
   public void initialise() {
     // create the array
     arr = new HighArray(100);
@@ -30,6 +31,7 @@ class HighArrayTest {
   }
 
   @Test
+  @SuppressWarnings("checkstyle:magicnumber")
   public void testFindIndex() {
 
     int searchKey = 35;
@@ -38,6 +40,7 @@ class HighArrayTest {
   }
 
   @Test
+  @SuppressWarnings("checkstyle:magicnumber")
   public void testFind() {
 
     int searchKey = 35;
@@ -46,6 +49,7 @@ class HighArrayTest {
   }
 
   @Test
+  @SuppressWarnings("checkstyle:magicnumber")
   public void testDelete() {
 
     assertTrue(
