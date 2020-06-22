@@ -259,6 +259,8 @@
             <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
             <includeTests>true</includeTests>
             <skipEmptyReport>true</skipEmptyReport>
+              <xmlOutput>false</xmlOutput>
+          <xmlOutputDirectory>target/site</xmlOutputDirectory>
           </configuration>
           <executions>
             <execution>
