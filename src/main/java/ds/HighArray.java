@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Arrays;
+
 /**
  * Demonstrates array class with high-level interface.
  *
@@ -48,6 +50,7 @@ public class HighArray {
   // clear array
   // -----------------------------------------------------------
   public void clear() {
+    Arrays.fill(a, 0, nElems, 0L);
     nElems = 0;
   }
 
@@ -57,6 +60,7 @@ public class HighArray {
     if (j == -1) return false;
     // move higher ones down
     for (int k = j; k < nElems; k++) a[k] = a[k + 1];
+    a[nElems] = 0;
     // decrement size
     --nElems;
     return true;
@@ -89,7 +93,6 @@ public class HighArray {
     final HighArray other = (HighArray) o;
     if (!other.canEqual((Object) this)) return false;
     if (!java.util.Arrays.equals(this.a, other.a)) return false;
-    if (this.nElems != other.nElems) return false;
     return true;
   }
 
@@ -104,7 +107,6 @@ public class HighArray {
     final int PRIME = 59;
     int result = 1;
     result = result * PRIME + java.util.Arrays.hashCode(this.a);
-    result = result * PRIME + this.nElems;
     return result;
   }
 }

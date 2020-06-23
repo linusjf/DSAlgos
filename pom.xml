@@ -259,8 +259,10 @@
             <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
             <includeTests>true</includeTests>
             <skipEmptyReport>true</skipEmptyReport>
-              <xmlOutput>false</xmlOutput>
-          <xmlOutputDirectory>target/site</xmlOutputDirectory>
+            <xmlOutput>false</xmlOutput>
+            <spotbugsXmlOutput>false</spotbugsXmlOutput>
+            <effort>Max</effort>
+            <threshold>Default</threshold>
           </configuration>
           <executions>
             <execution>

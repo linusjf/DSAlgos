@@ -148,7 +148,7 @@ class HighArrayTest {
     EqualsVerifier.forClass(HighArray.class)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
-        .suppress(Warning.NONFINAL_FIELDS)
+        .suppress(Warning.ALL_NONFINAL_FIELDS_SHOULD_BE_USED)
         .verify();
   }
 
@@ -158,7 +158,7 @@ class HighArrayTest {
     EqualsVerifier.forClass(HighArray.class)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
-        .suppress(Warning.NONFINAL_FIELDS)
+        .suppress(Warning.ALL_NONFINAL_FIELDS_SHOULD_BE_USED)
         .verify();
   }
 
