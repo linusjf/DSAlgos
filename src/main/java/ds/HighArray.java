@@ -1,6 +1,6 @@
 package ds;
 
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Demonstrates array class with high-level interface.
@@ -14,22 +14,20 @@ public class HighArray {
 
   private final long[] a;
   // ref to array a
-  private int nElems;
+  private final AtomicInteger nElems;
 
   // number of data items
   // constructor
   // -----------------------------------------------------------
   public HighArray(int max) {
     a = new long[max];
-    // create the array
-    nElems = 0;
-    // no items yet
+    nElems = new AtomicInteger();
   }
 
   // -----------------------------------------------------------
   public int findIndex(long searchKey) {
     // find specified value
-    for (int j = 0; j < nElems; j++) if (a[j] == searchKey) return j;
+    for (int j = 0; j < nElems.intValue(); j++) if (a[j] == searchKey) return j;
     return -1;
   }
 
@@ -41,17 +39,13 @@ public class HighArray {
   // put element into array
   // -----------------------------------------------------------
   public void insert(long value) {
-    // insert it
-    a[nElems] = value;
-    // increment size
-    ++nElems;
+    a[nElems.getAndIncrement()] = value;
   }
 
   // clear array
   // -----------------------------------------------------------
   public void clear() {
-    Arrays.fill(a, 0, nElems, 0L);
-    nElems = 0;
+    nElems.set(0);
   }
 
   // -----------------------------------------------------------
@@ -59,10 +53,8 @@ public class HighArray {
     int j = findIndex(value);
     if (j == -1) return false;
     // move higher ones down
-    for (int k = j; k < nElems; k++) a[k] = a[k + 1];
-    a[nElems] = 0;
-    // decrement size
-    --nElems;
+    int end = nElems.getAndDecrement();
+    for (int k = j; k < end; k++) a[k] = a[k + 1];
     return true;
   }
 
@@ -77,12 +69,12 @@ public class HighArray {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(nElems).append(System.lineSeparator());
-    for (int j = 0; j < nElems; j++) sb.append(a[j]).append(' ');
+    for (int j = 0; j < nElems.intValue(); j++) sb.append(a[j]).append(' ');
     return sb.toString();
   }
 
   public int count() {
-    return nElems;
+    return nElems.intValue();
   }
 
   @Override
@@ -93,6 +85,10 @@ public class HighArray {
     final HighArray other = (HighArray) o;
     if (!other.canEqual((Object) this)) return false;
     if (!java.util.Arrays.equals(this.a, other.a)) return false;
+    final Object this$nElems = this.nElems;
+    final Object other$nElems = other.nElems;
+    if (this$nElems == null ? other$nElems != null : !this$nElems.equals(other$nElems))
+      return false;
     return true;
   }
 
@@ -103,10 +99,12 @@ public class HighArray {
 
   @Override
   @SuppressWarnings("all")
-  public final int hashCode() {
+  public int hashCode() {
     final int PRIME = 59;
     int result = 1;
     result = result * PRIME + java.util.Arrays.hashCode(this.a);
+    final Object $nElems = this.nElems;
+    result = result * PRIME + ($nElems == null ? 43 : $nElems.hashCode());
     return result;
   }
 }

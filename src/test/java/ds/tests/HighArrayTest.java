@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import ds.HighArray;
 import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -148,7 +147,6 @@ class HighArrayTest {
     EqualsVerifier.forClass(HighArray.class)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
-        .suppress(Warning.ALL_NONFINAL_FIELDS_SHOULD_BE_USED)
         .verify();
   }
 
@@ -158,7 +156,6 @@ class HighArrayTest {
     EqualsVerifier.forClass(HighArray.class)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
-        .suppress(Warning.ALL_NONFINAL_FIELDS_SHOULD_BE_USED)
         .verify();
   }
 
