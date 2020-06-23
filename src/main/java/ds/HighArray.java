@@ -1,5 +1,6 @@
 package ds;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -39,6 +40,8 @@ public class HighArray {
   // put element into array
   // -----------------------------------------------------------
   public void insert(long value) {
+    int index = nElems.intValue();
+    if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
     a[nElems.getAndIncrement()] = value;
   }
 
@@ -46,6 +49,7 @@ public class HighArray {
   // -----------------------------------------------------------
   public void clear() {
     nElems.set(0);
+    Arrays.fill(a, 0L);
   }
 
   // -----------------------------------------------------------
@@ -55,6 +59,7 @@ public class HighArray {
     // move higher ones down
     int end = nElems.getAndDecrement();
     for (int k = j; k < end; k++) a[k] = a[k + 1];
+    a[end] = 0;
     return true;
   }
 
