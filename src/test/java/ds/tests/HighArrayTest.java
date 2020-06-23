@@ -5,10 +5,12 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.logging.Logger;
+import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -138,7 +140,7 @@ class HighArrayTest {
 
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
-  public void testException() {
+  void testException() {
     HighArray array = new HighArray(3);
     array.insert(2L);
     array.insert(11L);
@@ -150,18 +152,46 @@ class HighArrayTest {
         });
   }
 
+  @RepeatedTest(100)
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testConcurrentInserts() {
+    HighArray array = new HighArray(100);
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
+    assertEquals(array.count(), 100, "100 elements filled");
+  }
+
+  @RepeatedTest(100)
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testConcurrentDeletes() {
+    HighArray array = new HighArray(100);
+    LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
+    assertEquals(array.count(), 0, "100 elements deleted");
+  }
+
+  @RepeatedTest(100)
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testConcurrentInsertsDeletes() {
+    HighArray array = new HighArray(100);
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
+    array.clear();
+    assertEquals(array.count(), 0, "Elements cleared");
+  }
+
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)
+        .withIgnoredFields("lock")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();
   }
 
   @Test
-  public void leafNodeEquals() {
-
+  void leafNodeEquals() {
     EqualsVerifier.forClass(HighArray.class)
+        .withIgnoredFields("lock")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();

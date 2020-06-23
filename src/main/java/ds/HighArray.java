@@ -14,6 +14,7 @@ public class HighArray {
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
   private final long[] a;
+  private final Object lock = new Object();
   // ref to array a
   private final AtomicInteger nElems;
 
@@ -54,13 +55,15 @@ public class HighArray {
 
   // -----------------------------------------------------------
   public boolean delete(long value) {
-    int j = findIndex(value);
-    if (j == -1) return false;
-    // move higher ones down
-    int end = nElems.getAndDecrement();
-    for (int k = j; k < end; k++) a[k] = a[k + 1];
-    a[end] = 0;
-    return true;
+    synchronized (lock) {
+      int j = findIndex(value);
+      if (j == -1) return false;
+      // move higher ones down
+      int end = nElems.intValue() - 1;
+      for (int k = j; k < end; k++) a[k] = a[k + 1];
+      a[nElems.decrementAndGet()] = 0;
+      return true;
+    }
   }
 
   // displays array contents
