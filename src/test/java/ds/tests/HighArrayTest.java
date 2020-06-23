@@ -166,7 +166,7 @@ class HighArrayTest {
 
     @Override
     public boolean canEqual(Object obj) {
-      return false;
+      return obj instanceof HighArrayExt;
     }
   }
 }
