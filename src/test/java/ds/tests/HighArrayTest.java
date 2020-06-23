@@ -32,16 +32,16 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   public void testInsert() {
     // insert 10 items
-    arr.insert(77);
-    arr.insert(99);
-    arr.insert(44);
-    arr.insert(55);
-    arr.insert(22);
-    arr.insert(88);
-    arr.insert(11);
-    arr.insert(00);
-    arr.insert(66);
-    arr.insert(33);
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
+    arr.insert(55L);
+    arr.insert(22L);
+    arr.insert(88L);
+    arr.insert(11L);
+    arr.insert(00L);
+    arr.insert(66L);
+    arr.insert(33L);
     assertEquals(arr.count(), 10, "10 elements inserted.");
   }
 
@@ -49,7 +49,7 @@ class HighArrayTest {
   @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindIndexFalse() {
-    int searchKey = 35;
+    long searchKey = 35L;
     // search for item
     assertEquals(arr.findIndex(searchKey), -1, () -> "Key " + searchKey + " not available");
   }
@@ -58,7 +58,7 @@ class HighArrayTest {
   @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindFalse() {
-    int searchKey = 35;
+    long searchKey = 35L;
     // search for item
     assertFalse(arr.find(searchKey), () -> "Key " + searchKey + " not available");
   }
@@ -67,7 +67,7 @@ class HighArrayTest {
   @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindIndexTrue() {
-    int searchKey = 11;
+    long searchKey = 11L;
     // search for item
     assertTrue(arr.findIndex(searchKey) >= 0, () -> "Key " + searchKey + " available");
   }
@@ -76,7 +76,7 @@ class HighArrayTest {
   @Order(4)
   @SuppressWarnings("checkstyle:magicnumber")
   public void testFindTrue() {
-    int searchKey = 11;
+    long searchKey = 11L;
     // search for item
     assertTrue(arr.find(searchKey), () -> "Key " + searchKey + " available");
   }
@@ -87,7 +87,7 @@ class HighArrayTest {
   public void testDeleteTrue() {
     LOGGER.info(() -> arr.toString());
     assertTrue(
-        () -> arr.delete(00) && arr.delete(55) && arr.delete(99),
+        () -> arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
         () -> "Elements 00, 55, 99 deleted");
   }
 
@@ -97,7 +97,7 @@ class HighArrayTest {
   public void testDeleteFalse() {
     LOGGER.info(() -> arr.toString());
     assertFalse(
-        () -> arr.delete(00) || arr.delete(55) || arr.delete(99),
+        () -> arr.delete(00L) || arr.delete(55L) || arr.delete(99L),
         () -> "Elements 00, 55, 99 deleted");
   }
 
@@ -114,9 +114,9 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   public void testToString() {
     // insert 3 items
-    arr.insert(77);
-    arr.insert(99);
-    arr.insert(44);
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(3).append(System.lineSeparator());
     sb.append("77 99 44 ");
@@ -140,6 +140,20 @@ class HighArrayTest {
     doCallRealMethod().when(highArray).display();
     highArray.display();
     verify(highArray, times(2)).display();
+  }
+
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  public void testException() {
+    HighArray array = new HighArray(3);
+    array.insert(2L);
+    array.insert(11L);
+    array.insert(21L);
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class,
+        () -> {
+          array.insert(45L);
+        });
   }
 
   @Test
