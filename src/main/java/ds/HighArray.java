@@ -15,20 +15,14 @@ public class HighArray {
 
   private final long[] a;
   private final Object lock = new Object();
-  // ref to array a
   private final AtomicInteger nElems;
 
-  // number of data items
-  // constructor
-  // -----------------------------------------------------------
   public HighArray(int max) {
     a = new long[max];
     nElems = new AtomicInteger();
   }
 
-  // -----------------------------------------------------------
   public int findIndex(long searchKey) {
-    // find specified value
     for (int j = 0; j < nElems.intValue(); j++) if (a[j] == searchKey) return j;
     return -1;
   }
@@ -38,16 +32,12 @@ public class HighArray {
     return findIndex(searchKey) >= 0;
   }
 
-  // put element into array
-  // -----------------------------------------------------------
   public void insert(long value) {
     int index = nElems.intValue();
     if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
     a[nElems.getAndIncrement()] = value;
   }
 
-  // clear array
-  // -----------------------------------------------------------
   public void clear() {
     nElems.set(0);
     Arrays.fill(a, 0L);
@@ -57,7 +47,8 @@ public class HighArray {
   public boolean delete(long value) {
     synchronized (lock) {
       int j = findIndex(value);
-      if (j == -1) return false;
+      if (j == -1) 
+        return false;
       // move higher ones down
       int end = nElems.intValue() - 1;
       for (int k = j; k < end; k++) a[k] = a[k + 1];
@@ -66,8 +57,6 @@ public class HighArray {
     }
   }
 
-  // displays array contents
-  // -----------------------------------------------------------
   @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
   public void display() {
     System.out.println(this);
