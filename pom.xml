@@ -182,6 +182,8 @@
             <failsOnError>false</failsOnError>
             <failOnViolation>false</failOnViolation>
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            <outputFileFormat>plain</outputFileFormat>
+            <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
           </configuration>
           <executions>
             <execution>
@@ -213,6 +215,7 @@
             <analysisCacheLocation>pmd.cache</analysisCacheLocation>
             <includeTests>true</includeTests>
             <skipEmptyReport>true</skipEmptyReport>
+            <benchmark>true</benchmark>
           </configuration>
           <dependencies>
             <dependency>
@@ -237,6 +240,15 @@
               <phase>verify</phase>
               <goals>
                 <goal>pmd</goal>
+              </goals>
+              <configuration>
+                <format>txt</format>
+              </configuration>
+            </execution>
+            <execution>
+              <id>cpd</id>
+              <phase>verify</phase>
+              <goals>
                 <goal>cpd</goal>
               </goals>
             </execution>
@@ -277,7 +289,7 @@
             <dependency>
               <groupId>com.github.spotbugs</groupId>
               <artifactId>spotbugs</artifactId>
-              <version>4.0.4</version>
+              <version>4.0.6</version>
             </dependency>
           </dependencies>
         </plugin>
