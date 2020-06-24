@@ -103,6 +103,8 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testClear() {
     arr.clear();
+    // for code coverage
+    arr.clear();
     assertEquals(arr.count(), 0, () -> "Array cleared");
   }
 
@@ -155,9 +157,9 @@ class HighArrayTest {
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInserts() {
-    HighArray array = new HighArray(100);
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
-    assertEquals(100, array.count(), () -> "100 elements filled: " + array.toString());
+    HighArray array = new HighArray(10_000);
+    LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.insert(i));
+    assertEquals(10_000, array.count(), () -> "10,000 elements filled: " + array.toString());
   }
 
   @Test
@@ -168,6 +170,15 @@ class HighArrayTest {
     assertThrows(
         ConcurrentModificationException.class,
         () -> LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.delete(i)));
+  }
+
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testSequentialDeletes() {
+    HighArray array = new HighArray(10_000, true);
+    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
+    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.delete(i));
+    assertEquals(0, array.count(), () -> "10,000 elements deleted: " + array.toString());
   }
 
   @Test

@@ -43,13 +43,16 @@ public class HighArray {
   }
 
   public void insert(long value) {
+    int expectedModCount = modCount;
     int index = nElems.intValue();
     if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
     ++modCount;
+    // synchronize on only this?
     a[nElems.getAndIncrement()] = value;
   }
 
   public void clear() {
+    if (nElems.intValue() == 0) return;
     ++modCount;
     Arrays.fill(a, 0L);
     nElems.set(0);
@@ -92,7 +95,8 @@ public class HighArray {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(nElems).append(System.lineSeparator());
-    for (int j = 0; j < nElems.intValue(); j++) sb.append(a[j]).append(' ');
+    long[] newArray = a.clone();
+    for (int j = 0; j < nElems.intValue(); j++) sb.append(newArray[j]).append(' ');
     return sb.toString();
   }
 
