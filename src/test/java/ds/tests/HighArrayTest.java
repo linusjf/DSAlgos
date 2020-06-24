@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.HighArray;
+import java.util.ConcurrentModificationException;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -164,8 +165,9 @@ class HighArrayTest {
   void testConcurrentDeletes() {
     HighArray array = new HighArray(100);
     LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
-    assertEquals(0, array.count(), () -> "100 elements deleted: " + array.toString());
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i)));
   }
 
   @Test
@@ -181,9 +183,12 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInsertsDeletes() {
     HighArray array = new HighArray(100);
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
-    assertEquals(0, array.count(), () -> "Elements cleared");
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
+          LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
+        });
   }
 
   @SuppressWarnings("checkstyle:magicnumber")

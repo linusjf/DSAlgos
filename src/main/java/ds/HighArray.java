@@ -1,6 +1,7 @@
 package ds;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -64,7 +65,10 @@ public class HighArray {
 
   // -----------------------------------------------------------
   public boolean delete(long value) {
+    int expectedModCount = modCount;
     for (int j = 0; j < nElems.intValue(); j++) {
+      if (expectedModCount != modCount)
+        throw new ConcurrentModificationException("Error deleting value: " + value);
       if (a[j] == value) {
         fastDelete(j);
         return true;
