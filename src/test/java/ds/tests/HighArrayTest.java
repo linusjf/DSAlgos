@@ -163,11 +163,11 @@ class HighArrayTest {
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentDeletes() {
-    HighArray array = new HighArray(100);
-    LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
+    HighArray array = new HighArray(10_000);
+    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
     assertThrows(
         ConcurrentModificationException.class,
-        () -> LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i)));
+        () -> LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.delete(i)));
   }
 
   @Test
@@ -182,12 +182,12 @@ class HighArrayTest {
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInsertsDeletes() {
-    HighArray array = new HighArray(100);
+    HighArray array = new HighArray(10_000);
     assertThrows(
         ConcurrentModificationException.class,
         () -> {
-          LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
-          LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
+          LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.insert(i));
+          LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.delete(i));
         });
   }
 
