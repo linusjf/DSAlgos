@@ -163,7 +163,7 @@ class HighArrayTest {
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentDeletes() {
-    HighArray array = new HighArray(10_000);
+    HighArray array = new HighArray(10_000, true);
     LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
     assertThrows(
         ConcurrentModificationException.class,
@@ -182,7 +182,7 @@ class HighArrayTest {
   @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInsertsDeletes() {
-    HighArray array = new HighArray(10_000);
+    HighArray array = new HighArray(10_000, true);
     assertThrows(
         ConcurrentModificationException.class,
         () -> {
@@ -202,7 +202,7 @@ class HighArrayTest {
   @Test
   void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)
-        .withIgnoredFields("modCount", "lock")
+        .withIgnoredFields("modCount", "lock", "strict")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();
@@ -211,7 +211,7 @@ class HighArrayTest {
   @Test
   void leafNodeEquals() {
     EqualsVerifier.forClass(HighArray.class)
-        .withIgnoredFields("modCount", "lock")
+        .withIgnoredFields("modCount", "lock", "strict")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();

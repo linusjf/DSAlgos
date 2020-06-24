@@ -17,11 +17,17 @@ public class HighArray {
   private final long[] a;
   private final AtomicInteger nElems;
   private final Object lock = new Object();
+  private final boolean strict;
   private int modCount;
 
   public HighArray(int max) {
+    this(max, false);
+  }
+
+  public HighArray(int max, boolean strict) {
     a = new long[max];
     nElems = new AtomicInteger();
+    this.strict = strict;
   }
 
   public int findIndex(long searchKey) {
@@ -67,7 +73,7 @@ public class HighArray {
   public boolean delete(long value) {
     int expectedModCount = modCount;
     for (int j = 0; j < nElems.intValue(); j++) {
-      if (expectedModCount != modCount)
+      if (strict && expectedModCount != modCount)
         throw new ConcurrentModificationException("Error deleting value: " + value);
       if (a[j] == value) {
         fastDelete(j);
