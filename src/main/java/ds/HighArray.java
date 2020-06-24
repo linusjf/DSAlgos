@@ -14,8 +14,9 @@ public class HighArray {
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
   private final long[] a;
-  private final Object lock = new Object();
   private final AtomicInteger nElems;
+  private final Object lock = new Object();
+  private int modCount;
 
   public HighArray(int max) {
     a = new long[max];
@@ -23,7 +24,9 @@ public class HighArray {
   }
 
   public int findIndex(long searchKey) {
-    for (int j = 0; j < nElems.intValue(); j++) if (a[j] == searchKey) return j;
+    for (int j = 0; j < nElems.intValue(); j++) {
+      if (a[j] == searchKey) return j;
+    }
     return -1;
   }
 
@@ -35,26 +38,39 @@ public class HighArray {
   public void insert(long value) {
     int index = nElems.intValue();
     if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
+    ++modCount;
     a[nElems.getAndIncrement()] = value;
   }
 
   public void clear() {
-    nElems.set(0);
+    ++modCount;
     Arrays.fill(a, 0L);
+    nElems.set(0);
+  }
+
+  private void fastDelete(int index) {
+    ++modCount;
+    // move higher ones down
+    int numMoved = nElems.intValue() - index - 1;
+    if (numMoved > 0) System.arraycopy(a, index + 1, a, index, numMoved);
+    a[nElems.decrementAndGet()] = 0;
+  }
+
+  public boolean syncDelete(long value) {
+    synchronized (lock) {
+      return delete(value);
+    }
   }
 
   // -----------------------------------------------------------
   public boolean delete(long value) {
-    synchronized (lock) {
-      int j = findIndex(value);
-      if (j == -1) 
-        return false;
-      // move higher ones down
-      int end = nElems.intValue() - 1;
-      for (int k = j; k < end; k++) a[k] = a[k + 1];
-      a[nElems.decrementAndGet()] = 0;
-      return true;
+    for (int j = 0; j < nElems.intValue(); j++) {
+      if (a[j] == value) {
+        fastDelete(j);
+        return true;
+      }
     }
+    return false;
   }
 
   @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})

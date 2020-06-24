@@ -10,7 +10,6 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -152,37 +151,53 @@ class HighArrayTest {
         });
   }
 
-  @RepeatedTest(100)
+  @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInserts() {
     HighArray array = new HighArray(100);
     LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
-    assertEquals(array.count(), 100, "100 elements filled");
+    assertEquals(100, array.count(), () -> "100 elements filled: " + array.toString());
   }
 
-  @RepeatedTest(100)
+  @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentDeletes() {
     HighArray array = new HighArray(100);
     LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
     LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
-    assertEquals(array.count(), 0, "100 elements deleted");
+    assertEquals(0, array.count(), () -> "100 elements deleted: " + array.toString());
   }
 
-  @RepeatedTest(100)
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testConcurrentSyncDeletes() {
+    HighArray array = new HighArray(100);
+    LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.syncDelete(i));
+    assertEquals(0, array.count(), () -> "100 elements deleted: " + array.toString());
+  }
+
+  @Test
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInsertsDeletes() {
     HighArray array = new HighArray(100);
     LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
     LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.delete(i));
-    array.clear();
-    assertEquals(array.count(), 0, "Elements cleared");
+    assertEquals(0, array.count(), () -> "Elements cleared");
+  }
+
+  @SuppressWarnings("checkstyle:magicnumber")
+  void testConcurrentSyncInsertsDeletes() {
+    HighArray array = new HighArray(100);
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
+    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.syncDelete(i));
+    assertEquals(0, array.count(), () -> "Elements cleared");
   }
 
   @Test
   void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)
-        .withIgnoredFields("lock")
+        .withIgnoredFields("modCount", "lock")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();
@@ -191,7 +206,7 @@ class HighArrayTest {
   @Test
   void leafNodeEquals() {
     EqualsVerifier.forClass(HighArray.class)
-        .withIgnoredFields("lock")
+        .withIgnoredFields("modCount", "lock")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();
