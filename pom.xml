@@ -111,6 +111,7 @@
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
+            <rerunFailingTestsCount>5</rerunFailingTestsCount>
           </configuration>
         </plugin>
         <plugin>
