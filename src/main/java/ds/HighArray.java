@@ -43,11 +43,9 @@ public class HighArray {
   }
 
   public void insert(long value) {
-    int expectedModCount = modCount;
     int index = nElems.intValue();
     if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
     ++modCount;
-    // synchronize on only this?
     a[nElems.getAndIncrement()] = value;
   }
 
