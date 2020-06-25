@@ -38,6 +38,9 @@
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
     <checkstyle.version>8.33</checkstyle.version>
+    <checkstyle.rules>checkstyle.xml</checkstyle.rules>
+    <checkstyle.properties>checkstyle.properties</checkstyle.properties>
+    <pmd.version>6.24.0</pmd.version>
     <spotbugs.excludeFilterFile/>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
   </properties>
@@ -72,11 +75,11 @@
         <groupId>com.puppycrawl.tools</groupId>
         <artifactId>checkstyle</artifactId>
         <version>${checkstyle.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
@@ -189,8 +192,8 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${maven.checkstyle.plugin.version}</version>
           <configuration>
-            <configLocation>checkstyle.xml</configLocation>
-            <propertiesLocation>${basedir}/checkstyle.properties</propertiesLocation>
+            <configLocation>${basedir}/${checkstyle.rules}</configLocation>
+            <propertiesLocation>${basedir}/${checkstyle.properties}</propertiesLocation>
             <consoleOutput>true</consoleOutput>
             <failsOnError>false</failsOnError>
             <failOnViolation>false</failOnViolation>
@@ -234,17 +237,17 @@
             <dependency>
               <groupId>net.sourceforge.pmd</groupId>
               <artifactId>pmd-core</artifactId>
-              <version>6.24.0</version>
+              <version>${pmd.version}</version>
             </dependency>
             <dependency>
               <groupId>net.sourceforge.pmd</groupId>
               <artifactId>pmd-java</artifactId>
-              <version>6.24.0</version>
+              <version>${pmd.version}</version>
             </dependency>
             <dependency>
               <groupId>net.sourceforge.pmd</groupId>
               <artifactId>pmd-xml</artifactId>
-              <version>6.24.0</version>
+              <version>${pmd.version}</version>
             </dependency>
           </dependencies>
           <executions>
@@ -444,7 +447,7 @@
                   </fileset>
                   <pathconvert property="sources" refid="javasrcs" pathsep=" "/>
                   <java classname="${cs.main.class}" logError="true">
-                    <arg line="-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${sources}"/>
+                    <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgos-xpath.xml -g ${sources}"/>
                     <classpath>
                       <pathelement path="${cs.cp}"/>
                     </classpath>
@@ -462,16 +465,6 @@
           <artifactId>maven-dependency-plugin</artifactId>
           <version>${maven.dependency.plugin.version}</version>
           <executions>
-            <execution>
-              <id>purge-local-dependencies</id>
-              <phase>clean</phase>
-              <goals>
-                <goal>purge-local-repository</goal>
-              </goals>
-              <configuration>
-                <excludes/>
-              </configuration>
-            </execution>
             <execution>
               <id>cp</id>
               <phase>validate</phase>
