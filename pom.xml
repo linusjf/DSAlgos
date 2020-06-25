@@ -442,6 +442,7 @@
               <phase>verify</phase>
               <configuration>
                 <target>
+                  <property name="test_classpath" refid="maven.test.classpath"/>
                   <fileset dir="${basedir}" id="javasrcs">
                     <include name="**/*.java"/>
                   </fileset>
@@ -449,7 +450,7 @@
                   <java classname="${cs.main.class}" logError="true">
                     <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgos-xpath.xml -g ${sources}"/>
                     <classpath>
-                      <pathelement path="${cs.cp}"/>
+                      <pathelement path="${test_classpath}"/>
                     </classpath>
                   </java>
                 </target>
@@ -464,18 +465,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>${maven.dependency.plugin.version}</version>
-          <executions>
-            <execution>
-              <id>cp</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>build-classpath</goal>
-              </goals>
-              <configuration>
-                <outputProperty>cs.cp</outputProperty>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
