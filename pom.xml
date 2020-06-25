@@ -34,6 +34,7 @@
     <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     <maven.jxr.plugin.version>3.0.0</maven.jxr.plugin.version>
     <maven.help.plugin.version>3.2.0</maven.help.plugin.version>
+    <maven.exec.plugin.version>3.0.0</maven.exec.plugin.version>
     <jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
@@ -42,11 +43,11 @@
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.24.0</pmd.version>
     <spotbugs.excludeFilterFile/>
+    <sources/>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
   </properties>
   <dependencyManagement>
     <dependencies>
-      <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
@@ -454,6 +455,7 @@
                     </classpath>
                   </java>
                 </target>
+                <exportAntProperties>true</exportAntProperties>
               </configuration>
               <goals>
                 <goal>run</goal>
@@ -547,6 +549,33 @@
           <artifactId>maven-help-plugin</artifactId>
           <version>${maven.help.plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${maven.exec.plugin.version}</version>
+          <executions>
+            <execution>
+              <id>checkstyleg</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>java</goal>
+              </goals>
+              <configuration>
+                <mainClass>${cs.main.class}</mainClass>
+                <commandLineArgs>-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgoes-xpath.xml -g ${sources}</commandLineArgs>
+                <includePluginDependencies>true</includePluginDependencies>
+                <includeProjectDependencies>false</includeProjectDependencies>
+              </configuration>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${checkstyle.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -597,6 +626,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-help-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
