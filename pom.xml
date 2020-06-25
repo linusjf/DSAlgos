@@ -33,10 +33,13 @@
     <maven.antrun.plugin.version>3.0.0</maven.antrun.plugin.version>
     <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     <maven.jxr.plugin.version>3.0.0</maven.jxr.plugin.version>
+    <maven.help.plugin.version>3.2.0</maven.help.plugin.version>
     <jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
+    <checkstyle.version>8.33</checkstyle.version>
     <spotbugs.excludeFilterFile/>
+    <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -65,6 +68,11 @@
         <version>3.4.1</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>com.puppycrawl.tools</groupId>
+        <artifactId>checkstyle</artifactId>
+        <version>${checkstyle.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -84,6 +92,10 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.puppycrawl.tools</groupId>
+      <artifactId>checkstyle</artifactId>
     </dependency>
   </dependencies>
   <build>
@@ -199,7 +211,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.33</version>
+              <version>${checkstyle.version}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -209,7 +221,7 @@
           <version>${maven.pmd.plugin.version}</version>
           <configuration>
             <rulesets>
-              <ruleset>pmdrules.xml</ruleset>
+              <ruleset>file:./pmdrules.xml</ruleset>
             </rulesets>
             <linkXRef>false</linkXRef>
             <analysisCache>true</analysisCache>
@@ -422,6 +434,27 @@
                 <goal>run</goal>
               </goals>
             </execution>
+            <execution>
+              <id>checkstyleg</id>
+              <phase>verify</phase>
+              <configuration>
+                <target>
+                  <fileset dir="${basedir}" id="javasrcs">
+                    <include name="**/*.java"/>
+                  </fileset>
+                  <pathconvert property="sources" refid="javasrcs" pathsep=" "/>
+                  <java classname="${cs.main.class}" logError="true">
+                    <arg line="-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${sources}"/>
+                    <classpath>
+                      <pathelement path="${cs.cp}"/>
+                    </classpath>
+                  </java>
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
           </executions>
         </plugin>
         <plugin>
@@ -437,6 +470,16 @@
               </goals>
               <configuration>
                 <excludes/>
+              </configuration>
+            </execution>
+            <execution>
+              <id>cp</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>build-classpath</goal>
+              </goals>
+              <configuration>
+                <outputProperty>cs.cp</outputProperty>
               </configuration>
             </execution>
           </executions>
@@ -517,6 +560,11 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-help-plugin</artifactId>
+          <version>${maven.help.plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -553,16 +601,20 @@
         <artifactId>lombok-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>${maven.antrun.plugin.version}</version>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>${maven.antrun.plugin.version}</version>
+      </plugin>
+      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-help-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
