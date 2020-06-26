@@ -44,6 +44,7 @@
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.24.0</pmd.version>
     <spotbugs.excludeFilterFile/>
+    <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
   </properties>
   <dependencyManagement>
@@ -443,18 +444,28 @@
               <phase>verify</phase>
               <configuration>
                 <target>
+                  <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
+                  <move file="${checkstyle.suppressionsFile}" tofile="${checkstyle.suppressionsFile}.bak" preservelastmodified="true" force="true" failonerror="false" verbose="true"/>
                   <property name="test_classpath" refid="maven.test.classpath"/>
                   <fileset dir="${basedir}" id="javasrcs">
                     <include name="**/*.java"/>
                   </fileset>
                   <pathconvert property="sources" refid="javasrcs" pathsep=" "/>
-                  <echo file="sources.txt" message="sources='${sources}'"/>
                   <java classname="${cs.main.class}" logError="true">
-                    <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgos-xpath.xml -g ${sources}"/>
+                    <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o ${project.name}-xpath.xml -g ${sources}"/>
                     <classpath>
                       <pathelement path="${test_classpath}"/>
                     </classpath>
                   </java>
+                  <condition property="file.is.empty" else="false">
+                    <length file="${project.name}-xpath.xml" when="equal" length="0"/>
+                  </condition>
+                  <if>
+                    <equals arg1="${file.is.empty}" arg2="false"/>
+                    <then>
+                      <move file="${ant.project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
+                    </then>
+                  </if>
                 </target>
                 <exportAntProperties>true</exportAntProperties>
               </configuration>
@@ -463,6 +474,19 @@
               </goals>
             </execution>
           </executions>
+          <dependencies>
+            <dependency>
+              <groupId>ant-contrib</groupId>
+              <artifactId>ant-contrib</artifactId>
+              <version>1.0b3</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>ant</groupId>
+                  <artifactId>ant</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -554,46 +578,11 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
-          <executions>
-            <execution>
-              <phase>verify</phase>
-              <goals>
-                <goal>read-project-properties</goal>
-              </goals>
-              <configuration>
-                <files>
-                  <file>sources.txt</file>
-                </files>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>${maven.exec.plugin.version}</version>
-          <executions>
-            <execution>
-              <id>checkstyleg</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>java</goal>
-              </goals>
-              <configuration>
-                <mainClass>${cs.main.class}</mainClass>
-                <commandLineArgs>-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgoes-xpath.xml -g ${sources}</commandLineArgs>
-                <includePluginDependencies>true</includePluginDependencies>
-                <includeProjectDependencies>false</includeProjectDependencies>
-              </configuration>
-            </execution>
-          </executions>
-          <dependencies>
-            <dependency>
-              <groupId>com.puppycrawl.tools</groupId>
-              <artifactId>checkstyle</artifactId>
-              <version>${checkstyle.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -623,10 +612,6 @@
         <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok-maven-plugin</artifactId>
       </plugin>
@@ -648,11 +633,7 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>properties-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
+        <artifactId>versions-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
