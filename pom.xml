@@ -35,6 +35,7 @@
     <maven.jxr.plugin.version>3.0.0</maven.jxr.plugin.version>
     <maven.help.plugin.version>3.2.0</maven.help.plugin.version>
     <maven.exec.plugin.version>3.0.0</maven.exec.plugin.version>
+    <maven.properties.plugin.version>1.0.0</maven.properties.plugin.version>
     <jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
     <lombok.version>1.18.12</lombok.version>
@@ -43,7 +44,6 @@
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.24.0</pmd.version>
     <spotbugs.excludeFilterFile/>
-    <sources/>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
   </properties>
   <dependencyManagement>
@@ -448,6 +448,7 @@
                     <include name="**/*.java"/>
                   </fileset>
                   <pathconvert property="sources" refid="javasrcs" pathsep=" "/>
+                  <echo file="sources.txt" message="sources='${sources}'"/>
                   <java classname="${cs.main.class}" logError="true">
                     <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o DSAlgos-xpath.xml -g ${sources}"/>
                     <classpath>
@@ -551,6 +552,24 @@
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+          <version>${maven.properties.plugin.version}</version>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>read-project-properties</goal>
+              </goals>
+              <configuration>
+                <files>
+                  <file>sources.txt</file>
+                </files>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>${maven.exec.plugin.version}</version>
           <executions>
@@ -626,6 +645,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-help-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

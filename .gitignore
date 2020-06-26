@@ -11,4 +11,5 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 *.cache
 *.out
+*.txt
 DSAlgos-xpath.xml
