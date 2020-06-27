@@ -42,7 +42,7 @@
     <checkstyle.version>8.33</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
-    <pmd.version>6.24.0</pmd.version>
+    <pmd.version>6.25.0</pmd.version>
     <spotbugs.excludeFilterFile/>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
