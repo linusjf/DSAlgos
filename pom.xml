@@ -158,6 +158,8 @@
             </annotationProcessorPaths>
             <annotationProcessors>
               <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
               <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
