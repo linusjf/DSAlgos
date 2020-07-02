@@ -8,7 +8,6 @@ import java.util.ConcurrentModificationException;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,9 +21,8 @@ class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
   HighArray arr;
 
-  @BeforeAll
   @SuppressWarnings("checkstyle:magicnumber")
-  void initialise() {
+  HighArrayTest() {
     arr = new HighArray(100);
   }
 
