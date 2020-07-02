@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -208,6 +209,9 @@ class HighArrayTest {
     assertEquals(0, array.count(), () -> "Elements cleared");
   }
 
+  /** Added tests for code coverage completeness
+   *
+   */
   @Test
   void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)
@@ -215,6 +219,39 @@ class HighArrayTest {
         .withRedefinedSuperclass()
         .withRedefinedSubclass(HighArrayExt.class)
         .verify();
+  }
+
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  void equalsContractWithNull() {
+    HighArray first = new HighArray(10);
+    HighArray second = new HighArray(10);
+
+    on(first).set("nElems", null);
+
+    assertNotEquals(first, second, "Null nElems in first");
+  }
+
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  void equalsContractWithBothNull() {
+    HighArray first = new HighArray(10);
+    HighArray second = new HighArray(10);
+
+    on(first).set("nElems", null);
+    on(second).set("nElems", null);
+
+    assertEquals(first, second, "Null nElems in both");
+  }
+
+  @Test
+  @SuppressWarnings("checkstyle:magicnumber")
+  void hashCodeContractWithNull() {
+    HighArray first = new HighArray(10);
+
+    on(first).set("nElems", null);
+
+    assertNotEquals(0, first.hashCode(), "Null nElems in first triggers branch.");
   }
 
   @Test

@@ -85,6 +85,12 @@
         <artifactId>checker-qual</artifactId>
         <version>${checker.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.jooq</groupId>
+        <artifactId>joor</artifactId>
+        <version>0.9.13</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -112,6 +118,10 @@
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>joor</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean install</defaultGoal>
@@ -132,7 +142,6 @@
           <version>${maven.compiler.plugin.version}</version>
           <configuration>
             <fork>true</fork>
-            <!-- Must fork or else JVM arguments are ignored. -->
             <release>11</release>
             <compilerArguments>
               <Xmaxerrs>10000</Xmaxerrs>
