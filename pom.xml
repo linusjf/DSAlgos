@@ -202,6 +202,7 @@
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <outputFileFormat>plain</outputFileFormat>
             <outputFile>${project.build.directory}/checkstyle-result.txt</outputFile>
+            <headerLocation/>
           </configuration>
           <executions>
             <execution>
