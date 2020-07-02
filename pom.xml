@@ -142,7 +142,7 @@
           <version>${maven.compiler.plugin.version}</version>
           <configuration>
             <fork>true</fork>
-            <release>11</release>
+            <release>${java.version}</release>
             <compilerArguments>
               <Xmaxerrs>10000</Xmaxerrs>
               <Xmaxwarns>10000</Xmaxwarns>
@@ -508,7 +508,7 @@
                   <if>
                     <equals arg1="${file.is.empty}" arg2="false"/>
                     <then>
-                      <move file="${ant.project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
+                      <move file="${project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
                     </then>
                   </if>
                 </target>
