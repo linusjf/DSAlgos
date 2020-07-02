@@ -22,7 +22,7 @@
     <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
     <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
     <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
-    <maven.spotbugs.plugin.version>4.0.0</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.0.4</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.13.0</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>3.1.0</maven.project.info.reports.plugin.version>
