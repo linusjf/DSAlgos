@@ -517,6 +517,12 @@
                       <move file="${project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
                     </then>
                   </if>
+                  <if>
+                    <equals arg1="${file.is.empty}" arg2="true"/>
+                    <then>
+                      <delete file="${project.name}-xpath.xml" failonerror="true" verbose="true" deleteonexit="true"/>
+                    </then>
+                  </if>
                 </target>
                 <exportAntProperties>true</exportAntProperties>
               </configuration>
