@@ -5,19 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.HighArray;
-import java.lang.reflect.Field;
 import java.util.ConcurrentModificationException;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.joor.Reflect;
-import org.checkerframework.checker.nullness.qual.NonNull;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -212,9 +210,7 @@ class HighArrayTest {
     assertEquals(0, array.count(), () -> "Elements cleared");
   }
 
-  /** Added tests for code coverage completeness.
-   *
-   */
+  /** Added tests for code coverage completeness. */
   @Test
   void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)

@@ -490,7 +490,13 @@
               <configuration>
                 <target>
                   <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
-                  <move file="${checkstyle.suppressionsFile}" tofile="${checkstyle.suppressionsFile}.bak" preservelastmodified="true" force="true" failonerror="false" verbose="true"/>
+                  <available file="${checkstyle.suppressionsFile}" property="filePresent"/>
+                  <if>
+                    <equals arg1="filePresent" arg2="true"/>
+                    <then>
+                      <move file="${checkstyle.suppressionsFile}" tofile="${checkstyle.suppressionsFile}.bak" preservelastmodified="true" force="true" failonerror="false" verbose="true"/>
+                    </then>
+                  </if>
                   <property name="test_classpath" refid="maven.test.classpath"/>
                   <fileset dir="${basedir}" id="javasrcs">
                     <include name="**/*.java"/>
