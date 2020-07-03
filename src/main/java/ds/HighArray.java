@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <p>To run this program: C&gt;java
  */
+@SuppressWarnings("PMD.LawOfDemeter")
 public class HighArray {
   @SuppressWarnings("all")
   private static final java.util.logging.Logger LOGGER =
@@ -70,7 +71,7 @@ public class HighArray {
     }
   }
 
-  // -----------------------------------------------------------
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public boolean delete(long value) {
     int expectedModCount = modCount;
     for (int j = 0; j < nElems.intValue(); j++) {
@@ -90,6 +91,7 @@ public class HighArray {
   }
 
   @Override
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(nElems).append(System.lineSeparator());

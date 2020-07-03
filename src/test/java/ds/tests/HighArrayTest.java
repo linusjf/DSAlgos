@@ -1,6 +1,5 @@
 package ds.tests;
 
-import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
   HighArray arr;
@@ -71,7 +71,7 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testFindIndexFalse() {
     long searchKey = 35L;
-    assertEquals(arr.findIndex(searchKey), -1, () -> "Key " + searchKey + " not available");
+    assertEquals(arr.findIndex(searchKey), -1, () -> searchKey + " not available");
   }
 
   @Test
@@ -79,7 +79,7 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testFindFalse() {
     long searchKey = 35L;
-    assertFalse(arr.find(searchKey), () -> "Key " + searchKey + " not available");
+    assertFalse(arr.find(searchKey), () -> searchKey + " not available");
   }
 
   @Test
@@ -87,7 +87,7 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testFindIndexTrue() {
     long searchKey = 11L;
-    assertTrue(arr.findIndex(searchKey) >= 0, () -> "Key " + searchKey + " available");
+    assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " available");
   }
 
   @Test
@@ -95,7 +95,7 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testFindTrue() {
     long searchKey = 11L;
-    assertTrue(arr.find(searchKey), () -> "Key " + searchKey + " available");
+    assertTrue(arr.find(searchKey), () -> searchKey + " available");
   }
 
   @Test
@@ -116,8 +116,10 @@ class HighArrayTest {
     arr.insert(99L);
     arr.insert(44L);
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(3).append(System.lineSeparator());
-    sb.append("77 99 44 ");
+    sb.append("nElems = ")
+      .append(3)
+      .append(System.lineSeparator())
+      .append("77 99 44 ");
     assertEquals(arr.toString(), sb.toString(), "Strings equal.");
   }
 
@@ -163,7 +165,8 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
+  @SuppressWarnings({"checkstyle:magicnumber",
+  "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentDeletes() {
     HighArray array = new HighArray(10_000, true);
     LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
@@ -173,7 +176,8 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
+  @SuppressWarnings({"checkstyle:magicnumber",
+  "PMD.DataflowAnomalyAnalysis"})
   void testSequentialDeletes() {
     HighArray array = new HighArray(10_000, true);
     LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
@@ -191,7 +195,8 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
+  @SuppressWarnings({"checkstyle:magicnumber",
+  "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentInsertsDeletes() {
     HighArray array = new HighArray(10_000, true);
     assertThrows(
@@ -212,6 +217,7 @@ class HighArrayTest {
 
   /** Added tests for code coverage completeness. */
   @Test
+  @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void equalsContract() {
     EqualsVerifier.forClass(HighArray.class)
         .withIgnoredFields("modCount", "lock", "strict")
@@ -222,6 +228,7 @@ class HighArrayTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void leafNodeEquals() {
     EqualsVerifier.forClass(HighArray.class)
         .withIgnoredFields("modCount", "lock", "strict")
