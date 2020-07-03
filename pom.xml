@@ -331,7 +331,8 @@
             <skipEmptyReport>true</skipEmptyReport>
             <xmlOutput>false</xmlOutput>
             <spotbugsXmlOutput>false</spotbugsXmlOutput>
-            <effort>Max</effort>
+            <spotbugsXmlOutputFilename>sb-errors.xml</spotbugsXmlOutputFilename>
+            <effort>max</effort>
             <threshold>Default</threshold>
           </configuration>
           <executions>

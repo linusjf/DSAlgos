@@ -11,6 +11,8 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -22,15 +24,17 @@ import org.junit.jupiter.api.TestMethodOrder;
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
   HighArray arr;
+  HighArray array;
 
-  @SuppressWarnings("checkstyle:magicnumber")
   HighArrayTest() {
     arr = new HighArray(100);
+    array = new HighArray(10_000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    nos.forEach(i -> array.insert(i));
   }
 
   @Test
   @Order(1)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testInsert() {
     // insert 10 items
     arr.insert(77L);
@@ -48,7 +52,6 @@ class HighArrayTest {
 
   @Test
   @Order(2)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testDeleteTrue() {
     LOGGER.info(() -> arr.toString());
     assertTrue(
@@ -58,7 +61,6 @@ class HighArrayTest {
 
   @Test
   @Order(3)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testDeleteFalse() {
     LOGGER.info(() -> arr.toString());
     assertFalse(
@@ -68,7 +70,6 @@ class HighArrayTest {
 
   @Test
   @Order(4)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testFindIndexFalse() {
     long searchKey = 35L;
     assertEquals(arr.findIndex(searchKey), -1, () -> searchKey + " not available");
@@ -76,7 +77,6 @@ class HighArrayTest {
 
   @Test
   @Order(4)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testFindFalse() {
     long searchKey = 35L;
     assertFalse(arr.find(searchKey), () -> searchKey + " not available");
@@ -84,7 +84,6 @@ class HighArrayTest {
 
   @Test
   @Order(4)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testFindIndexTrue() {
     long searchKey = 11L;
     assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " available");
@@ -92,7 +91,6 @@ class HighArrayTest {
 
   @Test
   @Order(4)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testFindTrue() {
     long searchKey = 11L;
     assertTrue(arr.find(searchKey), () -> searchKey + " available");
@@ -100,7 +98,6 @@ class HighArrayTest {
 
   @Test
   @Order(5)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testClear() {
     arr.clear();
     // for code coverage
@@ -110,7 +107,6 @@ class HighArrayTest {
 
   @Test
   @Order(6)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testToString() {
     arr.insert(77L);
     arr.insert(99L);
@@ -122,7 +118,6 @@ class HighArrayTest {
 
   @Test
   @Order(7)
-  @SuppressWarnings("checkstyle:magicnumber")
   void testDisplay() {
     HighArray highArray = spy(arr);
 
@@ -140,7 +135,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
   void testException() {
     HighArray array = new HighArray(3);
     array.insert(2L);
@@ -154,7 +148,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentInserts() {
     HighArray array = new HighArray(10_000);
     LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.insert(i));
@@ -162,7 +155,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentDeletes() {
     HighArray array = new HighArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
@@ -173,7 +165,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testSequentialDeletes() {
     HighArray array = new HighArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
@@ -186,7 +177,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentSyncDeletes() {
     HighArray array = new HighArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
@@ -199,7 +189,6 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentInsertsDeletes() {
     HighArray array = new HighArray(1_000_000, true);
     assertThrows(
@@ -214,7 +203,7 @@ class HighArrayTest {
         });
   }
 
-  @SuppressWarnings("checkstyle:magicnumber")
+  @Test
   void testConcurrentSyncInsertsDeletes() {
     HighArray array = new HighArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 100L).parallel();
@@ -224,6 +213,12 @@ class HighArrayTest {
           array.syncDelete(i);
         });
     assertEquals(0, array.count(), () -> "Elements cleared");
+  }
+
+  @RepeatedTest(10_000)
+  void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
+    array.delete(repetitionInfo.getCurrentRepetition());
+    assertEquals(10_000, repetitionInfo.getTotalRepetitions());
   }
 
   /** Added tests for code coverage completeness. */
