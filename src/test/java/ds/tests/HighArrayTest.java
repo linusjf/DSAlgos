@@ -201,11 +201,11 @@ class HighArrayTest {
   @Test
   @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentInsertsDeletes() {
-    HighArray array = new HighArray(10_000, true);
+    HighArray array = new HighArray(1_000_000, true);
     assertThrows(
         ConcurrentModificationException.class,
         () -> {
-          LongStream nos = LongStream.rangeClosed(1L, 10_000L).parallel();
+          LongStream nos = LongStream.rangeClosed(1L, 1_000_000L).parallel();
           nos.forEach(
               i -> {
                 array.insert(i);
