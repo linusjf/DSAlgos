@@ -116,10 +116,7 @@ class HighArrayTest {
     arr.insert(99L);
     arr.insert(44L);
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ")
-      .append(3)
-      .append(System.lineSeparator())
-      .append("77 99 44 ");
+    sb.append("nElems = ").append(3).append(System.lineSeparator()).append("77 99 44 ");
     assertEquals(arr.toString(), sb.toString(), "Strings equal.");
   }
 
@@ -165,23 +162,26 @@ class HighArrayTest {
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber",
-  "PMD.DataflowAnomalyAnalysis"})
+  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentDeletes() {
     HighArray array = new HighArray(10_000, true);
-    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
+    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    nos.forEach(i -> array.insert(i));
+    LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
     assertThrows(
-        ConcurrentModificationException.class,
-        () -> LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.delete(i)));
+        ConcurrentModificationException.class, () -> nosParallel.forEach(i -> array.delete(i)));
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber",
-  "PMD.DataflowAnomalyAnalysis"})
+  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testSequentialDeletes() {
     HighArray array = new HighArray(10_000, true);
-    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.insert(i));
-    LongStream.rangeClosed(1L, 10_000L).forEach(i -> array.delete(i));
+    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    nos.forEach(
+        i -> {
+          array.insert(i);
+          array.delete(i);
+        });
     assertEquals(0, array.count(), () -> "10,000 elements deleted: " + array.toString());
   }
 
@@ -189,29 +189,40 @@ class HighArrayTest {
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentSyncDeletes() {
     HighArray array = new HighArray(100);
-    LongStream.rangeClosed(1L, 100L).forEach(i -> array.insert(i));
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.syncDelete(i));
+    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    nos.forEach(
+        i -> {
+          array.insert(i);
+          array.syncDelete(i);
+        });
     assertEquals(0, array.count(), () -> "100 elements deleted: " + array.toString());
   }
 
   @Test
-  @SuppressWarnings({"checkstyle:magicnumber",
-  "PMD.DataflowAnomalyAnalysis"})
+  @SuppressWarnings({"checkstyle:magicnumber", "PMD.DataflowAnomalyAnalysis"})
   void testConcurrentInsertsDeletes() {
     HighArray array = new HighArray(10_000, true);
     assertThrows(
         ConcurrentModificationException.class,
         () -> {
-          LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.insert(i));
-          LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> array.delete(i));
+          LongStream nos = LongStream.rangeClosed(1L, 10_000L).parallel();
+          nos.forEach(
+              i -> {
+                array.insert(i);
+                array.delete(i);
+              });
         });
   }
 
   @SuppressWarnings("checkstyle:magicnumber")
   void testConcurrentSyncInsertsDeletes() {
     HighArray array = new HighArray(100);
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.insert(i));
-    LongStream.rangeClosed(1L, 100L).parallel().forEach(i -> array.syncDelete(i));
+    LongStream nos = LongStream.rangeClosed(1L, 100L).parallel();
+    nos.forEach(
+        i -> {
+          array.insert(i);
+          array.syncDelete(i);
+        });
     assertEquals(0, array.count(), () -> "Elements cleared");
   }
 

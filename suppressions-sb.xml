@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <Match>
+    <Method name="hashCode"/>
+    <Bug pattern="USBR_UNNECESSARY_STORE_BEFORE_RETURN"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.HighArrayTest"/>
+    <Method name="testConcurrentDeletes"/>
+    <Bug pattern="PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS"/>
+  </Match>
+</FindBugsFilter>

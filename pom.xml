@@ -43,7 +43,7 @@
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.25.0</pmd.version>
-    <spotbugs.excludeFilterFile/>
+    <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
     <checker.version>3.5.0</checker.version>
@@ -306,6 +306,9 @@
               <goals>
                 <goal>cpd</goal>
               </goals>
+              <configuration>
+                <format>xml</format>
+              </configuration>
             </execution>
           </executions>
         </plugin>
