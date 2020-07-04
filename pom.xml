@@ -488,7 +488,7 @@
                   <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
                   <available file="${checkstyle.suppressionsFile}" property="filePresent"/>
                   <if>
-                    <equals arg1="filePresent" arg2="true"/>
+                    <equals arg1="${filePresent}" arg2="true"/>
                     <then>
                       <move file="${checkstyle.suppressionsFile}" tofile="${checkstyle.suppressionsFile}.bak" preservelastmodified="true" force="true" failonerror="false" verbose="true"/>
                     </then>
@@ -512,12 +512,9 @@
                     <then>
                       <move file="${project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
                     </then>
-                  </if>
-                  <if>
-                    <equals arg1="${file.is.empty}" arg2="true"/>
-                    <then>
+                  <else>
                       <delete file="${project.name}-xpath.xml" failonerror="true" verbose="true" deleteonexit="true"/>
-                    </then>
+                    </else>
                   </if>
                 </target>
                 <exportAntProperties>true</exportAntProperties>
