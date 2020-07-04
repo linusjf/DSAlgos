@@ -5,9 +5,7 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.ConcurrentModificationException;
-import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -165,25 +163,23 @@ class HighArrayTest {
 
   @Test
   void testConcurrentDeletes() {
-    Random random = new Random();
-    HighArray highArray = new HighArray(100, true);
-    LongStream nos = LongStream.rangeClosed(1L, 100L);
+    AtomicInteger excCount = new AtomicInteger();
+    HighArray highArray = new HighArray(10000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 10000L);
     nos.forEach(i -> highArray.insert(i));
-    CountDownLatch latch = new CountDownLatch(1);
-    LongStream nosParallel = LongStream.rangeClosed(1L, 100L).parallel();
-    assertThrows(
-        ConcurrentModificationException.class,
-        () -> {
-          nosParallel.forEach(
-              i -> {
-                try {
-                  latch.await(random.nextInt(10), TimeUnit.MILLISECONDS);
-                } catch (InterruptedException exc) {
-                  Thread.currentThread().interrupt();
-                }
-                highArray.delete(i);
-              });
-        });
+    LongStream nosParallel = LongStream.rangeClosed(1L, 10000L).parallel();
+    nosParallel.forEach(
+        i ->
+            new Thread(
+                    () -> {
+                      try {
+                        highArray.delete(i);
+                      } catch (ConcurrentModificationException cme) {
+                        excCount.incrementAndGet();
+                      }
+                    })
+                .start());
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
   @Test
