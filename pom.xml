@@ -512,7 +512,7 @@
                     <then>
                       <move file="${project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
                     </then>
-                  <else>
+                    <else>
                       <delete file="${project.name}-xpath.xml" failonerror="true" verbose="true" deleteonexit="true"/>
                     </else>
                   </if>

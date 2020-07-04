@@ -11,20 +11,18 @@ import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
@@ -53,14 +51,12 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(1)
   void testInsert() {
     HighArray arr = insertElements();
     assertEquals(arr.count(), 10, "10 elements inserted.");
   }
 
   @Test
-  @Order(2)
   void testDeleteTrue() {
     HighArray arr = insertElements();
     LOGGER.info(() -> arr.toString());
@@ -70,7 +66,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(3)
   void testDeleteFalse() {
     HighArray arr = insertElements();
     LOGGER.info(() -> arr.toString());
@@ -80,7 +75,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(4)
   void testFindIndexFalse() {
     HighArray arr = insertElements();
     long searchKey = 35L;
@@ -88,7 +82,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(4)
   void testFindFalse() {
     HighArray arr = insertElements();
     long searchKey = 35L;
@@ -96,7 +89,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(4)
   void testFindIndexTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
@@ -104,7 +96,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(4)
   void testFindTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
@@ -112,7 +103,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(5)
   void testClear() {
     HighArray arr = insertElements();
     arr.clear();
@@ -122,7 +112,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(6)
   void testToString() {
     HighArray arr = insertElements();
     arr.clear();
@@ -135,7 +124,6 @@ class HighArrayTest {
   }
 
   @Test
-  @Order(7)
   void testDisplay() {
     HighArray arr = insertElements();
     HighArray highArray = spy(arr);
@@ -254,9 +242,10 @@ class HighArrayTest {
   }
 
   @RepeatedTest(10_000)
+  @ResourceLock(value = "ds.tests.HighArrayTest.array", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
-    array.delete(repetitionInfo.getCurrentRepetition());
-    assertEquals(10_000, repetitionInfo.getTotalRepetitions());
+    int current = repetitionInfo.getCurrentRepetition();
+    assertEquals(true, array.delete(current), () -> "Element " + current + " deleted.");
   }
 
   /** Added tests for code coverage completeness. */

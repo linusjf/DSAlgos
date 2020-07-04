@@ -12,4 +12,5 @@ buildNumber.properties
 *.cache
 *.out
 *.txt
+*.bak
 DSAlgos-xpath.xml

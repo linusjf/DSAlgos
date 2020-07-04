@@ -187,8 +187,4 @@
        files="HighArrayTest.java"
        checks="MagicNumberCheck"
        query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='100L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='repeatedTestWithRepetitionInfo']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
 </suppressions>
