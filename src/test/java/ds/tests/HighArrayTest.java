@@ -11,14 +11,15 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@Execution(ExecutionMode.SAME_THREAD)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
@@ -215,11 +216,11 @@ class HighArrayTest {
     assertEquals(0, array.count(), () -> "Elements cleared");
   }
 
-  @RepeatedTest(10_000)
-  void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
-    array.delete(repetitionInfo.getCurrentRepetition());
-    assertEquals(10_000, repetitionInfo.getTotalRepetitions());
-  }
+  /**
+   * @RepeatedTest(10_000) void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
+   * array.delete(repetitionInfo.getCurrentRepetition()); assertEquals(10_000,
+   * repetitionInfo.getTotalRepetitions()); }
+   */
 
   /** Added tests for code coverage completeness. */
   @Test

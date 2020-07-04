@@ -307,7 +307,7 @@
                 <goal>cpd</goal>
               </goals>
               <configuration>
-                <format>xml</format>
+                <format>net.sourceforge.pmd.cpd.SimpleRenderer</format>
               </configuration>
             </execution>
           </executions>
