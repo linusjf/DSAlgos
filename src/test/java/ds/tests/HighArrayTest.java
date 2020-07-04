@@ -5,8 +5,6 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.ConcurrentModificationException;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -164,23 +162,17 @@ class HighArrayTest {
 
   @Test
   void testConcurrentDeletes() {
-    Random random = new Random();
-    HighArray highArray = new HighArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    HighArray highArray = new HighArray(1_000_000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 1_000_000L);
     nos.forEach(i -> highArray.insert(i));
 
-    LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
+    LongStream nosParallel = LongStream.rangeClosed(1L, 1_000_000L).parallel();
     assertThrows(
         ConcurrentModificationException.class,
         () ->
             nosParallel.forEach(
                 i -> {
                   highArray.delete(i);
-                  try {
-                    TimeUnit.MILLISECONDS.sleep(random.nextInt(100));
-                  } catch (InterruptedException exc) {
-                    Thread.currentThread().interrupt();
-                  }
                 }));
   }
 
@@ -206,27 +198,6 @@ class HighArrayTest {
           highArray.syncDelete(i);
         });
     assertEquals(0, highArray.count(), () -> "100 elements deleted: " + highArray.toString());
-  }
-
-  @Test
-  void testConcurrentInsertsDeletes() {
-    Random random = new Random();
-    HighArray highArray = new HighArray(1_000_000, true);
-    assertThrows(
-        ConcurrentModificationException.class,
-        () -> {
-          LongStream nos = LongStream.rangeClosed(1L, 10000L).parallel();
-          nos.forEach(
-              i -> {
-                highArray.insert(i);
-                try {
-                  TimeUnit.MILLISECONDS.sleep(random.nextInt(100));
-                } catch (InterruptedException exc) {
-                  Thread.currentThread().interrupt();
-                }
-                highArray.delete(i);
-              });
-        });
   }
 
   @Test
