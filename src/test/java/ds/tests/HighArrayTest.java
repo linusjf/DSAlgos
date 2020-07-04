@@ -5,6 +5,9 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.ConcurrentModificationException;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -162,18 +165,25 @@ class HighArrayTest {
 
   @Test
   void testConcurrentDeletes() {
-    HighArray highArray = new HighArray(1_000_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 1_000_000L);
+    Random random = new Random();
+    HighArray highArray = new HighArray(100, true);
+    LongStream nos = LongStream.rangeClosed(1L, 100L);
     nos.forEach(i -> highArray.insert(i));
-
-    LongStream nosParallel = LongStream.rangeClosed(1L, 1_000_000L).parallel();
+    CountDownLatch latch = new CountDownLatch(1);
+    LongStream nosParallel = LongStream.rangeClosed(1L, 100L).parallel();
     assertThrows(
         ConcurrentModificationException.class,
-        () ->
-            nosParallel.forEach(
-                i -> {
-                  highArray.delete(i);
-                }));
+        () -> {
+          nosParallel.forEach(
+              i -> {
+                try {
+                  latch.await(random.nextInt(10), TimeUnit.MILLISECONDS);
+                } catch (InterruptedException exc) {
+                  Thread.currentThread().interrupt();
+                }
+                highArray.delete(i);
+              });
+        });
   }
 
   @Test
