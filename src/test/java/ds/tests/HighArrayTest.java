@@ -218,8 +218,9 @@ class HighArrayTest {
     assertEquals(0, highArray.count(), () -> "Elements cleared");
   }
 
+  // @ResourceLock(value = "ds.tests.HighArrayTest.array", mode = ResourceAccessMode.READ_WRITE)
   @RepeatedTest(10_000)
-  @ResourceLock(value = "ds.tests.HighArrayTest.array", mode = ResourceAccessMode.READ_WRITE)
+  @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     assertEquals(true, array.delete(current), () -> "Element " + current + " deleted.");
