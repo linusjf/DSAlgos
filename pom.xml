@@ -19,6 +19,20 @@
 <executions>
   <execution>
     <configuration>
+      <executable>/usr/bin/bash</executable>
+      <arguments>
+        <argument>./backup_suppressions</argument>
+      </arguments>
+      <skip>false</skip>
+    </configuration>
+            <id>backup</id>
+              <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+  <execution>
+    <configuration>
       <mainClass>${cs.main.class}</mainClass>
       <arguments>
         <argument>-c</argument>
@@ -39,6 +53,21 @@
               <phase>validate</phase>
             <goals>
               <goal>java</goal>
+            </goals>
+          </execution>
+  <execution>
+    <configuration>
+      <executable>bash</executable>
+      <arguments>
+        <argument>./rename_suppressions</argument>
+        <argument>${project.name}</argument>
+      </arguments>
+      <skip>false</skip>
+    </configuration>
+            <id>rename</id>
+              <phase>validate</phase>
+            <goals>
+              <goal>exec</goal>
             </goals>
           </execution>
         </executions>

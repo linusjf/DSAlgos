@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+declare -r suppressionsFile="suppressions-xpath.xml"
+declare -i ret=0
+
+if [ -s "$1"-xpath.xml ]
+then
+  mv "$1"-xpath.xml "$suppressionsFile"
+  ret="$ret"+"$?"
+fi
+exit "$ret"
