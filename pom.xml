@@ -633,6 +633,22 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
           <version>${maven.exec.plugin.version}</version>
+<executions>
+  <execution>
+    <configuration>
+      <mainClass>${cs.main.class}</mainClass>
+      <commandLineArgs>-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${basedir}/src</commandLineArgs>
+      <arguments>-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${basedir}/src</arguments>
+      <classpathScope>test</classpathScope>
+      <skip>true</skip>
+    </configuration>
+            <id>checkstyleg</id>
+              <phase>validate</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -684,6 +700,10 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
+      </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
