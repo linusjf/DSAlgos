@@ -637,10 +637,18 @@
   <execution>
     <configuration>
       <mainClass>${cs.main.class}</mainClass>
-      <commandLineArgs>-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${basedir}/src</commandLineArgs>
-      <arguments>-c checkstyle.xml -p checkstyle.properties -o DSAlgos-xpath.xml -g ${basedir}/src</arguments>
+      <arguments>
+        <argument>-c</argument>
+        <argument>checkstyle.xml</argument>
+        <argument>-p</argument>
+        <argument>checkstyle.properties</argument>
+        <argument>-o</argument>
+        <argument>DSAlgos-xpath.xml</argument>
+        <argument>-g</argument>
+        <argument>${basedir}/src</argument>
+      </arguments>
       <classpathScope>test</classpathScope>
-      <skip>true</skip>
+      <skip>false</skip>
     </configuration>
             <id>checkstyleg</id>
               <phase>validate</phase>
