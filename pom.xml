@@ -7,6 +7,52 @@
   <name>DSAlgos</name>
   <description>Data Structures and Algorithms</description>
   <url>http://github.com/Fernal73/DSAlgos</url>
+  <profiles>
+    <profile>
+      <id>checkstyleg</id>
+      <build>
+      <plugins>
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${maven.exec.plugin.version}</version>
+<executions>
+  <execution>
+    <configuration>
+      <mainClass>${cs.main.class}</mainClass>
+      <arguments>
+        <argument>-c</argument>
+        <argument>${checkstyle.rules}</argument>
+        <argument>-p</argument>
+        <argument>${checkstyle.properties}</argument>
+        <argument>-o</argument>
+        <argument>${project.name}-xpath.xml</argument>
+        <argument>-g</argument>
+        <argument>${basedir}/src</argument>
+      </arguments>
+      <skip>false</skip>
+    <includePluginDependencies>true</includePluginDependencies>
+    <includeProjectDependencies>false</includeProjectDependencies>
+    </configuration>
+            <id>checkstyleg</id>
+              <phase>validate</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+    <dependencies>
+    <dependency>
+        <groupId>com.puppycrawl.tools</groupId>
+        <artifactId>checkstyle</artifactId>
+        <version>${checkstyle.version}</version>
+      </dependency>
+    </dependencies>
+        </plugin>
+      </plugins>
+    </build>
+    </profile>
+</profiles>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -629,35 +675,6 @@
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>${maven.exec.plugin.version}</version>
-<executions>
-  <execution>
-    <configuration>
-      <mainClass>${cs.main.class}</mainClass>
-      <arguments>
-        <argument>-c</argument>
-        <argument>checkstyle.xml</argument>
-        <argument>-p</argument>
-        <argument>checkstyle.properties</argument>
-        <argument>-o</argument>
-        <argument>DSAlgos-xpath.xml</argument>
-        <argument>-g</argument>
-        <argument>${basedir}/src</argument>
-      </arguments>
-      <classpathScope>test</classpathScope>
-      <skip>false</skip>
-    </configuration>
-            <id>checkstyleg</id>
-              <phase>validate</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -708,10 +725,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
