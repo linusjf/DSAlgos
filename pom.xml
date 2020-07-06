@@ -30,6 +30,7 @@
         <argument>-g</argument>
         <argument>${basedir}/src</argument>
       </arguments>
+      <classpathScope>none</classpathScope>
       <skip>false</skip>
     <includePluginDependencies>true</includePluginDependencies>
     <includeProjectDependencies>false</includeProjectDependencies>
