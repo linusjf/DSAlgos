@@ -1,3 +1,5 @@
+evaluate(new File("properties.groovy"))
+
 def getClassPath(classLoader, sb) {
   classLoader.getURLs().each {url->
      sb.append("${url.getFile().toString()}:")
@@ -11,10 +13,21 @@ def getClassPath(classLoader, sb) {
 def cp = getClassPath(this.class.classLoader, 
     new StringBuilder())
 
+  def props = new properties()
+  props = props.getProjectProperties()
+    def csMainClass = 
+      props.getProperty(
+        "cs.main.class")
+    def csRules = 
+      props.getProperty(
+        "checkstyle.rules")
+    def csProps = 
+      props.getProperty(
+        "checkstyle.properties")
 String[] args = ["java", "-cp", cp,
-    "com.puppycrawl.tools.checkstyle.Main",
-    "-c", "checkstyle.xml",
-"-p", "checkstyle.properties",
+    csMainClass,
+    "-c", csRules,
+"-p", csProps,
 "-o", "${project.name}-xpath.xml",
 "-g", "${basedir}/src"]
 

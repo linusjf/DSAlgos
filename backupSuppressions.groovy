@@ -1,15 +1,22 @@
+evaluate(new File("properties.groovy"))
+
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption  
 import java.nio.file.Paths
               
 def backupSuppressions() {
-  def suppr = Paths.get("suppressions-xpath.xml")
+  def props = new properties()
+  props = props.getProjectProperties()
+    def supprFileName = 
+      props.getProperty(
+        "checkstyle.suppressionsFile")
+    def suppr = Paths.get(supprFileName)
     def target = null
     if (Files.exists(suppr)) {
-      def supprBak = Paths.get("suppressions-xpath.xml.bak")
+      def supprBak = Paths.get(supprFileName + ".bak")
         target = Files.move(suppr, supprBak,
             StandardCopyOption.REPLACE_EXISTING)
-        println "Backed up suppressions-xpath.xml"
+        println "Backed up " + supprFileName
     }
   return target
 }
