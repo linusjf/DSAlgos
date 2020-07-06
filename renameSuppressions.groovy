@@ -14,7 +14,7 @@ def renameSuppressions() {
     if (Files.exists(suppr)) {
       def supprNew = Paths.get(supprFileName)
         target = Files.move(suppr, supprNew)
-        println "Renamed ${project.name}-xpath.xml to supprFileName"
+        println "Renamed ${project.name}-xpath.xml to " + supprFileName
     }
   return target
 }
