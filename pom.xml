@@ -67,6 +67,13 @@
       </build>
     </profile>
   </profiles>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>grails-plugins</id>
+      <name>Grails Plugins Repository</name>
+      <url>https://repo.grails.org/grails/plugins</url>
+    </pluginRepository>
+  </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -632,6 +639,11 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codenarc</groupId>
+          <artifactId>CodeNarc</artifactId>
+          <version>1.6</version>
         </plugin>
       </plugins>
     </pluginManagement>
