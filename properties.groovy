@@ -2,7 +2,7 @@ import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
 import org.apache.maven.project.MavenProject
 
-public Properties getProjectProperties() {
+Properties getProjectProperties() {
 def pomFile = "pom.xml"
 Model model = null
 FileReader reader = null
@@ -18,4 +18,3 @@ try {
 MavenProject project = new MavenProject(model)
 return project.getProperties()
 }
-
