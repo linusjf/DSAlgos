@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-declare -r suppressionsFile="suppressions-xpath.xml"
-  
-find . -maxdepth 1 -name "$suppressionsFile" -type f -exec mv {} {}.bak \; && \
-
-exit "$?"
