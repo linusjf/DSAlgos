@@ -10,130 +10,63 @@
   <profiles>
     <profile>
       <dependencies>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-model</artifactId>
-      <version>3.6.3</version>
-    </dependency>
-  </dependencies>
+        <dependency>
+          <groupId>org.apache.maven</groupId>
+          <artifactId>maven-model</artifactId>
+          <version>3.6.3</version>
+        </dependency>
+      </dependencies>
       <id>checkstyleg</id>
       <build>
-      <plugins>
-        <!--      <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>${maven.exec.plugin.version}</version>
-<executions>
-  <execution>
-    <configuration>
-      <executable>/usr/bin/bash</executable>
-      <arguments>
-        <argument>./backup_suppressions</argument>
-      </arguments>
-      <skip>false</skip>
-    </configuration>
-            <id>backup</id>
-              <phase>validate</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-  <execution>
-    <configuration>
-      <mainClass>${cs.main.class}</mainClass>
-      <arguments>
-        <argument>-c</argument>
-        <argument>${checkstyle.rules}</argument>
-        <argument>-p</argument>
-        <argument>${checkstyle.properties}</argument>
-        <argument>-o</argument>
-        <argument>${project.name}-xpath.xml</argument>
-        <argument>-g</argument>
-        <argument>${basedir}/src</argument>
-      </arguments>
-      <classpathScope>none</classpathScope>
-      <skip>false</skip>
-    <includePluginDependencies>true</includePluginDependencies>
-    <includeProjectDependencies>false</includeProjectDependencies>
-    </configuration>
-            <id>checkstyleg</id>
-              <phase>validate</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-  <execution>
-    <configuration>
-      <executable>bash</executable>
-      <arguments>
-        <argument>./rename_suppressions</argument>
-        <argument>${project.name}</argument>
-      </arguments>
-      <skip>false</skip>
-    </configuration>
-            <id>rename</id>
-              <phase>validate</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-          </execution>
-        </executions>
-    <dependencies>
-    <dependency>
-        <groupId>com.puppycrawl.tools</groupId>
-        <artifactId>checkstyle</artifactId>
-        <version>${checkstyle.version}</version>
-      </dependency>
-    </dependencies>
-        </plugin>  -->
-      <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>groovy-maven-plugin</artifactId>
-      <version>2.1.1</version>
-        <executions>
-          <execution>
-            <id>backup</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <source>backupSuppressions.groovy</source>
-            </configuration>
-          </execution>
-          <execution>
-            <id>checkstyleg</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <source>checkstyleg.groovy</source>
-            </configuration>
-          </execution>
-          <execution>
-            <id>rename</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <source>renameSuppressions.groovy</source>
-            </configuration>
-          </execution>
-        </executions>
-    <dependencies>
-    <dependency>
-        <groupId>com.puppycrawl.tools</groupId>
-        <artifactId>checkstyle</artifactId>
-        <version>${checkstyle.version}</version>
-      </dependency>
-    </dependencies>
-      </plugin>
-      </plugins>
-    </build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.gmaven</groupId>
+            <artifactId>groovy-maven-plugin</artifactId>
+            <version>2.1.1</version>
+            <executions>
+              <execution>
+                <id>backup</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <source>backupSuppressions.groovy</source>
+                </configuration>
+              </execution>
+              <execution>
+                <id>checkstyleg</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <source>checkstyleg.groovy</source>
+                </configuration>
+              </execution>
+              <execution>
+                <id>rename</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <source>renameSuppressions.groovy</source>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>${checkstyle.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
-</profiles>
+  </profiles>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -607,63 +540,7 @@
                 <goal>run</goal>
               </goals>
             </execution>
-            <execution>
-              <id>checkstyleg</id>
-              <phase>verify</phase>
-              <configuration>
-                <target>
-                  <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
-                  <available file="${checkstyle.suppressionsFile}" property="filePresent"/>
-                  <if>
-                    <equals arg1="${filePresent}" arg2="true"/>
-                    <then>
-                      <move file="${checkstyle.suppressionsFile}" tofile="${checkstyle.suppressionsFile}.bak" preservelastmodified="true" force="true" failonerror="false" verbose="true"/>
-                    </then>
-                  </if>
-                  <property name="test_classpath" refid="maven.test.classpath"/>
-                  <fileset dir="${basedir}" id="javasrcs">
-                    <include name="**/*.java"/>
-                  </fileset>
-                  <pathconvert property="sources" refid="javasrcs" pathsep=" "/>
-                  <java classname="${cs.main.class}" logError="true">
-                    <arg line="-c ${basedir}/${checkstyle.rules} -p ${basedir}/${checkstyle.properties} -o ${project.name}-xpath.xml -g ${sources}"/>
-                    <classpath>
-                      <pathelement path="${test_classpath}"/>
-                    </classpath>
-                  </java>
-                  <condition property="file.is.empty" else="false">
-                    <length file="${project.name}-xpath.xml" when="equal" length="0"/>
-                  </condition>
-                  <if>
-                    <equals arg1="${file.is.empty}" arg2="false"/>
-                    <then>
-                      <move file="${project.name}-xpath.xml" tofile="suppressions-xpath.xml" preservelastmodified="true" force="true" failonerror="true" verbose="true"/>
-                    </then>
-                    <else>
-                      <delete file="${project.name}-xpath.xml" failonerror="true" verbose="true" deleteonexit="true"/>
-                    </else>
-                  </if>
-                </target>
-                <exportAntProperties>true</exportAntProperties>
-              </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
-            </execution>
           </executions>
-          <dependencies>
-            <dependency>
-              <groupId>ant-contrib</groupId>
-              <artifactId>ant-contrib</artifactId>
-              <version>1.0b3</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>ant</groupId>
-                  <artifactId>ant</artifactId>
-                </exclusion>
-              </exclusions>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

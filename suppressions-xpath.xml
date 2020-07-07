@@ -1,174 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suppressions PUBLIC
-    "-//Checkstyle//DTD SuppressionXpathFilter Experimental Configuration 1.2//EN"
-    "https://checkstyle.org/dtds/suppressions_1_2_xpath_experimental.dtd">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionXpathFilter Experimental Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2_xpath_experimental.dtd">
+
 <suppressions>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HighArrayTest']]/SLIST/EXPR/ASSIGN[./IDENT[@text='array']]/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HighArrayTest']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/VARIABLE_DEF[./IDENT[@text='arr']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='77L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='44L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='55L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='22L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='88L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='11L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='66L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='33L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testInsert']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='10']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteTrue']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertTrue']]/ELIST/LAMBDA/EXPR/LAND/LAND/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='55L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteTrue']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertTrue']]/ELIST/LAMBDA/EXPR/LAND/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='12L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='6L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='5L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindIndexFalse']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='35L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindFalse']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='35L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindIndexTrue']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='11L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindTrue']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='11L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='77L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='44L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/DOT[./IDENT[@text='append']]/METHOD_CALL/DOT[./IDENT[@text='append']]/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='3']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='3']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='11L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='21L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertThrows']]/ELIST/LAMBDA/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='45L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/EXPR/METHOD_CALL/DOT[./IDENT[@text='forEach']]/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10000']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nosParallel']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSequentialDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSequentialDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
-<suppress-xpath
-       files="HighArrayTest.java"
-       checks="MagicNumberCheck"
-       query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='100L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HighArrayTest']]/SLIST/EXPR/ASSIGN[./IDENT[@text='array']]/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HighArrayTest']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/VARIABLE_DEF[./IDENT[@text='arr']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='77L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='44L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='55L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='22L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='88L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='11L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='66L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='insertElements']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='33L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testInsert']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='10']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteTrue']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertTrue']]/ELIST/LAMBDA/EXPR/LAND/LAND/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='55L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteTrue']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertTrue']]/ELIST/LAMBDA/EXPR/LAND/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='12L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='6L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDeleteFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertFalse']]/ELIST/LAMBDA/EXPR/LOR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='5L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindIndexFalse']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='35L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindFalse']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='35L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindIndexTrue']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='11L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindTrue']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='11L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='77L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='99L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='44L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testToString']]/SLIST/EXPR/METHOD_CALL/DOT[./IDENT[@text='append']]/METHOD_CALL/DOT[./IDENT[@text='append']]/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='3']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='3']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='11L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='21L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testException']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertThrows']]/ELIST/LAMBDA/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='45L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/EXPR/METHOD_CALL/DOT[./IDENT[@text='forEach']]/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInserts']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10000']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nosParallel']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSequentialDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSequentialDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='10_000L']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='highArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='HighArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
+  <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='100L']"/>
 </suppressions>
