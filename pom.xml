@@ -67,13 +67,6 @@
       </build>
     </profile>
   </profiles>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>grails-plugins</id>
-      <name>Grails Plugins Repository</name>
-      <url>https://repo.grails.org/grails/plugins</url>
-    </pluginRepository>
-  </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -641,9 +634,20 @@
           <version>${maven.properties.plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>org.codenarc</groupId>
-          <artifactId>CodeNarc</artifactId>
-          <version>1.6</version>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>codenarc-maven-plugin</artifactId>
+          <version>0.22-1</version>
+          <configuration>
+            <codeNarcVersion>1.6</codeNarcVersion>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy</artifactId>
+              <version>2.5.12</version>
+              <type>pom</type>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -696,6 +700,10 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>codenarc-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
   <reporting>
@@ -736,6 +744,10 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>codenarc-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
