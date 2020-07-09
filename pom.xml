@@ -135,12 +135,6 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>com.puppycrawl.tools</groupId>
-        <artifactId>checkstyle</artifactId>
-        <version>${checkstyle.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
         <version>${checker.version}</version>
@@ -163,10 +157,6 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.puppycrawl.tools</groupId>
-      <artifactId>checkstyle</artifactId>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
@@ -331,6 +321,7 @@
             <includeTests>true</includeTests>
             <skipEmptyReport>true</skipEmptyReport>
             <benchmark>true</benchmark>
+            <language>java,jsp,xml</language>
           </configuration>
           <dependencies>
             <dependency>
