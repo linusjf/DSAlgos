@@ -358,6 +358,7 @@
               </goals>
               <configuration>
                 <format>txt</format>
+                <includes>**\/*.java,**\/*.xml</includes>
               </configuration>
             </execution>
             <execution>
@@ -646,11 +647,6 @@
               <artifactId>groovy</artifactId>
               <version>3.0.4</version>
             </dependency>
-            <!--<dependency>
-    <groupId>org.codehaus.groovy</groupId>
-    <artifactId>groovy-all</artifactId>
-    <version>3.0.4</version>
-            </dependency> -->
           </dependencies>
         </plugin>
       </plugins>

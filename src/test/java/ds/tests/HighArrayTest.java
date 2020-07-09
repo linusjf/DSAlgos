@@ -52,53 +52,53 @@ class HighArrayTest {
   @Test
   void testInsert() {
     HighArray arr = insertElements();
-    assertEquals(arr.count(), 10, "10 elements inserted.");
+    assertEquals(arr.count(), 10, "10 elements not inserted.");
   }
 
   @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     HighArray arr = insertElements();
-    LOGGER.info(() -> arr.toString());
+    LOGGER.info(arr.toString());
     assertTrue(
-        () -> arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
-        () -> "Elements 00, 55, 99 deleted");
+        arr.delete(00L) && arr.delete(55L) && arr.delete(99L), "Elements 00, 55, 99 not found.");
   }
 
   @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     HighArray arr = insertElements();
-    LOGGER.info(() -> arr.toString());
+    LOGGER.info(arr.toString());
     assertFalse(
-        () -> arr.delete(12L) || arr.delete(6L) || arr.delete(5L),
-        () -> "Elements 12, 6, 5 not deleted");
+        arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
   }
 
   @Test
   void testFindIndexFalse() {
     HighArray arr = insertElements();
     long searchKey = 35L;
-    assertEquals(arr.findIndex(searchKey), -1, () -> searchKey + " not available");
+    assertEquals(arr.findIndex(searchKey), -1, () -> searchKey + " available");
   }
 
   @Test
   void testFindFalse() {
     HighArray arr = insertElements();
     long searchKey = 35L;
-    assertFalse(arr.find(searchKey), () -> searchKey + " not available");
+    assertFalse(arr.find(searchKey), () -> searchKey + " available");
   }
 
   @Test
   void testFindIndexTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " available");
+    assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " not available");
   }
 
   @Test
   void testFindTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.find(searchKey), () -> searchKey + " available");
+    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
   }
 
   @Test
@@ -107,7 +107,7 @@ class HighArrayTest {
     arr.clear();
     // for code coverage
     arr.clear();
-    assertEquals(arr.count(), 0, () -> "Array cleared");
+    assertEquals(arr.count(), 0, () -> "Array not cleared");
   }
 
   @Test
@@ -119,7 +119,7 @@ class HighArrayTest {
     arr.insert(44L);
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(3).append(System.lineSeparator()).append("77 99 44 ");
-    assertEquals(arr.toString(), sb.toString(), "Strings equal.");
+    assertEquals(arr.toString(), sb.toString(), "Strings not equal.");
   }
 
   @Test
@@ -158,16 +158,16 @@ class HighArrayTest {
     HighArray highArray = new HighArray(10_000);
     LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
     assertEquals(
-        10_000, highArray.count(), () -> "10,000 elements filled: " + highArray.toString());
+        10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
   }
 
   @Test
   void testConcurrentDeletes() {
     AtomicInteger excCount = new AtomicInteger();
-    HighArray highArray = new HighArray(10000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10000L);
+    HighArray highArray = new HighArray(10_000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(i -> highArray.insert(i));
-    LongStream nosParallel = LongStream.rangeClosed(1L, 10000L).parallel();
+    LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
     nosParallel.forEach(
         i ->
             new Thread(
@@ -191,7 +191,8 @@ class HighArrayTest {
           highArray.insert(i);
           highArray.delete(i);
         });
-    assertEquals(0, highArray.count(), () -> "10,000 elements deleted: " + highArray.toString());
+    assertEquals(
+        0, highArray.count(), () -> "10,000 elements not deleted: " + highArray.toString());
   }
 
   @Test
@@ -203,7 +204,7 @@ class HighArrayTest {
           highArray.insert(i);
           highArray.syncDelete(i);
         });
-    assertEquals(0, highArray.count(), () -> "100 elements deleted: " + highArray.toString());
+    assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
   }
 
   @Test
@@ -215,15 +216,15 @@ class HighArrayTest {
           highArray.insert(i);
           highArray.syncDelete(i);
         });
-    assertEquals(0, highArray.count(), () -> "Elements cleared");
+    assertEquals(0, highArray.count(), () -> "Elements not cleared");
   }
 
-  // @ResourceLock(value = "ds.tests.HighArrayTest.array", mode = ResourceAccessMode.READ_WRITE)
   @RepeatedTest(10_000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
-    assertEquals(true, array.delete(current), () -> "Element " + current + " deleted.");
+    if (!array.delete(current)) fail(() -> "Element " + current + " not found.");
+    // assertTrue(array.delete(current), );
   }
 
   /** Added tests for code coverage completeness. */
