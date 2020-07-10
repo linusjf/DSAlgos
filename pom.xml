@@ -349,7 +349,7 @@
               </goals>
               <configuration>
                 <format>txt</format>
-                <includes>**\/*.java,**\/*.xml</includes>
+                <includes>**\/*.java,**\/*.xml,${basedir}/pom.xml</includes>
               </configuration>
             </execution>
             <execution>
@@ -625,7 +625,7 @@
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
         </plugin>
-        <plugin>
+        <!--    <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>codenarc-maven-plugin</artifactId>
           <version>0.22-1</version>
@@ -638,8 +638,8 @@
               <artifactId>groovy</artifactId>
               <version>3.0.4</version>
             </dependency>
-          </dependencies>
-        </plugin>
+        </dependencies>
+      </plugin>-->
       </plugins>
     </pluginManagement>
     <plugins>
@@ -691,10 +691,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>codenarc-maven-plugin</artifactId>
-      </plugin>
     </plugins>
   </build>
   <reporting>
@@ -735,10 +731,6 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>codenarc-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
