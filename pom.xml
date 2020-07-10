@@ -106,6 +106,9 @@
     <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
+    <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
+    <pmd.rules>pmdrules.xml</pmd.rules>
+    <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.5.0</checker.version>
   </properties>
   <dependencyManagement>
@@ -625,21 +628,30 @@
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
         </plugin>
-        <!--    <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>codenarc-maven-plugin</artifactId>
-          <version>0.22-1</version>
-          <configuration>
-            <codeNarcVersion>1.6</codeNarcVersion>
-          </configuration>
+        <plugin>
+          <groupId>org.codehaus.gmaven</groupId>
+          <artifactId>groovy-maven-plugin</artifactId>
+          <version>2.1.1</version>
           <dependencies>
             <dependency>
-              <groupId>org.codehaus.groovy</groupId>
-              <artifactId>groovy</artifactId>
-              <version>3.0.4</version>
+              <groupId>net.sourceforge.pmd</groupId>
+              <artifactId>pmd-xml</artifactId>
+              <version>${pmd.version}</version>
             </dependency>
-        </dependencies>
-      </plugin>-->
+          </dependencies>
+          <executions>
+            <execution>
+              <id>pmdxml</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>execute</goal>
+              </goals>
+              <configuration>
+                <source>pmd.groovy</source>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -690,6 +702,10 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmaven</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
