@@ -324,7 +324,7 @@
             <includeTests>true</includeTests>
             <skipEmptyReport>true</skipEmptyReport>
             <benchmark>true</benchmark>
-            <language>java,jsp,xml</language>
+            <language>java</language>
           </configuration>
           <dependencies>
             <dependency>
@@ -337,11 +337,6 @@
               <artifactId>pmd-java</artifactId>
               <version>${pmd.version}</version>
             </dependency>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-xml</artifactId>
-              <version>${pmd.version}</version>
-            </dependency>
           </dependencies>
           <executions>
             <execution>
@@ -352,7 +347,7 @@
               </goals>
               <configuration>
                 <format>txt</format>
-                <includes>**\/*.java,**\/*.xml,${basedir}/pom.xml</includes>
+                <includes>**\/*.java</includes>
               </configuration>
             </execution>
             <execution>
@@ -647,7 +642,7 @@
                 <goal>execute</goal>
               </goals>
               <configuration>
-                <source>pmd.groovy</source>
+                <source>pmdxml.groovy</source>
               </configuration>
             </execution>
           </executions>

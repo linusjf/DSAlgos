@@ -18,6 +18,11 @@ def getXmlFiles() {
  StringBuilder sb = new StringBuilder()
  for (file in xmlFiles)
    sb.append(file).append(",")
+ fileNameFilter = { dir,name -> name.toLowerCase().endsWith(".pom")}
+ xmlFiles = 
+ basedir.listFiles(fileNameFilter)
+ for (file in xmlFiles)
+   sb.append(file).append(",")
  sb.deleteCharAt(sb.length() - 1)
  return sb.toString()
 }
