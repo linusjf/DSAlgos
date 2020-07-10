@@ -12,15 +12,15 @@ def getClassPath(classLoader, sb) {
 
 def getXmlFiles() {
  File baseDir = new File("${basedir}")
- FilenameFilter fileNameFilter = { dir,name -> name.toLowerCase().endsWith(".xml")}
+ FilenameFilter fileNameFilter = 
+ { 
+   dir,name -> 
+   name.toLowerCase().endsWith(".xml") || 
+   name.toLowerCase().endsWith(".pom")
+ }
  String[] xmlFiles = 
  basedir.listFiles(fileNameFilter)
  StringBuilder sb = new StringBuilder()
- for (file in xmlFiles)
-   sb.append(file).append(",")
- fileNameFilter = { dir,name -> name.toLowerCase().endsWith(".pom")}
- xmlFiles = 
- basedir.listFiles(fileNameFilter)
  for (file in xmlFiles)
    sb.append(file).append(",")
  sb.deleteCharAt(sb.length() - 1)
