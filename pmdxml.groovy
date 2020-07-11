@@ -1,5 +1,8 @@
 evaluate(new File("properties.groovy"))
 
+import java.nio.file.Paths
+import java.nio.file.Files
+
 def getClassPath(classLoader, sb) {
   classLoader.getURLs().each {url->
      sb.append("${url.getFile().toString()}:")
@@ -42,13 +45,12 @@ def cp = getClassPath(this.class.classLoader,
   String xmlFiles = getXmlFiles()
 
   PrintStream o = new PrintStream(new File("${basedir}/filelist.txt")); 
-  // Store current System.out before assigning a new value 
   PrintStream console = System.out; 
-  // Assign o to output stream
   System.setOut(o); 
   System.out.print(xmlFiles); 
-  // Use stored value for output stream 
   System.setOut(console);
+
+  Files.createDirectories(Paths.get("${basedir}/target"));
 
 String[] args = ["java", 
   "-cp", 
@@ -61,7 +63,7 @@ String[] args = ["java",
   "-failOnViolation", 
   "false",
   "-r", 
-  "${basedir}/pmdxml.txt",
+  "${basedir}/target/pmdxml.txt",
   "-l", 
   "xml",
 "-f", 
