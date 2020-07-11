@@ -34,7 +34,7 @@ def cp = getClassPath(this.class.classLoader,
     new StringBuilder())
 
   def props = new properties()
-  props = props.getProjectProperties()
+  props = props.getProperties()
     def pmdMainClass = 
       props.getProperty(
         "pmd.main.class")
