@@ -5,7 +5,7 @@ import java.nio.file.Paths
 
 def renameSuppressions() {
   def props = new properties()
-  props = props.getProjectProperties()
+  props = props.getProperties()
     def supprFileName = 
       props.getProperty(
         "checkstyle.suppressionsFile")
