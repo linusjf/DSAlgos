@@ -161,17 +161,38 @@ class OrdArrayTest {
         .unordered()
         .parallel()
         .forEach(
-            i ->
-                new Thread(
-                        () -> {
-                          try {
-                            ordArray.insert(i);
-                          } catch (ConcurrentModificationException cme) {
-                            excCount.incrementAndGet();
-                          }
-                        })
-                    .start());
+            i -> {
+              Thread thread =
+                  new Thread(
+                      () -> {
+                        try {
+                          ordArray.insert(i);
+                        } catch (ConcurrentModificationException cme) {
+                          excCount.incrementAndGet();
+                        }
+                      });
+              thread.start();
+            });
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+  }
+
+  @Test
+  void testSyncInserts() {
+    OrdArray ordArray = new OrdArray(10_000, true);
+    LongStream.rangeClosed(1L, 10_000L)
+        .unordered()
+        .parallel()
+        .forEach(
+            i -> {
+              Thread thread = new Thread(() -> ordArray.syncInsert(i));
+              thread.start();
+              try {
+                thread.join(0);
+              } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+              }
+            });
+    assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
   }
 
   @Test
