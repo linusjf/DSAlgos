@@ -58,11 +58,17 @@ public class OrdArray {
     int index = nElems.intValue();
     if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
     int j;
-    for (j = 0; j < nElems.intValue(); j++) if (a[j] > value) break;
-    if (strict && expectedCount != modCount)
-      throw new ConcurrentModificationException("Error inserting value: " + value);
+    for (j = 0; j < index; j++) {
+      if (strict && expectedCount != modCount)
+        throw new ConcurrentModificationException("Error inserting value: " + value);
+      if (a[j] > value) break;
+    }
+    for (int k = index; k > j; k--) {
+      if (strict && expectedCount != modCount)
+        throw new ConcurrentModificationException("Error inserting value: " + value);
+      a[k] = a[k - 1];
+    }
     ++modCount;
-    for (int k = nElems.intValue(); k > j; k--) a[k] = a[k - 1];
     a[j] = value;
     nElems.getAndIncrement();
     return j;

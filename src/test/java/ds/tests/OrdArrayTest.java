@@ -125,55 +125,68 @@ class OrdArrayTest {
   @Test
   void testDisplay() {
     OrdArray arr = insertElements();
-    OrdArray highArray = spy(arr);
+    OrdArray ordArray = spy(arr);
 
     doAnswer(
             i -> {
               i.callRealMethod();
               return null;
             })
-        .when(highArray)
+        .when(ordArray)
         .display();
-    highArray.display();
-    doCallRealMethod().when(highArray).display();
-    highArray.display();
-    verify(highArray, times(2)).display();
+    ordArray.display();
+    doCallRealMethod().when(ordArray).display();
+    ordArray.display();
+    verify(ordArray, times(2)).display();
   }
 
   @Test
   void testException() {
-    OrdArray highArray = new OrdArray(3);
-    highArray.insert(2L);
-    highArray.insert(11L);
-    highArray.insert(21L);
+    OrdArray ordArray = new OrdArray(3);
+    ordArray.insert(2L);
+    ordArray.insert(11L);
+    ordArray.insert(21L);
     assertThrows(
         ArrayIndexOutOfBoundsException.class,
         () -> {
-          highArray.insert(45L);
+          ordArray.insert(45L);
         });
   }
 
   @Test
   void testConcurrentInserts() {
-    OrdArray highArray = new OrdArray(10_000);
-    LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
-    assertEquals(
-        10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
+    AtomicInteger excCount = new AtomicInteger();
+    OrdArray ordArray = new OrdArray(10_000, true);
+    LongStream.rangeClosed(1L, 10_000L)
+        .unordered()
+        .parallel()
+        .forEach(
+            i ->
+                new Thread(
+                        () -> {
+                          try {
+                            ordArray.insert(i);
+                          } catch (ConcurrentModificationException cme) {
+                            excCount.incrementAndGet();
+                          }
+                        })
+                    .start());
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
   @Test
   void testConcurrentDeletes() {
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray highArray = new OrdArray(10_000, true);
+    OrdArray ordArray = new OrdArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(i -> highArray.insert(i));
+    nos.forEach(i -> ordArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
     nosParallel.forEach(
         i ->
             new Thread(
                     () -> {
                       try {
-                        highArray.delete(i);
+                        ordArray.delete(i);
                       } catch (ConcurrentModificationException cme) {
                         excCount.incrementAndGet();
                       }
@@ -184,39 +197,38 @@ class OrdArrayTest {
 
   @Test
   void testSequentialDeletes() {
-    OrdArray highArray = new OrdArray(10_000, true);
+    OrdArray ordArray = new OrdArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {
-          highArray.insert(i);
-          highArray.delete(i);
+          ordArray.insert(i);
+          ordArray.delete(i);
         });
-    assertEquals(
-        0, highArray.count(), () -> "10,000 elements not deleted: " + highArray.toString());
+    assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
   }
 
   @Test
   void testConcurrentSyncDeletes() {
-    OrdArray highArray = new OrdArray(100);
+    OrdArray ordArray = new OrdArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {
-          highArray.insert(i);
-          highArray.syncDelete(i);
+          ordArray.insert(i);
+          ordArray.syncDelete(i);
         });
-    assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
+    assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
   }
 
   @Test
   void testConcurrentSyncInsertsDeletes() {
-    OrdArray highArray = new OrdArray(100);
+    OrdArray ordArray = new OrdArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 100L).parallel();
     nos.forEach(
         i -> {
-          highArray.insert(i);
-          highArray.syncDelete(i);
+          ordArray.insert(i);
+          ordArray.syncDelete(i);
         });
-    assertEquals(0, highArray.count(), () -> "Elements not cleared");
+    assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 
   @RepeatedTest(10_000)
