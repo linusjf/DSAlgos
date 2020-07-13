@@ -302,6 +302,18 @@
 <suppress-xpath
        files="OrdArrayTest.java"
        checks="MagicNumberCheck"
+       query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInsertsLatch']]/SLIST/VARIABLE_DEF[./IDENT[@text='done']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='CountDownLatch']]/ELIST/EXPR/NUM_INT[@text='100']"/>
+<suppress-xpath
+       files="OrdArrayTest.java"
+       checks="MagicNumberCheck"
+       query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInsertsLatch']]/SLIST/VARIABLE_DEF[./IDENT[@text='ordArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='OrdArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
+<suppress-xpath
+       files="OrdArrayTest.java"
+       checks="MagicNumberCheck"
+       query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentInsertsLatch']]/SLIST/EXPR/METHOD_CALL/DOT[./IDENT[@text='forEach']]/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/DOT[./IDENT[@text='unordered']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='100L']"/>
+<suppress-xpath
+       files="OrdArrayTest.java"
+       checks="MagicNumberCheck"
        query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSyncInserts']]/SLIST/VARIABLE_DEF[./IDENT[@text='ordArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='OrdArray']]/ELIST/EXPR/NUM_INT[@text='10_000']"/>
 <suppress-xpath
        files="OrdArrayTest.java"

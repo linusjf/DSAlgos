@@ -13,18 +13,20 @@
       <build>
         <plugins>
           <plugin>
-              <groupId>org.codehaus.gmavenplus</groupId>
-          <artifactId>gmavenplus-plugin</artifactId>
-          <version>1.9.0</version>
-          <dependencies>
-        <dependency>
-          <groupId>org.codehaus.groovy</groupId>
-          <artifactId>groovy-all</artifactId>
-          <!-- any version of Groovy \>= 1.5.0 should work here -->
-          <version>3.0.3</version>
-          <type>pom</type>
-          <scope>runtime</scope>
-        </dependency>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>${gmavenplus.plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-ant</artifactId>
+                <version>${groovy.version}</version>
+              </dependency>
               <dependency>
                 <groupId>net.sourceforge.pmd</groupId>
                 <artifactId>pmd-core</artifactId>
@@ -44,7 +46,9 @@
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <scripts><script>file:///${project.basedir}/pmdxml.groovy</script></scripts>
+                  <scripts>
+                    <script>pmdxml.groovy</script>
+                  </scripts>
                 </configuration>
               </execution>
             </executions>
@@ -57,10 +61,20 @@
       <build>
         <plugins>
           <plugin>
-              <groupId>org.codehaus.gmavenplus</groupId>
-          <artifactId>gmavenplus-plugin</artifactId>
-          <version>1.9.0</version>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>${gmavenplus.plugin.version}</version>
             <dependencies>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-ant</artifactId>
+                <version>${groovy.version}</version>
+              </dependency>
               <dependency>
                 <groupId>com.puppycrawl.tools</groupId>
                 <artifactId>checkstyle</artifactId>
@@ -76,10 +90,10 @@
                 </goals>
                 <configuration>
                   <scripts>
-                  <script>checkstyleg.groovy</script>
+                    <script>checkstyleg.groovy</script>
                   </scripts>
                 </configuration>
-            </execution>
+              </execution>
             </executions>
           </plugin>
         </plugins>
@@ -140,6 +154,7 @@
     <maven.properties.plugin.version>1.0.0</maven.properties.plugin.version>
     <jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>1.18.12.0</lombok.maven.plugin.version>
+    <gmavenplus.plugin.version>1.9.0</gmavenplus.plugin.version>
     <lombok.version>1.18.12</lombok.version>
     <checkstyle.version>8.34</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
@@ -152,6 +167,7 @@
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.5.0</checker.version>
+    <groovy.version>3.0.4</groovy.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -212,12 +228,10 @@
     <defaultGoal>clean install</defaultGoal>
     <pluginManagement>
       <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${maven.clean.plugin.version}</version>
         </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${maven.resources.plugin.version}</version>

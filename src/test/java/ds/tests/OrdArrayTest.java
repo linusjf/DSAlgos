@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import ds.OrdArray;
 import java.util.ConcurrentModificationException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
@@ -173,6 +174,44 @@ class OrdArrayTest {
                       });
               thread.start();
             });
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+  }
+
+  @Test
+  void testConcurrentInsertsLatch() {
+    CountDownLatch cdl = new CountDownLatch(1);
+    CountDownLatch done = new CountDownLatch(100);
+    AtomicInteger excCount = new AtomicInteger();
+    OrdArray ordArray = new OrdArray(100, true);
+    LongStream.rangeClosed(1L, 100L)
+        .unordered()
+        .parallel()
+        .forEach(
+            i -> {
+              Thread thread =
+                  new Thread(
+                      () -> {
+                        try {
+                          cdl.await();
+                          ordArray.insert(i);
+                          done.countDown();
+                        } catch (InterruptedException ie) {
+                          Thread.currentThread().interrupt();
+                          done.countDown();
+                        } catch (ConcurrentModificationException cme) {
+                          excCount.incrementAndGet();
+                          done.countDown();
+                        }
+                      });
+              thread.start();
+            });
+    try {
+      cdl.countDown();
+      done.await();
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
+    }
+    System.out.println(ordArray);
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
