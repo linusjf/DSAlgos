@@ -9,6 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.RepeatedTest;
@@ -20,6 +21,8 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
@@ -177,13 +180,14 @@ class OrdArrayTest {
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
-  @Test
-  void testConcurrentInsertsLatch() {
+  @ParameterizedTest
+  @MethodSource("provideArraySize")
+  void testConcurrentInsertsLatch(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
-    CountDownLatch done = new CountDownLatch(100);
+    CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(100, true);
-    LongStream.rangeClosed(1L, 100L)
+    OrdArray ordArray = new OrdArray(size, true);
+    LongStream.rangeClosed(1L, (long) size)
         .unordered()
         .parallel()
         .forEach(
@@ -199,6 +203,7 @@ class OrdArrayTest {
                           Thread.currentThread().interrupt();
                           done.countDown();
                         } catch (ConcurrentModificationException cme) {
+                          System.err.println(cme.getMessage());
                           excCount.incrementAndGet();
                           done.countDown();
                         }
@@ -213,6 +218,15 @@ class OrdArrayTest {
     }
     System.out.println(ordArray);
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+  }
+
+  private Stream<Integer> provideArraySize() {
+    Runtime rt = Runtime.getRuntime();
+    int processors = rt.availableProcessors();
+    long memory = rt.totalMemory();
+    System.out.printf("%d %d %n", memory, processors);
+    if (processors > 7) return Stream.of(10_000);
+    else return Stream.of(5000);
   }
 
   @Test
