@@ -1,7 +1,6 @@
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption  
 import java.nio.file.Paths
-import com.puppycrawl.tools.checkstyle.Main
 
 def backupSuppressions() {
   def supprFileName = 
@@ -62,4 +61,5 @@ ProcessBuilder pb = new ProcessBuilder(args)
 pb = pb.inheritIO()
 Process proc = pb.start();
 proc.waitFor()
+
 renameSuppressions()
