@@ -1,12 +1,11 @@
-evaluate(new File("properties.groovy"))
-
 import java.nio.file.Paths
 import java.nio.file.Files
 
 def getClassPath(classLoader, sb) {
-  classLoader.getURLs().each {url->
-     sb.append("${url.getFile().toString()}:")
-  }
+  for (url in classLoader.getURLs()) {
+     sb.append(url.getFile().toString())
+     .append(':')
+    }
   if (classLoader.parent) {
      getClassPath(classLoader.parent, sb)
   }
@@ -14,7 +13,7 @@ def getClassPath(classLoader, sb) {
 }
 
 def getXmlFiles() {
- File baseDir = new File("${basedir}")
+ File baseDir = project.basedir
  FilenameFilter fileNameFilter = 
  { 
    dir,name -> 
@@ -22,7 +21,7 @@ def getXmlFiles() {
    name.toLowerCase().endsWith(".pom")
  }
  String[] xmlFiles = 
- basedir.listFiles(fileNameFilter)
+ baseDir.listFiles(fileNameFilter)
  StringBuilder sb = new StringBuilder()
  for (file in xmlFiles)
    sb.append(file).append(",")
@@ -30,27 +29,24 @@ def getXmlFiles() {
  return sb.toString()
 }
 
-def cp = getClassPath(this.class.classLoader, 
+def pmdMainClass = 
+      project.properties["pmd.main.class"]
+def pmdRules = 
+        project.properties["pmd.xml.rules"]
+
+def classLoader = Class.forName(pmdMainClass).getClassLoader()
+def cp = getClassPath(classLoader, 
     new StringBuilder())
 
-  def props = new properties()
-  props = props.getProperties()
-    def pmdMainClass = 
-      props.getProperty(
-        "pmd.main.class")
-    def pmdRules = 
-      props.getProperty(
-        "pmd.xml.rules")
+String xmlFiles = getXmlFiles()
 
-  String xmlFiles = getXmlFiles()
+PrintStream o = new PrintStream("filelist.txt"); 
+PrintStream console = System.out; 
+System.setOut(o); 
+System.out.print(xmlFiles); 
+System.setOut(console);
 
-  PrintStream o = new PrintStream(new File("${basedir}/filelist.txt")); 
-  PrintStream console = System.out; 
-  System.setOut(o); 
-  System.out.print(xmlFiles); 
-  System.setOut(console);
-
-  Files.createDirectories(Paths.get("${basedir}/target"));
+Files.createDirectories(Paths.get("target"));
 
 String[] args = ["java", 
   "-cp", 
@@ -63,13 +59,13 @@ String[] args = ["java",
   "-failOnViolation", 
   "false",
   "-r", 
-  "${basedir}/target/pmdxml.txt",
+  "target/pmdxml.txt",
   "-l", 
   "xml",
 "-f", 
   "text",
   "-filelist", 
-  "${basedir}/filelist.txt",
+  "filelist.txt",
 "-V"]
 
 ProcessBuilder pb = new ProcessBuilder(args)

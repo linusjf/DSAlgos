@@ -9,52 +9,57 @@
   <url>http://github.com/Fernal73/DSAlgos</url>
   <profiles>
     <profile>
-      <id>checkstyleg</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.apache.maven</groupId>
-          <artifactId>maven-model</artifactId>
-          <version>3.6.3</version>
-        </dependency>
-      </dependencies>
+      <id>pmdxml</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.codehaus.gmaven</groupId>
-            <artifactId>groovy-maven-plugin</artifactId>
-            <version>2.1.1</version>
+              <groupId>org.codehaus.gmavenplus</groupId>
+          <artifactId>gmavenplus-plugin</artifactId>
+          <version>1.9.0</version>
+          <dependencies>
+        <dependency>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <!-- any version of Groovy \>= 1.5.0 should work here -->
+          <version>3.0.3</version>
+          <type>pom</type>
+          <scope>runtime</scope>
+        </dependency>
+              <dependency>
+                <groupId>net.sourceforge.pmd</groupId>
+                <artifactId>pmd-core</artifactId>
+                <version>${pmd.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>net.sourceforge.pmd</groupId>
+                <artifactId>pmd-xml</artifactId>
+                <version>${pmd.version}</version>
+              </dependency>
+            </dependencies>
             <executions>
               <execution>
-                <id>backup</id>
+                <id>pmdxml</id>
                 <phase>validate</phase>
                 <goals>
                   <goal>execute</goal>
                 </goals>
                 <configuration>
-                  <source>backupSuppressions.groovy</source>
-                </configuration>
-              </execution>
-              <execution>
-                <id>checkstyleg</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <source>checkstyleg.groovy</source>
-                </configuration>
-              </execution>
-              <execution>
-                <id>rename</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>execute</goal>
-                </goals>
-                <configuration>
-                  <source>renameSuppressions.groovy</source>
+                  <scripts><script>file:///${project.basedir}/pmdxml.groovy</script></scripts>
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>checkstyleg</id>
+      <build>
+        <plugins>
+          <plugin>
+              <groupId>org.codehaus.gmavenplus</groupId>
+          <artifactId>gmavenplus-plugin</artifactId>
+          <version>1.9.0</version>
             <dependencies>
               <dependency>
                 <groupId>com.puppycrawl.tools</groupId>
@@ -62,6 +67,20 @@
                 <version>${checkstyle.version}</version>
               </dependency>
             </dependencies>
+            <executions>
+              <execution>
+                <id>checkstyleg</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <scripts>
+                  <script>checkstyleg.groovy</script>
+                  </scripts>
+                </configuration>
+            </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
@@ -630,30 +649,6 @@
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.gmaven</groupId>
-          <artifactId>groovy-maven-plugin</artifactId>
-          <version>2.1.1</version>
-          <dependencies>
-            <dependency>
-              <groupId>net.sourceforge.pmd</groupId>
-              <artifactId>pmd-xml</artifactId>
-              <version>${pmd.version}</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>pmdxml</id>
-              <phase>validate</phase>
-              <goals>
-                <goal>execute</goal>
-              </goals>
-              <configuration>
-                <source>pmdxml.groovy</source>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -700,10 +695,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-help-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>groovy-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
