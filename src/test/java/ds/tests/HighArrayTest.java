@@ -28,8 +28,8 @@ class HighArrayTest {
   HighArray array;
 
   HighArrayTest() {
-    array = new HighArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    array = new HighArray(1000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 1000L);
     nos.forEach(i -> array.insert(i));
   }
 
@@ -219,7 +219,7 @@ class HighArrayTest {
     assertEquals(0, highArray.count(), () -> "Elements not cleared");
   }
 
-  @RepeatedTest(10_000)
+  @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();

@@ -32,8 +32,8 @@ class OrdArrayTest {
   OrdArray array;
 
   OrdArrayTest() {
-    array = new OrdArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    array = new OrdArray(1000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 1000L).unordered();
     nos.forEach(i -> array.insert(i));
   }
 
@@ -186,7 +186,7 @@ class OrdArrayTest {
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
     System.out.printf("Memory: %d Processors: %d %n", memory, processors);
-    if (memory > 4294967296L) return Stream.of(20_000);
+    if (processors <= 2) return Stream.of(20_000);
     else return Stream.of(5000);
   }
 
@@ -234,7 +234,7 @@ class OrdArrayTest {
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
     System.out.printf("Memory: %d Processors: %d %n", memory, processors);
-    if (memory > 4294967296L) return Stream.of(10_000);
+    if (processors <= 2) return Stream.of(10_000);
     else return Stream.of(5000);
   }
 
@@ -272,6 +272,7 @@ class OrdArrayTest {
                       try {
                         ordArray.delete(i);
                       } catch (ConcurrentModificationException cme) {
+                        System.err.println("Error deleting " + i);
                         excCount.incrementAndGet();
                       }
                     })
@@ -315,7 +316,7 @@ class OrdArrayTest {
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 
-  @RepeatedTest(10_000)
+  @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
