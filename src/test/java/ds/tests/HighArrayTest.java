@@ -21,7 +21,7 @@ import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
+@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
@@ -224,7 +224,6 @@ class HighArrayTest {
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     if (!array.delete(current)) fail(() -> "Element " + current + " not found.");
-    // assertTrue(array.delete(current), );
   }
 
   /** Added tests for code coverage completeness. */

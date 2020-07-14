@@ -263,9 +263,9 @@ class OrdArrayTest {
   void testConcurrentDeletes(int size) {
     AtomicInteger excCount = new AtomicInteger();
     OrdArray ordArray = new OrdArray(size, true);
-    LongStream nos = LongStream.rangeClosed(1L, (long)size).unordered();
+    LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
-    LongStream nosParallel = LongStream.rangeClosed(1L, (long)size).unordered().parallel();
+    LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
     nosParallel.forEach(
         i ->
             new Thread(
@@ -321,7 +321,6 @@ class OrdArrayTest {
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     if (!array.delete(current)) fail(() -> "Element " + current + " not found.");
-    // assertTrue(array.delete(current), );
   }
 
   /** Added tests for code coverage completeness. */
