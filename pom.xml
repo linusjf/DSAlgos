@@ -96,6 +96,19 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <groupId>au.com.acegi</groupId>
+            <artifactId>xml-format-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>xml-format</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>xml-format</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
     </profile>
