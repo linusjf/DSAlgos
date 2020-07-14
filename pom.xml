@@ -284,6 +284,7 @@
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
             <rerunFailingTestsCount>5</rerunFailingTestsCount>
+            <argline>-Xms1g -Xmx4g</argline>
           </configuration>
         </plugin>
         <plugin>
