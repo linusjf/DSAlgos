@@ -250,6 +250,10 @@
 <suppress-xpath
        files="OrdArrayTest.java"
        checks="MagicNumberCheck"
+       query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindIndexFalse']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/UNARY_MINUS[./NUM_INT[@text='4']]"/>
+<suppress-xpath
+       files="OrdArrayTest.java"
+       checks="MagicNumberCheck"
        query="/CLASS_DEF[./IDENT[@text='OrdArrayTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testFindFalse']]/SLIST/VARIABLE_DEF[./IDENT[@text='searchKey']]/ASSIGN/EXPR/NUM_LONG[@text='35L']"/>
 <suppress-xpath
        files="OrdArrayTest.java"

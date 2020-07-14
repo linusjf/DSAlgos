@@ -81,7 +81,8 @@ class OrdArrayTest {
   void testFindIndexFalse() {
     OrdArray arr = insertElements();
     long searchKey = 35L;
-    assertEquals(arr.count(), arr.findIndex(searchKey), () -> searchKey + " available");
+    System.out.println(arr);
+    assertEquals(-4, arr.findIndex(searchKey) + 1, () -> searchKey + " available");
   }
 
   @Test
@@ -95,7 +96,7 @@ class OrdArrayTest {
   void testFindIndexTrue() {
     OrdArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " not available");
+    assertEquals(1, arr.findIndex(searchKey), () -> searchKey + " not available");
   }
 
   @Test

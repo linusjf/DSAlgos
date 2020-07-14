@@ -30,21 +30,20 @@ public class OrdArray {
   public int findIndex(long searchKey) {
     int lowerBound = 0;
     int upperBound = nElems.intValue() - 1;
-    int curIn;
-    while (true) {
-      curIn = (lowerBound + upperBound) / 2;
-      if (a[curIn] == searchKey) return curIn;
-      else if (lowerBound > upperBound) return nElems.intValue();
-      else {
-        if (a[curIn] < searchKey) lowerBound = curIn + 1;
-        else upperBound = curIn - 1;
-      }
+    while (lowerBound <= upperBound) {
+      int mid = (lowerBound + upperBound) >>> 1;
+      long midVal = a[mid];
+      if (midVal == searchKey) return mid;
+      else if (midVal < searchKey) lowerBound = mid + 1;
+      else upperBound = mid - 1;
     }
+    // key not found
+    return -(lowerBound + 1);
   }
 
   // -----------------------------------------------------------
   public boolean find(long searchKey) {
-    return findIndex(searchKey) < nElems.intValue();
+    return findIndex(searchKey) >= 0;
   }
 
   /**
@@ -103,7 +102,7 @@ public class OrdArray {
   public boolean delete(long value) {
     int expectedModCount = modCount;
     int j = findIndex(value);
-    if (j == nElems.intValue()) return false;
+    if (j < 0) return false;
     if (strict && expectedModCount != modCount)
       throw new ConcurrentModificationException("Error deleting value: " + value);
     fastDelete(j);
