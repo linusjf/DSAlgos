@@ -186,7 +186,7 @@ class OrdArrayTest {
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
     System.out.printf("%d %d %n", memory, processors);
-    if (memory > 4294967296L) return Stream.of(50_000);
+    if (memory > 4294967296L) return Stream.of(20_000);
     else return Stream.of(5000);
   }
 
