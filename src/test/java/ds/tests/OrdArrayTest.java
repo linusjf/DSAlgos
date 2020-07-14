@@ -25,7 +25,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
+@Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
@@ -185,7 +185,7 @@ class OrdArrayTest {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
-    System.out.printf("%d %d %n", memory, processors);
+    System.out.printf("Memory: %d Processors: %d %n", memory, processors);
     if (memory > 4294967296L) return Stream.of(20_000);
     else return Stream.of(5000);
   }
@@ -226,7 +226,6 @@ class OrdArrayTest {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    System.out.println(ordArray);
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
@@ -234,7 +233,7 @@ class OrdArrayTest {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
-    System.out.printf("%d %d %n", memory, processors);
+    System.out.printf("Memory: %d Processors: %d %n", memory, processors);
     if (memory > 4294967296L) return Stream.of(10_000);
     else return Stream.of(5000);
   }

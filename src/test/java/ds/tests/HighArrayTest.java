@@ -21,7 +21,7 @@ import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
+@Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
