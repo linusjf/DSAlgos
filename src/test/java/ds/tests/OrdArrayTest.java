@@ -213,7 +213,7 @@ class OrdArrayTest {
                         Thread.currentThread().interrupt();
                         done.countDown();
                       } catch (ConcurrentModificationException cme) {
-                        LOGGER.severe(() -> cme.getMessage());
+                        LOGGER.severe(() -> "Error: " + cme.getMessage());
                         excCount.incrementAndGet();
                         done.countDown();
                       }
