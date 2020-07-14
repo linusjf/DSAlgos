@@ -158,30 +158,6 @@ class OrdArrayTest {
         });
   }
 
-  @ParameterizedTest
-  @MethodSource("provideInsertArraySize")
-  void testConcurrentInserts(int size) {
-    AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(size, true);
-    LongStream.rangeClosed(1L, (long) size)
-        .unordered()
-        .parallel()
-        .forEach(
-            i -> {
-              Thread thread =
-                  new Thread(
-                      () -> {
-                        try {
-                          ordArray.insert(i);
-                        } catch (ConcurrentModificationException cme) {
-                          excCount.incrementAndGet();
-                        }
-                      });
-              thread.start();
-            });
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
-  }
-
   private Stream<Integer> provideInsertArraySize() {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
