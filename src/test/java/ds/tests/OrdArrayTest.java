@@ -5,14 +5,14 @@ import static org.mockito.Mockito.*;
 
 import ds.OrdArray;
 import java.util.ConcurrentModificationException;
-import java.util.concurrent.CountDownLatch;
+// import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -54,11 +54,6 @@ class OrdArrayTest {
     return arr;
   }
 
-  @AfterEach
-  void free() {
-    System.gc();
-  }
-
   @Test
   void testInsert() {
     OrdArray arr = insertElements();
@@ -69,7 +64,6 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     OrdArray arr = insertElements();
-    LOGGER.info(arr.toString());
     assertTrue(
         arr.delete(00L) && arr.delete(55L) && arr.delete(99L), "Elements 00, 55, 99 not found.");
   }
@@ -78,7 +72,6 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     OrdArray arr = insertElements();
-    LOGGER.info(arr.toString());
     assertFalse(
         arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
   }
@@ -191,55 +184,57 @@ class OrdArrayTest {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
-    System.out.printf("Memory: %d Processors: %d %n", memory, processors);
+    LOGGER.info(() -> String.format("Memory: %d Processors: %d %n", memory, processors));
     if (processors <= 2) return Stream.of(20_000);
     else return Stream.of(5000);
   }
 
-  @ParameterizedTest
-  @MethodSource("provideArraySize")
-  void testConcurrentInsertsLatch(int size) {
-    CountDownLatch cdl = new CountDownLatch(1);
-    CountDownLatch done = new CountDownLatch(size);
-    AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(size, true);
-    LongStream.rangeClosed(1L, (long) size)
-        .unordered()
-        .parallel()
-        .forEach(
-            i -> {
-              Thread thread =
-                  new Thread(
-                      () -> {
-                        try {
-                          cdl.await();
-                          ordArray.insert(i);
-                          done.countDown();
-                        } catch (InterruptedException ie) {
-                          Thread.currentThread().interrupt();
-                          done.countDown();
-                        } catch (ConcurrentModificationException cme) {
-                          System.err.println(cme.getMessage());
-                          excCount.incrementAndGet();
-                          done.countDown();
-                        }
-                      });
-              thread.start();
-            });
-    try {
-      cdl.countDown();
-      done.await();
-    } catch (InterruptedException ie) {
-      Thread.currentThread().interrupt();
-    }
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
-  }
+  /***
+   * @ParameterizedTest
+   * @MethodSource("provideArraySize")
+   * void testConcurrentInsertsLatch(int size) {
+   * CountDownLatch cdl = new CountDownLatch(1);
+   * CountDownLatch done = new CountDownLatch(size);
+   * AtomicInteger excCount = new AtomicInteger();
+   * OrdArray ordArray = new OrdArray(size, true);
+   * LongStream.rangeClosed(1L, (long) size)
+   * .unordered()
+   * .parallel()
+   * .forEach(
+   * i -> {
+   * Thread thread =
+   * new Thread(
+   * () -> {
+   * try {
+   * cdl.await();
+   * ordArray.insert(i);
+   * done.countDown();
+   * } catch (InterruptedException ie) {
+   * Thread.currentThread().interrupt();
+   * done.countDown();
+   * } catch (ConcurrentModificationException cme) {
+   * System.err.println(cme.getMessage());
+   * excCount.incrementAndGet();
+   * done.countDown();
+   * }
+   * });
+   * thread.start();
+   * });
+   * try {
+   * cdl.countDown();
+   * done.await();
+   * } catch (InterruptedException ie) {
+   * Thread.currentThread().interrupt();
+   * }
+   * assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+   * }
+   */
 
   private Stream<Integer> provideArraySize() {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
-    System.out.printf("Memory: %d Processors: %d %n", memory, processors);
+    LOGGER.info(() -> String.format("Memory: %d Processors: %d %n", memory, processors));
     if (processors <= 2) return Stream.of(10_000);
     else return Stream.of(5000);
   }
@@ -278,7 +273,7 @@ class OrdArrayTest {
                       try {
                         ordArray.delete(i);
                       } catch (ConcurrentModificationException cme) {
-                        System.err.println("Error deleting " + i);
+                        LOGGER.severe(() -> "Error deleting " + i);
                         excCount.incrementAndGet();
                       }
                     })

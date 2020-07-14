@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -50,11 +50,6 @@ class HighArrayTest {
     return arr;
   }
 
-  @AfterEach
-  void free() {
-    System.gc();
-  }
-
   @Test
   void testInsert() {
     HighArray arr = insertElements();
@@ -65,7 +60,6 @@ class HighArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     HighArray arr = insertElements();
-    LOGGER.info(arr.toString());
     assertTrue(
         arr.delete(00L) && arr.delete(55L) && arr.delete(99L), "Elements 00, 55, 99 not found.");
   }
@@ -74,7 +68,6 @@ class HighArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     HighArray arr = insertElements();
-    LOGGER.info(arr.toString());
     assertFalse(
         arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
   }
