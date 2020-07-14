@@ -25,7 +25,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
+@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
@@ -258,13 +258,14 @@ class OrdArrayTest {
     assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
   }
 
-  @Test
-  void testConcurrentDeletes() {
+  @ParameterizedTest
+  @MethodSource("provideInsertArraySize")
+  void testConcurrentDeletes(int size) {
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    OrdArray ordArray = new OrdArray(size, true);
+    LongStream nos = LongStream.rangeClosed(1L, (long)size).unordered();
     nos.forEach(i -> ordArray.insert(i));
-    LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
+    LongStream nosParallel = LongStream.rangeClosed(1L, (long)size).unordered().parallel();
     nosParallel.forEach(
         i ->
             new Thread(
