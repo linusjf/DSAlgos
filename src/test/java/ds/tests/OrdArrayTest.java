@@ -157,11 +157,12 @@ class OrdArrayTest {
         });
   }
 
-  @Test
-  void testConcurrentInserts() {
+  @ParameterizedTest
+  @MethodSource("provideInsertArraySize")
+  void testConcurrentInserts(int size) {
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(10_000, true);
-    LongStream.rangeClosed(1L, 10_000L)
+    OrdArray ordArray = new OrdArray(size, true);
+    LongStream.rangeClosed(1L, (long) size)
         .unordered()
         .parallel()
         .forEach(
@@ -178,6 +179,15 @@ class OrdArrayTest {
               thread.start();
             });
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+  }
+
+  private Stream<Integer> provideInsertArraySize() {
+    Runtime rt = Runtime.getRuntime();
+    int processors = rt.availableProcessors();
+    long memory = rt.totalMemory();
+    System.out.printf("%d %d %n", memory, processors);
+    if (memory > 4294967296L) return Stream.of(50_000);
+    else return Stream.of(5000);
   }
 
   @ParameterizedTest
@@ -225,7 +235,7 @@ class OrdArrayTest {
     int processors = rt.availableProcessors();
     long memory = rt.totalMemory();
     System.out.printf("%d %d %n", memory, processors);
-    if (processors > 7) return Stream.of(10_000);
+    if (memory > 4294967296L) return Stream.of(10_000);
     else return Stream.of(5000);
   }
 
