@@ -168,6 +168,7 @@
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.5.0</checker.version>
     <groovy.version>3.0.4</groovy.version>
+    <junit.version>5.7.0-M1</junit.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -180,13 +181,13 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.7.0-M1</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-params</artifactId>
-        <version>5.7.0-M1</version>
+        <version>${junit.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
