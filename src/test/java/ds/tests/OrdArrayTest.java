@@ -258,6 +258,9 @@ class OrdArrayTest {
   @ParameterizedTest
   @MethodSource("provideInsertArraySize")
   void testConcurrentDeletes(int size) {
+    ExecutorService service = Executors.newFixedThreadPool(10);
+    CountDownLatch cdl = new CountDownLatch(1);
+    CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
     OrdArray ordArray = new OrdArray(size, true);
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
@@ -265,16 +268,27 @@ class OrdArrayTest {
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
     nosParallel.forEach(
         i ->
-            new Thread(
-                    () -> {
-                      try {
-                        ordArray.delete(i);
-                      } catch (ConcurrentModificationException cme) {
-                        LOGGER.severe(() -> "Error deleting " + i);
-                        excCount.incrementAndGet();
-                      }
-                    })
-                .start());
+            service.execute(
+                () -> {
+                  try {
+                    cdl.await();
+                    ordArray.delete(i);
+                    done.countDown();
+                  } catch (ConcurrentModificationException cme) {
+                    LOGGER.severe(() -> "Error deleting " + i);
+                    excCount.incrementAndGet();
+                    done.countDown();
+                  } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    done.countDown();
+                  }
+                }));
+    try {
+      cdl.countDown();
+      done.await();
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
+    }
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
