@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,11 @@ class HighArrayTest {
     arr.insert(66L);
     arr.insert(33L);
     return arr;
+  }
+
+  @AfterEach
+  void free() {
+    System.gc();
   }
 
   @Test

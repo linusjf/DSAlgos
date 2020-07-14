@@ -12,6 +12,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,11 @@ class OrdArrayTest {
     arr.insert(66L);
     arr.insert(33L);
     return arr;
+  }
+
+  @AfterEach
+  void free() {
+    System.gc();
   }
 
   @Test
