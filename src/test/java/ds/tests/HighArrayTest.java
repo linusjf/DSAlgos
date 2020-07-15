@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.HighArray;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
@@ -41,20 +42,20 @@ class HighArrayTest {
 
   @Test
   void testConstructorParameter() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> new HighArray(-1),
-        "IllegalArgumentException expected for "
-        + -1);
+        "IllegalArgumentException expected for " + -1);
   }
-  
+
   @Test
   void testConstructorParameterZero() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> new HighArray(0),
-        "IllegalArgumentException expected for "
-        + 0);
+        "IllegalArgumentException expected for " + 0);
   }
-  
+
   @Test
   void testInsert() {
     HighArray arr = insertElements();
@@ -92,10 +93,24 @@ class HighArrayTest {
   }
 
   @Test
-  void testFindIndexTrue() {
+  void testFindIndex() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.findIndex(searchKey) >= 0, () -> searchKey + " not available");
+    assertEquals(6, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexStart() {
+    HighArray arr = insertElements();
+    long searchKey = 77L;
+    assertEquals(0, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEnd() {
+    HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
   }
 
   @Test
@@ -111,7 +126,8 @@ class HighArrayTest {
     arr.clear();
     // for code coverage
     arr.clear();
-    assertEquals(arr.count(), 0, () -> "Array not cleared");
+    long[] copy = new long[100];
+    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
   }
 
   @Test

@@ -32,6 +32,10 @@ public class HighArray {
     this.strict = strict;
   }
 
+  public long[] get() {
+    return a.clone();
+  }
+
   public int findIndex(long searchKey) {
     int length = nElems.intValue();
     for (int j = 0; j < length; j++) {

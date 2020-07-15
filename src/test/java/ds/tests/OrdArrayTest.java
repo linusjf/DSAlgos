@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.OrdArray;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -46,20 +47,20 @@ class OrdArrayTest {
 
   @Test
   void testConstructorParameter() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> new OrdArray(-1),
-        "IllegalArgumentException expected for "
-        + -1);
+        "IllegalArgumentException expected for " + -1);
   }
-  
+
   @Test
   void testConstructorParameterZero() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(
+        IllegalArgumentException.class,
         () -> new OrdArray(0),
-        "IllegalArgumentException expected for "
-        + 0);
+        "IllegalArgumentException expected for " + 0);
   }
-  
+
   @Test
   void testInsert() {
     OrdArray arr = insertElements();
@@ -105,6 +106,20 @@ class OrdArrayTest {
   }
 
   @Test
+  void testFindIndexStart() {
+    OrdArray arr = insertElements();
+    long searchKey = 0L;
+    assertEquals(0, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEnd() {
+    OrdArray arr = insertElements();
+    long searchKey = 99L;
+    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
   void testFindTrue() {
     OrdArray arr = insertElements();
     long searchKey = 11L;
@@ -117,7 +132,8 @@ class OrdArrayTest {
     arr.clear();
     // for code coverage
     arr.clear();
-    assertEquals(arr.count(), 0, () -> "Array not cleared");
+    long[] copy = new long[100];
+    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
   }
 
   @Test

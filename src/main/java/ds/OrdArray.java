@@ -30,6 +30,10 @@ public class OrdArray {
     this.strict = strict;
   }
 
+  public long[] get() {
+    return a.clone();
+  }
+
   private boolean checkSorted() {
     int length = nElems.intValue();
     assert length >= 0;
