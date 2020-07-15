@@ -22,7 +22,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
-  HighArray array;
 
   HighArray insertElements() {
     HighArray arr = new HighArray(100);
@@ -107,10 +106,32 @@ class HighArrayTest {
   }
 
   @Test
+  void testFindIndexStartTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 77L;
+    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
   void testFindIndexEnd() {
     HighArray arr = insertElements();
     long searchKey = 33L;
     assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEndTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexOverflow() {
+    HighArray arr = insertElements();
+    long searchKey = 0L;
+    arr.delete(0L);
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
   }
 
   @Test
