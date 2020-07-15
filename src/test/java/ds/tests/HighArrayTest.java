@@ -40,6 +40,22 @@ class HighArrayTest {
   }
 
   @Test
+  void testConstructorParameter() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new HighArray(-1),
+        "IllegalArgumentException expected for "
+        + -1);
+  }
+  
+  @Test
+  void testConstructorParameterZero() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new HighArray(0),
+        "IllegalArgumentException expected for "
+        + 0);
+  }
+  
+  @Test
   void testInsert() {
     HighArray arr = insertElements();
     assertEquals(arr.count(), 10, "10 elements not inserted.");

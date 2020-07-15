@@ -24,6 +24,7 @@ public class OrdArray {
   }
 
   public OrdArray(int max, boolean strict) {
+    if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
     a = new long[max];
     nElems = new AtomicInteger();
     this.strict = strict;
@@ -73,7 +74,7 @@ public class OrdArray {
       if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
       int j;
       for (j = 0; j < nElems.intValue(); j++) {
-        if (strict && expectedCount != modCount) {
+        if (strict && expectedCount < modCount) {
           dirty = true;
           throw new ConcurrentModificationException("Error inserting value: " + value);
         }
@@ -122,7 +123,7 @@ public class OrdArray {
     int expectedModCount = modCount;
     int j = findIndex(value);
     if (j < 0) return false;
-    if (strict && expectedModCount != modCount)
+    if (strict && expectedModCount < modCount)
       throw new ConcurrentModificationException("Error deleting value: " + value);
     fastDelete(j);
     return true;
@@ -171,8 +172,7 @@ public class OrdArray {
   @SuppressWarnings("all")
   public int hashCode() {
     final int PRIME = 59;
-    int result = 1;
-    result = result * PRIME + java.util.Arrays.hashCode(this.a);
+    int result = PRIME + java.util.Arrays.hashCode(this.a);
     final Object $nElems = this.nElems;
     result = result * PRIME + ($nElems == null ? 43 : $nElems.hashCode());
     return result;

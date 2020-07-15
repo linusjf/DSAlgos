@@ -45,6 +45,22 @@ class OrdArrayTest {
   }
 
   @Test
+  void testConstructorParameter() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new OrdArray(-1),
+        "IllegalArgumentException expected for "
+        + -1);
+  }
+  
+  @Test
+  void testConstructorParameterZero() {
+    assertThrows(IllegalArgumentException.class,
+        () -> new OrdArray(0),
+        "IllegalArgumentException expected for "
+        + 0);
+  }
+  
+  @Test
   void testInsert() {
     OrdArray arr = insertElements();
     assertEquals(arr.count(), 10, "10 elements not inserted.");

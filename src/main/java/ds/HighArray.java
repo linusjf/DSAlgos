@@ -26,6 +26,7 @@ public class HighArray {
   }
 
   public HighArray(int max, boolean strict) {
+    if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
     a = new long[max];
     nElems = new AtomicInteger();
     this.strict = strict;
@@ -77,7 +78,7 @@ public class HighArray {
   public boolean delete(long value) {
     int expectedModCount = modCount;
     for (int j = 0; j < nElems.intValue(); j++) {
-      if (strict && expectedModCount != modCount)
+      if (strict && expectedModCount < modCount)
         throw new ConcurrentModificationException("Error deleting value: " + value);
       if (a[j] == value) {
         fastDelete(j);
@@ -95,10 +96,10 @@ public class HighArray {
   @Override
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(nElems).append(System.lineSeparator());
-    long[] newArray = a.clone();
     int length = nElems.intValue();
+    long[] newArray = a.clone();
+    StringBuilder sb = new StringBuilder();
+    sb.append("nElems = ").append(length).append(System.lineSeparator());
     for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
     return sb.toString();
   }
