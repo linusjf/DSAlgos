@@ -163,7 +163,8 @@
                 <param>ds.*</param>
               </targetClasses>
               <targetTests>
-                <param>ds.tests.*</param>
+                <param>ds.tests.HighArrayTest</param>
+                <param>ds.tests.OrdArrayTest</param>
               </targetTests>
             </configuration>
             <executions>

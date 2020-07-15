@@ -14,16 +14,11 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.junit.jupiter.api.parallel.ResourceAccessMode;
-import org.junit.jupiter.api.parallel.ResourceLock;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -32,13 +27,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
-  OrdArray array;
-
-  OrdArrayTest() {
-    array = new OrdArray(1000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 1000L).unordered();
-    nos.forEach(i -> array.insert(i));
-  }
 
   OrdArray insertElements() {
     OrdArray arr = new OrdArray(100);
@@ -304,14 +292,6 @@ class OrdArrayTest {
           ordArray.syncDelete(i);
         });
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
-  }
-
-  @Disabled
-  @RepeatedTest(1000)
-  @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
-  void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
-    int current = repetitionInfo.getCurrentRepetition();
-    if (!array.delete(current)) fail(() -> "Element " + current + " not found.");
   }
 
   /** Added tests for code coverage completeness. */
