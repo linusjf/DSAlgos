@@ -124,14 +124,20 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 33L;
     assertTrue(arr.find(searchKey), () -> searchKey + " not available");
-  }
 
-  @Test
+    @Test
   void testFindIndexOverflow() {
     HighArray arr = insertElements();
     long searchKey = 0L;
     arr.delete(0L);
     assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+  }
+  
+  @Test
+  void testFindEmpty() {
+    HighArray arr = new HighArray(10);
+    long searchKey = 0L;
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
   }
 
   @Test
