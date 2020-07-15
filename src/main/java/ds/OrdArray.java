@@ -16,6 +16,8 @@ public class OrdArray {
   private final Object lock = new Object();
   private final boolean strict;
   private int modCount;
+  private boolean sorted = true;
+  private boolean dirty;
 
   public OrdArray(int max) {
     this(max, false);
@@ -25,6 +27,14 @@ public class OrdArray {
     a = new long[max];
     nElems = new AtomicInteger();
     this.strict = strict;
+  }
+
+  private boolean checkSorted() {
+    if (nElems.intValue() <= 1) return true;
+    for (int j = 0; j < nElems.intValue(); j++) {
+      if (a[j] > a[j + 1]) return false;
+    }
+    return true;
   }
 
   public int findIndex(long searchKey) {
@@ -53,22 +63,28 @@ public class OrdArray {
    * @return index of inserted element.
    */
   public int insert(long value) {
-    int expectedCount = modCount;
-    int index = nElems.intValue();
-    if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
-    int j;
-    for (j = 0; j < nElems.intValue(); j++) {
-      if (strict && expectedCount != modCount)
-        throw new ConcurrentModificationException("Error inserting value: " + value);
-      if (a[j] > value) break;
+    if (dirty) sorted = checkSorted();
+    if (sorted) {
+      int expectedCount = modCount;
+      int index = nElems.intValue();
+      if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
+      int j;
+      for (j = 0; j < nElems.intValue(); j++) {
+        if (strict && expectedCount != modCount) {
+          dirty = true;
+          throw new ConcurrentModificationException("Error inserting value: " + value);
+        }
+        if (a[j] > value) break;
+      }
+      ++modCount;
+      for (int k = nElems.intValue(); k > j; k--) {
+        a[k] = a[k - 1];
+      }
+      a[j] = value;
+      nElems.getAndIncrement();
+      return j;
     }
-    ++modCount;
-    for (int k = nElems.intValue(); k > j; k--) {
-      a[k] = a[k - 1];
-    }
-    a[j] = value;
-    nElems.getAndIncrement();
-    return j;
+    return -1;
   }
 
   public int syncInsert(long value) {
