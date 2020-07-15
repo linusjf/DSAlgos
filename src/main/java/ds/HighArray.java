@@ -32,7 +32,8 @@ public class HighArray {
   }
 
   public int findIndex(long searchKey) {
-    for (int j = 0; j < nElems.intValue(); j++) {
+    int length = nElems.intValue();
+    for (int j = 0; j < length; j++) {
       if (a[j] == searchKey) return j;
     }
     return -1;
@@ -44,16 +45,17 @@ public class HighArray {
   }
 
   public void insert(long value) {
-    int index = nElems.intValue();
-    if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
+    int length = nElems.intValue();
+    if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     ++modCount;
     a[nElems.getAndIncrement()] = value;
   }
 
   public void clear() {
-    if (nElems.intValue() == 0) return;
+    int length = nElems.intValue();
+    if (length == 0) return;
     ++modCount;
-    Arrays.fill(a, 0L);
+    Arrays.fill(a, 0, length, 0L);
     nElems.set(0);
   }
 
@@ -96,7 +98,8 @@ public class HighArray {
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(nElems).append(System.lineSeparator());
     long[] newArray = a.clone();
-    for (int j = 0; j < nElems.intValue(); j++) sb.append(newArray[j]).append(' ');
+    int length = nElems.intValue();
+    for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
     return sb.toString();
   }
 
@@ -128,8 +131,7 @@ public class HighArray {
   @SuppressWarnings("all")
   public int hashCode() {
     final int PRIME = 59;
-    int result = 1;
-    result = result * PRIME + java.util.Arrays.hashCode(this.a);
+    int result = PRIME + java.util.Arrays.hashCode(this.a);
     final Object $nElems = this.nElems;
     result = result * PRIME + ($nElems == null ? 43 : $nElems.hashCode());
     return result;

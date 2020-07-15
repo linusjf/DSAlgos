@@ -14,6 +14,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -296,15 +297,16 @@ class OrdArrayTest {
   @Test
   void testConcurrentSyncInsertsDeletes() {
     OrdArray ordArray = new OrdArray(100);
-    LongStream nos = LongStream.rangeClosed(1L, 100L).parallel();
+    LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();
     nos.forEach(
         i -> {
-          ordArray.insert(i);
+          ordArray.syncInsert(i);
           ordArray.syncDelete(i);
         });
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 
+  @Disabled
   @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
@@ -317,8 +319,7 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void equalsContract() {
     EqualsVerifier.forClass(OrdArray.class)
-        .withIgnoredFields("modCount", "lock", "strict",
-            "sorted", "dirty")
+        .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(OrdArrayExt.class)
         .withIgnoredAnnotations(NonNull.class)
@@ -329,8 +330,7 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void leafNodeEquals() {
     EqualsVerifier.forClass(OrdArray.class)
-        .withIgnoredFields("modCount", "lock", "strict",
-            "sorted", "dirty")
+        .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
         .withRedefinedSuperclass()
         .withRedefinedSubclass(OrdArrayExt.class)
         .withIgnoredAnnotations(NonNull.class)

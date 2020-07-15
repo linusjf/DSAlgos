@@ -135,6 +135,50 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <dependencies>
+        <dependency>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest</artifactId>
+          <version>1.5.2</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+      <id>pitest</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.5.2</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>0.12</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <targetClasses>
+                <param>ds.*</param>
+              </targetClasses>
+              <targetTests>
+                <param>ds.tests.*</param>
+              </targetTests>
+            </configuration>
+            <executions>
+              <execution>
+                <id>pit-report</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -186,6 +230,12 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest</artifactId>
+        <version>1.5.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
         <version>1.7.0-M1</version>
@@ -223,6 +273,10 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
@@ -688,6 +742,11 @@
           <artifactId>properties-maven-plugin</artifactId>
           <version>${maven.properties.plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>${maven.versions.plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -775,6 +834,17 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>

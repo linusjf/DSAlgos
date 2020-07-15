@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
-// import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
@@ -206,18 +206,7 @@ class HighArrayTest {
     assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
   }
 
-  @Test
-  void testConcurrentSyncInsertsDeletes() {
-    HighArray highArray = new HighArray(100);
-    LongStream nos = LongStream.rangeClosed(1L, 100L).parallel();
-    nos.forEach(
-        i -> {
-          highArray.insert(i);
-          highArray.syncDelete(i);
-        });
-    assertEquals(0, highArray.count(), () -> "Elements not cleared");
-  }
-
+  @Disabled
   @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
