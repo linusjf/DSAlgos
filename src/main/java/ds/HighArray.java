@@ -68,7 +68,7 @@ public class HighArray {
     ++modCount;
     // move higher ones down
     int numMoved = nElems.intValue() - index - 1;
-    if (numMoved > 0) System.arraycopy(a, index + 1, a, index, numMoved);
+    System.arraycopy(a, index + 1, a, index, numMoved);
     a[nElems.decrementAndGet()] = 0;
   }
 
