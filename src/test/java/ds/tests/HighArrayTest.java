@@ -65,9 +65,9 @@ class HighArrayTest {
   @Test
   void testInsertModCount() {
     HighArray arr = new HighArray(100);
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = arr.getModCount();
     arr.insert(10L);
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = arr.getModCount();
     assertTrue(modCount < newModCount, "modcount not incremented.");
   }
 
@@ -75,9 +75,9 @@ class HighArrayTest {
   void testClearModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = arr.getModCount();
     arr.clear();
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = arr.getModCount();
     assertTrue(modCount < newModCount, "modcount not incremented.");
   }
 
@@ -183,7 +183,8 @@ class HighArrayTest {
   void testFindIndexEndTrue() {
     HighArray arr = insertElements();
     long searchKey = 33L;
-    assertTrue(arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
   }
 
   @Test
@@ -289,10 +290,13 @@ class HighArrayTest {
         i ->
             new Thread(
                     () -> {
+                      int modCount = highArray.getModCount();
                       try {
                         highArray.delete(i);
                       } catch (ConcurrentModificationException cme) {
-                        excCount.incrementAndGet();
+                        int newCount = highArray.getModCount();
+                        boolean strict = highArray.isStrict();
+                        if (strict && modCount < newCount) excCount.incrementAndGet();
                       }
                     })
                 .start());
