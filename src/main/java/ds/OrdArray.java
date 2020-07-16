@@ -36,10 +36,7 @@ public class OrdArray {
 
   private boolean checkSorted() {
     int length = nElems.intValue();
-    assert length >= 0;
-    assert length <= a.length;
-    if (length <= 1) return true;
-    for (int j = 0; j < length; j++) {
+    for (int j = 0; j < length - 1; j++) {
       if (a[j] > a[j + 1]) return false;
     }
     return true;
