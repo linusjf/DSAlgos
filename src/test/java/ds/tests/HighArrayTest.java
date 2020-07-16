@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -62,6 +63,25 @@ class HighArrayTest {
   }
 
   @Test
+  void testInsertModCount() {
+    HighArray arr = new HighArray(100);
+    int modCount = (int) on(arr).get("modCount");
+    arr.insert(10L);
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
+  void testClearModCount() {
+    HighArray arr = new HighArray(100);
+    arr.insert(10L);
+    int modCount = (int) on(arr).get("modCount");
+    arr.clear();
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     HighArray arr = insertElements();
@@ -71,10 +91,28 @@ class HighArrayTest {
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteTrue() {
+    HighArray arr = insertElements();
+    assertTrue(
+        arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+        "Elements 00, 55, 99 not found.");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     HighArray arr = insertElements();
     assertFalse(
         arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteFalse() {
+    HighArray arr = insertElements();
+    assertFalse(
+        arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
+        "Elements 12, 6, 5 found and deleted");
   }
 
   @Test

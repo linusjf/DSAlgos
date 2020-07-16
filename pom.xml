@@ -166,6 +166,11 @@
                 <param>ds.tests.HighArrayTest</param>
                 <param>ds.tests.OrdArrayTest</param>
               </targetTests>
+              <threads>10</threads>
+              <excludedMethods>display</excludedMethods>
+              <exportLineCoverage>true</exportLineCoverage>
+              <timeStampedReports>false</timeStampedReports>
+              <withHistory>true</withHistory>
             </configuration>
             <executions>
               <execution>
@@ -267,6 +272,12 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>org.jooq</groupId>
+        <artifactId>joor</artifactId>
+        <version>0.9.13</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
         <groupId>org.checkerframework</groupId>
         <artifactId>checker-qual</artifactId>
         <version>${checker.version}</version>
@@ -297,6 +308,10 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>joor</artifactId>
     </dependency>
     <dependency>
       <groupId>org.checkerframework</groupId>
