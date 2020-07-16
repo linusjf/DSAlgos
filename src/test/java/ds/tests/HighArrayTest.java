@@ -154,8 +154,7 @@ class HighArrayTest {
   void testGet() {
     HighArray arr = insertElements();
     long[] vals = arr.get();
-    assertTrue(vals != null && vals.length == 100,
-        "Null array or length incorrect");
+    assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
   }
 
   @Test
@@ -184,7 +183,7 @@ class HighArrayTest {
   void testFindIndexEndTrue() {
     HighArray arr = insertElements();
     long searchKey = 33L;
-    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+    assertTrue(arr.find(searchKey) && arr.findIndex() == 9, () -> searchKey + " not available");
   }
 
   @Test
@@ -214,7 +213,8 @@ class HighArrayTest {
   void testFindTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+    assertTrue(arr.find(searchKey) &&
+        arr.findIndex == 6, () -> searchKey + " not available");
   }
 
   @Test
