@@ -151,6 +151,14 @@ class HighArrayTest {
   }
 
   @Test
+  void testGet() {
+    HighArray arr = insertElements();
+    long[] vals = arr.get();
+    assertTrue(vals != null && vals.length == 100,
+        "Null array or length incorrect");
+  }
+
+  @Test
   void testFindIndexStartTrue() {
     HighArray arr = insertElements();
     long searchKey = 77L;
