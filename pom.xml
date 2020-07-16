@@ -171,6 +171,9 @@
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
               <withHistory>true</withHistory>
+              <avoidCallsTo>
+                <avoidCallsTo>nl.jqno.equalsverifier</avoidCallsTo>
+              </avoidCallsTo>
             </configuration>
             <executions>
               <execution>
