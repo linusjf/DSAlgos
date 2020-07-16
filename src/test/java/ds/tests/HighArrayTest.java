@@ -142,7 +142,7 @@ class HighArrayTest {
     long searchKey = 77L;
     assertEquals(0, arr.findIndex(searchKey), () -> searchKey + " not available");
   }
-  
+
   @Test
   void testDeleteStart() {
     HighArray arr = insertElements();
@@ -163,12 +163,12 @@ class HighArrayTest {
     long searchKey = 33L;
     assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
   }
-  
+
   @Test
   void testDeleteEnd() {
     HighArray arr = insertElements();
     long searchKey = 33L;
-    assertTrue(arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
   }
 
   @Test
@@ -185,7 +185,7 @@ class HighArrayTest {
     arr.delete(0L);
     assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
   }
-  
+
   @Test
   void testDeleteOverflow() {
     HighArray arr = insertElements();
