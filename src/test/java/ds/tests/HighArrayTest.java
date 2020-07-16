@@ -158,6 +158,18 @@ class HighArrayTest {
   }
 
   @Test
+  void testStrict() {
+    HighArray arr = new HighArray(10);
+    assertFalse(arr.isStrict(), "Strict is true!");
+  }
+
+  @Test
+  void testStrictTrue() {
+    HighArray arr = new HighArray(10, true);
+    assertTrue(arr.isStrict(), "Strict is false!");
+  }
+
+  @Test
   void testFindIndexStartTrue() {
     HighArray arr = insertElements();
     long searchKey = 77L;
@@ -222,7 +234,13 @@ class HighArrayTest {
   void testClear() {
     HighArray arr = insertElements();
     arr.clear();
-    // for code coverage
+    long[] copy = new long[100];
+    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
+  }
+
+  @Test
+  void testClearEmpty() {
+    HighArray arr = new HighArray(100);
     arr.clear();
     long[] copy = new long[100];
     assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
