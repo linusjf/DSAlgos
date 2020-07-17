@@ -41,13 +41,19 @@ class HighArrayTest {
   }
 
   @Test
-  void testConstructorParameter() {
+  void testConstructorParameterNegative() {
     IllegalArgumentException iae =
         assertThrows(
             IllegalArgumentException.class,
             () -> new HighArray(-1),
             "IllegalArgumentException expected for " + -1);
     assertTrue(iae.getMessage().contains("-1"), "Parameter -1 expected");
+  }
+
+  @Test
+  void testConstructorParameterOK() {
+    HighArray arr = new HighArray(10);
+    assertEquals(10, arr.get().length, "Length 10 expected");
   }
 
   @Test
@@ -281,6 +287,15 @@ class HighArrayTest {
     arr.insert(44L);
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(3).append(System.lineSeparator()).append("77 99 44 ");
+    assertEquals(arr.toString(), sb.toString(), "Strings not equal.");
+  }
+
+  @Test
+  void testToStringEmpty() {
+    HighArray arr = insertElements();
+    arr.clear();
+    StringBuilder sb = new StringBuilder();
+    sb.append("nElems = ").append(3).append(System.lineSeparator());
     assertEquals(arr.toString(), sb.toString(), "Strings not equal.");
   }
 

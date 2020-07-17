@@ -46,13 +46,19 @@ class OrdArrayTest {
   }
 
   @Test
-  void testConstructorParameter() {
+  void testConstructorParameterNegative() {
     IllegalArgumentException iae =
         assertThrows(
             IllegalArgumentException.class,
             () -> new OrdArray(-1),
             "IllegalArgumentException expected for " + -1);
     assertTrue(iae.getMessage().contains("-1"), "Parameter -1 expected");
+  }
+
+  @Test
+  void testConstructorParameterOK() {
+    OrdArray arr = new OrdArray(10);
+    assertEquals(10, arr.get().length, "Length 10 expected");
   }
 
   @Test
@@ -212,6 +218,15 @@ class OrdArrayTest {
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(3).append(System.lineSeparator()).append("44 77 99 ");
     assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
+  }
+
+  @Test
+  void testToStringEmpty() {
+    OrdArray arr = insertElements();
+    arr.clear();
+    StringBuilder sb = new StringBuilder();
+    sb.append("nElems = ").append(3).append(System.lineSeparator());
+    assertEquals(arr.toString(), sb.toString(), "Strings not equal.");
   }
 
   @Test
