@@ -47,8 +47,7 @@ class HighArrayTest {
             IllegalArgumentException.class,
             () -> new HighArray(-1),
             "IllegalArgumentException expected for " + -1);
-    String msg = iae.getMessage() == null?
-      "":iae.getMessage();
+    String msg = iae.getMessage() == null ? "" : iae.getMessage();
     assertTrue(msg.contains("-1"), "Parameter -1 expected");
   }
 
@@ -65,8 +64,7 @@ class HighArrayTest {
             IllegalArgumentException.class,
             () -> new HighArray(0),
             "IllegalArgumentException expected for " + 0);
-    String msg = iae.getMessage() == null?
-      "":iae.getMessage();
+    String msg = iae.getMessage() == null ? "" : iae.getMessage();
     assertTrue(msg.contains("0"), "Parameter 0 expected");
   }
 
@@ -291,9 +289,7 @@ class HighArrayTest {
     arr.insert(44L);
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(3).append(System.lineSeparator()).append("77 99 44 ");
-    assertEquals(sb.toString(),
-        arr.toString(), 
-        "Strings not equal.");
+    assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 
   @Test
@@ -302,9 +298,7 @@ class HighArrayTest {
     arr.clear();
     StringBuilder sb = new StringBuilder();
     sb.append("nElems = ").append(0).append(System.lineSeparator());
-    assertEquals(sb.toString(),
-        arr.toString(),
-        "Strings not equal.");
+    assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 
   @Test
