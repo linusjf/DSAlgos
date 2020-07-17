@@ -42,18 +42,22 @@ class HighArrayTest {
 
   @Test
   void testConstructorParameter() {
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> new HighArray(-1),
-        "IllegalArgumentException expected for " + -1);
+    IllegalArgumentException iae =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new HighArray(-1),
+            "IllegalArgumentException expected for " + -1);
+    assertTrue(iae.getMessage().contains("-1"), "Parameter -1 expected");
   }
 
   @Test
   void testConstructorParameterZero() {
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> new HighArray(0),
-        "IllegalArgumentException expected for " + 0);
+    IllegalArgumentException iae =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new HighArray(0),
+            "IllegalArgumentException expected for " + 0);
+    assertTrue(iae.getMessage().contains("0"), "Parameter 0 expected");
   }
 
   @Test
@@ -86,7 +90,13 @@ class HighArrayTest {
   void testDeleteTrue() {
     HighArray arr = insertElements();
     assertTrue(
-        arr.delete(00L) && arr.delete(55L) && arr.delete(99L), "Elements 00, 55, 99 not found.");
+        arr.delete(00L)
+            && arr.delete(55L)
+            && arr.delete(99L)
+            && !arr.find(00L)
+            && !arr.find(55L)
+            && !arr.find(99L),
+        "Elements 00, 55, 99 not found.");
   }
 
   @Test
@@ -94,7 +104,12 @@ class HighArrayTest {
   void testSyncDeleteTrue() {
     HighArray arr = insertElements();
     assertTrue(
-        arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+        arr.syncDelete(00L)
+            && arr.syncDelete(55L)
+            && arr.syncDelete(99L)
+            && !arr.find(00L)
+            && !arr.find(55L)
+            && !arr.find(99L),
         "Elements 00, 55, 99 not found.");
   }
 
@@ -103,7 +118,13 @@ class HighArrayTest {
   void testDeleteFalse() {
     HighArray arr = insertElements();
     assertFalse(
-        arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
+        arr.delete(12L)
+            || arr.delete(6L)
+            || arr.delete(5L)
+            || arr.find(12L)
+            || arr.find(6L)
+            || arr.find(5L),
+        "Elements 12, 6, 5 found and deleted");
   }
 
   @Test
@@ -111,7 +132,12 @@ class HighArrayTest {
   void testSyncDeleteFalse() {
     HighArray arr = insertElements();
     assertFalse(
-        arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
+        arr.syncDelete(12L)
+            || arr.syncDelete(6L)
+            || arr.syncDelete(5L)
+            || arr.find(12L)
+            || arr.find(6L)
+            || arr.find(5L),
         "Elements 12, 6, 5 found and deleted");
   }
 

@@ -47,18 +47,22 @@ class OrdArrayTest {
 
   @Test
   void testConstructorParameter() {
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> new OrdArray(-1),
-        "IllegalArgumentException expected for " + -1);
+    IllegalArgumentException iae =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new OrdArray(-1),
+            "IllegalArgumentException expected for " + -1);
+    assertTrue(iae.getMessage().contains("-1"), "Parameter -1 expected");
   }
 
   @Test
   void testConstructorParameterZero() {
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> new OrdArray(0),
-        "IllegalArgumentException expected for " + 0);
+    IllegalArgumentException iae =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new OrdArray(0),
+            "IllegalArgumentException expected for " + 0);
+    assertTrue(iae.getMessage().contains("0"), "Parameter 0 expected");
   }
 
   @Test
@@ -84,6 +88,25 @@ class OrdArrayTest {
     arr.clear();
     int newModCount = arr.getModCount();
     assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
+  void testGet() {
+    OrdArray arr = insertElements();
+    long[] vals = arr.get();
+    assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
+  }
+
+  @Test
+  void testStrict() {
+    OrdArray arr = new OrdArray(10);
+    assertFalse(arr.isStrict(), "Strict is true!");
+  }
+
+  @Test
+  void testStrictTrue() {
+    OrdArray arr = new OrdArray(10, true);
+    assertTrue(arr.isStrict(), "Strict is false!");
   }
 
   @Test
@@ -167,7 +190,13 @@ class OrdArrayTest {
   void testClear() {
     OrdArray arr = insertElements();
     arr.clear();
-    // for code coverage
+    long[] copy = new long[100];
+    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
+  }
+
+  @Test
+  void testClearEmpty() {
+    OrdArray arr = new OrdArray(100);
     arr.clear();
     long[] copy = new long[100];
     assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
