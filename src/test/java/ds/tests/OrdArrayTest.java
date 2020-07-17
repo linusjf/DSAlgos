@@ -68,6 +68,25 @@ class OrdArrayTest {
   }
 
   @Test
+  void testInsertModCount() {
+    OrdArray arr = new OrdArray(100);
+    int modCount = arr.getModCount();
+    arr.insert(10L);
+    int newModCount = arr.getModCount();
+    assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
+  void testClearModCount() {
+    OrdArray arr = new OrdArray(100);
+    arr.insert(10L);
+    int modCount = arr.getModCount();
+    arr.clear();
+    int newModCount = arr.getModCount();
+    assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     OrdArray arr = insertElements();
@@ -77,10 +96,28 @@ class OrdArrayTest {
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteTrue() {
+    OrdArray arr = insertElements();
+    assertTrue(
+        arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+        "Elements 00, 55, 99 not found.");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     OrdArray arr = insertElements();
     assertFalse(
         arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteFalse() {
+    OrdArray arr = insertElements();
+    assertFalse(
+        arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
+        "Elements 12, 6, 5 found and deleted");
   }
 
   @Test
