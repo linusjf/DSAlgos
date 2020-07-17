@@ -225,8 +225,8 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     arr.clear();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(3).append(System.lineSeparator());
-    assertEquals(arr.toString(), sb.toString(), "Strings not equal.");
+    sb.append("nElems = ").append(0).append(System.lineSeparator());
+    assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 
   @Test
