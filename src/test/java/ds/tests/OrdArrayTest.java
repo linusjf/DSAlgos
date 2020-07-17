@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -69,6 +70,41 @@ class OrdArrayTest {
             () -> new OrdArray(0),
             "IllegalArgumentException expected for " + 0);
     assertTrue(iae.getMessage().contains("0"), "Parameter 0 expected");
+  }
+
+  @Test
+  void testInsertOnDirty() {
+    OrdArray arr = insertElements();
+    on(arr).set("dirty", true);
+    arr.insert(10L);
+    assertEquals(arr.count(), 11, "11 elements expected.");
+  }
+
+  @Test
+  void testInsertOnDirtyEmpty() {
+    OrdArray arr = new OrdArray(10);
+    on(arr).set("dirty", true);
+    arr.insert(10L);
+    assertEquals(arr.count(), 1, "1 element expected.");
+  }
+
+  @Test
+  void testInsertOnDirtyFull() {
+    OrdArray arr = new OrdArray(10);
+    // insert 10 items
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
+    arr.insert(55L);
+    arr.insert(22L);
+    arr.insert(88L);
+    arr.insert(11L);
+    arr.insert(00L);
+    arr.insert(66L);
+    arr.insert(33L);
+    on(arr).set("dirty", true);
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
   }
 
   @Test
