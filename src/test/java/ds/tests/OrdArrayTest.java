@@ -31,7 +31,6 @@ class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
   static {
-
   }
 
   OrdArray insertElements() {

@@ -171,6 +171,9 @@
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
               <withHistory>true</withHistory>
+              <jvmargs>
+                <jvmarg>-Djava.util.logging.config.file=logging-test.properties</jvmarg>
+              </jvmargs>
             </configuration>
             <executions>
               <execution>
@@ -262,7 +265,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
