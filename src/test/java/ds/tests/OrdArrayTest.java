@@ -46,6 +46,32 @@ class OrdArrayTest {
     return arr;
   }
 
+  OrdArray insertDuplicateElements() {
+    OrdArray arr = new OrdArray(100);
+    // insert 20 items
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
+    arr.insert(55L);
+    arr.insert(22L);
+    arr.insert(22L);
+    arr.insert(88L);
+    arr.insert(88L);
+    arr.insert(11L);
+    arr.insert(11L);
+    arr.insert(11L);
+    arr.insert(00L);
+    arr.insert(00L);
+    arr.insert(00L);
+    arr.insert(00L);
+    arr.insert(66L);
+    arr.insert(33L);
+    arr.insert(33L);
+    return arr;
+  }
+
   @Test
   void testConstructorParameterNegative() {
     IllegalArgumentException iae =
@@ -111,6 +137,27 @@ class OrdArrayTest {
   void testInsert() {
     OrdArray arr = insertElements();
     assertEquals(arr.count(), 10, "10 elements not inserted.");
+  }
+
+  @Test
+  void testInsertSorted() {
+    OrdArray arr = insertElements();
+    long[] unsorted = new long[100];
+    unsorted[0] = 43L;
+    unsorted[1] = 61L;
+    unsorted[2] = 2L;
+    unsorted[3] = 9L;
+    unsorted[4] = 25L;
+    unsorted[5] = 47L;
+    unsorted[6] = 87L;
+    unsorted[7] = 12L;
+    unsorted[8] = 21L;
+    unsorted[9] = 10L;
+    on(arr).set("a", unsorted);
+    on(arr).set("dirty", true);
+    int res = arr.insert(99L);
+    boolean sorted = (boolean) on(arr).get("sorted");
+    assertTrue(res == -1 && !sorted, "Insert must fail on unsorted");
   }
 
   @Test
@@ -215,6 +262,22 @@ class OrdArrayTest {
   }
 
   @Test
+  void testFindIndexStartTrue() {
+    OrdArray arr = insertElements();
+    long searchKey = 0L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEndTrue() {
+    OrdArray arr = insertElements();
+    long searchKey = 99L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
+  }
+
+  @Test
   void testFindIndexEnd() {
     OrdArray arr = insertElements();
     long searchKey = 99L;
@@ -226,6 +289,36 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 11L;
     assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testDeleteStart() {
+    OrdArray arr = insertElements();
+    long searchKey = 00L;
+    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexOverflow() {
+    OrdArray arr = insertElements();
+    long searchKey = 0L;
+    arr.delete(searchKey);
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+  }
+
+  @Test
+  void testDeleteOverflow() {
+    OrdArray arr = insertElements();
+    long searchKey = 0L;
+    arr.delete(searchKey);
+    assertFalse(arr.delete(searchKey), () -> searchKey + " still available");
+  }
+
+  @Test
+  void testFindEmpty() {
+    OrdArray arr = new OrdArray(10);
+    long searchKey = 0L;
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
   }
 
   @Test
