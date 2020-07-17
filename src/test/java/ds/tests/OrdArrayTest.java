@@ -30,6 +30,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
+  static {
+
+  }
+
   OrdArray insertElements() {
     OrdArray arr = new OrdArray(100);
     // insert 10 items
@@ -158,6 +162,27 @@ class OrdArrayTest {
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
     assertTrue(res == -1 && !sorted, "Insert must fail on unsorted");
+  }
+
+  @Test
+  void testInsertAllSameSorted() {
+    OrdArray arr = insertElements();
+    long[] unsorted = new long[100];
+    unsorted[0] = 43L;
+    unsorted[1] = 43L;
+    unsorted[2] = 43L;
+    unsorted[3] = 43L;
+    unsorted[4] = 43L;
+    unsorted[5] = 43L;
+    unsorted[6] = 43L;
+    unsorted[7] = 43L;
+    unsorted[8] = 43L;
+    unsorted[9] = 43L;
+    on(arr).set("a", unsorted);
+    on(arr).set("dirty", true);
+    int res = arr.insert(99L);
+    boolean sorted = (boolean) on(arr).get("sorted");
+    assertTrue(res == 10 && sorted, "Insert must succeed.");
   }
 
   @Test
