@@ -79,10 +79,10 @@ public class OrdArray {
     if (dirty) sorted = checkSorted();
     if (sorted) {
       int expectedCount = modCount;
-      int index = nElems.intValue();
-      if (index == a.length) throw new ArrayIndexOutOfBoundsException(index);
+      int count = nElems.intValue();
+      if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
       int j;
-      for (j = 0; j < nElems.intValue(); j++) {
+      for (j = 0; j < count; j++) {
         if (strict && expectedCount < modCount) {
           dirty = true;
           throw new ConcurrentModificationException("Error inserting value: " + value);
@@ -90,11 +90,10 @@ public class OrdArray {
         if (a[j] > value) break;
       }
       ++modCount;
-      for (int k = nElems.intValue(); k > j; k--) {
-        a[k] = a[k - 1];
-      }
-      a[j] = value;
+      int numMoved = count - j;
+      System.arraycopy(a, j, a, j + 1, numMoved);
       nElems.getAndIncrement();
+      a[j] = value;
       return j;
     }
     return -1;
@@ -114,11 +113,15 @@ public class OrdArray {
   }
 
   private void fastDelete(int index) {
-    ++modCount;
-    // move higher ones down
-    int numMoved = nElems.intValue() - index - 1;
-    System.arraycopy(a, index + 1, a, index, numMoved);
-    a[nElems.decrementAndGet()] = 0;
+    try {
+      ++modCount;
+      // move higher ones down
+      int numMoved = nElems.intValue() - index - 1;
+      System.arraycopy(a, index + 1, a, index, numMoved);
+      a[nElems.decrementAndGet()] = 0;
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new ConcurrentModificationException(e);
+    }
   }
 
   public boolean syncDelete(long value) {

@@ -83,6 +83,15 @@ class HighArrayTest {
   }
 
   @Test
+  void testInsertModCountAgain() {
+    HighArray arr = new HighArray(100);
+    int modCount = arr.getModCount();
+    arr.insert(10L);
+    int newModCount = arr.getModCount();
+    assertFalse(modCount >= newModCount, "modcount incremented.");
+  }
+
+  @Test
   void testClearModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
@@ -167,6 +176,16 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 11L;
     assertEquals(6, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 11L;
+    assertEquals(
+        true,
+        arr.find(searchKey) && arr.findIndex(searchKey) == 6,
+        () -> searchKey + " not available");
   }
 
   @Test

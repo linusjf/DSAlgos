@@ -178,6 +178,7 @@ class OrdArrayTest {
     unsorted[8] = 43L;
     unsorted[9] = 43L;
     on(arr).set("a", unsorted);
+    on(arr).set("sorted", false);
     on(arr).set("dirty", true);
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
