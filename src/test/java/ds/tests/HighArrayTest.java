@@ -5,10 +5,7 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
-import java.util.stream.LongStream;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
@@ -196,6 +193,67 @@ class HighArrayTest {
   }
 
   @Test
+  void testFindIndexStartTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 77L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEnd() {
+    HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexEndTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindIndexOverflow() {
+    HighArray arr = insertElements();
+    long searchKey = 0L;
+    arr.delete(0L);
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+  }
+
+  @Test
+  void testFindEmpty() {
+    HighArray arr = new HighArray(10);
+    long searchKey = 0L;
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
+  }
+
+  @Test
+  void testFindTrue() {
+    HighArray arr = insertElements();
+    long searchKey = 11L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 6, () -> searchKey + " not available");
+  }
+
+  @Test
+  void testDeleteEnd() {
+    HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testDeleteOverflow() {
+    HighArray arr = insertElements();
+    long searchKey = 0L;
+    arr.delete(0L);
+    assertFalse(arr.delete(searchKey), () -> searchKey + " still available");
+  }
+
+  @Test
   void testDeleteStart() {
     HighArray arr = insertElements();
     long searchKey = 77L;
@@ -219,67 +277,6 @@ class HighArrayTest {
   void testStrictTrue() {
     HighArray arr = new HighArray(10, true);
     assertTrue(arr.isStrict(), "Strict is false!");
-  }
-
-  @Test
-  void testFindIndexStartTrue() {
-    HighArray arr = insertElements();
-    long searchKey = 77L;
-    assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> searchKey + " not available");
-  }
-
-  @Test
-  void testFindIndexEnd() {
-    HighArray arr = insertElements();
-    long searchKey = 33L;
-    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
-  }
-
-  @Test
-  void testDeleteEnd() {
-    HighArray arr = insertElements();
-    long searchKey = 33L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
-  }
-
-  @Test
-  void testFindIndexEndTrue() {
-    HighArray arr = insertElements();
-    long searchKey = 33L;
-    assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
-  }
-
-  @Test
-  void testFindIndexOverflow() {
-    HighArray arr = insertElements();
-    long searchKey = 0L;
-    arr.delete(0L);
-    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
-  }
-
-  @Test
-  void testDeleteOverflow() {
-    HighArray arr = insertElements();
-    long searchKey = 0L;
-    arr.delete(0L);
-    assertFalse(arr.delete(searchKey), () -> searchKey + " still available");
-  }
-
-  @Test
-  void testFindEmpty() {
-    HighArray arr = new HighArray(10);
-    long searchKey = 0L;
-    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
-  }
-
-  @Test
-  void testFindTrue() {
-    HighArray arr = insertElements();
-    long searchKey = 11L;
-    assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 6, () -> searchKey + " not available");
   }
 
   @Test
@@ -348,63 +345,6 @@ class HighArrayTest {
         () -> {
           highArray.insert(45L);
         });
-  }
-
-  @Test
-  void testConcurrentInserts() {
-    HighArray highArray = new HighArray(10_000);
-    LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
-    assertEquals(
-        10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
-  }
-
-  @Test
-  void testConcurrentDeletes() {
-    AtomicInteger excCount = new AtomicInteger();
-    HighArray highArray = new HighArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(i -> highArray.insert(i));
-    LongStream nosParallel = LongStream.rangeClosed(1L, 10_000L).parallel();
-    nosParallel.forEach(
-        i ->
-            new Thread(
-                    () -> {
-                      int modCount = highArray.getModCount();
-                      try {
-                        highArray.delete(i);
-                      } catch (ConcurrentModificationException cme) {
-                        int newCount = highArray.getModCount();
-                        boolean strict = highArray.isStrict();
-                        if (strict && modCount < newCount) excCount.incrementAndGet();
-                      }
-                    })
-                .start());
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
-  }
-
-  @Test
-  void testSequentialDeletes() {
-    HighArray highArray = new HighArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(
-        i -> {
-          highArray.insert(i);
-          highArray.delete(i);
-        });
-    assertEquals(
-        0, highArray.count(), () -> "10,000 elements not deleted: " + highArray.toString());
-  }
-
-  @Test
-  void testConcurrentSyncDeletes() {
-    HighArray highArray = new HighArray(100);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(
-        i -> {
-          highArray.insert(i);
-          highArray.syncDelete(i);
-        });
-    assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
   }
 
   /** Added tests for code coverage completeness. */
