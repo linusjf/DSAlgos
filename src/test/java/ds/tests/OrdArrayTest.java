@@ -240,6 +240,18 @@ class OrdArrayTest {
   }
 
   @Test
+  void testCountZero() {
+    OrdArray arr = new OrdArray(10, true);
+    assertEquals(0, arr.count(), "Count must be zero!");
+  }
+
+  @Test
+  void testCountPositive() {
+    OrdArray arr = insertElements();
+    assertEquals(10, arr.count(), "Count must be 10!");
+  }
+
+  @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     OrdArray arr = insertElements();
@@ -258,6 +270,13 @@ class OrdArrayTest {
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteTrueIndividual() {
+    OrdArray arr = insertElements();
+    assertTrue(arr.syncDelete(00L), "Element 0 not found.");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     OrdArray arr = insertElements();
     assertFalse(
@@ -271,6 +290,13 @@ class OrdArrayTest {
     assertFalse(
         arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
         "Elements 12, 6, 5 found and deleted");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteFalseIndividual() {
+    OrdArray arr = insertElements();
+    assertFalse(arr.syncDelete(12L), "Elements 12 found and deleted");
   }
 
   @Test
