@@ -128,6 +128,13 @@ class HighArrayTest {
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteTrueIndividual() {
+    HighArray arr = insertElements();
+    assertTrue(arr.syncDelete(00L), "Element 0 not found.");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     HighArray arr = insertElements();
     assertFalse(
@@ -138,6 +145,13 @@ class HighArrayTest {
             || arr.find(6L)
             || arr.find(5L),
         "Elements 12, 6, 5 found and deleted");
+  }
+
+  @Test
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  void testSyncDeleteFalseIndividual() {
+    HighArray arr = insertElements();
+    assertFalse(arr.syncDelete(12L), "Elements 12 found and deleted");
   }
 
   @Test
@@ -277,6 +291,18 @@ class HighArrayTest {
   void testStrictTrue() {
     HighArray arr = new HighArray(10, true);
     assertTrue(arr.isStrict(), "Strict is false!");
+  }
+
+  @Test
+  void testCountZero() {
+    HighArray arr = new HighArray(10, true);
+    assertEquals(0, arr.count(), "Count must be zero!");
+  }
+
+  @Test
+  void testCountPositive() {
+    HighArray arr = insertElements();
+    assertEquals(10, arr.count(), "Count must be 10!");
   }
 
   @Test
