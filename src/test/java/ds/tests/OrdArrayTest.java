@@ -40,9 +40,23 @@ class OrdArrayTest {
     return arr;
   }
 
-  OrdArray insertDuplicateElements() {
+  @Test
+  void insertDuplicate() {
+    OrdArray arr = insertElements();
+    assertEquals(7, arr.insert(66L), "7 elements expected");
+  }
+
+  @Test
+  void insertSyncDuplicate() {
+    OrdArray arr = insertElements();
+    assertEquals(7, arr.syncInsert(66L), "7 elements expected");
+  }
+
+  @Test
+  void insertDuplicateElements() {
     OrdArray arr = new OrdArray(100);
-    // insert 20 items
+    // insert 21 items
+    arr.insert(77L);
     arr.insert(77L);
     arr.insert(99L);
     arr.insert(77L);
@@ -63,7 +77,7 @@ class OrdArrayTest {
     arr.insert(66L);
     arr.insert(33L);
     arr.insert(33L);
-    return arr;
+    assertEquals(21, arr.count(), "21 elements expected");
   }
 
   @Test
@@ -73,8 +87,7 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(-1),
             "IllegalArgumentException expected for " + -1);
-    String msg = iae.getMessage() == null?
-      "": iae.getMessage();
+    String msg = iae.getMessage() == null ? "" : iae.getMessage();
     assertTrue(msg.contains("-1"), "Parameter -1 expected");
   }
 
@@ -91,8 +104,7 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(0),
             "IllegalArgumentException expected for " + 0);
-    String msg = iae.getMessage() == null?
-      "": iae.getMessage();
+    String msg = iae.getMessage() == null ? "" : iae.getMessage();
     assertTrue(msg.contains("0"), "Parameter 0 expected");
   }
 
@@ -185,6 +197,15 @@ class OrdArrayTest {
     OrdArray arr = new OrdArray(100);
     int modCount = arr.getModCount();
     arr.insert(10L);
+    int newModCount = arr.getModCount();
+    assertTrue(modCount < newModCount, "modcount not incremented.");
+  }
+
+  @Test
+  void testDeleteModCount() {
+    OrdArray arr = insertElements();
+    int modCount = arr.getModCount();
+    arr.delete(11L);
     int newModCount = arr.getModCount();
     assertTrue(modCount < newModCount, "modcount not incremented.");
   }

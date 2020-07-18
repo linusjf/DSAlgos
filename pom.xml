@@ -177,7 +177,7 @@
               <failWhenNoMutations>false</failWhenNoMutations>
               <detectInlinedCode>true</detectInlinedCode>
               <mutationThreshold>90</mutationThreshold>
-              <coverageThreshold>100</coverageThreshold>
+              <coverageThreshold>90</coverageThreshold>
             </configuration>
             <executions>
               <execution>
