@@ -176,8 +176,8 @@
               </jvmargs>
               <failWhenNoMutations>false</failWhenNoMutations>
               <detectInlinedCode>true</detectInlinedCode>
-              <mutationThreshold>0.9</mutationThreshold>
-              <coverageThreshold>1.0</coverageThreshold>
+              <mutationThreshold>90</mutationThreshold>
+              <coverageThreshold>100</coverageThreshold>
             </configuration>
             <executions>
               <execution>

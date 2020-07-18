@@ -73,7 +73,9 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(-1),
             "IllegalArgumentException expected for " + -1);
-    assertTrue(iae.getMessage().contains("-1"), "Parameter -1 expected");
+    String msg = iae.getMessage() == null?
+      "": iae.getMessage();
+    assertTrue(msg.contains("-1"), "Parameter -1 expected");
   }
 
   @Test
@@ -89,7 +91,9 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(0),
             "IllegalArgumentException expected for " + 0);
-    assertTrue(iae.getMessage().contains("0"), "Parameter 0 expected");
+    String msg = iae.getMessage() == null?
+      "": iae.getMessage();
+    assertTrue(msg.contains("0"), "Parameter 0 expected");
   }
 
   @Test
