@@ -41,6 +41,22 @@ class OrdArrayTest {
     return arr;
   }
 
+  OrdArray insertSequentialElements() {
+    OrdArray arr = new OrdArray(100);
+    // insert 10 items
+    arr.insert(11L);
+    arr.insert(12L);
+    arr.insert(13L);
+    arr.insert(14L);
+    arr.insert(15L);
+    arr.insert(16L);
+    arr.insert(17L);
+    arr.insert(18L);
+    arr.insert(19L);
+    arr.insert(20L);
+    return arr;
+  }
+
   private void insertElements(OrdArray arr) {
     // insert 10 items
     arr.insert(77L);
@@ -380,6 +396,22 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 11L;
     assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindSeqBefore() {
+    OrdArray arr = insertSequentialElements();
+    long searchKey = 14L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 3, () -> searchKey + " not available");
+  }
+
+  @Test
+  void testFindSeqAfter() {
+    OrdArray arr = insertSequentialElements();
+    long searchKey = 16L;
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 5, () -> searchKey + " not available");
   }
 
   @Test

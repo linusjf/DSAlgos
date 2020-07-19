@@ -65,7 +65,7 @@ public class OrdArray {
 
   // -----------------------------------------------------------
   public boolean find(long searchKey) {
-    return findIndex(searchKey, nElems.intValue()) >= 0;
+    return findIndex(searchKey) >= 0;
   }
 
   /**
