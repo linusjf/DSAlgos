@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import ds.OrdArray;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -101,8 +102,9 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(-1),
             "IllegalArgumentException expected for " + -1);
-    String msg = iae.getMessage() == null ? "" : iae.getMessage();
-    assertTrue(msg.contains("-1"), "Parameter -1 expected");
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
+    String val = msg.orElse("");
+    assertTrue(val.contains("-1"), "Parameter -1 expected");
   }
 
   @Test
@@ -118,8 +120,9 @@ class OrdArrayTest {
             IllegalArgumentException.class,
             () -> new OrdArray(0),
             "IllegalArgumentException expected for " + 0);
-    String msg = iae.getMessage() == null ? "" : iae.getMessage();
-    assertTrue(msg.contains("0"), "Parameter 0 expected");
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
+    String val = msg.orElse("");
+    assertTrue(val.contains("0"), "Parameter 0 expected");
   }
 
   @Test

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -58,8 +59,9 @@ class HighArrayTest {
             IllegalArgumentException.class,
             () -> new HighArray(-1),
             "IllegalArgumentException expected for " + -1);
-    String msg = iae.getMessage() == null ? "" : iae.getMessage();
-    assertTrue(msg.contains("-1"), "Parameter -1 expected");
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
+    String val = msg.orElse("");
+    assertTrue(val.contains("-1"), "Parameter -1 expected");
   }
 
   @Test
@@ -75,8 +77,9 @@ class HighArrayTest {
             IllegalArgumentException.class,
             () -> new HighArray(0),
             "IllegalArgumentException expected for " + 0);
-    String msg = iae.getMessage() == null ? "" : iae.getMessage();
-    assertTrue(msg.contains("0"), "Parameter 0 expected");
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
+    String val = msg.orElse("");
+    assertTrue(val.contains("0"), "Parameter 0 expected");
   }
 
   @Test

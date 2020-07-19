@@ -147,10 +147,11 @@ public class OrdArray {
   @Override
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public String toString() {
+    int length = nElems.intValue();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(nElems).append(System.lineSeparator());
+    sb.append("nElems = ").append(length).append(System.lineSeparator());
     long[] newArray = a.clone();
-    for (int j = 0; j < nElems.intValue(); j++) sb.append(newArray[j]).append(' ');
+    for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
     return sb.toString();
   }
 
