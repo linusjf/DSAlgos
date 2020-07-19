@@ -170,7 +170,7 @@
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
-              <withHistory>true</withHistory>
+              <withHistory>false</withHistory>
               <jvmargs>
                 <jvmarg>-Djava.util.logging.config.file=logging-test.properties</jvmarg>
               </jvmargs>

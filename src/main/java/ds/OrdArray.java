@@ -42,12 +42,15 @@ public class OrdArray {
     return a.clone();
   }
 
-  private boolean checkSorted() {
+  private void checkSorted() {
     int length = nElems.intValue();
     for (int j = 0; j < length - 1; j++) {
-      if (a[j] > a[j + 1]) return false;
+      if (a[j] > a[j + 1]) {
+        sorted = false;
+        return;
+      }
     }
-    return true;
+    sorted = true;
   }
 
   public int findIndex(long searchKey) {
@@ -76,7 +79,9 @@ public class OrdArray {
    * @return index of inserted element.
    */
   public int insert(long value) {
-    if (dirty) sorted = checkSorted();
+    int length = nElems.intValue();
+    if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
+    if (dirty) checkSorted();
     if (sorted) {
       int expectedCount = modCount;
       int count = nElems.intValue();
@@ -120,6 +125,7 @@ public class OrdArray {
       System.arraycopy(a, index + 1, a, index, numMoved);
       a[nElems.decrementAndGet()] = 0;
     } catch (ArrayIndexOutOfBoundsException e) {
+      dirty = true;
       throw new ConcurrentModificationException(e);
     }
   }

@@ -36,6 +36,20 @@ class HighArrayTest {
     return arr;
   }
 
+  private void insertElements(HighArray arr) {
+    // insert 10 items
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
+    arr.insert(55L);
+    arr.insert(22L);
+    arr.insert(88L);
+    arr.insert(11L);
+    arr.insert(00L);
+    arr.insert(66L);
+    arr.insert(33L);
+  }
+
   @Test
   void testConstructorParameterNegative() {
     IllegalArgumentException iae =
@@ -255,6 +269,14 @@ class HighArrayTest {
   @Test
   void testDeleteEnd() {
     HighArray arr = insertElements();
+    long searchKey = 33L;
+    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+  }
+
+  @Test
+  void testDeleteEndArray() {
+    HighArray arr = new HighArray(10);
+    insertElements(arr);
     long searchKey = 33L;
     assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
   }
