@@ -58,13 +58,13 @@ class OrdArrayTest {
   @Test
   void insertDuplicate() {
     OrdArray arr = insertElements();
-    assertEquals(7, arr.insert(66L), "7 elements expected");
+    assertEquals(6, arr.insert(66L), "Index 6  expected");
   }
 
   @Test
   void insertSyncDuplicate() {
     OrdArray arr = insertElements();
-    assertEquals(7, arr.syncInsert(66L), "7 elements expected");
+    assertEquals(6, arr.syncInsert(66L), "7 elements expected");
   }
 
   @Test
@@ -412,9 +412,11 @@ class OrdArrayTest {
   @Test
   void testClear() {
     OrdArray arr = insertElements();
+    int origCount = arr.count();
     arr.clear();
-    long[] copy = new long[100];
-    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
+    long[] copy = new long[origCount];
+    long[] origTrunc = Arrays.copyOf(arr.get(), origCount);
+    assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array not cleared");
   }
 
   @Test

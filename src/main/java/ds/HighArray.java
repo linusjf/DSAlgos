@@ -64,10 +64,10 @@ public class HighArray {
     nElems.set(0);
   }
 
-  private void fastDelete(int index) {
+  private void fastDelete(int index, int length) {
     ++modCount;
     // move higher ones down
-    int numMoved = nElems.intValue() - index - 1;
+    int numMoved = length - index - 1;
     System.arraycopy(a, index + 1, a, index, numMoved);
     a[nElems.decrementAndGet()] = 0;
   }
@@ -80,12 +80,13 @@ public class HighArray {
 
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public boolean delete(long value) {
+    int length = nElems.intValue();
     int expectedModCount = modCount;
-    for (int j = 0; j < nElems.intValue(); j++) {
+    for (int j = 0; j < length; j++) {
       if (strict && expectedModCount < modCount)
         throw new ConcurrentModificationException("Error deleting value: " + value);
       if (a[j] == value) {
-        fastDelete(j);
+        fastDelete(j, length);
         return true;
       }
     }

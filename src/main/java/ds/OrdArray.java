@@ -46,8 +46,12 @@ public class OrdArray {
   }
 
   public int findIndex(long searchKey) {
+    return findIndex(searchKey, nElems.intValue());
+  }
+
+  private int findIndex(long searchKey, int length) {
     int lowerBound = 0;
-    int upperBound = nElems.intValue() - 1;
+    int upperBound = length - 1;
     while (lowerBound <= upperBound) {
       int mid = (lowerBound + upperBound) >>> 1;
       long midVal = a[mid];
@@ -61,7 +65,7 @@ public class OrdArray {
 
   // -----------------------------------------------------------
   public boolean find(long searchKey) {
-    return findIndex(searchKey) >= 0;
+    return findIndex(searchKey, nElems.intValue()) >= 0;
   }
 
   /**
@@ -78,13 +82,11 @@ public class OrdArray {
       int expectedCount = modCount;
       int count = nElems.intValue();
       if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
-      int j;
-      for (j = 0; j < count; j++) {
-        if (strict && expectedCount < modCount) {
-          dirty = true;
-          throw new ConcurrentModificationException("Error inserting value: " + value);
-        }
-        if (a[j] > value) break;
+      int j = findIndex(value, count);
+      if (j < 0) j = -1 * j - 1;
+      if (strict && expectedCount < modCount) {
+        dirty = true;
+        throw new ConcurrentModificationException("Error inserting value: " + value);
       }
       ++modCount;
       int numMoved = count - j;
@@ -103,17 +105,18 @@ public class OrdArray {
   }
 
   public void clear() {
-    if (nElems.intValue() == 0) return;
+    int length = nElems.intValue();
+    if (length == 0) return;
     ++modCount;
-    Arrays.fill(a, 0L);
+    Arrays.fill(a, 0, length, 0L);
     nElems.set(0);
   }
 
-  private void fastDelete(int index) {
+  private void fastDelete(int index, int length) {
     try {
       ++modCount;
       // move higher ones down
-      int numMoved = nElems.intValue() - index - 1;
+      int numMoved = length - index - 1;
       System.arraycopy(a, index + 1, a, index, numMoved);
       a[nElems.decrementAndGet()] = 0;
     } catch (ArrayIndexOutOfBoundsException e) {
@@ -130,12 +133,13 @@ public class OrdArray {
 
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public boolean delete(long value) {
+    int length = nElems.intValue();
     int expectedModCount = modCount;
-    int j = findIndex(value);
+    int j = findIndex(value, nElems.intValue());
     if (j < 0) return false;
     if (strict && expectedModCount < modCount)
       throw new ConcurrentModificationException("Error deleting value: " + value);
-    fastDelete(j);
+    fastDelete(j, length);
     return true;
   }
 

@@ -323,9 +323,11 @@ class HighArrayTest {
   @Test
   void testClear() {
     HighArray arr = insertElements();
+    int origCount = arr.count();
     arr.clear();
-    long[] copy = new long[100];
-    assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
+    long[] copy = new long[origCount];
+    long[] origTrunc = Arrays.copyOf(arr.get(), origCount);
+    assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array not cleared");
   }
 
   @Test
