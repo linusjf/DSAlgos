@@ -59,9 +59,12 @@ public class OrdArray {
     while (lowerBound <= upperBound) {
       int mid = (lowerBound + upperBound) >>> 1;
       long midVal = a[mid];
-      if (midVal == searchKey) return mid;
-      else if (midVal < searchKey) lowerBound = mid + 1;
-      else upperBound = mid - 1;
+      if (midVal == searchKey) 
+        return mid;
+      if (midVal < searchKey) 
+        lowerBound = mid + 1;
+      else 
+        upperBound = mid - 1;
     }
     // key not found
     return -(lowerBound + 1);

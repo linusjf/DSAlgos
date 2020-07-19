@@ -175,7 +175,7 @@
                 <jvmarg>-Djava.util.logging.config.file=logging-test.properties</jvmarg>
               </jvmargs>
               <failWhenNoMutations>false</failWhenNoMutations>
-              <detectInlinedCode>true</detectInlinedCode>
+              <detectInlinedCode>false</detectInlinedCode>
               <mutationThreshold>90</mutationThreshold>
               <coverageThreshold>90</coverageThreshold>
             </configuration>
