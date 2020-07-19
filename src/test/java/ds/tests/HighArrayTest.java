@@ -108,6 +108,15 @@ class HighArrayTest {
   }
 
   @Test
+  void testClearEmptyModCount() {
+    HighArray arr = new HighArray(100);
+    int modCount = (int) on(arr).get("modCount");
+    arr.clear();
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+  }
+
+  @Test
   void testDeleteModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
