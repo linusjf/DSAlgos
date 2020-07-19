@@ -127,6 +127,15 @@ class HighArrayTest {
   }
 
   @Test
+  void testDeleteNotFoundModCount() {
+    HighArray arr = new HighArray(100);
+    int modCount = (int) on(arr).get("modCount");
+    arr.delete(10L);
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+  }
+
+  @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     HighArray arr = insertElements();
