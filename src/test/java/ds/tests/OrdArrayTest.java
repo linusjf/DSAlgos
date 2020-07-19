@@ -183,7 +183,7 @@ class OrdArrayTest {
   }
 
   @Test
-  void testInsertSorted() {
+  void testInsertUnSorted() {
     OrdArray arr = insertElements();
     long[] unsorted = new long[100];
     unsorted[0] = 43L;
@@ -200,7 +200,28 @@ class OrdArrayTest {
     on(arr).set("dirty", true);
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
-    assertTrue(res == -1 && !sorted, "Insert must fail on unsorted");
+    assertTrue(res == -1 && !sorted && arr.count() == 10, "Insert must fail on unsorted");
+  }
+
+  @Test
+  void testInsertSorted() {
+    OrdArray arr = insertElements();
+    long[] sortedArray = new long[100];
+    sortedArray[0] = 43L;
+    sortedArray[1] = 61L;
+    sortedArray[2] = 61L;
+    sortedArray[3] = 69L;
+    sortedArray[4] = 72L;
+    sortedArray[5] = 75L;
+    sortedArray[6] = 87L;
+    sortedArray[7] = 92L;
+    sortedArray[8] = 101L;
+    sortedArray[9] = 102L;
+    on(arr).set("a", sortedArray);
+    on(arr).set("dirty", true);
+    int res = arr.insert(99L);
+    boolean sorted = (boolean) on(arr).get("sorted");
+    assertTrue(res == 8 && arr.count() == 11 && sorted, "Sorted and insert at 8 expected.");
   }
 
   @Test
@@ -222,7 +243,7 @@ class OrdArrayTest {
     on(arr).set("dirty", true);
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
-    assertTrue(res == 10 && sorted, "Insert must succeed.");
+    assertTrue(res == 10 && sorted && arr.count() == 11, "Insert must succeed.");
   }
 
   @Test
@@ -231,7 +252,8 @@ class OrdArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.insert(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
+    assertTrue(
+        modCount < newModCount && newModCount > 0 && arr.count() == 1, "modcount not incremented.");
   }
 
   @Test
@@ -241,7 +263,9 @@ class OrdArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.clear();
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
+    assertTrue(
+        modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        "modcount not incremented.");
   }
 
   @Test
@@ -250,7 +274,9 @@ class OrdArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.clear();
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+    assertTrue(
+        modCount == newModCount && modCount == 0 && arr.count() == 0,
+        "modcount must not be incremented.");
   }
 
   @Test
@@ -260,7 +286,9 @@ class OrdArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.delete(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
+    assertTrue(
+        modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        "modcount not incremented.");
   }
 
   @Test
@@ -269,7 +297,9 @@ class OrdArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.delete(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+    assertTrue(
+        modCount == newModCount && modCount == 0 && arr.count() == 0,
+        "modcount must not be incremented.");
   }
 
   @Test
