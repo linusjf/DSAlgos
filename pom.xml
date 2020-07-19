@@ -166,7 +166,6 @@
                 <param>ds.tests.HighArrayTest</param>
                 <param>ds.tests.OrdArrayTest</param>
               </targetTests>
-              <threads>10</threads>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
