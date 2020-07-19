@@ -113,16 +113,11 @@ public class OrdArray {
   }
 
   private void fastDelete(int index, int length) {
-    try {
-      ++modCount;
-      // move higher ones down
-      int numMoved = length - index - 1;
-      System.arraycopy(a, index + 1, a, index, numMoved);
-      a[nElems.decrementAndGet()] = 0;
-    } catch (ArrayIndexOutOfBoundsException e) {
-      dirty = true;
-      throw new ConcurrentModificationException(e);
-    }
+    ++modCount;
+    // move higher ones down
+    int numMoved = length - index - 1;
+    System.arraycopy(a, index + 1, a, index, numMoved);
+    a[nElems.decrementAndGet()] = 0;
   }
 
   public boolean syncDelete(long value) {
