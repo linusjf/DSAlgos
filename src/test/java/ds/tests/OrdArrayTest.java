@@ -216,22 +216,23 @@ class OrdArrayTest {
   }
 
   @Test
-  void testDeleteModCount() {
-    OrdArray arr = insertElements();
-    int modCount = (int) on(arr).get("modCount");
-    arr.delete(11L);
-    int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
-  }
-
-  @Test
   void testClearModCount() {
     OrdArray arr = new OrdArray(100);
     arr.insert(10L);
     int modCount = (int) on(arr).get("modCount");
     arr.clear();
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
+    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
+  }
+
+  @Test
+  void testDeleteModCount() {
+    OrdArray arr = new OrdArray(100);
+    arr.insert(10L);
+    int modCount = (int) on(arr).get("modCount");
+    arr.delete(10L);
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
   }
 
   @Test
