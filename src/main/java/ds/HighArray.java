@@ -32,14 +32,6 @@ public class HighArray {
     this.strict = strict;
   }
 
-  public int getModCount() {
-    return modCount;
-  }
-
-  public boolean isStrict() {
-    return strict;
-  }
-
   public long[] get() {
     return a.clone();
   }

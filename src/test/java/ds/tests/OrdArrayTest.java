@@ -209,29 +209,29 @@ class OrdArrayTest {
   @Test
   void testInsertModCount() {
     OrdArray arr = new OrdArray(100);
-    int modCount = arr.getModCount();
+    int modCount = (int) on(arr).get("modCount");
     arr.insert(10L);
-    int newModCount = arr.getModCount();
-    assertTrue(modCount < newModCount, "modcount not incremented.");
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
   }
 
   @Test
   void testDeleteModCount() {
     OrdArray arr = insertElements();
-    int modCount = arr.getModCount();
+    int modCount = (int) on(arr).get("modCount");
     arr.delete(11L);
-    int newModCount = arr.getModCount();
-    assertTrue(modCount < newModCount, "modcount not incremented.");
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
   }
 
   @Test
   void testClearModCount() {
     OrdArray arr = new OrdArray(100);
     arr.insert(10L);
-    int modCount = arr.getModCount();
+    int modCount = (int) on(arr).get("modCount");
     arr.clear();
-    int newModCount = arr.getModCount();
-    assertTrue(modCount < newModCount, "modcount not incremented.");
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
   }
 
   @Test
@@ -239,18 +239,6 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long[] vals = arr.get();
     assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
-  }
-
-  @Test
-  void testStrict() {
-    OrdArray arr = new OrdArray(10);
-    assertFalse(arr.isStrict(), "Strict is true!");
-  }
-
-  @Test
-  void testStrictTrue() {
-    OrdArray arr = new OrdArray(10, true);
-    assertTrue(arr.isStrict(), "Strict is false!");
   }
 
   @Test

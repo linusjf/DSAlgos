@@ -38,13 +38,10 @@ class HighArrayConcurrencyTest {
         i ->
             new Thread(
                     () -> {
-                      int modCount = highArray.getModCount();
                       try {
                         highArray.delete(i);
                       } catch (ConcurrentModificationException cme) {
-                        int newCount = highArray.getModCount();
-                        boolean strict = highArray.isStrict();
-                        if (strict && modCount < newCount) excCount.incrementAndGet();
+                        excCount.incrementAndGet();
                       }
                     })
                 .start());

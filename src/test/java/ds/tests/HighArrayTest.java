@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -87,29 +88,20 @@ class HighArrayTest {
   @Test
   void testInsertModCount() {
     HighArray arr = new HighArray(100);
-    int modCount = arr.getModCount();
+    int modCount = (int) on(arr).get("modCount");
     arr.insert(10L);
-    int newModCount = arr.getModCount();
-    assertTrue(modCount < newModCount, "modcount not incremented.");
-  }
-
-  @Test
-  void testInsertModCountAgain() {
-    HighArray arr = new HighArray(100);
-    int modCount = arr.getModCount();
-    arr.insert(10L);
-    int newModCount = arr.getModCount();
-    assertFalse(modCount >= newModCount, "modcount incremented.");
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
   }
 
   @Test
   void testClearModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
-    int modCount = arr.getModCount();
+    int modCount = (int) on(arr).get("modCount");
     arr.clear();
-    int newModCount = arr.getModCount();
-    assertTrue(modCount < newModCount, "modcount not incremented.");
+    int newModCount = (int) on(arr).get("modCount");
+    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
   }
 
   @Test
@@ -301,18 +293,6 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long[] vals = arr.get();
     assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
-  }
-
-  @Test
-  void testStrict() {
-    HighArray arr = new HighArray(10);
-    assertFalse(arr.isStrict(), "Strict is true!");
-  }
-
-  @Test
-  void testStrictTrue() {
-    HighArray arr = new HighArray(10, true);
-    assertTrue(arr.isStrict(), "Strict is false!");
   }
 
   @Test
