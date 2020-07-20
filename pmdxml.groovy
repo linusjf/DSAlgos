@@ -2,10 +2,10 @@ import java.nio.file.Paths
 import java.nio.file.Files
 
 def getClassPath(classLoader, sb) {
-  for (url in classLoader.getURLs()) {
-     sb.append(url.getFile().toString())
-     .append(':')
-    }
+  classLoader.getURLs().each {url->
+     sb.append("${url.getFile().toString()}")
+       .append(System.getProperty("path.separator"))
+  }
   if (classLoader.parent) {
      getClassPath(classLoader.parent, sb)
   }
