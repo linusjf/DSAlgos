@@ -91,10 +91,13 @@ class HighArrayTest {
   @Test
   void testInsertModCount() {
     HighArray arr = new HighArray(100);
+    int count = arr.count();
     int modCount = (int) on(arr).get("modCount");
     arr.insert(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount > 0, "modcount not incremented.");
+    assertTrue(
+        modCount < newModCount && newModCount == 1 && arr.count() == count + 1,
+        "modcount not incremented.");
   }
 
   @Test
@@ -104,7 +107,9 @@ class HighArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.clear();
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
+    assertTrue(
+        modCount >= 0 && modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        "modcount not incremented.");
   }
 
   @Test
@@ -113,7 +118,9 @@ class HighArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.clear();
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+    assertTrue(
+        modCount >= 0 && modCount == newModCount && modCount == 0 && arr.count() == 0,
+        "modcount must not be incremented.");
   }
 
   @Test
@@ -123,29 +130,36 @@ class HighArrayTest {
     int modCount = (int) on(arr).get("modCount");
     arr.delete(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount < newModCount && newModCount == 2, "modcount not incremented.");
+    assertTrue(
+        modCount >= 0 && modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        "modcount not incremented.");
   }
 
   @Test
   void testDeleteNotFoundModCount() {
     HighArray arr = new HighArray(100);
+    int count = arr.count();
     int modCount = (int) on(arr).get("modCount");
     arr.delete(10L);
     int newModCount = (int) on(arr).get("modCount");
-    assertTrue(modCount == newModCount && modCount == 0, "modcount must not be incremented.");
+    assertTrue(
+        modCount == newModCount && modCount == 0 && arr.count() == count,
+        "modcount must not be incremented.");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     HighArray arr = insertElements();
+    int count = arr.count();
     assertTrue(
         arr.delete(00L)
             && arr.delete(55L)
             && arr.delete(99L)
             && !arr.find(00L)
             && !arr.find(55L)
-            && !arr.find(99L),
+            && !arr.find(99L)
+            && arr.count() == count - 3,
         "Elements 00, 55, 99 not found.");
   }
 
@@ -153,13 +167,15 @@ class HighArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteTrue() {
     HighArray arr = insertElements();
+    int count = arr.count();
     assertTrue(
         arr.syncDelete(00L)
             && arr.syncDelete(55L)
             && arr.syncDelete(99L)
             && !arr.find(00L)
             && !arr.find(55L)
-            && !arr.find(99L),
+            && !arr.find(99L)
+            && arr.count() == count - 3,
         "Elements 00, 55, 99 not found.");
   }
 
@@ -167,20 +183,23 @@ class HighArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteTrueIndividual() {
     HighArray arr = insertElements();
-    assertTrue(arr.syncDelete(00L), "Element 0 not found.");
+    int count = arr.count();
+    assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     HighArray arr = insertElements();
+    int count = arr.count();
     assertFalse(
         arr.delete(12L)
             || arr.delete(6L)
             || arr.delete(5L)
             || arr.find(12L)
             || arr.find(6L)
-            || arr.find(5L),
+            || arr.find(5L)
+            || arr.count() != count,
         "Elements 12, 6, 5 found and deleted");
   }
 
@@ -188,20 +207,23 @@ class HighArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteFalseIndividual() {
     HighArray arr = insertElements();
-    assertFalse(arr.syncDelete(12L), "Elements 12 found and deleted");
+    int count = arr.count();
+    assertFalse(arr.syncDelete(12L) && arr.count() == count, "Elements 12 found and deleted");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteFalse() {
     HighArray arr = insertElements();
+    int count = arr.count();
     assertFalse(
         arr.syncDelete(12L)
             || arr.syncDelete(6L)
             || arr.syncDelete(5L)
             || arr.find(12L)
             || arr.find(6L)
-            || arr.find(5L),
+            || arr.find(5L)
+            || arr.count() != count,
         "Elements 12, 6, 5 found and deleted");
   }
 
@@ -209,7 +231,7 @@ class HighArrayTest {
   void testFindIndexFalse() {
     HighArray arr = insertElements();
     long searchKey = 35L;
-    assertEquals(arr.findIndex(searchKey), -1, () -> searchKey + " available");
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
   }
 
   @Test
@@ -230,10 +252,8 @@ class HighArrayTest {
   void testFindIndexTrue() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertEquals(
-        true,
-        arr.find(searchKey) && arr.findIndex(searchKey) == 6,
-        () -> searchKey + " not available");
+    assertTrue(
+        arr.find(searchKey) && arr.findIndex(searchKey) == 6, () -> searchKey + " not available");
   }
 
   @Test
@@ -269,6 +289,7 @@ class HighArrayTest {
   @Test
   void testFindIndexOverflow() {
     HighArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 0L;
     arr.delete(0L);
     assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
@@ -292,31 +313,39 @@ class HighArrayTest {
   @Test
   void testDeleteEnd() {
     HighArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 33L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
   void testDeleteEndArray() {
     HighArray arr = new HighArray(10);
     insertElements(arr);
+    int count = arr.count();
     long searchKey = 33L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
   void testDeleteOverflow() {
     HighArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 0L;
-    arr.delete(0L);
-    assertFalse(arr.delete(searchKey), () -> searchKey + " still available");
+    arr.delete(searchKey);
+    assertFalse(
+        arr.delete(searchKey) && arr.count() != count - 1, () -> searchKey + " still available");
   }
 
   @Test
   void testDeleteStart() {
     HighArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 77L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
@@ -358,8 +387,7 @@ class HighArrayTest {
 
   @Test
   void testToString() {
-    HighArray arr = insertElements();
-    arr.clear();
+    HighArray arr = new HighArray(10);
     arr.insert(77L);
     arr.insert(99L);
     arr.insert(44L);

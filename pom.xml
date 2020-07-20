@@ -169,6 +169,8 @@
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
+              <timeoutFactor>2</timeoutFactor>
+              <timeoutConstant>10000</timeoutConstant>
               <withHistory>false</withHistory>
               <jvmargs>
                 <jvmarg>-Djava.util.logging.config.file=logging-test.properties</jvmarg>

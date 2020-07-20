@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -21,9 +22,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
-
-  static {
-  }
 
   OrdArray insertElements() {
     OrdArray arr = new OrdArray(100);
@@ -74,7 +72,7 @@ class OrdArrayTest {
   @Test
   void insertDuplicate() {
     OrdArray arr = insertElements();
-    assertEquals(6, arr.insert(66L), "Index 6  expected");
+    assertEquals(6, arr.insert(66L), "Index 6 expected");
   }
 
   @Test
@@ -184,7 +182,7 @@ class OrdArrayTest {
 
   @Test
   void testInsertUnSorted() {
-    OrdArray arr = insertElements();
+    OrdArray arr = new OrdArray(100);
     long[] unsorted = new long[100];
     unsorted[0] = 43L;
     unsorted[1] = 61L;
@@ -197,15 +195,17 @@ class OrdArrayTest {
     unsorted[8] = 21L;
     unsorted[9] = 10L;
     on(arr).set("a", unsorted);
+    on(arr).set("nElems", new AtomicInteger(10));
     on(arr).set("dirty", true);
+    int count = arr.count();
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
-    assertTrue(res == -1 && !sorted && arr.count() == 10, "Insert must fail on unsorted");
+    assertTrue(res == -1 && !sorted && arr.count() == count, "Insert must fail on unsorted");
   }
 
   @Test
   void testInsertSorted() {
-    OrdArray arr = insertElements();
+    OrdArray arr = new OrdArray(100);
     long[] sortedArray = new long[100];
     sortedArray[0] = 43L;
     sortedArray[1] = 61L;
@@ -218,15 +218,17 @@ class OrdArrayTest {
     sortedArray[8] = 101L;
     sortedArray[9] = 102L;
     on(arr).set("a", sortedArray);
+    on(arr).set("nElems", new AtomicInteger(10));
     on(arr).set("dirty", true);
+    int count = arr.count();
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
-    assertTrue(res == 8 && arr.count() == 11 && sorted, "Sorted and insert at 8 expected.");
+    assertTrue(res == 8 && arr.count() == count + 1 && sorted, "Sorted and insert at 8 expected.");
   }
 
   @Test
   void testInsertAllSameSorted() {
-    OrdArray arr = insertElements();
+    OrdArray arr = new OrdArray(100);
     long[] unsorted = new long[100];
     unsorted[0] = 43L;
     unsorted[1] = 43L;
@@ -241,9 +243,11 @@ class OrdArrayTest {
     on(arr).set("a", unsorted);
     on(arr).set("sorted", false);
     on(arr).set("dirty", true);
+    on(arr).set("nElems", new AtomicInteger(10));
+    int count = arr.count();
     int res = arr.insert(99L);
     boolean sorted = (boolean) on(arr).get("sorted");
-    assertTrue(res == 10 && sorted && arr.count() == 11, "Insert must succeed.");
+    assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
   }
 
   @Test
@@ -294,11 +298,12 @@ class OrdArrayTest {
   @Test
   void testDeleteNotFoundModCount() {
     OrdArray arr = new OrdArray(100);
+    int count = arr.count();
     int modCount = (int) on(arr).get("modCount");
     arr.delete(10L);
     int newModCount = (int) on(arr).get("modCount");
     assertTrue(
-        modCount == newModCount && modCount == 0 && arr.count() == 0,
+        modCount == newModCount && modCount == 0 && arr.count() == count,
         "modcount must not be incremented.");
   }
 
@@ -325,16 +330,25 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteTrue() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     assertTrue(
-        arr.delete(00L) && arr.delete(55L) && arr.delete(99L), "Elements 00, 55, 99 not found.");
+        arr.syncDelete(00L)
+            && arr.syncDelete(55L)
+            && arr.syncDelete(99L)
+            && arr.count() == count - 3,
+        "Elements 00, 55, 99 not found.");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteTrue() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     assertTrue(
-        arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+        arr.syncDelete(00L)
+            && arr.syncDelete(55L)
+            && arr.syncDelete(99L)
+            && arr.count() == count - 3,
         "Elements 00, 55, 99 not found.");
   }
 
@@ -342,23 +356,27 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteTrueIndividual() {
     OrdArray arr = insertElements();
-    assertTrue(arr.syncDelete(00L), "Element 0 not found.");
+    int count = arr.count();
+    assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testDeleteFalse() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     assertFalse(
-        arr.delete(12L) || arr.delete(6L) || arr.delete(5L), "Elements 12, 6, 5 found and deleted");
+        arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
+        "Elements 12, 6, 5 found and deleted");
   }
 
   @Test
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteFalse() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     assertFalse(
-        arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
+        arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L) && arr.count() != count,
         "Elements 12, 6, 5 found and deleted");
   }
 
@@ -366,7 +384,8 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   void testSyncDeleteFalseIndividual() {
     OrdArray arr = insertElements();
-    assertFalse(arr.syncDelete(12L), "Elements 12 found and deleted");
+    int count = arr.count();
+    assertFalse(arr.syncDelete(12L) && arr.count() != count, "Elements 12 found and deleted");
   }
 
   @Test
@@ -447,23 +466,29 @@ class OrdArrayTest {
   @Test
   void testDeleteStart() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 00L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
   void testDeleteEnd() {
     OrdArray arr = insertElements();
+    int count = arr.count();
     long searchKey = 33L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
   void testDeleteEndArray() {
     OrdArray arr = new OrdArray(10);
     insertElements(arr);
+    int count = arr.count();
     long searchKey = 33L;
-    assertTrue(arr.delete(searchKey), () -> searchKey + " not available");
+    assertTrue(
+        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
   }
 
   @Test
@@ -479,7 +504,9 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 0L;
     arr.delete(searchKey);
-    assertFalse(arr.delete(searchKey), () -> searchKey + " still available");
+    int count = arr.count();
+    assertFalse(
+        arr.delete(searchKey) && arr.count() != count, () -> searchKey + " still available");
   }
 
   @Test
