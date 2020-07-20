@@ -20,7 +20,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
-class OrdArrayTest {
+class OrdArrayTest extends ReflectTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
   OrdArray insertElements() {

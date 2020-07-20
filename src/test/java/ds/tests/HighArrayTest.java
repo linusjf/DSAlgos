@@ -19,7 +19,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayTest {
+class HighArrayTest extends ReflectTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
 
   HighArray insertElements() {
