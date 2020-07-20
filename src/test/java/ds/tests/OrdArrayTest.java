@@ -177,7 +177,52 @@ class OrdArrayTest {
   @Test
   void testInsert() {
     OrdArray arr = insertElements();
-    assertEquals(arr.count(), 10, "10 elements not inserted.");
+    assertEquals(10, arr.count(), "10 elements not inserted.");
+  }
+
+  @Test
+  void testInsertAtStartExists() {
+    OrdArray arr = insertElements();
+    int count = arr.count();
+    long val = 0L;
+    int index = arr.findIndex(val);
+    int insertIndex = arr.insert(val);
+    assertTrue(
+        insertIndex >= index && insertIndex <= index + 1 && arr.count() == count + 1,
+        "11 elements expected, indexes 0 or 1 expected.");
+  }
+
+  @Test
+  void testInsertAtEndExists() {
+    OrdArray arr = insertElements();
+    int count = arr.count();
+    long val = 99L;
+    int index = arr.findIndex(val);
+    int insertIndex = arr.insert(val);
+    assertTrue(
+        insertIndex >= index && insertIndex <= index + 1 && arr.count() == count + 1,
+        "11 elements expected, indexes 9 or 10 expected.");
+  }
+
+  @Test
+  void testInsertAtEnd() {
+    OrdArray arr = insertElements();
+    int count = arr.count();
+    long val = 100L;
+    int insertIndex = arr.insert(val);
+    assertTrue(
+        insertIndex == count && arr.count() == count + 1,
+        () -> (count + 1) + " elements expected, index " + count + " expected.");
+  }
+
+  @Test
+  void testInsertAtStart() {
+    OrdArray arr = insertElements();
+    int count = arr.count();
+    long val = -1L;
+    int insertIndex = arr.insert(val);
+    assertTrue(
+        insertIndex == 0 && arr.count() == count + 1, "11 elements expected, index 0 expected.");
   }
 
   @Test

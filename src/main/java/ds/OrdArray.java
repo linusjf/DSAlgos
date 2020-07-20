@@ -83,7 +83,7 @@ public class OrdArray {
       int count = nElems.intValue();
       if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
       int j = findIndex(value, count);
-      if (j < 0) j = -1 * j - 1;
+      j = j < 0 ? j = -1 * j - 1 : j;
       if (strict && expectedCount < modCount) {
         dirty = true;
         throw new ConcurrentModificationException("Error inserting value: " + value);
