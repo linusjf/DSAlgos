@@ -21,6 +21,10 @@ public class HighArray {
   private final boolean strict;
   private int modCount;
 
+  public HighArray() {
+    this(100, false);
+  }
+
   public HighArray(int max) {
     this(max, false);
   }

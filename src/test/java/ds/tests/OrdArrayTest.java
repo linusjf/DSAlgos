@@ -128,6 +128,13 @@ class OrdArrayTest {
   }
 
   @Test
+  void testEmptyConstructor() {
+    OrdArray arr = new OrdArray();
+    boolean strict = (boolean) on(arr).get("strict");
+    assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
+  }
+
+  @Test
   void testConstructorParameterZero() {
     IllegalArgumentException iae =
         assertThrows(

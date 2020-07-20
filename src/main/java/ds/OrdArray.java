@@ -19,6 +19,10 @@ public class OrdArray {
   private boolean sorted = true;
   private boolean dirty;
 
+  public OrdArray() {
+    this(100, false);
+  }
+
   public OrdArray(int max) {
     this(max, false);
   }
@@ -83,7 +87,7 @@ public class OrdArray {
       int count = nElems.intValue();
       if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
       int j = findIndex(value, count);
-      j = j < 0 ? j = -1 * j - 1 : j;
+      j = j < 0 ? -1 * j - 1 : j;
       if (strict && expectedCount < modCount) {
         dirty = true;
         throw new ConcurrentModificationException("Error inserting value: " + value);

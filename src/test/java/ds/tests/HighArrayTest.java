@@ -71,6 +71,13 @@ class HighArrayTest {
   }
 
   @Test
+  void testEmptyConstructor() {
+    HighArray arr = new HighArray();
+    boolean strict = (boolean) on(arr).get("strict");
+    assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
+  }
+
+  @Test
   void testConstructorParameterZero() {
     IllegalArgumentException iae =
         assertThrows(
