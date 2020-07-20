@@ -172,8 +172,10 @@
               <timeoutFactor>2</timeoutFactor>
               <timeoutConstant>10000</timeoutConstant>
               <withHistory>false</withHistory>
+              <verbose>false</verbose>
               <jvmargs>
-                <jvmarg>-Djava.util.logging.config.file=logging-test.properties</jvmarg>
+                <jvmarg>-Xms1g</jvmarg>
+                <jvmarg>-Xmx4g</jvmarg>
               </jvmargs>
               <failWhenNoMutations>false</failWhenNoMutations>
               <detectInlinedCode>false</detectInlinedCode>

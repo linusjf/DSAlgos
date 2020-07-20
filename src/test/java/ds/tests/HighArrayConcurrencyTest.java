@@ -20,7 +20,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
+@Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayConcurrencyTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
