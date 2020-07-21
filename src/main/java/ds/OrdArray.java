@@ -1,5 +1,7 @@
 package ds;
 
+import static ds.ArrayUtils.*;
+
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,13 +43,7 @@ public class OrdArray {
 
   private void checkSorted() {
     int length = nElems.intValue();
-    for (int j = 0; j < length - 1; j++) {
-      if (a[j] > a[j + 1]) {
-        sorted = false;
-        return;
-      }
-    }
-    sorted = true;
+    sorted = isSorted(a, length);
   }
 
   public int findIndex(long searchKey) {
