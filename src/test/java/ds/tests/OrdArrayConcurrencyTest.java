@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.tests.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.OrdArray;
@@ -21,7 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class OrdArrayConcurrencyTest extends BaseTest {
+class OrdArrayConcurrencyTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayConcurrencyTest.class.getName());
 
   @ParameterizedTest

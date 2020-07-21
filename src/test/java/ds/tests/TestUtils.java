@@ -7,9 +7,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.joor.Reflect;
 
-public class BaseTest {
+public final class TestUtils {
   static {
     Field.class.getModule().addOpens(Field.class.getPackage().getName(), Reflect.class.getModule());
+  }
+
+  private TestUtils() {
+    throw new IllegalStateException("Private constructor for "
+        + TestUtils.class.getName());
   }
 
   static int getModCount(Object arr) {
