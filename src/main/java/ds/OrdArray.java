@@ -86,7 +86,6 @@ public class OrdArray {
     if (sorted) {
       int expectedCount = modCount.intValue();
       int count = nElems.intValue();
-      if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
       int j = findIndex(value, count);
       j = j < 0 ? -1 * j - 1 : j;
       if (strict && expectedCount < modCount.intValue()) {
