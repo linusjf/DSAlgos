@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static ds.tests.TestUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
 import java.util.ConcurrentModificationException;
@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayConcurrencyTest {
+class HighArrayConcurrencyTest extends BaseConcurrencyTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
 
   @Test
