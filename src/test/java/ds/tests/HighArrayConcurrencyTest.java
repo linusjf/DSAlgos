@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -22,17 +21,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayConcurrencyTest {
+class HighArrayConcurrencyTest extends BaseTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
-
-  private Stream<Integer> provideInsertArraySize() {
-    Runtime rt = Runtime.getRuntime();
-    int processors = rt.availableProcessors();
-    long memory = rt.totalMemory();
-    LOGGER.info(() -> String.format("Memory: %d Processors: %d %n", memory, processors));
-    if (processors <= 2) return Stream.of(20_000);
-    else return Stream.of(5000);
-  }
 
   @Test
   void testConcurrentInserts() {
@@ -43,7 +33,7 @@ class HighArrayConcurrencyTest {
   }
 
   @ParameterizedTest
-  @MethodSource("provideInsertArraySize")
+  @MethodSource("provideArraySize")
   void testConcurrentDeletes(int size) {
     ExecutorService service = Executors.newFixedThreadPool(10);
     CountDownLatch cdl = new CountDownLatch(1);
