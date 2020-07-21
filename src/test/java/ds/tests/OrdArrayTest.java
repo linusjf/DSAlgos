@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.ArrayUtils.*;
 import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,13 +74,13 @@ class OrdArrayTest {
   @Test
   void insertDuplicate() {
     OrdArray arr = insertElements();
-    assertEquals(6, arr.insert(66L), "Index 6 expected");
+    assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
   }
 
   @Test
   void insertSyncDuplicate() {
     OrdArray arr = insertElements();
-    assertEquals(6, arr.syncInsert(66L), "7 elements expected");
+    assertTrue(6 == arr.syncInsert(66L) && isSorted(arr), "7 elements expected");
   }
 
   @Test
@@ -107,7 +108,7 @@ class OrdArrayTest {
     arr.insert(66L);
     arr.insert(33L);
     arr.insert(33L);
-    assertEquals(21, arr.count(), "21 elements expected");
+    assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
   }
 
   @Test
@@ -152,7 +153,7 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     on(arr).set("dirty", true);
     arr.insert(10L);
-    assertEquals(arr.count(), 11, "11 elements expected.");
+    assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
   }
 
   @Test
@@ -160,7 +161,7 @@ class OrdArrayTest {
     OrdArray arr = new OrdArray(10);
     on(arr).set("dirty", true);
     arr.insert(10L);
-    assertEquals(arr.count(), 1, "1 element expected.");
+    assertEquals(1, arr.count(), "1 element expected.");
   }
 
   @Test
@@ -185,7 +186,7 @@ class OrdArrayTest {
   @Test
   void testInsert() {
     OrdArray arr = insertElements();
-    assertEquals(10, arr.count(), "10 elements not inserted.");
+    assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
   }
 
   @Test
@@ -196,7 +197,10 @@ class OrdArrayTest {
     int index = arr.findIndex(val);
     int insertIndex = arr.insert(val);
     assertTrue(
-        insertIndex >= index && insertIndex <= index + 1 && arr.count() == count + 1,
+        insertIndex >= index
+            && insertIndex <= index + 1
+            && arr.count() == count + 1
+            && isSorted(arr),
         "11 elements expected, indexes 0 or 1 expected.");
   }
 
@@ -208,7 +212,10 @@ class OrdArrayTest {
     int index = arr.findIndex(val);
     int insertIndex = arr.insert(val);
     assertTrue(
-        insertIndex >= index && insertIndex <= index + 1 && arr.count() == count + 1,
+        insertIndex >= index
+            && insertIndex <= index + 1
+            && arr.count() == count + 1
+            && isSorted(arr),
         "11 elements expected, indexes 9 or 10 expected.");
   }
 
@@ -219,7 +226,7 @@ class OrdArrayTest {
     long val = 100L;
     int insertIndex = arr.insert(val);
     assertTrue(
-        insertIndex == count && arr.count() == count + 1,
+        insertIndex == count && arr.count() == count + 1 && isSorted(arr),
         () -> (count + 1) + " elements expected, index " + count + " expected.");
   }
 
@@ -230,7 +237,8 @@ class OrdArrayTest {
     long val = -1L;
     int insertIndex = arr.insert(val);
     assertTrue(
-        insertIndex == 0 && arr.count() == count + 1, "11 elements expected, index 0 expected.");
+        insertIndex == 0 && arr.count() == count + 1 && isSorted(arr),
+        "11 elements expected, index 0 expected.");
   }
 
   @Test
@@ -390,7 +398,8 @@ class OrdArrayTest {
         arr.syncDelete(00L)
             && arr.syncDelete(55L)
             && arr.syncDelete(99L)
-            && arr.count() == count - 3,
+            && arr.count() == count - 3
+            && isSorted(arr),
         "Elements 00, 55, 99 not found.");
   }
 
@@ -403,7 +412,8 @@ class OrdArrayTest {
         arr.syncDelete(00L)
             && arr.syncDelete(55L)
             && arr.syncDelete(99L)
-            && arr.count() == count - 3,
+            && arr.count() == count - 3
+            && isSorted(arr),
         "Elements 00, 55, 99 not found.");
   }
 
@@ -412,7 +422,8 @@ class OrdArrayTest {
   void testSyncDeleteTrueIndividual() {
     OrdArray arr = insertElements();
     int count = arr.count();
-    assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
+    assertTrue(
+        arr.syncDelete(00L) && arr.count() == count - 1 && isSorted(arr), "Element 0 not found.");
   }
 
   @Test
@@ -524,7 +535,8 @@ class OrdArrayTest {
     int count = arr.count();
     long searchKey = 00L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+        () -> searchKey + " not available");
   }
 
   @Test
@@ -533,7 +545,8 @@ class OrdArrayTest {
     int count = arr.count();
     long searchKey = 33L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+        () -> searchKey + " not available");
   }
 
   @Test
@@ -543,7 +556,8 @@ class OrdArrayTest {
     int count = arr.count();
     long searchKey = 33L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+        () -> searchKey + " not available");
   }
 
   @Test
