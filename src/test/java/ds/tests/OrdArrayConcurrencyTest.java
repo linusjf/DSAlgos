@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.ArrayUtils.*;
 import static ds.tests.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,25 +60,16 @@ class OrdArrayConcurrencyTest extends BaseConcurrencyTest {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertTrue(
+        0 != excCount.get() && !isSorted(ordArray),
+        () -> excCount + " is number of concurrent exceptions.");
   }
 
   @Test
   void testSyncInserts() {
     OrdArray ordArray = new OrdArray(10_000, true);
-    LongStream.rangeClosed(1L, 10_000L)
-        .unordered()
-        .parallel()
-        .forEach(
-            i -> {
-              Thread thread = new Thread(() -> ordArray.syncInsert(i));
-              thread.start();
-              try {
-                thread.join(0);
-              } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-              }
-            });
+    LongStream.rangeClosed(1L, 10_000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
+    assertTrue(isSorted(ordArray));
     assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
   }
 
@@ -115,7 +107,9 @@ class OrdArrayConcurrencyTest extends BaseConcurrencyTest {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertTrue(
+        0 != excCount.get() && !isSorted(ordArray),
+        () -> excCount + " is number of concurrent exceptions.");
   }
 
   @Test
