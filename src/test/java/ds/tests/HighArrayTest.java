@@ -19,7 +19,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayTest extends ReflectTest {
+class HighArrayTest extends BaseTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
 
   HighArray insertElements() {
@@ -99,9 +99,9 @@ class HighArrayTest extends ReflectTest {
   void testInsertModCount() {
     HighArray arr = new HighArray(100);
     int count = arr.count();
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = getModCount(arr);
     arr.insert(10L);
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = getModCount(arr);
     assertTrue(
         modCount < newModCount && newModCount == 1 && arr.count() == count + 1,
         "modcount not incremented.");
@@ -111,22 +111,22 @@ class HighArrayTest extends ReflectTest {
   void testClearModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = getModCount(arr);
     arr.clear();
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = getModCount(arr);
     assertTrue(
-        modCount >= 0 && modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        modCount < newModCount && newModCount == 2 && arr.count() == 0,
         "modcount not incremented.");
   }
 
   @Test
   void testClearEmptyModCount() {
     HighArray arr = new HighArray(100);
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = getModCount(arr);
     arr.clear();
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = getModCount(arr);
     assertTrue(
-        modCount >= 0 && modCount == newModCount && modCount == 0 && arr.count() == 0,
+        modCount == newModCount && modCount == 0 && arr.count() == 0,
         "modcount must not be incremented.");
   }
 
@@ -134,11 +134,11 @@ class HighArrayTest extends ReflectTest {
   void testDeleteModCount() {
     HighArray arr = new HighArray(100);
     arr.insert(10L);
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = getModCount(arr);
     arr.delete(10L);
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = getModCount(arr);
     assertTrue(
-        modCount >= 0 && modCount < newModCount && newModCount == 2 && arr.count() == 0,
+        modCount < newModCount && newModCount == 2 && arr.count() == 0,
         "modcount not incremented.");
   }
 
@@ -146,9 +146,9 @@ class HighArrayTest extends ReflectTest {
   void testDeleteNotFoundModCount() {
     HighArray arr = new HighArray(100);
     int count = arr.count();
-    int modCount = (int) on(arr).get("modCount");
+    int modCount = getModCount(arr);
     arr.delete(10L);
-    int newModCount = (int) on(arr).get("modCount");
+    int newModCount = getModCount(arr);
     assertTrue(
         modCount == newModCount && modCount == 0 && arr.count() == count,
         "modcount must not be incremented.");

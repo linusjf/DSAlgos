@@ -15,7 +15,7 @@ public class OrdArray {
   private final AtomicInteger nElems;
   private final Object lock = new Object();
   private final boolean strict;
-  private int modCount;
+  private AtomicInteger modCount;
   private boolean sorted = true;
   private boolean dirty;
 
@@ -31,6 +31,7 @@ public class OrdArray {
     if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
     a = new long[max];
     nElems = new AtomicInteger();
+    modCount = new AtomicInteger();
     this.strict = strict;
   }
 
@@ -83,16 +84,16 @@ public class OrdArray {
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
     if (sorted) {
-      int expectedCount = modCount;
+      int expectedCount = modCount.intValue();
       int count = nElems.intValue();
       if (count == a.length) throw new ArrayIndexOutOfBoundsException(count);
       int j = findIndex(value, count);
       j = j < 0 ? -1 * j - 1 : j;
-      if (strict && expectedCount < modCount) {
+      if (strict && expectedCount < modCount.intValue()) {
         dirty = true;
         throw new ConcurrentModificationException("Error inserting value: " + value);
       }
-      ++modCount;
+      modCount.incrementAndGet();
       int numMoved = count - j;
       System.arraycopy(a, j, a, j + 1, numMoved);
       nElems.getAndIncrement();
@@ -111,13 +112,13 @@ public class OrdArray {
   public void clear() {
     int length = nElems.intValue();
     if (length == 0) return;
-    ++modCount;
+    modCount.incrementAndGet();
     Arrays.fill(a, 0, length, 0L);
     nElems.set(0);
   }
 
   private void fastDelete(int index, int length) {
-    ++modCount;
+    modCount.incrementAndGet();
     // move higher ones down
     int numMoved = length - index - 1;
     System.arraycopy(a, index + 1, a, index, numMoved);
@@ -133,10 +134,10 @@ public class OrdArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public boolean delete(long value) {
     int length = nElems.intValue();
-    int expectedModCount = modCount;
+    int expectedModCount = modCount.intValue();
     int j = findIndex(value, nElems.intValue());
     if (j < 0) return false;
-    if (strict && expectedModCount < modCount)
+    if (strict && expectedModCount < modCount.intValue())
       throw new ConcurrentModificationException("Error deleting value: " + value);
     fastDelete(j, length);
     return true;

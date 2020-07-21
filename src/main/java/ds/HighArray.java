@@ -19,7 +19,7 @@ public class HighArray {
   private final AtomicInteger nElems;
   private final Object lock = new Object();
   private final boolean strict;
-  private int modCount;
+  private AtomicInteger modCount;
 
   public HighArray() {
     this(100, false);
@@ -33,6 +33,7 @@ public class HighArray {
     if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
     a = new long[max];
     nElems = new AtomicInteger();
+    modCount = new AtomicInteger();
     this.strict = strict;
   }
 
@@ -56,20 +57,20 @@ public class HighArray {
   public void insert(long value) {
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
-    ++modCount;
+    modCount.incrementAndGet();
     a[nElems.getAndIncrement()] = value;
   }
 
   public void clear() {
     int length = nElems.intValue();
     if (length == 0) return;
-    ++modCount;
+    modCount.incrementAndGet();
     Arrays.fill(a, 0, length, 0L);
     nElems.set(0);
   }
 
   private void fastDelete(int index, int length) {
-    ++modCount;
+    modCount.incrementAndGet();
     // move higher ones down
     int numMoved = length - index - 1;
     System.arraycopy(a, index + 1, a, index, numMoved);
@@ -85,9 +86,9 @@ public class HighArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   public boolean delete(long value) {
     int length = nElems.intValue();
-    int expectedModCount = modCount;
+    int expectedModCount = modCount.intValue();
     for (int j = 0; j < length; j++) {
-      if (strict && expectedModCount < modCount)
+      if (strict && expectedModCount < modCount.intValue())
         throw new ConcurrentModificationException("Error deleting value: " + value);
       if (a[j] == value) {
         fastDelete(j, length);
