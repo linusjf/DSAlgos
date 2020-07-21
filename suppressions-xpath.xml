@@ -321,11 +321,5 @@
   <suppress-xpath files="OrdArrayConcurrencyTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='OrdArrayConcurrencyTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='ordArray']]/ASSIGN/EXPR/LITERAL_NEW[./IDENT[@text='OrdArray']]/ELIST/EXPR/NUM_INT[@text='100']"/>
   <suppress-xpath files="OrdArrayConcurrencyTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='OrdArrayConcurrencyTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testConcurrentSyncInsertsDeletes']]/SLIST/VARIABLE_DEF[./IDENT[@text='nos']]/ASSIGN/EXPR/METHOD_CALL/DOT[./IDENT[@text='parallel']]/METHOD_CALL/DOT[./IDENT[@text='unordered']]/METHOD_CALL/ELIST/EXPR/NUM_LONG[@text='100L']"/>
   <suppress-xpath files="TestData.java" checks="HideUtilityClassConstructorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_TOSTRING_DATA']]/TYPE[./IDENT[@text='String']]"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_EXCEPTION_DATA']]/MODIFIERS/FINAL"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_SEQ_DATA']]/TYPE[./IDENT[@text='String']]"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_DUPLICATE_DATA']]/TYPE[./IDENT[@text='String']]"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_UNSORTED_DATA']]/TYPE[./IDENT[@text='String']]"/>
-  <suppress-xpath files="TestData.java" checks="SingleSpaceSeparatorCheck" query="/CLASS_DEF[./IDENT[@text='TestData']]/OBJBLOCK/VARIABLE_DEF[./IDENT[@text='INIT_ALL_SAME_DATA']]/TYPE[./IDENT[@text='String']]"/>
   <suppress-xpath files="BaseTest.java" checks="HideUtilityClassConstructorCheck" query="/CLASS_DEF[./IDENT[@text='BaseTest']]"/>
 </suppressions>
