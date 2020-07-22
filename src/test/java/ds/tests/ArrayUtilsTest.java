@@ -82,7 +82,7 @@ class ArrayUtilsTest {
     IllegalArgumentException iae =
         assertThrows(
             IllegalArgumentException.class, () -> isSorted(arr, length), "Exception expected!");
-    Optional<String> msg = Optional.of(iae.getMessage());
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[A-Za-z. ]", ""));
     assertTrue(val < 0 || val > arr.length, " -1 expected.");
@@ -95,7 +95,7 @@ class ArrayUtilsTest {
     IllegalArgumentException iae =
         assertThrows(
             IllegalArgumentException.class, () -> isSorted(arr, length), "Exception expected!");
-    Optional<String> msg = Optional.of(iae.getMessage());
+    Optional<String> msg = Optional.ofNullable(iae.getMessage());
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[\\D]", ""));
     assertTrue(val < 0 || val > arr.length, " 11 expected.");

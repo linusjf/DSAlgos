@@ -7,5 +7,5 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
-@Target(value = {TYPE, METHOD, FIELD, CONSTRUCTOR})
+@Target({TYPE, METHOD, FIELD, CONSTRUCTOR})
 public @interface Generated {}

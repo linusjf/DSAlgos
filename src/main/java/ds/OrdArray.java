@@ -2,49 +2,35 @@ package ds;
 
 import static ds.ArrayUtils.*;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /** Demonstrates array class with high-level interface. */
 @SuppressWarnings("PMD.LawOfDemeter")
-public class OrdArray {
+public class OrdArray extends Array {
   @SuppressWarnings("all")
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArray.class.getName());
 
-  private final long[] a;
-  private final AtomicInteger nElems;
-  private final Object lock = new Object();
-  private final boolean strict;
-  private AtomicInteger modCount;
   private boolean sorted = true;
   private boolean dirty;
 
   public OrdArray() {
-    this(100, false);
+    super();
   }
 
   public OrdArray(int max) {
-    this(max, false);
+    super(max);
   }
 
   public OrdArray(int max, boolean strict) {
-    if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
-    a = new long[max];
-    nElems = new AtomicInteger();
-    modCount = new AtomicInteger();
-    this.strict = strict;
-  }
-
-  public long[] get() {
-    return a.clone();
+    super(max, strict);
   }
 
   private void checkSorted() {
     sorted = isSorted(this);
   }
 
+  @Override
   public int findIndex(long searchKey) {
     return findIndex(searchKey, nElems.intValue());
   }
@@ -64,6 +50,7 @@ public class OrdArray {
   }
 
   // -----------------------------------------------------------
+  @Override
   public boolean find(long searchKey) {
     return findIndex(searchKey) >= 0;
   }
@@ -74,41 +61,45 @@ public class OrdArray {
    * @param value element to insert
    * @return index of inserted element.
    */
+  @Override
   public int insert(long value) {
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
-    if (sorted) {
-      int expectedCount = modCount.intValue();
-      int count = nElems.intValue();
-      int j = findIndex(value, count);
-      j = j < 0 ? -1 * j - 1 : j;
-      if (strict && expectedCount < modCount.intValue()) {
-        dirty = true;
-        throw new ConcurrentModificationException("Error inserting value: " + value);
-      }
-      modCount.incrementAndGet();
-      int numMoved = count - j;
-      System.arraycopy(a, j, a, j + 1, numMoved);
-      nElems.getAndIncrement();
-      a[j] = value;
-      return j;
-    }
+    if (sorted) return insert(value, length);
     return -1;
   }
 
-  public int syncInsert(long value) {
-    synchronized (lock) {
-      return insert(value);
-    }
+  private int insert(long value, int length) {
+    int expectedCount = modCount.intValue();
+    int j = findIndex(value, length);
+    j = j < 0 ? -1 * j - 1 : j;
+    checkForConcurrentUpdates(expectedCount, value, Operation.INSERT);
+    moveAndInsert(j, length, value);
+    return j;
   }
 
-  public void clear() {
-    int length = nElems.intValue();
-    if (length == 0) return;
+  private void moveAndInsert(int j, int count, long value) {
     modCount.incrementAndGet();
-    Arrays.fill(a, 0, length, 0L);
-    nElems.set(0);
+    int numMoved = count - j;
+    System.arraycopy(a, j, a, j + 1, numMoved);
+    nElems.getAndIncrement();
+    a[j] = value;
+  }
+
+  private void checkForConcurrentUpdates(int expectedCount, long value, Operation operation) {
+    if (strict && expectedCount < modCount.intValue()) {
+      dirty = true;
+      switch (operation) {
+        case INSERT:
+          throw new ConcurrentModificationException("Error inserting value: " + value);
+
+        case DELETE:
+          throw new ConcurrentModificationException("Error deleting value: " + value);
+
+        default:
+      }
+    }
   }
 
   private void fastDelete(int index, int length) {
@@ -119,42 +110,15 @@ public class OrdArray {
     a[nElems.decrementAndGet()] = 0;
   }
 
-  public boolean syncDelete(long value) {
-    synchronized (lock) {
-      return delete(value);
-    }
-  }
-
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  @Override
   public boolean delete(long value) {
     int length = nElems.intValue();
-    int expectedModCount = modCount.intValue();
-    int j = findIndex(value, nElems.intValue());
+    int j = findIndex(value, length);
     if (j < 0) return false;
-    if (strict && expectedModCount < modCount.intValue())
-      throw new ConcurrentModificationException("Error deleting value: " + value);
+    checkForConcurrentUpdates(modCount.intValue(), value, Operation.DELETE);
     fastDelete(j, length);
     return true;
-  }
-
-  @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
-  public void display() {
-    System.out.println(this);
-  }
-
-  @Override
-  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-  public String toString() {
-    int length = nElems.intValue();
-    StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(length).append(System.lineSeparator());
-    long[] newArray = a.clone();
-    for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
-    return sb.toString();
-  }
-
-  public int count() {
-    return nElems.intValue();
   }
 
   @Override
