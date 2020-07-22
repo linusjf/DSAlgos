@@ -4,6 +4,6 @@ import java.util.stream.Stream;
 
 public abstract class BaseConcurrencyTest {
   static Stream<Integer> provideArraySize() {
-    return Stream.of(20_000);
+    return Stream.of(30_000);
   }
 }
