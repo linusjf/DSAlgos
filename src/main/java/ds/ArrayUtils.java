@@ -7,6 +7,8 @@ public final class ArrayUtils {
   }
 
   public static boolean isSorted(long[] a, int length) {
+    if (length < 0 || length > a.length)
+      throw new ArrayIndexOutOfBoundsException("Length " + length + " is invalid.");
     for (int j = 0; j < length - 1; j++) {
       if (a[j] > a[j + 1]) {
         return false;

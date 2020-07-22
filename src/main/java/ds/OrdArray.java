@@ -42,8 +42,7 @@ public class OrdArray {
   }
 
   private void checkSorted() {
-    int length = nElems.intValue();
-    sorted = isSorted(a, length);
+    sorted = isSorted(this);
   }
 
   public int findIndex(long searchKey) {
