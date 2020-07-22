@@ -54,7 +54,7 @@ public class OrdArray {
     int lowerBound = 0;
     int upperBound = length - 1;
     while (lowerBound <= upperBound) {
-      int mid = (lowerBound + upperBound) >>> 1;
+      int mid = lowerBound + ((upperBound - lowerBound) >>> 1);
       long midVal = a[mid];
       if (midVal == searchKey) return mid;
       if (midVal < searchKey) lowerBound = mid + 1;
