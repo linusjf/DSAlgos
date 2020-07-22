@@ -610,8 +610,14 @@ class OrdArrayTest {
     arr.insert(77L);
     arr.insert(99L);
     arr.insert(44L);
+    String lineSeparator = System.lineSeparator();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(3).append(System.lineSeparator()).append("44 77 99 ");
+    sb.append(OrdArray.class.getName())
+        .append(lineSeparator)
+        .append("nElems = ")
+        .append(3)
+        .append(lineSeparator)
+        .append("44 77 99 ");
     assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 
@@ -619,8 +625,13 @@ class OrdArrayTest {
   void testToStringEmpty() {
     OrdArray arr = insertElements();
     arr.clear();
+    String lineSeparator = System.lineSeparator();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(0).append(System.lineSeparator());
+    sb.append(OrdArray.class.getName())
+        .append(lineSeparator)
+        .append("nElems = ")
+        .append(0)
+        .append(lineSeparator);
     assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 

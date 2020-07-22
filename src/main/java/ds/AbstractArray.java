@@ -74,7 +74,12 @@ public abstract class AbstractArray {
   public String toString() {
     int length = nElems.intValue();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(length).append(System.lineSeparator());
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+        .append(lineSeparator)
+        .append("nElems = ")
+        .append(length)
+        .append(lineSeparator);
     long[] newArray = a.clone();
     for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
     return sb.toString();
