@@ -177,6 +177,7 @@
               <jvmargs>
                 <jvmarg>-Xms1g</jvmarg>
                 <jvmarg>-Xmx4g</jvmarg>
+                <jvmarg>-XX:MaxMetaspaceSize=512m</jvmarg>
               </jvmargs>
               <failWhenNoMutations>false</failWhenNoMutations>
               <detectInlinedCode>false</detectInlinedCode>
@@ -379,7 +380,7 @@
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
             <rerunFailingTestsCount>5</rerunFailingTestsCount>
-            <argline>-Xms1g -Xmx4g</argline>
+            <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
           </configuration>
         </plugin>
         <plugin>
