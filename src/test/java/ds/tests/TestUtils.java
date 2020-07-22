@@ -8,7 +8,7 @@ import org.joor.Reflect;
 
 public final class TestUtils {
   static {
-    Field.class.getModule().addOpens(Field.class.getPackage().getName(), Reflect.class.getModule());
+    Field.class.getModule().addOpens(Field.class.getPackageName(), Reflect.class.getModule());
   }
 
   private TestUtils() {
