@@ -150,7 +150,6 @@
           <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
-            <version>1.5.2</version>
             <dependencies>
               <dependency>
                 <groupId>org.pitest</groupId>
@@ -244,13 +243,14 @@
     <checker.version>3.5.0</checker.version>
     <groovy.version>3.0.5</groovy.version>
     <junit.version>5.7.0-M1</junit.version>
+    <pitest.version>1.5.2</pitest.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.pitest</groupId>
         <artifactId>pitest</artifactId>
-        <version>1.5.2</version>
+        <version>${pitest.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -334,6 +334,11 @@
     <defaultGoal>clean install</defaultGoal>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>${pitest.version}</version>
+        </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>${maven.clean.plugin.version}</version>

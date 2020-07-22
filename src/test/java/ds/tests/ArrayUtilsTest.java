@@ -13,7 +13,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 class ArrayUtilsTest {
   private static final Logger LOGGER = Logger.getLogger(ArrayUtilsTest.class.getName());
 
@@ -62,8 +62,8 @@ class ArrayUtilsTest {
   @Test
   void testLengthOne() {
     long[] arr = new long[10];
-    int length = 1;
     arr[0] = 1;
+    int length = 1;
     assertTrue(isSorted(arr, length), "One element array is sorted!");
   }
 
