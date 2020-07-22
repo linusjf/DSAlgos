@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 import ds.HighArray;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
-  private static final Logger LOGGER = Logger.getLogger(HighArrayTest.class.getName());
 
   HighArray insertElements() {
     HighArray arr = new HighArray(100);

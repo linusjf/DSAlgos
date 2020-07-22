@@ -1,7 +1,6 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import java.util.logging.Logger;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayRepeatTest {
-  private static final Logger LOGGER = Logger.getLogger(HighArrayRepeatTest.class.getName());
   HighArray array;
 
   HighArrayRepeatTest() {

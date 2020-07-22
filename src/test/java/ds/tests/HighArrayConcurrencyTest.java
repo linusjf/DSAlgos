@@ -1,6 +1,5 @@
 package ds.tests;
 
-import static ds.tests.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
@@ -36,7 +35,6 @@ class HighArrayConcurrencyTest extends AbstractConcurrencyTest {
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentDeletes(int size) {
-    ExecutorService service = Executors.newFixedThreadPool(10);
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
@@ -44,6 +42,7 @@ class HighArrayConcurrencyTest extends AbstractConcurrencyTest {
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> highArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
+    ExecutorService service = Executors.newFixedThreadPool(10);
     nosParallel.forEach(
         i ->
             service.execute(
