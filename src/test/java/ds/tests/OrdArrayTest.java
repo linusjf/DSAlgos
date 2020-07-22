@@ -458,7 +458,6 @@ class OrdArrayTest {
   void testFindIndexFalse() {
     OrdArray arr = insertElements();
     long searchKey = 35L;
-    System.out.println(arr);
     assertEquals(-4, arr.findIndex(searchKey) + 1, () -> searchKey + " available");
   }
 

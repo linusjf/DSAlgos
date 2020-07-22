@@ -70,7 +70,7 @@ public abstract class AbstractArray {
   }
 
   @Override
-  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})
   public String toString() {
     int length = nElems.intValue();
     StringBuilder sb = new StringBuilder();
