@@ -60,9 +60,8 @@ class OrdArrayConcurrencyTest extends BaseConcurrencyTest {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertTrue(
-        0 != excCount.get() && !isSorted(ordArray),
-        () -> excCount + " is number of concurrent exceptions.");
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertFalse(isSorted(ordArray), "Array is sorted!");
   }
 
   @Test
@@ -107,9 +106,8 @@ class OrdArrayConcurrencyTest extends BaseConcurrencyTest {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertTrue(
-        0 != excCount.get() && !isSorted(ordArray),
-        () -> excCount + " is number of concurrent exceptions.");
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertFalse(isSorted(ordArray), "Array is sorted!");
   }
 
   @Test
