@@ -2,6 +2,7 @@ package ds;
 
 public final class ArrayUtils {
 
+  @Generated
   private ArrayUtils() {
     throw new IllegalStateException("Private constructor for" + ArrayUtils.class.getName());
   }
