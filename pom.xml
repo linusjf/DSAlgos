@@ -165,6 +165,7 @@
               <targetTests>
                 <param>ds.tests.HighArrayTest</param>
                 <param>ds.tests.OrdArrayTest</param>
+                <param>ds.tests.ArrayUtilsTest</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
