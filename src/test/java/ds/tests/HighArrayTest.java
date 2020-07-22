@@ -399,8 +399,14 @@ class HighArrayTest {
     arr.insert(77L);
     arr.insert(99L);
     arr.insert(44L);
+    String lineSeparator = System.lineSeparator();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(3).append(System.lineSeparator()).append("77 99 44 ");
+    sb.append(HighArray.class.getName())
+        .append(lineSeparator)
+        .append("nElems = ")
+        .append(3)
+        .append(lineSeparator)
+        .append("77 99 44 ");
     assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 
@@ -408,8 +414,13 @@ class HighArrayTest {
   void testToStringEmpty() {
     HighArray arr = insertElements();
     arr.clear();
+    String lineSeparator = System.lineSeparator();
     StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(0).append(System.lineSeparator());
+    sb.append(HighArray.class.getName())
+        .append(lineSeparator)
+        .append("nElems = ")
+        .append(0)
+        .append(System.lineSeparator());
     assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
   }
 

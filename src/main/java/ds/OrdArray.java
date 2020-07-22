@@ -15,7 +15,7 @@ public class OrdArray extends AbstractArray {
   private boolean dirty;
 
   public OrdArray() {
-  // empty constructor, implicitly calls super
+    // empty constructor, implicitly calls super
   }
 
   public OrdArray(int max) {

@@ -1,8 +1,6 @@
 package ds;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Demonstrates array class with high-level interface.
@@ -10,37 +8,24 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>To run this program: C&gt;java
  */
 @SuppressWarnings("PMD.LawOfDemeter")
-public class HighArray {
+public class HighArray extends AbstractArray {
   @SuppressWarnings("all")
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
-  private final long[] a;
-  private final AtomicInteger nElems;
-  private final Object lock = new Object();
-  private final boolean strict;
-  private AtomicInteger modCount;
-
   public HighArray() {
-    this(100, false);
+    // empty constructor, implicit super
   }
 
   public HighArray(int max) {
-    this(max, false);
+    super(max);
   }
 
   public HighArray(int max, boolean strict) {
-    if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
-    a = new long[max];
-    nElems = new AtomicInteger();
-    modCount = new AtomicInteger();
-    this.strict = strict;
+    super(max, strict);
   }
 
-  public long[] get() {
-    return a.clone();
-  }
-
+  @Override
   public int findIndex(long searchKey) {
     int length = nElems.intValue();
     for (int j = 0; j < length; j++) {
@@ -50,23 +35,18 @@ public class HighArray {
   }
 
   // -----------------------------------------------------------
+  @Override
   public boolean find(long searchKey) {
     return findIndex(searchKey) >= 0;
   }
 
-  public void insert(long value) {
+  @Override
+  public int insert(long value) {
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     modCount.incrementAndGet();
     a[nElems.getAndIncrement()] = value;
-  }
-
-  public void clear() {
-    int length = nElems.intValue();
-    if (length == 0) return;
-    modCount.incrementAndGet();
-    Arrays.fill(a, 0, length, 0L);
-    nElems.set(0);
+    return length;
   }
 
   private void fastDelete(int index, int length) {
@@ -77,13 +57,8 @@ public class HighArray {
     a[nElems.decrementAndGet()] = 0;
   }
 
-  public boolean syncDelete(long value) {
-    synchronized (lock) {
-      return delete(value);
-    }
-  }
-
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+  @Override
   public boolean delete(long value) {
     int length = nElems.intValue();
     int expectedModCount = modCount.intValue();
@@ -96,26 +71,6 @@ public class HighArray {
       }
     }
     return false;
-  }
-
-  @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
-  public void display() {
-    System.out.println(this);
-  }
-
-  @Override
-  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-  public String toString() {
-    int length = nElems.intValue();
-    long[] newArray = a.clone();
-    StringBuilder sb = new StringBuilder();
-    sb.append("nElems = ").append(length).append(System.lineSeparator());
-    for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
-    return sb.toString();
-  }
-
-  public int count() {
-    return nElems.intValue();
   }
 
   @Override
