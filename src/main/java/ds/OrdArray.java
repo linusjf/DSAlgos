@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ArrayUtils.*;
+import static ds.ArrayUtils.isSorted;
 
 import java.util.ConcurrentModificationException;
 

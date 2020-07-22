@@ -1,6 +1,6 @@
 package ds.tests;
 
-import static ds.ArrayUtils.*;
+import static ds.ArrayUtils.isSorted;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 class ArrayUtilsTest {
-  private static final Logger LOGGER = Logger.getLogger(ArrayUtilsTest.class.getName());
 
   @Test
   void testSorted() {
@@ -75,6 +74,7 @@ class ArrayUtilsTest {
     assertTrue(isSorted(arr, length), "Size one array is sorted!");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testNegativeLength() {
     long[] arr = new long[10];
@@ -88,6 +88,7 @@ class ArrayUtilsTest {
     assertTrue(val < 0 || val > arr.length, " -1 expected.");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testExcessiveLength() {
     long[] arr = new long[10];

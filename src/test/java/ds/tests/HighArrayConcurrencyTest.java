@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayConcurrencyTest extends BaseConcurrencyTest {
+class HighArrayConcurrencyTest extends AbstractConcurrencyTest {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
 
   @Test
