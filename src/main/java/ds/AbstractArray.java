@@ -3,7 +3,7 @@ package ds;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class Array {
+public abstract class AbstractArray {
 
   protected final long[] a;
   protected final AtomicInteger nElems;
@@ -16,15 +16,15 @@ public abstract class Array {
     DELETE
   }
 
-  public Array() {
+  public AbstractArray() {
     this(100, false);
   }
 
-  public Array(int max) {
+  public AbstractArray(int max) {
     this(max, false);
   }
 
-  public Array(int max, boolean strict) {
+  public AbstractArray(int max, boolean strict) {
     if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
     a = new long[max];
     nElems = new AtomicInteger();

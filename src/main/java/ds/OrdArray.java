@@ -6,7 +6,7 @@ import java.util.ConcurrentModificationException;
 
 /** Demonstrates array class with high-level interface. */
 @SuppressWarnings("PMD.LawOfDemeter")
-public class OrdArray extends Array {
+public class OrdArray extends AbstractArray {
   @SuppressWarnings("all")
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArray.class.getName());
@@ -14,9 +14,7 @@ public class OrdArray extends Array {
   private boolean sorted = true;
   private boolean dirty;
 
-  public OrdArray() {
-    super();
-  }
+  public OrdArray() {}
 
   public OrdArray(int max) {
     super(max);
