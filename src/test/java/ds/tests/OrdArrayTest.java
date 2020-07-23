@@ -2,6 +2,7 @@ package ds.tests;
 
 import static ds.ArrayUtils.*;
 import static ds.tests.TestUtils.*;
+import static ds.tests.TestConstants.NOT_AVAILABLE;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,7 +26,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
-  private static final String NOT_AVAILABLE = "%d not available";
 
   private static final String SORTED = "sorted";
 
