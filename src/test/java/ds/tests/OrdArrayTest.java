@@ -11,7 +11,6 @@ import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
-  private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
   private static final String SORTED = "sorted";
 
@@ -296,6 +294,7 @@ class OrdArrayTest {
     assertTrue(res == 8 && arr.count() == count + 1 && sorted, "Sorted and insert at 8 expected.");
   }
 
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Test
   void testInsertAllSameSorted() {
     OrdArray arr = new OrdArray(100);

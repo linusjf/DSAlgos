@@ -136,8 +136,11 @@
   <rule ref="category/java/codestyle.xml/NoPackage"/>
   <rule ref="category/java/codestyle.xml/UseUnderscoresInNumericLiterals"/>
   <!-- <rule ref="category/java/codestyle.xml/OnlyOneReturn" /> -->
-  <rule ref="category/java/codestyle.xml/PrematureDeclaration"/>
-  <rule ref="category/java/codestyle.xml/TooManyStaticImports"/>
+  <rule ref="category/java/codestyle.xml/TooManyStaticImports">
+    <properties>
+      <property name="maximumStaticImports" value="10"/>
+    </properties>
+  </rule>
   <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement"/>
   <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
   <rule ref="category/java/codestyle.xml/UnnecessaryCast"/>
