@@ -25,6 +25,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
+  private static final String NOT_AVAILABLE = "%d not available";
+
   OrdArray insertElements() {
     OrdArray arr = new OrdArray(100);
     // insert 10 items
@@ -264,6 +266,7 @@ class OrdArrayTest {
     assertTrue(res == -1 && !sorted && arr.count() == count, "Insert must fail on unsorted");
   }
 
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Test
   void testInsertSorted() {
     OrdArray arr = new OrdArray(100);
@@ -291,16 +294,8 @@ class OrdArrayTest {
   void testInsertAllSameSorted() {
     OrdArray arr = new OrdArray(100);
     long[] unsorted = new long[100];
-    unsorted[0] = 43L;
-    unsorted[1] = 43L;
-    unsorted[2] = 43L;
-    unsorted[3] = 43L;
-    unsorted[4] = 43L;
-    unsorted[5] = 43L;
-    unsorted[6] = 43L;
-    unsorted[7] = 43L;
-    unsorted[8] = 43L;
-    unsorted[9] = 43L;
+    for (int i = 0; i < 10; i++)
+unsorted[i] = 43L;
     on(arr).set("a", unsorted);
     on(arr).set("sorted", false);
     on(arr).set("dirty", true);
@@ -472,14 +467,18 @@ class OrdArrayTest {
   void testFindIndexTrue() {
     OrdArray arr = insertElements();
     long searchKey = 11L;
-    assertEquals(1, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(1, 
+        arr.findIndex(searchKey), 
+        () -> String.format(NOT_AVAILABLE,
+                            searchKey));
   }
 
   @Test
   void testFindIndexStart() {
     OrdArray arr = insertElements();
     long searchKey = 0L;
-    assertEquals(0, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(0, arr.findIndex(searchKey), () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -487,7 +486,8 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 0L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -495,21 +495,24 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 99L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
   void testFindIndexEnd() {
     OrdArray arr = insertElements();
     long searchKey = 99L;
-    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(9, arr.findIndex(searchKey), () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
   void testFindTrue() {
     OrdArray arr = insertElements();
     long searchKey = 11L;
-    assertTrue(arr.find(searchKey), () -> searchKey + " not available");
+    assertTrue(arr.find(searchKey), () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -517,7 +520,8 @@ class OrdArrayTest {
     OrdArray arr = insertSequentialElements();
     long searchKey = 14L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 3, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 3, () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -525,7 +529,8 @@ class OrdArrayTest {
     OrdArray arr = insertSequentialElements();
     long searchKey = 16L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 5, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 5, () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -535,7 +540,8 @@ class OrdArrayTest {
     long searchKey = 00L;
     assertTrue(
         arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
-        () -> searchKey + " not available");
+        () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -545,7 +551,8 @@ class OrdArrayTest {
     long searchKey = 33L;
     assertTrue(
         arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
-        () -> searchKey + " not available");
+        () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -556,7 +563,8 @@ class OrdArrayTest {
     long searchKey = 33L;
     assertTrue(
         arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
-        () -> searchKey + " not available");
+        () -> 
+        String.format(NOT_AVAILABLE,searchKey));
   }
 
   @Test
@@ -564,7 +572,8 @@ class OrdArrayTest {
     OrdArray arr = insertElements();
     long searchKey = 0L;
     arr.delete(searchKey);
-    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+    assertEquals(-1, arr.findIndex(searchKey), () -> 
+        searchKey + " still available");
   }
 
   @Test
@@ -574,7 +583,8 @@ class OrdArrayTest {
     arr.delete(searchKey);
     int count = arr.count();
     assertFalse(
-        arr.delete(searchKey) && arr.count() != count, () -> searchKey + " still available");
+        arr.delete(searchKey) && arr.count() != count, () -> 
+        searchKey + " still available");
   }
 
   @Test
