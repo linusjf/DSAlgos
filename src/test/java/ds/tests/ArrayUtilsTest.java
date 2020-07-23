@@ -4,7 +4,6 @@ import static ds.ArrayUtils.isSorted;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;

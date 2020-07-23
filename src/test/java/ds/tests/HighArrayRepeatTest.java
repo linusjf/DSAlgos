@@ -3,7 +3,6 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
-import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
