@@ -25,8 +25,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayConcurrencyTest.class.getName());
 
-  @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts",
-  "PMD.DataflowAnomalyAnalysis"})
+  @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentInsertsLatch(int size) {
@@ -74,8 +73,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
   }
 
-  @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts",
-  "PMD.DataflowAnomalyAnalysis"})
+  @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentDeletes(int size) {

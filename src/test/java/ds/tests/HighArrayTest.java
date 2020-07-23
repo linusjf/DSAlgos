@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.HighArray;
+import ds.IArray;
 import java.util.Arrays;
 import java.util.Optional;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -23,8 +24,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
 
-  HighArray insertElements() {
-    HighArray arr = new HighArray(100);
+  IArray insertElements() {
+    IArray arr = new HighArray(100);
     // insert 10 items
     arr.insert(77L);
     arr.insert(99L);
@@ -39,7 +40,7 @@ class HighArrayTest {
     return arr;
   }
 
-  private void insertElements(HighArray arr) {
+  private void insertElements(IArray arr) {
     // insert 10 items
     arr.insert(77L);
     arr.insert(99L);
@@ -70,13 +71,13 @@ class HighArrayTest {
 
     @Test
     void testConstructorParameterOK() {
-      HighArray arr = new HighArray(10);
+      IArray arr = new HighArray(10);
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
     @Test
     void testEmptyConstructor() {
-      HighArray arr = new HighArray();
+      IArray arr = new HighArray();
       boolean strict = (boolean) on(arr).get("strict");
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
@@ -99,7 +100,7 @@ class HighArrayTest {
   class InsertTests {
     @Test
     void testException() {
-      HighArray highArray = new HighArray(3);
+      IArray highArray = new HighArray(3);
       highArray.insert(2L);
       highArray.insert(11L);
       highArray.insert(21L);
@@ -112,7 +113,7 @@ class HighArrayTest {
 
     @Test
     void testInsert() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       assertEquals(arr.count(), 10, "10 elements not inserted.");
     }
   }
@@ -121,7 +122,7 @@ class HighArrayTest {
   class ModCountTests {
     @Test
     void testInsertModCount() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.insert(10L);
@@ -133,7 +134,7 @@ class HighArrayTest {
 
     @Test
     void testClearModCount() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.clear();
@@ -145,7 +146,7 @@ class HighArrayTest {
 
     @Test
     void testClearEmptyModCount() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -156,7 +157,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteModCount() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -168,7 +169,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteNotFoundModCount() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -184,7 +185,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
           arr.delete(00L)
@@ -200,7 +201,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteFalse() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(
           arr.delete(12L)
@@ -215,7 +216,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteEnd() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -225,7 +226,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteEndArray() {
-      HighArray arr = new HighArray(10);
+      IArray arr = new HighArray(10);
       insertElements(arr);
       int count = arr.count();
       long searchKey = 33L;
@@ -236,7 +237,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteOverflow() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long searchKey = 0L;
       arr.delete(searchKey);
@@ -246,7 +247,7 @@ class HighArrayTest {
 
     @Test
     void testDeleteStart() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long searchKey = 77L;
       assertTrue(
@@ -260,7 +261,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L)
@@ -276,7 +277,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteTrueIndividual() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
     }
@@ -284,7 +285,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteFalseIndividual() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(arr.syncDelete(12L) && arr.count() == count, "Elements 12 found and deleted");
     }
@@ -292,7 +293,7 @@ class HighArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteFalse() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(
           arr.syncDelete(12L)
@@ -310,28 +311,28 @@ class HighArrayTest {
   class FindTests {
     @Test
     void testFindIndexFalse() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 35L;
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
 
     @Test
     void testFindFalse() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 35L;
       assertFalse(arr.find(searchKey), () -> searchKey + " available");
     }
 
     @Test
     void testFindIndex() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 11L;
       assertEquals(6, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindIndexTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 11L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 6,
@@ -340,14 +341,14 @@ class HighArrayTest {
 
     @Test
     void testFindIndexStart() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 77L;
       assertEquals(0, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindIndexStartTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 77L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 0,
@@ -356,14 +357,14 @@ class HighArrayTest {
 
     @Test
     void testFindIndexEnd() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 33L;
       assertEquals(9, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindIndexEndTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 33L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 9,
@@ -372,7 +373,7 @@ class HighArrayTest {
 
     @Test
     void testFindIndexOverflow() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 0L;
       arr.delete(0L);
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
@@ -380,14 +381,14 @@ class HighArrayTest {
 
     @Test
     void testFindEmpty() {
-      HighArray arr = new HighArray(10);
+      IArray arr = new HighArray(10);
       long searchKey = 0L;
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
 
     @Test
     void testFindTrue() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 11L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 6,
@@ -399,26 +400,26 @@ class HighArrayTest {
   class MiscTests {
     @Test
     void testGet() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       long[] vals = arr.get();
       assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
     }
 
     @Test
     void testCountZero() {
-      HighArray arr = new HighArray(10, true);
+      IArray arr = new HighArray(10, true);
       assertEquals(0, arr.count(), "Count must be zero!");
     }
 
     @Test
     void testCountPositive() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       assertEquals(10, arr.count(), "Count must be 10!");
     }
 
     @Test
     void testClear() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       int origCount = arr.count();
       arr.clear();
       long[] copy = new long[origCount];
@@ -428,7 +429,7 @@ class HighArrayTest {
 
     @Test
     void testClearEmpty() {
-      HighArray arr = new HighArray(100);
+      IArray arr = new HighArray(100);
       arr.clear();
       long[] copy = new long[100];
       assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
@@ -439,7 +440,7 @@ class HighArrayTest {
   class ToStringTests {
     @Test
     void testToString() {
-      HighArray arr = new HighArray(10);
+      IArray arr = new HighArray(10);
       arr.insert(77L);
       arr.insert(99L);
       arr.insert(44L);
@@ -456,7 +457,7 @@ class HighArrayTest {
 
     @Test
     void testToStringEmpty() {
-      HighArray arr = insertElements();
+      IArray arr = insertElements();
       arr.clear();
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
@@ -470,8 +471,8 @@ class HighArrayTest {
 
     @Test
     void testDisplay() {
-      HighArray arr = insertElements();
-      HighArray highArray = spy(arr);
+      IArray arr = insertElements();
+      IArray highArray = spy(arr);
 
       doAnswer(
               i -> {

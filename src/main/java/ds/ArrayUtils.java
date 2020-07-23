@@ -18,7 +18,7 @@ public final class ArrayUtils {
     return true;
   }
 
-  public static boolean isSorted(OrdArray arr) {
+  public static boolean isSorted(IArray arr) {
     return isSorted(arr.get(), arr.count());
   }
 }

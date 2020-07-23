@@ -3,7 +3,7 @@ package ds;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class AbstractArray {
+public abstract class AbstractArray implements IArray {
 
   protected final long[] a;
   protected final AtomicInteger nElems;
@@ -32,16 +32,21 @@ public abstract class AbstractArray {
     this.strict = strict;
   }
 
+  @Override
   public long[] get() {
     return a.clone();
   }
 
+  @Override
   public abstract int findIndex(long searchKey);
 
+  @Override
   public abstract boolean find(long searchKey);
 
+  @Override
   public abstract int insert(long value);
 
+  @Override
   public abstract boolean delete(long value);
 
   public int syncInsert(long value) {
@@ -50,6 +55,7 @@ public abstract class AbstractArray {
     }
   }
 
+  @Override
   public void clear() {
     int length = nElems.intValue();
     if (length == 0) return;
@@ -64,6 +70,7 @@ public abstract class AbstractArray {
     }
   }
 
+  @Override
   @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
   public void display() {
     System.out.println(this);
@@ -85,6 +92,7 @@ public abstract class AbstractArray {
     return sb.toString();
   }
 
+  @Override
   public int count() {
     return nElems.intValue();
   }
