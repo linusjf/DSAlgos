@@ -288,8 +288,7 @@ class OrdArrayTest {
   class DeleteTests {
 
     @Test
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
-    "PMD.JUnitTestContainsTooManyAsserts"})
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
     void testDeleteTrue() {
       IArray arr = insertElements();
       int count = arr.count();
@@ -355,8 +354,7 @@ class OrdArrayTest {
   @Nested
   class SyncTests {
     @Test
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
-    "PMD.JUnitTestContainsTooManyAsserts"})
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
     void testSyncDeleteTrue() {
       IArray arr = insertElements();
       int count = arr.count();
