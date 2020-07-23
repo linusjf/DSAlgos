@@ -26,6 +26,10 @@ class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
   private static final String NOT_AVAILABLE = "%d not available";
+  
+  private static final String SORTED = "sorted";
+  
+  private static final String DIRTY = "dirty";
 
   OrdArray insertElements() {
     OrdArray arr = new OrdArray(100);
@@ -153,7 +157,7 @@ class OrdArrayTest {
   @Test
   void testInsertOnDirty() {
     OrdArray arr = insertElements();
-    on(arr).set("dirty", true);
+    on(arr).set(DIRTY, true);
     arr.insert(10L);
     assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
   }
@@ -161,7 +165,7 @@ class OrdArrayTest {
   @Test
   void testInsertOnDirtyEmpty() {
     OrdArray arr = new OrdArray(10);
-    on(arr).set("dirty", true);
+    on(arr).set(DIRTY, true);
     arr.insert(10L);
     assertEquals(1, arr.count(), "1 element expected.");
   }
@@ -180,7 +184,7 @@ class OrdArrayTest {
     arr.insert(00L);
     arr.insert(66L);
     arr.insert(33L);
-    on(arr).set("dirty", true);
+    on(arr).set(DIRTY, true);
     assertThrows(
         ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
   }
@@ -243,6 +247,7 @@ class OrdArrayTest {
         "11 elements expected, index 0 expected.");
   }
 
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Test
   void testInsertUnSorted() {
     OrdArray arr = new OrdArray(100);
@@ -259,10 +264,10 @@ class OrdArrayTest {
     unsorted[9] = 10L;
     on(arr).set("a", unsorted);
     on(arr).set("nElems", new AtomicInteger(10));
-    on(arr).set("dirty", true);
+    on(arr).set(DIRTY, true);
     int count = arr.count();
     int res = arr.insert(99L);
-    boolean sorted = (boolean) on(arr).get("sorted");
+    boolean sorted = getSorted(arr);
     assertTrue(res == -1 && !sorted && arr.count() == count, "Insert must fail on unsorted");
   }
 
@@ -283,10 +288,10 @@ class OrdArrayTest {
     sortedArray[9] = 102L;
     on(arr).set("a", sortedArray);
     on(arr).set("nElems", new AtomicInteger(10));
-    on(arr).set("dirty", true);
+    on(arr).set(DIRTY, true);
     int count = arr.count();
     int res = arr.insert(99L);
-    boolean sorted = (boolean) on(arr).get("sorted");
+    boolean sorted = getSorted(arr);
     assertTrue(res == 8 && arr.count() == count + 1 && sorted, "Sorted and insert at 8 expected.");
   }
 
@@ -296,12 +301,12 @@ class OrdArrayTest {
     long[] unsorted = new long[100];
     for (int i = 0; i < 10; i++) unsorted[i] = 43L;
     on(arr).set("a", unsorted);
-    on(arr).set("sorted", false);
-    on(arr).set("dirty", true);
+    on(arr).set(SORTED, false);
+    on(arr).set(DIRTY, true);
     on(arr).set("nElems", new AtomicInteger(10));
     int count = arr.count();
     int res = arr.insert(99L);
-    boolean sorted = (boolean) on(arr).get("sorted");
+    boolean sorted = getSorted(arr);
     assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
   }
 
@@ -668,7 +673,7 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void equalsContract() {
     EqualsVerifier.forClass(OrdArray.class)
-        .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
+        .withIgnoredFields("modCount", "lock", "strict", SORTED, DIRTY)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(OrdArrayExt.class)
         .withIgnoredAnnotations(NonNull.class)
@@ -679,7 +684,7 @@ class OrdArrayTest {
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void leafNodeEquals() {
     EqualsVerifier.forClass(OrdArray.class)
-        .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
+        .withIgnoredFields("modCount", "lock", "strict", SORTED, DIRTY)
         .withRedefinedSuperclass()
         .withRedefinedSubclass(OrdArrayExt.class)
         .withIgnoredAnnotations(NonNull.class)

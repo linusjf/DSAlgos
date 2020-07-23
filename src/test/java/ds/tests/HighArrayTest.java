@@ -299,8 +299,7 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 0L;
     arr.delete(0L);
-    assertEquals(-1, arr.findIndex(searchKey)
-        , () -> searchKey + " still available");
+    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
   }
 
   @Test
