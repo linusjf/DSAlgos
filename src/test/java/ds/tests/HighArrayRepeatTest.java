@@ -3,6 +3,7 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
+import ds.IArray;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayRepeatTest {
-  HighArray array;
+  IArray array;
 
   HighArrayRepeatTest() {
     array = new HighArray(1000, true);

@@ -7,6 +7,7 @@ import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import ds.IArray;
 import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
@@ -29,8 +30,8 @@ class OrdArrayTest {
 
   private static final String DIRTY = "dirty";
 
-  OrdArray insertElements() {
-    OrdArray arr = new OrdArray(100);
+  IArray insertElements() {
+    IArray arr = new OrdArray(100);
     // insert 10 items
     arr.insert(77L);
     arr.insert(99L);
@@ -45,8 +46,8 @@ class OrdArrayTest {
     return arr;
   }
 
-  OrdArray insertSequentialElements() {
-    OrdArray arr = new OrdArray(100);
+  IArray insertSequentialElements() {
+    IArray arr = new OrdArray(100);
     // insert 10 items
     arr.insert(11L);
     arr.insert(12L);
@@ -61,7 +62,7 @@ class OrdArrayTest {
     return arr;
   }
 
-  private void insertElements(OrdArray arr) {
+  private void insertElements(IArray arr) {
     // insert 10 items
     arr.insert(77L);
     arr.insert(99L);
@@ -79,13 +80,13 @@ class OrdArrayTest {
   class InsertTests {
     @Test
     void insertDuplicate() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
     }
 
     @Test
     void insertDuplicateElements() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       // insert 21 items
       arr.insert(77L);
       arr.insert(77L);
@@ -113,7 +114,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertOnDirty() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       on(arr).set(DIRTY, true);
       arr.insert(10L);
       assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
@@ -121,7 +122,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertOnDirtyEmpty() {
-      OrdArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(10);
       on(arr).set(DIRTY, true);
       arr.insert(10L);
       assertEquals(1, arr.count(), "1 element expected.");
@@ -129,7 +130,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertOnDirtyFull() {
-      OrdArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(10);
       // insert 10 items
       arr.insert(77L);
       arr.insert(99L);
@@ -148,13 +149,13 @@ class OrdArrayTest {
 
     @Test
     void testInsert() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
 
     @Test
     void testInsertAtStartExists() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long val = 0L;
       int index = arr.findIndex(val);
@@ -169,7 +170,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertAtEndExists() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long val = 99L;
       int index = arr.findIndex(val);
@@ -184,7 +185,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertAtEnd() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long val = 100L;
       int insertIndex = arr.insert(val);
@@ -195,7 +196,7 @@ class OrdArrayTest {
 
     @Test
     void testInsertAtStart() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long val = -1L;
       int insertIndex = arr.insert(val);
@@ -207,7 +208,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     void testInsertUnSorted() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       long[] unsorted = new long[100];
       unsorted[0] = 43L;
       unsorted[1] = 61L;
@@ -231,7 +232,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     void testInsertSorted() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       long[] sortedArray = new long[100];
       sortedArray[0] = 43L;
       sortedArray[1] = 61L;
@@ -256,7 +257,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @Test
     void testInsertAllSameSorted() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       long[] unsorted = new long[100];
       for (int i = 0; i < 10; i++) unsorted[i] = 43L;
       on(arr).set("a", unsorted);
@@ -271,7 +272,7 @@ class OrdArrayTest {
 
     @Test
     void testException() {
-      OrdArray ordArray = new OrdArray(3);
+      IArray ordArray = new OrdArray(3);
       ordArray.insert(2L);
       ordArray.insert(11L);
       ordArray.insert(21L);
@@ -289,7 +290,7 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteFalse() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(
           arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
@@ -298,7 +299,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteStart() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long searchKey = 00L;
       assertTrue(
@@ -308,7 +309,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteEnd() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -318,7 +319,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteOverflow() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 0L;
       arr.delete(searchKey);
       int count = arr.count();
@@ -328,7 +329,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteEndArray() {
-      OrdArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(10);
       insertElements(arr);
       int count = arr.count();
       long searchKey = 33L;
@@ -343,7 +344,7 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L)
@@ -357,7 +358,7 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L)
@@ -371,7 +372,7 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteTrueIndividual() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L) && arr.count() == count - 1 && isSorted(arr), "Element 0 not found.");
@@ -380,7 +381,7 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteFalse() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(
           arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L) && arr.count() != count,
@@ -390,14 +391,14 @@ class OrdArrayTest {
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteFalseIndividual() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int count = arr.count();
       assertFalse(arr.syncDelete(12L) && arr.count() != count, "Elements 12 found and deleted");
     }
 
     @Test
     void insertSyncDuplicate() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       assertTrue(6 == arr.syncInsert(66L) && isSorted(arr), "7 elements expected");
     }
   }
@@ -419,13 +420,13 @@ class OrdArrayTest {
 
     @Test
     void testConstructorParameterOK() {
-      OrdArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(10);
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
     @Test
     void testEmptyConstructor() {
-      OrdArray arr = new OrdArray();
+      IArray arr = new OrdArray();
       boolean strict = (boolean) on(arr).get("strict");
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
@@ -448,7 +449,7 @@ class OrdArrayTest {
   class ModCountTests {
     @Test
     void testInsertModCount() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.insert(10L);
@@ -460,7 +461,7 @@ class OrdArrayTest {
 
     @Test
     void testClearModCount() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.clear();
@@ -472,7 +473,7 @@ class OrdArrayTest {
 
     @Test
     void testClearEmptyModCount() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -483,7 +484,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteModCount() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -495,7 +496,7 @@ class OrdArrayTest {
 
     @Test
     void testDeleteNotFoundModCount() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -510,7 +511,7 @@ class OrdArrayTest {
   class MiscTests {
     @Test
     void testClear() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       int origCount = arr.count();
       arr.clear();
       long[] copy = new long[origCount];
@@ -520,7 +521,7 @@ class OrdArrayTest {
 
     @Test
     void testClearEmpty() {
-      OrdArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(100);
       arr.clear();
       long[] copy = new long[100];
       assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
@@ -528,20 +529,20 @@ class OrdArrayTest {
 
     @Test
     void testGet() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long[] vals = arr.get();
       assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
     }
 
     @Test
     void testCountZero() {
-      OrdArray arr = new OrdArray(10, true);
+      IArray arr = new OrdArray(10, true);
       assertEquals(0, arr.count(), "Count must be zero!");
     }
 
     @Test
     void testCountPositive() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       assertEquals(10, arr.count(), "Count must be 10!");
     }
   }
@@ -551,35 +552,35 @@ class OrdArrayTest {
 
     @Test
     void testFindIndexFalse() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 35L;
       assertEquals(-4, arr.findIndex(searchKey) + 1, () -> searchKey + " available");
     }
 
     @Test
     void testFindFalse() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 35L;
       assertFalse(arr.find(searchKey), () -> searchKey + " available");
     }
 
     @Test
     void testFindIndexTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 11L;
       assertEquals(1, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindIndexStart() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 0L;
       assertEquals(0, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindIndexStartTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 0L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 0,
@@ -588,7 +589,7 @@ class OrdArrayTest {
 
     @Test
     void testFindIndexEndTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 99L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 9,
@@ -597,21 +598,21 @@ class OrdArrayTest {
 
     @Test
     void testFindIndexEnd() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 99L;
       assertEquals(9, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindTrue() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 11L;
       assertTrue(arr.find(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
     @Test
     void testFindSeqBefore() {
-      OrdArray arr = insertSequentialElements();
+      IArray arr = insertSequentialElements();
       long searchKey = 14L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 3,
@@ -620,7 +621,7 @@ class OrdArrayTest {
 
     @Test
     void testFindSeqAfter() {
-      OrdArray arr = insertSequentialElements();
+      IArray arr = insertSequentialElements();
       long searchKey = 16L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 5,
@@ -629,7 +630,7 @@ class OrdArrayTest {
 
     @Test
     void testFindIndexOverflow() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       long searchKey = 0L;
       arr.delete(searchKey);
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
@@ -637,7 +638,7 @@ class OrdArrayTest {
 
     @Test
     void testFindEmpty() {
-      OrdArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(10);
       long searchKey = 0L;
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
@@ -647,7 +648,7 @@ class OrdArrayTest {
   class ToStringTests {
     @Test
     void testToString() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       arr.clear();
       arr.insert(77L);
       arr.insert(99L);
@@ -665,7 +666,7 @@ class OrdArrayTest {
 
     @Test
     void testToStringEmpty() {
-      OrdArray arr = insertElements();
+      IArray arr = insertElements();
       arr.clear();
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
@@ -679,8 +680,8 @@ class OrdArrayTest {
 
     @Test
     void testDisplay() {
-      OrdArray arr = insertElements();
-      OrdArray ordArray = spy(arr);
+      IArray arr = insertElements();
+      IArray ordArray = spy(arr);
 
       doAnswer(
               i -> {

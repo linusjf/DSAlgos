@@ -3,6 +3,7 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
+import ds.IArray;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +27,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentInserts() {
-    HighArray highArray = new HighArray(10_000);
+    IArray highArray = new HighArray(10_000);
     LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
     assertEquals(
         10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
@@ -39,7 +40,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
-    HighArray highArray = new HighArray(size, true);
+    IArray highArray = new HighArray(size, true);
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> highArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
@@ -72,7 +73,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testSequentialDeletes() {
-    HighArray highArray = new HighArray(10_000, true);
+    IArray highArray = new HighArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {
@@ -85,7 +86,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentSyncDeletes() {
-    HighArray highArray = new HighArray(100);
+    IArray highArray = new HighArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {

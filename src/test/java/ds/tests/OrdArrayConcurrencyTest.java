@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.ArrayUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.IArray;
 import ds.OrdArray;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.CountDownLatch;
@@ -32,7 +33,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(size, true);
+    IArray ordArray = new OrdArray(size, true);
     ExecutorService service = Executors.newFixedThreadPool(10);
     LongStream.rangeClosed(1L, (long) size)
         .unordered()
@@ -67,7 +68,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testSyncInserts() {
-    OrdArray ordArray = new OrdArray(10_000, true);
+    IArray ordArray = new OrdArray(10_000, true);
     LongStream.rangeClosed(1L, 10_000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
     assertTrue(isSorted(ordArray), "Array is unsorted!");
     assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
@@ -80,7 +81,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
-    OrdArray ordArray = new OrdArray(size, true);
+    IArray ordArray = new OrdArray(size, true);
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
@@ -114,7 +115,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testSequentialDeletes() {
-    OrdArray ordArray = new OrdArray(10_000, true);
+    IArray ordArray = new OrdArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {
@@ -126,7 +127,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentSyncDeletes() {
-    OrdArray ordArray = new OrdArray(100);
+    IArray ordArray = new OrdArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
     nos.forEach(
         i -> {
@@ -138,7 +139,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentSyncInsertsDeletes() {
-    OrdArray ordArray = new OrdArray(100);
+    IArray ordArray = new OrdArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();
     nos.forEach(
         i -> {

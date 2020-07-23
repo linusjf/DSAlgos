@@ -2,6 +2,7 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.IArray;
 import ds.OrdArray;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.RepeatedTest;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayRepeatTest {
-  OrdArray array;
+  IArray array;
 
   OrdArrayRepeatTest() {
     array = new OrdArray(1000, true);

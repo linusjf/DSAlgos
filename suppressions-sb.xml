@@ -9,4 +9,20 @@
     <Method name="testConcurrentDeletes"/>
     <Bug pattern="PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS"/>
   </Match>
+  <Match>
+    <Class name="ds.tests.HighArrayTest$ConstructorTests"/>
+    <Bug pattern="SEC_SIDE_EFFECT_CONSTRUCTOR"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.OrdArrayTest$ConstructorTests"/>
+    <Bug pattern="SEC_SIDE_EFFECT_CONSTRUCTOR"/>
+  </Match>
+  <Match>
+    <Class name="~ds.tests.OrdArrayTest$.*"/>
+    <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
+  </Match>
+  <Match>
+    <Class name="~ds.tests.HighArrayTest$.*"/>
+    <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
+  </Match>
 </FindBugsFilter>
