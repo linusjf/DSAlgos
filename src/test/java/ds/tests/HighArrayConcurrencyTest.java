@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class HighArrayConcurrencyTest extends AbstractConcurrencyTest {
+class HighArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
 
   @Test
@@ -32,6 +32,7 @@ class HighArrayConcurrencyTest extends AbstractConcurrencyTest {
         10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
   }
 
+  @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentDeletes(int size) {

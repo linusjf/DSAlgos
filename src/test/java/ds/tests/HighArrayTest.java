@@ -51,6 +51,7 @@ class HighArrayTest {
     arr.insert(33L);
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testConstructorParameterNegative() {
     IllegalArgumentException iae =
@@ -76,6 +77,7 @@ class HighArrayTest {
     assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testConstructorParameterZero() {
     IllegalArgumentException iae =
@@ -295,10 +297,10 @@ class HighArrayTest {
   @Test
   void testFindIndexOverflow() {
     HighArray arr = insertElements();
-    int count = arr.count();
     long searchKey = 0L;
     arr.delete(0L);
-    assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+    assertEquals(-1, arr.findIndex(searchKey)
+        , () -> searchKey + " still available");
   }
 
   @Test
