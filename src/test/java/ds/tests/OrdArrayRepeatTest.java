@@ -1,10 +1,8 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.OrdArray;
-import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayRepeatTest {
-  private static final Logger LOGGER = Logger.getLogger(OrdArrayRepeatTest.class.getName());
   OrdArray array;
 
   OrdArrayRepeatTest() {

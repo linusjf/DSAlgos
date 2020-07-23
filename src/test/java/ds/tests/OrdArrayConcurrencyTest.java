@@ -25,14 +25,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayConcurrencyTest.class.getName());
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentInsertsLatch(int size) {
-    ExecutorService service = Executors.newFixedThreadPool(10);
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
     OrdArray ordArray = new OrdArray(size, true);
+    ExecutorService service = Executors.newFixedThreadPool(10);
     LongStream.rangeClosed(1L, (long) size)
         .unordered()
         .parallel()
@@ -63,18 +64,19 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     assertFalse(isSorted(ordArray), "Array is sorted!");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testSyncInserts() {
     OrdArray ordArray = new OrdArray(10_000, true);
     LongStream.rangeClosed(1L, 10_000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
-    assertTrue(isSorted(ordArray));
+    assertTrue(isSorted(ordArray), "Array is unsorted!");
     assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @ParameterizedTest
   @MethodSource("provideArraySize")
   void testConcurrentDeletes(int size) {
-    ExecutorService service = Executors.newFixedThreadPool(10);
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
@@ -82,6 +84,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
+    ExecutorService service = Executors.newFixedThreadPool(10);
     nosParallel.forEach(
         i ->
             service.execute(
