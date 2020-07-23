@@ -1,7 +1,7 @@
 package ds.tests;
 
 import static ds.tests.TestConstants.NOT_AVAILABLE;
-import static ds.tests.TestUtils.*;
+import static ds.tests.TestUtils.getModCount;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -254,7 +254,7 @@ class HighArrayTest {
   void testFindIndex() {
     HighArray arr = insertElements();
     long searchKey = 11L;
-    assertEquals(6, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(6, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -262,14 +262,15 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 11L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 6, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 6,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
   void testFindIndexStart() {
     HighArray arr = insertElements();
     long searchKey = 77L;
-    assertEquals(0, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(0, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -277,14 +278,15 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 77L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 0, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 0,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
   void testFindIndexEnd() {
     HighArray arr = insertElements();
     long searchKey = 33L;
-    assertEquals(9, arr.findIndex(searchKey), () -> searchKey + " not available");
+    assertEquals(9, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -292,7 +294,8 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 33L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 9, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 9,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -315,7 +318,8 @@ class HighArrayTest {
     HighArray arr = insertElements();
     long searchKey = 11L;
     assertTrue(
-        arr.find(searchKey) && arr.findIndex(searchKey) == 6, () -> searchKey + " not available");
+        arr.find(searchKey) && arr.findIndex(searchKey) == 6,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -324,7 +328,8 @@ class HighArrayTest {
     int count = arr.count();
     long searchKey = 33L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -334,7 +339,8 @@ class HighArrayTest {
     int count = arr.count();
     long searchKey = 33L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test
@@ -353,7 +359,8 @@ class HighArrayTest {
     int count = arr.count();
     long searchKey = 77L;
     assertTrue(
-        arr.delete(searchKey) && arr.count() == count - 1, () -> searchKey + " not available");
+        arr.delete(searchKey) && arr.count() == count - 1,
+        () -> String.format(NOT_AVAILABLE, searchKey));
   }
 
   @Test

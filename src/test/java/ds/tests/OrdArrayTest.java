@@ -1,8 +1,8 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
-import static ds.tests.TestUtils.*;
 import static ds.tests.TestConstants.NOT_AVAILABLE;
+import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,7 +25,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
-
 
   private static final String SORTED = "sorted";
 
@@ -117,6 +116,7 @@ class OrdArrayTest {
     assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testConstructorParameterNegative() {
     IllegalArgumentException iae =
@@ -142,6 +142,7 @@ class OrdArrayTest {
     assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testConstructorParameterZero() {
     IllegalArgumentException iae =

@@ -1,7 +1,6 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
-import static ds.tests.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.OrdArray;
