@@ -183,32 +183,26 @@ class HighArrayTest {
   @Nested
   class DeleteTests {
     @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
+    "PMD.JUnitTestContainsTooManyAsserts"})
     void testDeleteTrue() {
       IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
-          arr.delete(00L)
-              && arr.delete(55L)
-              && arr.delete(99L),
-              "Elements 0, 55 and 99 must be deleted.");
-      assertFalse(arr.find(00L)
-              || arr.find(55L)
-              || arr.find(99L),
-              "Elements 0, 55 and 99 must not be found.");
-      assertEquals(count - 3, arr.count(),
-          "Three elements should have been deleted.");
+          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          "Elements 0, 55 and 99 must be deleted.");
+      assertFalse(
+          arr.find(00L) || arr.find(55L) || arr.find(99L),
+          "Elements 0, 55 and 99 must not be found.");
+      assertEquals(count - 3, arr.count(), "Three elements should have been deleted.");
     }
 
     @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteFalse() {
       IArray arr = insertElements();
-      int count = arr.count();
       assertFalse(
-          arr.delete(12L)
-              || arr.delete(6L)
-              || arr.delete(5L),
+          arr.delete(12L) || arr.delete(6L) || arr.delete(5L),
           "Elements 12, 6, 5 are not expected!");
     }
 
@@ -257,21 +251,18 @@ class HighArrayTest {
   @Nested
   class SyncTests {
     @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
+    "PMD.JUnitTestContainsTooManyAsserts"})
     void testSyncDeleteTrue() {
       IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
-          arr.syncDelete(00L)
-              && arr.syncDelete(55L)
-              && arr.syncDelete(99L),
-              "Elements 0, 55 and 99 must be deleted.");
-      assertFalse(arr.find(00L)
-              || arr.find(55L)
-              || arr.find(99L),
-              "Elements 0, 55 and 99 must not be found.");
-      assertEquals(count - 3, arr.count(),
-          "Three elements should have been deleted.");
+          arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+          "Elements 0, 55 and 99 must be deleted.");
+      assertFalse(
+          arr.find(00L) || arr.find(55L) || arr.find(99L),
+          "Elements 0, 55 and 99 must not be found.");
+      assertEquals(count - 3, arr.count(), "Three elements should have been deleted.");
     }
 
     @Test
@@ -294,11 +285,8 @@ class HighArrayTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testSyncDeleteFalse() {
       IArray arr = insertElements();
-      int count = arr.count();
       assertFalse(
-          arr.syncDelete(12L)
-              || arr.syncDelete(6L)
-              || arr.syncDelete(5L),
+          arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
           "Elements 12, 6, 5 not expected!");
     }
   }

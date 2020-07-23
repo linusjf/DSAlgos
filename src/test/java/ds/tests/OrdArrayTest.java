@@ -45,7 +45,7 @@ class OrdArrayTest {
     arr.insert(33L);
     return arr;
   }
-  
+
   private void insertElements(IArray arr) {
     // insert 10 items
     arr.insert(77L);
@@ -75,7 +75,6 @@ class OrdArrayTest {
     arr.insert(20L);
     return arr;
   }
-
 
   @Nested
   class InsertTests {
@@ -289,6 +288,19 @@ class OrdArrayTest {
   class DeleteTests {
 
     @Test
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
+    "PMD.JUnitTestContainsTooManyAsserts"})
+    void testDeleteTrue() {
+      IArray arr = insertElements();
+      int count = arr.count();
+      assertTrue(
+          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          "Elements 0, 55 and 99 must be deleted");
+      assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
+      assertTrue(isSorted(arr), "Array must be sorted");
+    }
+
+    @Test
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     void testDeleteFalse() {
       IArray arr = insertElements();
@@ -343,31 +355,16 @@ class OrdArrayTest {
   @Nested
   class SyncTests {
     @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testDeleteTrue() {
-      IArray arr = insertElements();
-      int count = arr.count();
-      assertTrue(
-          arr.syncDelete(00L)
-              && arr.syncDelete(55L)
-              && arr.syncDelete(99L)
-              && arr.count() == count - 3
-              && isSorted(arr),
-          "Elements 00, 55, 99 not found.");
-    }
-
-    @Test
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis",
+    "PMD.JUnitTestContainsTooManyAsserts"})
     void testSyncDeleteTrue() {
       IArray arr = insertElements();
       int count = arr.count();
       assertTrue(
-          arr.syncDelete(00L)
-              && arr.syncDelete(55L)
-              && arr.syncDelete(99L)
-              && arr.count() == count - 3
-              && isSorted(arr),
-          "Elements 00, 55, 99 not found.");
+          arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+          "Elements 0, 55 and 99 must be deleted");
+      assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
+      assertTrue(isSorted(arr), "Array must be sorted");
     }
 
     @Test
