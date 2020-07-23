@@ -1,6 +1,6 @@
 package ds.tests;
 
-class TestData {
+final class TestData {
   public static final String INIT_DATA = "100, false, 77L,99L,44L,55L,22L,88L,11L,00L,66L,33L";
 
   public static final String INIT_STRICT_DATA =
@@ -21,4 +21,8 @@ class TestData {
 
   public static final String INIT_ALL_SAME_DATA =
       "100, false, 43L,43L,43L,43L,43L,43L,43L,43L,43L,43L";
+
+  private TestData() {
+    // empty constructor
+  }
 }

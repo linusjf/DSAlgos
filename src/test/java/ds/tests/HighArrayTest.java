@@ -190,12 +190,14 @@ class HighArrayTest {
       assertTrue(
           arr.delete(00L)
               && arr.delete(55L)
-              && arr.delete(99L)
-              && !arr.find(00L)
-              && !arr.find(55L)
-              && !arr.find(99L)
-              && arr.count() == count - 3,
-          "Elements 00, 55, 99 not found.");
+              && arr.delete(99L),
+              "Elements 0, 55 and 99 must be deleted.");
+      assertFalse(arr.find(00L)
+              || arr.find(55L)
+              || arr.find(99L),
+              "Elements 0, 55 and 99 must not be found.");
+      assertEquals(count - 3, arr.count(),
+          "Three elements should have been deleted.");
     }
 
     @Test
@@ -206,12 +208,8 @@ class HighArrayTest {
       assertFalse(
           arr.delete(12L)
               || arr.delete(6L)
-              || arr.delete(5L)
-              || arr.find(12L)
-              || arr.find(6L)
-              || arr.find(5L)
-              || arr.count() != count,
-          "Elements 12, 6, 5 found and deleted");
+              || arr.delete(5L),
+          "Elements 12, 6, 5 are not expected!");
     }
 
     @Test
@@ -266,12 +264,14 @@ class HighArrayTest {
       assertTrue(
           arr.syncDelete(00L)
               && arr.syncDelete(55L)
-              && arr.syncDelete(99L)
-              && !arr.find(00L)
-              && !arr.find(55L)
-              && !arr.find(99L)
-              && arr.count() == count - 3,
-          "Elements 00, 55, 99 not found.");
+              && arr.syncDelete(99L),
+              "Elements 0, 55 and 99 must be deleted.");
+      assertFalse(arr.find(00L)
+              || arr.find(55L)
+              || arr.find(99L),
+              "Elements 0, 55 and 99 must not be found.");
+      assertEquals(count - 3, arr.count(),
+          "Three elements should have been deleted.");
     }
 
     @Test
@@ -298,12 +298,8 @@ class HighArrayTest {
       assertFalse(
           arr.syncDelete(12L)
               || arr.syncDelete(6L)
-              || arr.syncDelete(5L)
-              || arr.find(12L)
-              || arr.find(6L)
-              || arr.find(5L)
-              || arr.count() != count,
-          "Elements 12, 6, 5 found and deleted");
+              || arr.syncDelete(5L),
+          "Elements 12, 6, 5 not expected!");
     }
   }
 

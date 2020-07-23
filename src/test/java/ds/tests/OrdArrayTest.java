@@ -45,6 +45,20 @@ class OrdArrayTest {
     arr.insert(33L);
     return arr;
   }
+  
+  private void insertElements(IArray arr) {
+    // insert 10 items
+    arr.insert(77L);
+    arr.insert(99L);
+    arr.insert(44L);
+    arr.insert(55L);
+    arr.insert(22L);
+    arr.insert(88L);
+    arr.insert(11L);
+    arr.insert(00L);
+    arr.insert(66L);
+    arr.insert(33L);
+  }
 
   IArray insertSequentialElements() {
     IArray arr = new OrdArray(100);
@@ -62,19 +76,6 @@ class OrdArrayTest {
     return arr;
   }
 
-  private void insertElements(IArray arr) {
-    // insert 10 items
-    arr.insert(77L);
-    arr.insert(99L);
-    arr.insert(44L);
-    arr.insert(55L);
-    arr.insert(22L);
-    arr.insert(88L);
-    arr.insert(11L);
-    arr.insert(00L);
-    arr.insert(66L);
-    arr.insert(33L);
-  }
 
   @Nested
   class InsertTests {
