@@ -26,9 +26,9 @@ class OrdArrayTest {
   private static final Logger LOGGER = Logger.getLogger(OrdArrayTest.class.getName());
 
   private static final String NOT_AVAILABLE = "%d not available";
-  
+
   private static final String SORTED = "sorted";
-  
+
   private static final String DIRTY = "dirty";
 
   OrdArray insertElements() {
