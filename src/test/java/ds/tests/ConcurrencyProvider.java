@@ -4,6 +4,10 @@ import java.util.stream.Stream;
 
 interface ConcurrencyProvider {
   default Stream<Integer> provideArraySize() {
-    return Stream.of(50_000);
+    Runtime rt = Runtime.getRuntime();
+    int processors = rt.availableProcessors();
+    if (processors <= 2)
+    return Stream.of(100_000);
+    return Stream.of(10_000);
   }
 }
