@@ -2,6 +2,7 @@ package ds.tests;
 
 import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.NOT_AVAILABLE;
+import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +21,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -78,43 +82,21 @@ class OrdArrayTest {
 
   @Nested
   class InsertTests {
-    @Test
-    void insertDuplicate() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void insertDuplicate(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
     }
 
-    @Test
-    void insertDuplicateElements() {
-      IArray arr = new OrdArray(100);
-      // insert 21 items
-      arr.insert(77L);
-      arr.insert(77L);
-      arr.insert(99L);
-      arr.insert(77L);
-      arr.insert(99L);
-      arr.insert(44L);
-      arr.insert(55L);
-      arr.insert(22L);
-      arr.insert(22L);
-      arr.insert(88L);
-      arr.insert(88L);
-      arr.insert(11L);
-      arr.insert(11L);
-      arr.insert(11L);
-      arr.insert(00L);
-      arr.insert(00L);
-      arr.insert(00L);
-      arr.insert(00L);
-      arr.insert(66L);
-      arr.insert(33L);
-      arr.insert(33L);
+    @ParameterizedTest
+    @CsvSource(INIT_DUPLICATE_DATA)
+    void insertDuplicateElements(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
     }
 
-    @Test
-    void testInsertOnDirty() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertOnDirty(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       arr.insert(10L);
       assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
@@ -128,34 +110,23 @@ class OrdArrayTest {
       assertEquals(1, arr.count(), "1 element expected.");
     }
 
-    @Test
-    void testInsertOnDirtyFull() {
-      IArray arr = new OrdArray(10);
-      // insert 10 items
-      arr.insert(77L);
-      arr.insert(99L);
-      arr.insert(44L);
-      arr.insert(55L);
-      arr.insert(22L);
-      arr.insert(88L);
-      arr.insert(11L);
-      arr.insert(00L);
-      arr.insert(66L);
-      arr.insert(33L);
+    @ParameterizedTest
+    @CsvSource(INIT_FULL_DATA)
+    void testInsertOnDirtyFull(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       assertThrows(
           ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
     }
 
-    @Test
-    void testInsert() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsert(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
 
-    @Test
-    void testInsertAtStartExists() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtStartExists(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 0L;
       int index = arr.findIndex(val);
@@ -168,9 +139,9 @@ class OrdArrayTest {
           "11 elements expected, indexes 0 or 1 expected.");
     }
 
-    @Test
-    void testInsertAtEndExists() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtEndExists(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 99L;
       int index = arr.findIndex(val);
@@ -183,9 +154,9 @@ class OrdArrayTest {
           "11 elements expected, indexes 9 or 10 expected.");
     }
 
-    @Test
-    void testInsertAtEnd() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtEnd(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 100L;
       int insertIndex = arr.insert(val);
@@ -194,9 +165,9 @@ class OrdArrayTest {
           () -> (count + 1) + " elements expected, index " + count + " expected.");
     }
 
-    @Test
-    void testInsertAtStart() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtStart(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = -1L;
       int insertIndex = arr.insert(val);
