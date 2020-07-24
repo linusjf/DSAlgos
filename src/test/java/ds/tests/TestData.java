@@ -18,6 +18,8 @@ final class TestData {
 
   public static final String INIT_UNSORTED_DATA = "100, false, 77,99,44,55,22,88,11,00,66,33";
 
+  public static final String INIT_SORTED_DATA = "100, false, 43,61,61,69,72,75,87,92,101,102";
+
   public static final String INIT_ALL_SAME_DATA = "100, false, 43,43,43,43,43,43,43,43,43,43";
 
   private TestData() {

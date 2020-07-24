@@ -201,22 +201,9 @@ class OrdArrayTest {
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @Test
-    void testInsertSorted() {
-      IArray arr = new OrdArray(100);
-      long[] sortedArray = new long[100];
-      sortedArray[0] = 43L;
-      sortedArray[1] = 61L;
-      sortedArray[2] = 61L;
-      sortedArray[3] = 69L;
-      sortedArray[4] = 72L;
-      sortedArray[5] = 75L;
-      sortedArray[6] = 87L;
-      sortedArray[7] = 92L;
-      sortedArray[8] = 101L;
-      sortedArray[9] = 102L;
-      on(arr).set("a", sortedArray);
-      on(arr).set("nElems", new AtomicInteger(10));
+    @ParameterizedTest
+    @CsvSource(INIT_SORTED_DATA)
+    void testInsertSorted(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
@@ -226,27 +213,20 @@ class OrdArrayTest {
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @Test
-    void testInsertAllSameSorted() {
-      IArray arr = new OrdArray(100);
-      long[] unsorted = new long[100];
-      for (int i = 0; i < 10; i++) unsorted[i] = 43L;
-      on(arr).set("a", unsorted);
+    @ParameterizedTest
+    @CsvSource(INIT_ALL_SAME_DATA)
+    void testInsertAllSameSorted(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       on(arr).set(SORTED, false);
       on(arr).set(DIRTY, true);
-      on(arr).set("nElems", new AtomicInteger(10));
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
       assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
     }
 
-    @Test
-    void testException() {
-      IArray ordArray = new OrdArray(3);
-      ordArray.insert(2L);
-      ordArray.insert(11L);
-      ordArray.insert(21L);
+    @ParameterizedTest
+    @CsvSource(INIT_EXCEPTION_DATA)
+    void testException(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray ordArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
           () -> {
