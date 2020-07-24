@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.tests.TestConstants.NOT_AVAILABLE;
+import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.getModCount;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -75,7 +79,6 @@ class HighArrayTest {
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
-    @Test
     void testEmptyConstructor() {
       IArray arr = new HighArray();
       boolean strict = (boolean) on(arr).get("strict");
@@ -98,12 +101,9 @@ class HighArrayTest {
 
   @Nested
   class InsertTests {
-    @Test
-    void testException() {
-      IArray highArray = new HighArray(3);
-      highArray.insert(2L);
-      highArray.insert(11L);
-      highArray.insert(21L);
+    @ParameterizedTest
+    @CsvSource(INIT_EXCEPTION_DATA)
+    void testException(@AggregateWith(HighArrayArgumentsAggregator.class) IArray highArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
           () -> {
