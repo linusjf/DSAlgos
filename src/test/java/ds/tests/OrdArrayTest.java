@@ -545,41 +545,41 @@ class OrdArrayTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexEnd() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexEnd(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 99L;
       assertEquals(9, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindTrue() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindTrue(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 11L;
       assertTrue(arr.find(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindSeqBefore() {
-      IArray arr = insertSequentialElements();
+    @ParameterizedTest
+    @CsvSource(INIT_SEQ_DATA)
+    void testFindSeqBefore(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 14L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 3,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindSeqAfter() {
-      IArray arr = insertSequentialElements();
+    @ParameterizedTest
+    @CsvSource(INIT_SEQ_DATA)
+    void testFindSeqAfter(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 16L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 5,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexOverflow() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_SEQ_DATA)
+    void testFindIndexOverflow(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.delete(searchKey);
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
@@ -595,13 +595,9 @@ class OrdArrayTest {
 
   @Nested
   class ToStringTests {
-    @Test
-    void testToString() {
-      IArray arr = insertElements();
-      arr.clear();
-      arr.insert(77L);
-      arr.insert(99L);
-      arr.insert(44L);
+    @ParameterizedTest
+    @CsvSource(INIT_TOSTRING_DATA)
+    void testToString(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
       sb.append(OrdArray.class.getName())
@@ -615,8 +611,7 @@ class OrdArrayTest {
 
     @Test
     void testToStringEmpty() {
-      IArray arr = insertElements();
-      arr.clear();
+      IArray arr = new OrdArray(10);
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
       sb.append(OrdArray.class.getName())
@@ -627,9 +622,9 @@ class OrdArrayTest {
       assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
     }
 
-    @Test
-    void testDisplay() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_TOSTRING_DATA)
+    void testDisplay(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       IArray ordArray = spy(arr);
 
       doAnswer(
