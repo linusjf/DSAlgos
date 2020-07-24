@@ -238,10 +238,10 @@ class OrdArrayTest {
   @Nested
   class DeleteTests {
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-    void testDeleteTrue() {
-      IArray arr = insertElements();
+    void testDeleteTrue(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
           arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
@@ -250,19 +250,19 @@ class OrdArrayTest {
       assertTrue(isSorted(arr), "Array must be sorted");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testDeleteFalse() {
-      IArray arr = insertElements();
+    void testDeleteFalse(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(
           arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
           "Elements 12, 6, 5 found and deleted");
     }
 
-    @Test
-    void testDeleteStart() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteStart(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 00L;
       assertTrue(
@@ -270,9 +270,9 @@ class OrdArrayTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testDeleteEnd() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteEnd(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -280,9 +280,9 @@ class OrdArrayTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testDeleteOverflow() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteOverflow(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.delete(searchKey);
       int count = arr.count();
@@ -290,10 +290,9 @@ class OrdArrayTest {
           arr.delete(searchKey) && arr.count() != count, () -> searchKey + " still available");
     }
 
-    @Test
-    void testDeleteEndArray() {
-      IArray arr = new OrdArray(10);
-      insertElements(arr);
+    @ParameterizedTest
+    @CsvSource(INIT_FULL_DATA)
+    void testDeleteEndArray(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
