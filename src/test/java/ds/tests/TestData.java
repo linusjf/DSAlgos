@@ -3,6 +3,8 @@ package ds.tests;
 final class TestData {
   public static final String INIT_DATA = "100, false, 77,99,44,55,22,88,11,00,66,33";
 
+  public static final String INIT_FULL_DATA = "10, false, 77,99,44,55,22,88,11,00,66,33";
+
   public static final String INIT_STRICT_DATA = "100, true, 77,99,44,55,22,88,11,00,66,33";
 
   public static final String INIT_TOSTRING_DATA = "100, false, 77,99,44";

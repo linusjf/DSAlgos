@@ -111,9 +111,9 @@ class HighArrayTest {
           });
     }
 
-    @Test
-    void testInsert() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsert(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       assertEquals(arr.count(), 10, "10 elements not inserted.");
     }
   }
@@ -182,10 +182,10 @@ class HighArrayTest {
 
   @Nested
   class DeleteTests {
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-    void testDeleteTrue() {
-      IArray arr = insertElements();
+    void testDeleteTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
           arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
@@ -196,18 +196,18 @@ class HighArrayTest {
       assertEquals(count - 3, arr.count(), "Three elements should have been deleted.");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testDeleteFalse() {
-      IArray arr = insertElements();
+    void testDeleteFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       assertFalse(
           arr.delete(12L) || arr.delete(6L) || arr.delete(5L),
           "Elements 12, 6, 5 are not expected!");
     }
 
-    @Test
-    void testDeleteEnd() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteEnd(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -215,10 +215,9 @@ class HighArrayTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testDeleteEndArray() {
-      IArray arr = new HighArray(10);
-      insertElements(arr);
+    @ParameterizedTest
+    @CsvSource(INIT_FULL_DATA)
+    void testDeleteEndArray(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -226,9 +225,9 @@ class HighArrayTest {
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testDeleteOverflow() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteOverflow(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 0L;
       arr.delete(searchKey);
@@ -236,9 +235,9 @@ class HighArrayTest {
           arr.delete(searchKey) && arr.count() != count - 1, () -> searchKey + " still available");
     }
 
-    @Test
-    void testDeleteStart() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteStart(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 77L;
       assertTrue(
@@ -249,10 +248,10 @@ class HighArrayTest {
 
   @Nested
   class SyncTests {
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-    void testSyncDeleteTrue() {
-      IArray arr = insertElements();
+    void testSyncDeleteTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
           arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
@@ -263,26 +262,26 @@ class HighArrayTest {
       assertEquals(count - 3, arr.count(), "Three elements should have been deleted.");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testSyncDeleteTrueIndividual() {
-      IArray arr = insertElements();
+    void testSyncDeleteTrueIndividual(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testSyncDeleteFalseIndividual() {
-      IArray arr = insertElements();
+    void testSyncDeleteFalseIndividual(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(arr.syncDelete(12L) && arr.count() == count, "Elements 12 found and deleted");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testSyncDeleteFalse() {
-      IArray arr = insertElements();
+    void testSyncDeleteFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       assertFalse(
           arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L),
           "Elements 12, 6, 5 not expected!");
@@ -291,71 +290,71 @@ class HighArrayTest {
 
   @Nested
   class FindTests {
-    @Test
-    void testFindIndexFalse() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 35L;
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
 
-    @Test
-    void testFindFalse() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 35L;
       assertFalse(arr.find(searchKey), () -> searchKey + " available");
     }
 
-    @Test
-    void testFindIndex() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndex(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 11L;
       assertEquals(6, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexTrue() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 11L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 6,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexStart() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexStart(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 77L;
       assertEquals(0, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexStartTrue() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexStartTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 77L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 0,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexEnd() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexEnd(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 33L;
       assertEquals(9, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexEndTrue() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexEndTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 33L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 9,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
-    @Test
-    void testFindIndexOverflow() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindIndexOverflow(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.delete(0L);
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
@@ -368,9 +367,9 @@ class HighArrayTest {
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
 
-    @Test
-    void testFindTrue() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testFindTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 11L;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 6,
@@ -380,9 +379,9 @@ class HighArrayTest {
 
   @Nested
   class MiscTests {
-    @Test
-    void testGet() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testGet(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.get();
       assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
     }
@@ -393,15 +392,15 @@ class HighArrayTest {
       assertEquals(0, arr.count(), "Count must be zero!");
     }
 
-    @Test
-    void testCountPositive() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testCountPositive(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       assertEquals(10, arr.count(), "Count must be 10!");
     }
 
-    @Test
-    void testClear() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testClear(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int origCount = arr.count();
       arr.clear();
       long[] copy = new long[origCount];
@@ -420,12 +419,9 @@ class HighArrayTest {
 
   @Nested
   class ToStringTests {
-    @Test
-    void testToString() {
-      IArray arr = new HighArray(10);
-      arr.insert(77L);
-      arr.insert(99L);
-      arr.insert(44L);
+    @ParameterizedTest
+    @CsvSource(INIT_TOSTRING_DATA)
+    void testToString(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
       sb.append(HighArray.class.getName())
@@ -437,9 +433,9 @@ class HighArrayTest {
       assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
     }
 
-    @Test
-    void testToStringEmpty() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testToStringEmpty(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       arr.clear();
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
@@ -451,9 +447,9 @@ class HighArrayTest {
       assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
     }
 
-    @Test
-    void testDisplay() {
-      IArray arr = insertElements();
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDisplay(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       IArray highArray = spy(arr);
 
       doAnswer(
