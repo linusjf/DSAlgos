@@ -27,37 +27,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class HighArrayTest {
-
-  IArray insertElements() {
-    IArray arr = new HighArray(100);
-    // insert 10 items
-    arr.insert(77L);
-    arr.insert(99L);
-    arr.insert(44L);
-    arr.insert(55L);
-    arr.insert(22L);
-    arr.insert(88L);
-    arr.insert(11L);
-    arr.insert(00L);
-    arr.insert(66L);
-    arr.insert(33L);
-    return arr;
-  }
-
-  private void insertElements(IArray arr) {
-    // insert 10 items
-    arr.insert(77L);
-    arr.insert(99L);
-    arr.insert(44L);
-    arr.insert(55L);
-    arr.insert(22L);
-    arr.insert(88L);
-    arr.insert(11L);
-    arr.insert(00L);
-    arr.insert(66L);
-    arr.insert(33L);
-  }
-
   @Nested
   class ConstructorTests {
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -265,7 +234,8 @@ class HighArrayTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testSyncDeleteTrueIndividual(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    void testSyncDeleteTrueIndividual(
+        @AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
     }
@@ -273,7 +243,8 @@ class HighArrayTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testSyncDeleteFalseIndividual(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    void testSyncDeleteFalseIndividual(
+        @AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(arr.syncDelete(12L) && arr.count() == count, "Elements 12 found and deleted");
     }
