@@ -12,7 +12,6 @@ import ds.IArray;
 import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Nested;
@@ -131,23 +130,9 @@ class OrdArrayTest {
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @Test
-    void testInsertUnSorted() {
-      IArray arr = new OrdArray(100);
-      long[] unsorted = new long[100];
-      unsorted[0] = 43L;
-      unsorted[1] = 61L;
-      unsorted[2] = 2L;
-      unsorted[3] = 9L;
-      unsorted[4] = 25L;
-      unsorted[5] = 47L;
-      unsorted[6] = 87L;
-      unsorted[7] = 12L;
-      unsorted[8] = 21L;
-      unsorted[9] = 10L;
-      on(arr).set("a", unsorted);
-      on(arr).set("nElems", new AtomicInteger(10));
-      on(arr).set(DIRTY, true);
+    @ParameterizedTest
+    @CsvSource(INIT_UNSORTED_DATA)
+    void testInsertUnSorted(@AggregateWith(OrdArrayArgumentsAggregatorUnsorted.class) IArray arr) {
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
