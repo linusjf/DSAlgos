@@ -61,8 +61,8 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
     assertFalse(isSorted(ordArray), "Array is sorted!");
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -109,8 +109,8 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
     assertFalse(isSorted(ordArray), "Array is sorted!");
+    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 
   @Test
