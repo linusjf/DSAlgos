@@ -34,52 +34,6 @@ class OrdArrayTest {
 
   private static final String DIRTY = "dirty";
 
-  IArray insertElements() {
-    IArray arr = new OrdArray(100);
-    // insert 10 items
-    arr.insert(77L);
-    arr.insert(99L);
-    arr.insert(44L);
-    arr.insert(55L);
-    arr.insert(22L);
-    arr.insert(88L);
-    arr.insert(11L);
-    arr.insert(00L);
-    arr.insert(66L);
-    arr.insert(33L);
-    return arr;
-  }
-
-  private void insertElements(IArray arr) {
-    // insert 10 items
-    arr.insert(77L);
-    arr.insert(99L);
-    arr.insert(44L);
-    arr.insert(55L);
-    arr.insert(22L);
-    arr.insert(88L);
-    arr.insert(11L);
-    arr.insert(00L);
-    arr.insert(66L);
-    arr.insert(33L);
-  }
-
-  IArray insertSequentialElements() {
-    IArray arr = new OrdArray(100);
-    // insert 10 items
-    arr.insert(11L);
-    arr.insert(12L);
-    arr.insert(13L);
-    arr.insert(14L);
-    arr.insert(15L);
-    arr.insert(16L);
-    arr.insert(17L);
-    arr.insert(18L);
-    arr.insert(19L);
-    arr.insert(20L);
-    return arr;
-  }
-
   @Nested
   class InsertTests {
     @ParameterizedTest
