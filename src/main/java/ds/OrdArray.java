@@ -12,7 +12,7 @@ public class OrdArray extends AbstractArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArray.class.getName());
 
-  private boolean sorted = true;
+  protected boolean sorted = true;
   private boolean dirty;
 
   public OrdArray() {
@@ -36,7 +36,7 @@ public class OrdArray extends AbstractArray {
     return findIndex(searchKey, nElems.intValue());
   }
 
-  private int findIndex(long searchKey, int length) {
+  protected int findIndex(long searchKey, int length) {
     int lowerBound = 0;
     int upperBound = length - 1;
     while (lowerBound <= upperBound) {
@@ -79,7 +79,7 @@ public class OrdArray extends AbstractArray {
     dirty = false;
   }
 
-  private int insert(long value, int length) {
+  protected int insert(long value, int length) {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     j = j < 0 ? -1 * j - 1 : j;
@@ -88,7 +88,7 @@ public class OrdArray extends AbstractArray {
     return j;
   }
 
-  private void moveAndInsert(int j, int count, long value) {
+  protected void moveAndInsert(int j, int count, long value) {
     modCount.incrementAndGet();
     int numMoved = count - j;
     System.arraycopy(a, j, a, j + 1, numMoved);
@@ -96,7 +96,7 @@ public class OrdArray extends AbstractArray {
     a[j] = value;
   }
 
-  private void checkForConcurrentUpdates(int expectedCount, long value, Operation operation) {
+  protected void checkForConcurrentUpdates(int expectedCount, long value, Operation operation) {
     if (strict && expectedCount < modCount.intValue()) {
       dirty = true;
       switch (operation) {
@@ -111,7 +111,7 @@ public class OrdArray extends AbstractArray {
     }
   }
 
-  private void fastDelete(int index, int length) {
+  protected void fastDelete(int index, int length) {
     modCount.incrementAndGet();
     // move higher ones down
     int numMoved = length - index - 1;
@@ -126,10 +126,11 @@ public class OrdArray extends AbstractArray {
     return delete(value, length);
   }
 
-  private boolean delete(long value, int length) {
+  protected boolean delete(long value, int length) {
+    int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     if (j < 0) return false;
-    checkForConcurrentUpdates(modCount.intValue(), value, Operation.DELETE);
+    checkForConcurrentUpdates(expectedCount, value, Operation.DELETE);
     fastDelete(j, length);
     return true;
   }
