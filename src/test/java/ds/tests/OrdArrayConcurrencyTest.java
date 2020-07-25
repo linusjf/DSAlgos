@@ -9,6 +9,7 @@ import java.util.ConcurrentModificationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
@@ -58,6 +59,8 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     try {
       cdl.countDown();
       done.await();
+      service.shutdown();
+      service.awaitTermination(1, TimeUnit.MINUTES);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
@@ -106,6 +109,8 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     try {
       cdl.countDown();
       done.await();
+      service.shutdown();
+      service.awaitTermination(1, TimeUnit.MINUTES);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }

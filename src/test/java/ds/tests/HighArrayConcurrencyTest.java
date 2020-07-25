@@ -8,6 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
@@ -65,9 +66,12 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
     try {
       cdl.countDown();
       done.await();
+      service.shutdown();
+      service.awaitTermination(1, TimeUnit.MINUTES);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
+
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
   }
 

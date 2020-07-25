@@ -2,6 +2,7 @@ package ds;
 
 import static ds.ArrayUtils.isSorted;
 
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
 /** Demonstrates array class with high-level interface. */
@@ -67,7 +68,13 @@ public class OrdArray extends AbstractArray {
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
     if (sorted) return insert(value, length);
-    return -1;
+    sort(length);
+    return insert(value, length);
+  }
+
+  private void sort(int length) {
+    Arrays.sort(a, 0, length);
+    sorted = true;
   }
 
   private int insert(long value, int length) {

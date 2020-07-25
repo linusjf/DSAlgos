@@ -248,6 +248,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>commons-validator</groupId>
+        <artifactId>commons-validator</artifactId>
+        <version>1.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.pitest</groupId>
         <artifactId>pitest</artifactId>
         <version>${pitest.version}</version>
@@ -297,6 +302,10 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.pitest</groupId>
       <artifactId>pitest</artifactId>
@@ -381,8 +390,9 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
           <configuration>
-            <forkCount>3</forkCount>
-            <reuseForks>true</reuseForks>
+            <forkCount>0</forkCount>
+            <shutdown>kill</shutdown>
+            <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
