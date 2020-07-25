@@ -68,13 +68,15 @@ public class OrdArray extends AbstractArray {
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
     if (sorted) return insert(value, length);
-    sort(length);
-    return insert(value, length);
+    // sort(length);
+    // return insert(value, length);
+    return -1;
   }
 
   private void sort(int length) {
     Arrays.sort(a, 0, length);
     sorted = true;
+    dirty = false;
   }
 
   private int insert(long value, int length) {
@@ -121,6 +123,10 @@ public class OrdArray extends AbstractArray {
   @Override
   public boolean delete(long value) {
     int length = nElems.intValue();
+    return delete(value, length);
+  }
+
+  private boolean delete(long value, int length) {
     int j = findIndex(value, length);
     if (j < 0) return false;
     checkForConcurrentUpdates(modCount.intValue(), value, Operation.DELETE);

@@ -13,7 +13,7 @@ import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.apache.commons.validator.routines.IntegerValidator;
+// import org.apache.commons.validator.routines.IntegerValidator;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -137,10 +137,12 @@ class OrdArrayTest {
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
-      IntegerValidator validator = IntegerValidator.getInstance();
+      // IntegerValidator validator = IntegerValidator.getInstance();
+      // assertTrue(
+      //  validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
+      // "Insert must succeed on unsorted after sort.");
       assertTrue(
-          validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
-          "Insert must succeed on unsorted after sort.");
+          -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")

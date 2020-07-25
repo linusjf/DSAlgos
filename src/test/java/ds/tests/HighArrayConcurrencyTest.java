@@ -55,7 +55,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
                     highArray.delete(i);
                     done.countDown();
                   } catch (ConcurrentModificationException cme) {
-                    LOGGER.severe(() -> "Error deleting " + i);
+                    LOGGER.fine(() -> "Error deleting " + i);
                     excCount.incrementAndGet();
                     done.countDown();
                   } catch (InterruptedException ie) {

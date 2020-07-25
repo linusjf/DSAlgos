@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.IArray;
 import ds.OrdArray;
 import java.util.ConcurrentModificationException;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +31,57 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
   @ParameterizedTest
   @MethodSource("provideArraySize")
-  void testConcurrentInsertsLatch(int size) {
+  void testConcurrent(int size) {
+    IArray ordArray = new OrdArray(size, true);
+    LongStream.rangeClosed(1L, size / 2)
+        .unordered()
+        .parallel()
+        .forEach(i -> ordArray.syncInsert(i));
+    CountDownLatch cdl = new CountDownLatch(1);
+    CountDownLatch done = new CountDownLatch(size / 2);
+    AtomicInteger excCount = new AtomicInteger();
+    Random random = new Random();
+    ExecutorService service = Executors.newFixedThreadPool(10);
+    LongStream.rangeClosed(1L, (long) size / 2)
+        .unordered()
+        .parallel()
+        .forEach(
+            i ->
+                service.execute(
+                    () -> {
+                      try {
+                        cdl.await();
+                        if (random.nextBoolean()) ordArray.insert(i);
+                        else ordArray.delete(i);
+                        done.countDown();
+                      } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        done.countDown();
+                      } catch (ConcurrentModificationException cme) {
+                        LOGGER.fine(() -> "Error: " + cme.getMessage());
+                        excCount.incrementAndGet();
+                        done.countDown();
+                      }
+                    }));
+    try {
+      cdl.countDown();
+      done.await();
+      service.shutdown();
+      service.awaitTermination(1, TimeUnit.MINUTES);
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
+    }
+    int excs = excCount.get();
+    LOGGER.info(ordArray.toString());
+    assertFalse(isSorted(ordArray), "Array is sorted!");
+    assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
+    //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
+  }
+
+  @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
+  @ParameterizedTest
+  @MethodSource("provideArraySize")
+  void testConcurrentInserts(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
@@ -51,7 +102,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                         Thread.currentThread().interrupt();
                         done.countDown();
                       } catch (ConcurrentModificationException cme) {
-                        LOGGER.severe(() -> "Error: " + cme.getMessage());
+                        LOGGER.fine(() -> "Error: " + cme.getMessage());
                         excCount.incrementAndGet();
                         done.countDown();
                       }
@@ -64,8 +115,11 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
+    int excs = excCount.get();
+    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
+    //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -98,7 +152,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                     ordArray.delete(i);
                     done.countDown();
                   } catch (ConcurrentModificationException cme) {
-                    LOGGER.severe(() -> "Error deleting " + i);
+                    LOGGER.fine(() -> "Error deleting " + i);
                     excCount.incrementAndGet();
                     done.countDown();
                   } catch (InterruptedException ie) {
@@ -114,8 +168,10 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
+    int excs = excCount.get();
+    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
-    assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");
+    assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
   }
 
   @Test
