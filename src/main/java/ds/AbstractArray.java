@@ -36,7 +36,7 @@ public abstract class AbstractArray implements IArray {
   public long[] get() {
     return a.clone();
   }
-  
+
   @Override
   public long[] getExtentArray() {
     return Arrays.copyOfRange(a, 0, nElems.intValue());
