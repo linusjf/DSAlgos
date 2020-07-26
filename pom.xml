@@ -391,6 +391,12 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
           <configuration>
+            <childDelegation>true</childDelegation>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <reuseForks>true</reuseForks>
+            <runOrder>alphabetical</runOrder>
+            <trimStackTrace>false</trimStackTrace>
+            <useManifestOnlyJar>false</useManifestOnlyJar>
             <forkCount>1</forkCount>
             <shutdown>kill</shutdown>
             <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
