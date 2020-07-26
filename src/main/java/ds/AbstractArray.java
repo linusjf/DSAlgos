@@ -8,7 +8,7 @@ public abstract class AbstractArray implements IArray {
   protected final long[] a;
   protected final AtomicInteger nElems;
   protected final Object lock = new Object();
-  protected final boolean strict;
+  protected boolean strict;
   protected AtomicInteger modCount;
 
   enum Operation {
@@ -35,6 +35,11 @@ public abstract class AbstractArray implements IArray {
   @Override
   public long[] get() {
     return a.clone();
+  }
+  
+  @Override
+  public long[] getExtentArray() {
+    return Arrays.copyOfRange(a, 0, nElems.intValue());
   }
 
   @Override

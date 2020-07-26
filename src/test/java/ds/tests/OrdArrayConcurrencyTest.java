@@ -72,7 +72,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();
-    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
     //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
@@ -116,7 +115,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();
-    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
     //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
@@ -169,7 +167,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();
-    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
   }

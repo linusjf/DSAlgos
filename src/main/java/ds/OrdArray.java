@@ -2,7 +2,6 @@ package ds;
 
 import static ds.ArrayUtils.isSorted;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 
 /** Demonstrates array class with high-level interface. */
@@ -12,8 +11,8 @@ public class OrdArray extends AbstractArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArray.class.getName());
 
-  protected boolean sorted = true;
-  private boolean dirty;
+  protected volatile boolean sorted = true;
+  protected volatile boolean dirty;
 
   public OrdArray() {
     // empty constructor, implicitly calls super
@@ -27,7 +26,7 @@ public class OrdArray extends AbstractArray {
     super(max, strict);
   }
 
-  private void checkSorted() {
+  protected void checkSorted() {
     sorted = isSorted(this);
   }
 
@@ -68,15 +67,7 @@ public class OrdArray extends AbstractArray {
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
     if (sorted) return insert(value, length);
-    // sort(length);
-    // return insert(value, length);
     return -1;
-  }
-
-  private void sort(int length) {
-    Arrays.sort(a, 0, length);
-    sorted = true;
-    dirty = false;
   }
 
   protected int insert(long value, int length) {
@@ -123,7 +114,9 @@ public class OrdArray extends AbstractArray {
   @Override
   public boolean delete(long value) {
     int length = nElems.intValue();
-    return delete(value, length);
+    if (dirty) checkSorted();
+    if (sorted) return delete(value, length);
+    return false;
   }
 
   protected boolean delete(long value, int length) {

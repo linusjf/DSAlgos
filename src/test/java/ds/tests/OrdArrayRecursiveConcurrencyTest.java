@@ -64,7 +64,6 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    LOGGER.info(ordArray.toString());
     assertTrue(isSorted(ordArray), "Array is sorted!");
   }
 
@@ -105,7 +104,6 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
   }
 
@@ -140,7 +138,6 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    LOGGER.info(ordArray.toString());
     assertFalse(isSorted(ordArray), "Array is sorted!");
   }
 

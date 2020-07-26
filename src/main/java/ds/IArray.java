@@ -4,6 +4,8 @@ public interface IArray {
 
   long[] get();
 
+  long[] getExtentArray();
+
   int count();
 
   void clear();
