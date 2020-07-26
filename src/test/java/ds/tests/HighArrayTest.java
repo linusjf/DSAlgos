@@ -357,6 +357,20 @@ class HighArrayTest {
       assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
     }
 
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testExtentArray(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+      long[] vals = arr.getExtentArray();
+      assertTrue(vals != null && vals.length == 10, "Null array or length incorrect");
+    }
+
+    @Test
+    void testExtentArrayEmpty() {
+      IArray arr = new HighArray();
+      long[] vals = arr.getExtentArray();
+      assertTrue(vals != null && vals.length == 0, "Null array or length incorrect");
+    }
+
     @Test
     void testCountZero() {
       IArray arr = new HighArray(10, true);

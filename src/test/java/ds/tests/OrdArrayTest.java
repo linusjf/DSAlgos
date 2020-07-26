@@ -429,6 +429,20 @@ class OrdArrayTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
+    void testExtentArray(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
+      long[] vals = arr.getExtentArray();
+      assertTrue(vals != null && vals.length == 10, "Null array or length incorrect");
+    }
+
+    @Test
+    void testExtentArrayEmpty() {
+      IArray arr = new OrdArray();
+      long[] vals = arr.getExtentArray();
+      assertTrue(vals != null && vals.length == 0, "Null array or length incorrect");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     void testCountZero(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       arr.clear();
       assertEquals(0, arr.count(), "Count must be zero!");
