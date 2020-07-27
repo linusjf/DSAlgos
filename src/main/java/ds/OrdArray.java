@@ -74,7 +74,7 @@ public class OrdArray extends AbstractArray {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     j = j < 0 ? -1 * j - 1 : j;
-    checkForConcurrentUpdates(expectedCount, value, Operation.INSERT);
+    if (strict) checkForConcurrentUpdates(expectedCount, value, Operation.INSERT);
     moveAndInsert(j, length, value);
     return j;
   }
@@ -88,7 +88,7 @@ public class OrdArray extends AbstractArray {
   }
 
   protected void checkForConcurrentUpdates(int expectedCount, long value, Operation operation) {
-    if (strict && expectedCount < modCount.intValue()) {
+    if (expectedCount < modCount.intValue()) {
       dirty = true;
       switch (operation) {
         case INSERT:
@@ -121,7 +121,7 @@ public class OrdArray extends AbstractArray {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     if (j < 0) return false;
-    checkForConcurrentUpdates(expectedCount, value, Operation.DELETE);
+    if (strict) checkForConcurrentUpdates(expectedCount, value, Operation.DELETE);
     fastDelete(j, length);
     return true;
   }
