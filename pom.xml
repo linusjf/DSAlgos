@@ -399,7 +399,6 @@
             <useManifestOnlyJar>false</useManifestOnlyJar>
             <forkCount>2</forkCount>
             <shutdown>kill</shutdown>
-            <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
