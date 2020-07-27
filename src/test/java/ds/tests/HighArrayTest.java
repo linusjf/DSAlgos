@@ -93,7 +93,7 @@ class HighArrayTest {
     @Test
     void testInsert() {
       HighArray arr = new HighArray(10);
-      int index = arr.insert(11L);
+      arr.insert(11L);
       int index = arr.insert(12L);
       assertEquals(1, index, "2 elements inserted.");
     }
