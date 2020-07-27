@@ -380,6 +380,10 @@
               <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
               <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
               <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.lock.LockChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
+              <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
               <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
