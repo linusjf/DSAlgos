@@ -397,7 +397,7 @@
             <runOrder>alphabetical</runOrder>
             <trimStackTrace>false</trimStackTrace>
             <useManifestOnlyJar>false</useManifestOnlyJar>
-            <forkCount>2</forkCount>
+            <forkCount>1</forkCount>
             <shutdown>kill</shutdown>
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
