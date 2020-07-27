@@ -59,7 +59,6 @@ public class HighArray extends AbstractArray {
 
   protected void checkDeleteConcurrent(int expectedCount, long value) {
     if (expectedCount < modCount.intValue()) {
-      dirty = true;
       throw new ConcurrentModificationException("Error deleting value: " + value);
     }
   }
