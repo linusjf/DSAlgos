@@ -69,7 +69,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayRecursive.class)
-          .withIgnoredFields("modCount", "lock", "strict")
+          .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayRecursiveExt.class)
           .withIgnoredAnnotations(NonNull.class)
@@ -80,7 +80,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayRecursive.class)
-          .withIgnoredFields("modCount", "lock", "strict")
+          .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayRecursiveExt.class)
           .withIgnoredAnnotations(NonNull.class)
