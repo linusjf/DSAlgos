@@ -57,14 +57,20 @@ public class HighArray extends AbstractArray {
     a[nElems.decrementAndGet()] = 0;
   }
 
+  protected void checkDeleteConcurrent(int expectedCount, long value) {
+    if (expectedCount < modCount.intValue()) {
+      dirty = true;
+      throw new ConcurrentModificationException("Error deleting value: " + value);
+    }
+  }
+  
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
     int length = nElems.intValue();
     int expectedModCount = modCount.intValue();
     for (int j = 0; j < length; j++) {
-      if (strict && expectedModCount < modCount.intValue())
-        throw new ConcurrentModificationException("Error deleting value: " + value);
+    if (strict) checkDeleteConcurrent(expectedCount, value);
       if (a[j] == value) {
         fastDelete(j, length);
         return true;
