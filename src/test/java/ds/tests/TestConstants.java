@@ -4,6 +4,10 @@ public final class TestConstants {
 
   static final String NOT_AVAILABLE = "%d not available";
 
+  static final String SORTED = "sorted";
+
+  static final String DIRTY = "dirty";
+
   private TestConstants() {
     // empty constructor
   }

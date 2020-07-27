@@ -1,6 +1,9 @@
 package ds.tests;
 
+import static ds.ArrayUtils.*;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
+import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -16,6 +19,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -59,6 +65,224 @@ class OrdArrayRecursiveTest {
       Optional<String> msg = Optional.ofNullable(iae.getMessage());
       String val = msg.orElse("");
       assertTrue(val.contains("0"), "Parameter 0 expected");
+    }
+  }
+
+  @Nested
+  class InsertTests {
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void insertDuplicate(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DUPLICATE_DATA)
+    void insertDuplicateElements(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertOnDirty(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      on(arr).set(DIRTY, true);
+      arr.insert(10L);
+      assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
+    }
+
+    @Test
+    void testInsertOnDirtyEmpty() {
+      IArray arr = new OrdArrayRecursive(10);
+      on(arr).set(DIRTY, true);
+      arr.insert(10L);
+      assertEquals(1, arr.count(), "1 element expected.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_FULL_DATA)
+    void testInsertOnDirtyFull(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      on(arr).set(DIRTY, true);
+      assertThrows(
+          ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsert(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtStartExists(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long val = 0L;
+      int index = arr.findIndex(val);
+      int insertIndex = arr.insert(val);
+      assertTrue(
+          insertIndex >= index
+              && insertIndex <= index + 1
+              && arr.count() == count + 1
+              && isSorted(arr),
+          "11 elements expected, indexes 0 or 1 expected.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtEndExists(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long val = 99L;
+      int index = arr.findIndex(val);
+      int insertIndex = arr.insert(val);
+      assertTrue(
+          insertIndex >= index
+              && insertIndex <= index + 1
+              && arr.count() == count + 1
+              && isSorted(arr),
+          "11 elements expected, indexes 9 or 10 expected.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtEnd(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long val = 100L;
+      int insertIndex = arr.insert(val);
+      assertTrue(
+          insertIndex == count && arr.count() == count + 1 && isSorted(arr),
+          () -> (count + 1) + " elements expected, index " + count + " expected.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testInsertAtStart(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long val = -1L;
+      int insertIndex = arr.insert(val);
+      assertTrue(
+          insertIndex == 0 && arr.count() == count + 1 && isSorted(arr),
+          "11 elements expected, index 0 expected.");
+    }
+
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @ParameterizedTest
+    @CsvSource(INIT_UNSORTED_DATA)
+    void testInsertUnSorted(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregatorUnsorted.class) IArray arr) {
+      int count = arr.count();
+      int res = arr.insert(99L);
+      boolean sorted = getSorted(arr);
+      // IntegerValidator validator = IntegerValidator.getInstance();
+      // assertTrue(
+      //  validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
+      // "Insert must succeed on unsorted after sort.");
+      assertTrue(
+          -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
+    }
+
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @ParameterizedTest
+    @CsvSource(INIT_SORTED_DATA)
+    void testInsertSorted(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      on(arr).set(DIRTY, true);
+      int count = arr.count();
+      int res = arr.insert(99L);
+      boolean sorted = getSorted(arr);
+      assertTrue(
+          res == 8 && arr.count() == count + 1 && sorted, "Sorted and insert at 8 expected.");
+    }
+
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    @ParameterizedTest
+    @CsvSource(INIT_ALL_SAME_DATA)
+    void testInsertAllSameSorted(
+        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      on(arr).set(SORTED, false);
+      on(arr).set(DIRTY, true);
+      int count = arr.count();
+      int res = arr.insert(99L);
+      boolean sorted = getSorted(arr);
+      assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_EXCEPTION_DATA)
+    void testException(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray ordArray) {
+      assertThrows(
+          ArrayIndexOutOfBoundsException.class,
+          () -> {
+            ordArray.insert(45L);
+          });
+    }
+  }
+
+  @Nested
+  class DeleteTests {
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
+    void testDeleteTrue(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      assertTrue(
+          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          "Elements 0, 55 and 99 must be deleted");
+      assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
+      assertTrue(isSorted(arr), "Array must be sorted");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+    void testDeleteFalse(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      assertFalse(
+          arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
+          "Elements 12, 6, 5 found and deleted");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteStart(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long searchKey = 00L;
+      assertTrue(
+          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          () -> String.format(NOT_AVAILABLE, searchKey));
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteEnd(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long searchKey = 33L;
+      assertTrue(
+          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          () -> String.format(NOT_AVAILABLE, searchKey));
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testDeleteOverflow(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      long searchKey = 0L;
+      arr.delete(searchKey);
+      int count = arr.count();
+      assertFalse(
+          arr.delete(searchKey) && arr.count() != count, () -> searchKey + " still available");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_FULL_DATA)
+    void testDeleteEndArray(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+      int count = arr.count();
+      long searchKey = 33L;
+      assertTrue(
+          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          () -> String.format(NOT_AVAILABLE, searchKey));
     }
   }
 

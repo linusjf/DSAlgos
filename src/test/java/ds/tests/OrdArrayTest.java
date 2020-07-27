@@ -1,7 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
-import static ds.tests.TestConstants.NOT_AVAILABLE;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
@@ -29,10 +29,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayTest {
-
-  private static final String SORTED = "sorted";
-
-  private static final String DIRTY = "dirty";
 
   @Nested
   class InsertTests {
