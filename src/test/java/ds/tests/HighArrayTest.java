@@ -82,8 +82,12 @@ class HighArrayTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     void testInsert(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+      long[] a = {77,99,44,55,22,88,11,00,66,33};
+      long[] extent = arr.getExtentArray();
       assertEquals(arr.count(), 10, "10 elements not inserted.");
+      assertArrayEquals(a, extent, "Elements must be equal.");
     }
   }
 

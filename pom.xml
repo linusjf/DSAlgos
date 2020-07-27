@@ -173,7 +173,7 @@
               <timeoutFactor>2</timeoutFactor>
               <timeoutConstant>10000</timeoutConstant>
               <withHistory>false</withHistory>
-              <verbose>false</verbose>
+              <verbose>true</verbose>
               <jvmargs>
                 <jvmarg>-Xms1g</jvmarg>
                 <jvmarg>-Xmx4g</jvmarg>
