@@ -15,11 +15,11 @@ public class OrdArray extends AbstractArray {
   protected volatile boolean dirty;
 
   public OrdArray() {
-    // empty constructor, implicitly calls super
+    this(100);
   }
 
   public OrdArray(int max) {
-    super(max);
+    this(max, false);
   }
 
   public OrdArray(int max, boolean strict) {
@@ -96,8 +96,6 @@ public class OrdArray extends AbstractArray {
 
         case DELETE:
           throw new ConcurrentModificationException("Error deleting value: " + value);
-
-        default:
       }
     }
   }

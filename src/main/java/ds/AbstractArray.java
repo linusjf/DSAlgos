@@ -16,16 +16,9 @@ public abstract class AbstractArray implements IArray {
     DELETE
   }
 
-  public AbstractArray() {
-    this(100, false);
-  }
-
-  public AbstractArray(int max) {
-    this(max, false);
-  }
-
   public AbstractArray(int max, boolean strict) {
     if (max <= 0) throw new IllegalArgumentException("Invalid size: " + max);
+    // empty constructor, implicitly calls super
     a = new long[max];
     nElems = new AtomicInteger();
     modCount = new AtomicInteger();

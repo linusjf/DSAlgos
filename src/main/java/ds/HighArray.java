@@ -14,11 +14,11 @@ public class HighArray extends AbstractArray {
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
   public HighArray() {
-    // empty constructor, implicit super
+    this(100);
   }
 
   public HighArray(int max) {
-    super(max);
+    this(max, false);
   }
 
   public HighArray(int max, boolean strict) {

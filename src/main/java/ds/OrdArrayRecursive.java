@@ -10,11 +10,11 @@ public class OrdArrayRecursive extends OrdArray {
       java.util.logging.Logger.getLogger(OrdArrayRecursive.class.getName());
 
   public OrdArrayRecursive() {
-    // empty constructor, implicitly calls super
+    this(100);
   }
 
   public OrdArrayRecursive(int max) {
-    super(max);
+    this(max, false);
   }
 
   public OrdArrayRecursive(int max, boolean strict) {
