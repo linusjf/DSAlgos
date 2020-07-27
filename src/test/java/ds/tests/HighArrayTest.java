@@ -50,7 +50,7 @@ class HighArrayTest {
 
     void testEmptyConstructor() {
       IArray arr = new HighArray();
-      boolean strict = (boolean) on(arr).get("strict");
+      boolean strict = (boolean) on(arr).get(STRICT);
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
 
@@ -458,7 +458,7 @@ class HighArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(HighArray.class)
-          .withIgnoredFields("modCount", "lock", "strict")
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(HighArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)
@@ -469,7 +469,7 @@ class HighArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(HighArray.class)
-          .withIgnoredFields("modCount", "lock", "strict")
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(HighArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)

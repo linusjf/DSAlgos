@@ -12,6 +12,7 @@ import ds.IArray;
 import ds.OrdArrayRecursive;
 import java.util.Optional;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.apache.commons.validator.routines.IntegerValidator;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class OrdArrayRecursiveTest {
 
     void testEmptyConstructor() {
       IArray arr = new OrdArrayRecursive();
-      boolean strict = (boolean) on(arr).get("strict");
+      boolean strict = (boolean) on(arr).get(STRICT);
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
 
@@ -176,12 +177,10 @@ class OrdArrayRecursiveTest {
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
-      // IntegerValidator validator = IntegerValidator.getInstance();
-      // assertTrue(
-      //  validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
-      // "Insert must succeed on unsorted after sort.");
+      IntegerValidator validator = IntegerValidator.getInstance();
       assertTrue(
-          -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
+          validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
+          "Insert must succeed on unsorted after sort.");
     }
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
@@ -287,13 +286,75 @@ class OrdArrayRecursiveTest {
   }
 
   @Nested
+  class ModCountTests {
+    @Test
+    void testInsertModCount() {
+      IArray arr = new OrdArrayRecursive(100);
+      int count = arr.count();
+      int modCount = getModCount(arr);
+      arr.insert(10L);
+      int newModCount = getModCount(arr);
+      assertTrue(
+          modCount < newModCount && newModCount == 1 && arr.count() == count + 1,
+          "modcount not incremented.");
+    }
+
+    @Test
+    void testClearModCount() {
+      IArray arr = new OrdArrayRecursive(100);
+      arr.insert(10L);
+      int modCount = getModCount(arr);
+      arr.clear();
+      int newModCount = getModCount(arr);
+      assertTrue(
+          modCount < newModCount && newModCount == 2 && arr.count() == 0,
+          "modcount not incremented.");
+    }
+
+    @Test
+    void testClearEmptyModCount() {
+      IArray arr = new OrdArrayRecursive(100);
+      int modCount = getModCount(arr);
+      arr.clear();
+      int newModCount = getModCount(arr);
+      assertTrue(
+          modCount == newModCount && modCount == 0 && arr.count() == 0,
+          "modcount must not be incremented.");
+    }
+
+    @Test
+    void testDeleteModCount() {
+      IArray arr = new OrdArrayRecursive(100);
+      arr.insert(10L);
+      int modCount = getModCount(arr);
+      arr.delete(10L);
+      int newModCount = getModCount(arr);
+      assertTrue(
+          modCount < newModCount && newModCount == 2 && arr.count() == 0,
+          "modcount not incremented.");
+    }
+
+    @Test
+    void testDeleteNotFoundModCount() {
+      IArray arr = new OrdArrayRecursive(100);
+      int count = arr.count();
+      int modCount = getModCount(arr);
+      arr.delete(10L);
+      int newModCount = getModCount(arr);
+      assertTrue(
+          modCount == newModCount && modCount == 0 && arr.count() == count,
+          "modcount must not be incremented.");
+    }
+  }
+
+  @Nested
   class EqualsVerifierTests {
     /** Added tests for code coverage completeness. */
     @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayRecursive.class)
-          .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayRecursiveExt.class)
           .withIgnoredAnnotations(NonNull.class)
@@ -304,7 +365,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayRecursive.class)
-          .withIgnoredFields("modCount", "lock", "strict", "sorted", "dirty")
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayRecursiveExt.class)
           .withIgnoredAnnotations(NonNull.class)

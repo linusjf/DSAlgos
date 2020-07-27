@@ -13,7 +13,6 @@ import ds.OrdArray;
 import java.util.Arrays;
 import java.util.Optional;
 import nl.jqno.equalsverifier.EqualsVerifier;
-// import org.apache.commons.validator.routines.IntegerValidator;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -133,10 +132,6 @@ class OrdArrayTest {
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
-      // IntegerValidator validator = IntegerValidator.getInstance();
-      // assertTrue(
-      //  validator.isInRange(res, 9, 10) && sorted && arr.count() == count + 1,
-      // "Insert must succeed on unsorted after sort.");
       assertTrue(
           -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
     }
@@ -316,7 +311,7 @@ class OrdArrayTest {
     @Test
     void testEmptyConstructor() {
       IArray arr = new OrdArray();
-      boolean strict = (boolean) on(arr).get("strict");
+      boolean strict = (boolean) on(arr).get(STRICT);
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
 
@@ -603,7 +598,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArray.class)
-          .withIgnoredFields("modCount", "lock", "strict", SORTED, DIRTY)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)
@@ -614,7 +609,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArray.class)
-          .withIgnoredFields("modCount", "lock", "strict", SORTED, DIRTY)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)
