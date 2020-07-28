@@ -432,6 +432,21 @@ class HighArrayTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
+    void testToStringSpan(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+      String lineSeparator = System.lineSeparator();
+      StringBuilder sb = new StringBuilder();
+      sb.append(HighArray.class.getName())
+          .append(lineSeparator)
+          .append("nElems = ")
+          .append(10)
+          .append(lineSeparator)
+          .append("77 99 44 55 22 88 11 0 66 33 ")
+          .append(lineSeparator);
+      assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
     void testToStringEmpty(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       arr.clear();
       String lineSeparator = System.lineSeparator();

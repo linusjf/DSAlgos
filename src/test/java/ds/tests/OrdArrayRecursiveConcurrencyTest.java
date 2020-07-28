@@ -183,7 +183,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    LOGGER.info(ordArray.toString());
+    LOGGER.info(() -> ordArray.toString());
     assertTrue(isSorted(ordArray), "Array is sorted!");
   }
 

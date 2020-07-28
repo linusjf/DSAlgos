@@ -559,6 +559,21 @@ class OrdArrayTest {
       assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
     }
 
+    @ParameterizedTest
+    @CsvSource(INIT_DATA)
+    void testToStringSpan(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
+      String lineSeparator = System.lineSeparator();
+      StringBuilder sb = new StringBuilder();
+      sb.append(OrdArray.class.getName())
+          .append(lineSeparator)
+          .append("nElems = ")
+          .append(10)
+          .append(lineSeparator)
+          .append("0 11 22 33 44 55 66 77 88 99 ")
+          .append(lineSeparator);
+      assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
+    }
+
     @Test
     void testToStringEmpty() {
       IArray arr = new OrdArray(10);

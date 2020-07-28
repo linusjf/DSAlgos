@@ -80,7 +80,10 @@ public abstract class AbstractArray implements IArray {
         .append(length)
         .append(lineSeparator);
     long[] newArray = a.clone();
-    for (int j = 0; j < length; j++) sb.append(newArray[j]).append(' ');
+    for (int j = 0; j < length; j++) {
+      sb.append(newArray[j]).append(' ');
+      if ((j + 1) % 10 == 0) sb.append(lineSeparator);
+    }
     return sb.toString();
   }
 
