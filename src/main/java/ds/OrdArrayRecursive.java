@@ -29,10 +29,15 @@ public class OrdArrayRecursive extends OrdArray {
    */
   @Override
   public int insert(long value) {
+    int expectedCount = modCount.intValue();
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
     if (dirty) checkSorted();
     if (sorted) return insert(value, length);
+    if (strict && expectedCount < modCount.intValue()) {
+      dirty = true;
+      return insert(value);
+    }
     sort(length);
     return insert(value, length);
   }
@@ -41,8 +46,7 @@ public class OrdArrayRecursive extends OrdArray {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     j = j < 0 ? -1 * j - 1 : j;
-    if (strict
-      && expectedCount < modCount.intValue()) {
+    if (strict && expectedCount < modCount.intValue()) {
       dirty = true;
       return insert(value);
     }
@@ -58,12 +62,16 @@ public class OrdArrayRecursive extends OrdArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
+    int expectedCount = modCount.intValue();
     int length = nElems.intValue();
     if (dirty) checkSorted();
     if (sorted) return delete(value, length);
-    return false;
-    // sort(nElems.intValue());
-    // return delete(value, nElems.intValue());
+    if (strict && expectedCount < modCount.intValue()) {
+      dirty = true;
+      return delete(value);
+    }
+    sort(nElems.intValue());
+    return delete(value, nElems.intValue());
   }
 
   protected boolean delete(long value, int length) {

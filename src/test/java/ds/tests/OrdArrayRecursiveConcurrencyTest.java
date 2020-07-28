@@ -104,7 +104,8 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertFalse(isSorted(ordArray), "Array is sorted!");
+    LOGGER.info(() -> ordArray.toString());
+    assertTrue(isSorted(ordArray), "Array is sorted!");
   }
 
   @ParameterizedTest
@@ -138,7 +139,8 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
     }
-    assertFalse(isSorted(ordArray), "Array is sorted!");
+    LOGGER.info(() -> ordArray.toString());
+    assertTrue(isSorted(ordArray), "Array is sorted!");
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -182,7 +184,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
       Thread.currentThread().interrupt();
     }
     LOGGER.info(ordArray.toString());
-    assertFalse(isSorted(ordArray), "Array is sorted!");
+    assertTrue(isSorted(ordArray), "Array is sorted!");
   }
 
   @Test

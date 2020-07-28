@@ -175,6 +175,8 @@ class OrdArrayRecursiveTest {
     @CsvSource(INIT_UNSORTED_DATA)
     void testInsertUnSorted(
         @AggregateWith(OrdArrayRecursiveArgumentsAggregatorUnsorted.class) IArray arr) {
+      on(arr).set(SORTED, false);
+      on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = getSorted(arr);
