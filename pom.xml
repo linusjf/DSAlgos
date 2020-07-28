@@ -173,7 +173,7 @@
               <timeoutFactor>2</timeoutFactor>
               <timeoutConstant>10000</timeoutConstant>
               <withHistory>false</withHistory>
-              <verbose>true</verbose>
+              <verbose>false</verbose>
               <jvmargs>
                 <jvmarg>-Xms1g</jvmarg>
                 <jvmarg>-Xmx4g</jvmarg>
@@ -382,7 +382,6 @@
               <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
               <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
               <annotationProcessor>org.checkerframework.checker.lock.LockChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor>
               <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
             </annotationProcessors>
             <compilerArgs>
