@@ -41,7 +41,8 @@ public class OrdArrayRecursive extends OrdArray {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);
     j = j < 0 ? -1 * j - 1 : j;
-    if (strict && expectedCount < modCount.intValue()) {
+    if (strict
+      && expectedCount < modCount.intValue()) {
       dirty = true;
       return insert(value);
     }
