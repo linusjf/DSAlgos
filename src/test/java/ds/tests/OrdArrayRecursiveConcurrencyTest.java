@@ -78,7 +78,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size / 2);
     Random random = new Random();
-    ExecutorService service = Executors.newFixedThreadPool(10);
+    ExecutorService service = Executors.newCachedThreadPool();
     LongStream.rangeClosed(1L, (long) size / 2)
         .unordered()
         .parallel()
@@ -114,7 +114,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     IArray ordArray = new OrdArrayRecursive(size, true);
-    ExecutorService service = Executors.newFixedThreadPool(10);
+    ExecutorService service = Executors.newCachedThreadPool();
     LongStream.rangeClosed(1L, (long) size)
         .unordered()
         .parallel()
@@ -161,7 +161,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
-    ExecutorService service = Executors.newFixedThreadPool(10);
+    ExecutorService service = Executors.newCachedThreadPool();
     nosParallel.forEach(
         i ->
             service.execute(

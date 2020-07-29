@@ -9,7 +9,7 @@ interface ConcurrencyProvider {
     if (processors <= 2) return Stream.of(100_000);
     return Stream.of(1000);
   }
-  
+
   default Stream<Integer> provideArraySize() {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
