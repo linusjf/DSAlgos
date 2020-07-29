@@ -28,7 +28,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
       Logger.getLogger(OrdArrayRecursiveConcurrencyTest.class.getName());
 
   @ParameterizedTest
-  @MethodSource("provideArraySize")
+  @MethodSource("provideSyncArraySize")
   void testSyncConcurrent(int size) {
     IArray ordArray = new OrdArrayRecursive(size, true);
     LongStream.rangeClosed(1L, size / 2)
@@ -68,7 +68,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   }
 
   @ParameterizedTest
-  @MethodSource("provideArraySize")
+  @MethodSource("provideSyncArraySize")
   void testConcurrent(int size) {
     IArray ordArray = new OrdArrayRecursive(size, true);
     LongStream.rangeClosed(1L, size / 2)
@@ -109,7 +109,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   }
 
   @ParameterizedTest
-  @MethodSource("provideArraySize")
+  @MethodSource("provideSyncArraySize")
   void testConcurrentInserts(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
@@ -146,10 +146,10 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testSyncInserts() {
-    IArray ordArray = new OrdArrayRecursive(10_000, true);
-    LongStream.rangeClosed(1L, 10_000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
+    IArray ordArray = new OrdArrayRecursive(1000, true);
+    LongStream.rangeClosed(1L, 1000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
     assertTrue(isSorted(ordArray), "Array is unsorted!");
-    assertEquals(10_000, ordArray.count(), "10_000 elements not inserted.");
+    assertEquals(1000, ordArray.count(), "1000 elements not inserted.");
   }
 
   @ParameterizedTest
@@ -189,8 +189,8 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testSequentialDeletes() {
-    IArray ordArray = new OrdArrayRecursive(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    IArray ordArray = new OrdArrayRecursive(1000, true);
+    LongStream nos = LongStream.rangeClosed(1L, 1000L);
     nos.forEach(
         i -> {
           ordArray.insert(i);
@@ -202,7 +202,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   @Test
   void testConcurrentSyncDeletes() {
     IArray ordArray = new OrdArrayRecursive(100);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
+    LongStream nos = LongStream.rangeClosed(1L, 1000L);
     nos.forEach(
         i -> {
           ordArray.insert(i);

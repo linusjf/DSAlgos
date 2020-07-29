@@ -1,8 +1,7 @@
 package ds;
 
-import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 /** Demonstrates array class with high-level interface. */
 @SuppressWarnings("PMD.LawOfDemeter")
@@ -11,7 +10,9 @@ public class OrdArrayRecursive extends OrdArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArrayRecursive.class.getName());
 
-  private ReentrantLock lock;
+  private Object lock = new Object();
+
+  private Random random = new Random();
 
   public OrdArrayRecursive() {
     this(100);
@@ -23,7 +24,6 @@ public class OrdArrayRecursive extends OrdArray {
 
   public OrdArrayRecursive(int max, boolean strict) {
     super(max, strict);
-    lock = new ReentrantLock();
   }
 
   /**
@@ -36,43 +36,76 @@ public class OrdArrayRecursive extends OrdArray {
   public int insert(long value) {
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
-    return insert(value, length);
+    int ret = -1;
+    while (ret == -1) {
+      CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
+      ret = insert(value, length, cac);
+      try {
+        TimeUnit.MILLISECONDS.sleep(random.nextInt(10));
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
+    }
+    return ret;
   }
 
-  protected int insert(long value, int length) {
-    int expectedCount = modCount.intValue();
+  protected int insert(long value, int length, CompareAndCheck cac) {
     int j = findIndex(value, length);
     j = j < 0 ? -1 * j - 1 : j;
-    if (strict && expectedCount < modCount.intValue()) {
-      dirty = true;
-      return insert(value);
+    if (strict) {
+      boolean areEqual = cac.compareTo(modCount.intValue());
+      if (!areEqual) return -1;
+      return checkedMoveAndInsert(j, length, value);
     }
     moveAndInsert(j, length, value);
     return j;
   }
 
-  private void sort(int length) {
-    Arrays.sort(a, 0, length);
-    sorted = true;
-  }
-
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
-    int length = nElems.intValue();
-    return delete(value, length);
+    int ret = Integer.MIN_VALUE;
+    while (ret == Integer.MIN_VALUE) {
+      int length = nElems.intValue();
+      CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
+      ret = delete(value, length, cac);
+      try {
+        TimeUnit.MILLISECONDS.sleep(random.nextInt(10));
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
+    }
+    return ret >= 0;
   }
 
-  protected boolean delete(long value, int length) {
-    int expectedCount = modCount.intValue();
+  protected int delete(long value, int length, CompareAndCheck cac) {
     int j = findIndex(value, length);
-    if (j < 0) return false;
-    if (strict && expectedCount < modCount.intValue()) {
-      dirty = true;
-      return delete(value);
+    if (j < 0) return j;
+    if (strict) {
+      boolean areEqual = cac.compareTo(modCount.intValue());
+      if (!areEqual) return Integer.MIN_VALUE;
+      return checkedFastDelete(j, length);
     }
     fastDelete(j, length);
-    return true;
+    return j;
+  }
+
+  private int checkedMoveAndInsert(int j, int length, long value) {
+    synchronized (lock) {
+      if (nElems.intValue() != length) return -1;
+      System.out.println("checked move and insert");
+      moveAndInsert(j, length, value);
+      return j;
+    }
+  }
+
+  private int checkedFastDelete(int j, int length) {
+    synchronized (lock) {
+      if (nElems.intValue() != length) return Integer.MIN_VALUE;
+      System.out.println("checked fast delete");
+      fastDelete(j, length);
+      return j;
+    }
   }
 
   @Override
@@ -96,5 +129,17 @@ public class OrdArrayRecursive extends OrdArray {
   public int hashCode() {
     final int result = super.hashCode();
     return result;
+  }
+
+  static class CompareAndCheck {
+    int value;
+
+    CompareAndCheck(int val) {
+      this.value = val;
+    }
+
+    public boolean compareTo(int newValue) {
+      return (value == newValue);
+    }
   }
 }
