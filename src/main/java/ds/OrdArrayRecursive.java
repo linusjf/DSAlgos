@@ -2,6 +2,8 @@ package ds;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Demonstrates array class with high-level interface. */
 @SuppressWarnings("PMD.LawOfDemeter")
@@ -36,17 +38,29 @@ public class OrdArrayRecursive extends OrdArray {
   public int insert(long value) {
     int length = nElems.intValue();
     if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
-    int ret = -1;
-    while (ret == -1) {
-      CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
-      ret = insert(value, length, cac);
-      try {
-        TimeUnit.MILLISECONDS.sleep(random.nextInt(10));
-      } catch (InterruptedException ie) {
-        Thread.currentThread().interrupt();
-      }
+    AtomicInteger index = new AtomicInteger();
+    Thread inserter =
+        new Thread(
+            () -> {
+              int ret = -1;
+              while (ret == -1) {
+                CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
+                ret = insert(value, length, cac);
+                try {
+                  TimeUnit.MILLISECONDS.sleep(10);
+                } catch (InterruptedException ie) {
+                  Thread.currentThread().interrupt();
+                }
+              }
+              index.set(ret);
+            });
+    inserter.start();
+    try {
+      inserter.join(0);
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
     }
-    return ret;
+    return index.intValue();
   }
 
   protected int insert(long value, int length, CompareAndCheck cac) {
@@ -64,28 +78,39 @@ public class OrdArrayRecursive extends OrdArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
-    int ret = Integer.MIN_VALUE;
-    while (ret == Integer.MIN_VALUE) {
-      int length = nElems.intValue();
-      CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
-      ret = delete(value, length, cac);
-      try {
-        TimeUnit.MILLISECONDS.sleep(random.nextInt(10));
-      } catch (InterruptedException ie) {
-        Thread.currentThread().interrupt();
-      }
+    AtomicBoolean deleted = new AtomicBoolean();
+    Thread deleter =
+        new Thread(
+            () -> {
+              int ret = Integer.MIN_VALUE;
+              while (ret == Integer.MIN_VALUE) {
+                int length = nElems.intValue();
+                CompareAndCheck cac = new CompareAndCheck(modCount.intValue());
+                ret = delete(value, length, cac);
+                try {
+                  TimeUnit.MILLISECONDS.sleep(10);
+                } catch (InterruptedException ie) {
+                  Thread.currentThread().interrupt();
+                }
+              }
+              deleted.set(ret >= 0);
+            });
+    deleter.start();
+    try {
+      deleter.join(0);
+    } catch (InterruptedException ie) {
+      Thread.currentThread().interrupt();
     }
-    return ret >= 0;
+    return deleted.get();
   }
 
   public int syncInsert(long val) {
     return insert(val);
   }
-  
+
   public boolean syncDelete(long val) {
     return delete(val);
   }
-
 
   protected int delete(long value, int length, CompareAndCheck cac) {
     int j = findIndex(value, length);
@@ -143,12 +168,12 @@ public class OrdArrayRecursive extends OrdArray {
   static class CompareAndCheck {
     int value;
 
-    CompareAndCheck(int val) {
-      this.value = val;
+    CompareAndCheck(int value) {
+      this.value = value;
     }
 
     public boolean compareTo(int newValue) {
-      return (value == newValue);
+      return value == newValue;
     }
   }
 }
