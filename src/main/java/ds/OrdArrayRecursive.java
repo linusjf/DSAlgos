@@ -78,6 +78,15 @@ public class OrdArrayRecursive extends OrdArray {
     return ret >= 0;
   }
 
+  public int syncInsert(long val) {
+    return insert(val);
+  }
+  
+  public boolean syncDelete(long val) {
+    return delete(val);
+  }
+
+
   protected int delete(long value, int length, CompareAndCheck cac) {
     int j = findIndex(value, length);
     if (j < 0) return j;
