@@ -339,7 +339,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayRecursive.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayRecursiveExt.class)
           .withPrefabValues(
