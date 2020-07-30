@@ -32,7 +32,8 @@ public class OrdArrayLock extends OrdArray {
    */
   @Override
   public int insert(long value) {
-    w.lock();
+    boolean acquired = false;
+    while (!acquired) acquired = w.tryLock();
     try {
       int length = nElems.intValue();
       if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
@@ -52,7 +53,8 @@ public class OrdArrayLock extends OrdArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
-    w.lock();
+    boolean acquired = false;
+    while (!acquired) acquired = w.tryLock();
     try {
       return delete(value, nElems.intValue());
     } finally {
