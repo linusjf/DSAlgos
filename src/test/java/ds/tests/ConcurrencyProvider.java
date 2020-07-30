@@ -6,7 +6,7 @@ interface ConcurrencyProvider {
   default Stream<Integer> provideSyncArraySize() {
     Runtime rt = Runtime.getRuntime();
     int processors = rt.availableProcessors();
-    if (processors <= 2) return Stream.of(1000);
+    if (processors <= 2) return Stream.of(100);
     return Stream.of(100);
   }
 
