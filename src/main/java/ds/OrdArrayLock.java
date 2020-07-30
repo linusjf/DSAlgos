@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -10,7 +12,8 @@ public class OrdArrayLock extends OrdArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArrayLock.class.getName());
 
-  private final Lock w = new ReentrantReadWriteLock().writeLock();
+  private final Lock w = new ReentrantReadWriteLock(true).writeLock();
+  private final Random random = new Random();
 
   public OrdArrayLock() {
     this(100);
@@ -33,14 +36,23 @@ public class OrdArrayLock extends OrdArray {
   @Override
   public int insert(long value) {
     boolean acquired = false;
-    while (!acquired) acquired = w.tryLock();
-    try {
-      int length = nElems.intValue();
-      if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
-      return insert(value, length);
-    } finally {
-      w.unlock();
+    int ret = Integer.MIN_VALUE;
+    while (!acquired) {
+      try {
+        acquired = w.tryLock(random.nextInt(100), TimeUnit.NANOSECONDS);
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
+      if (!acquired) continue;
+      try {
+        int length = nElems.intValue();
+        if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
+        ret = insert(value, length);
+      } finally {
+        w.unlock();
+      }
     }
+    return ret;
   }
 
   protected int insert(long value, int length) {
@@ -54,12 +66,21 @@ public class OrdArrayLock extends OrdArray {
   @Override
   public boolean delete(long value) {
     boolean acquired = false;
-    while (!acquired) acquired = w.tryLock();
-    try {
-      return delete(value, nElems.intValue());
-    } finally {
-      w.unlock();
+    boolean deleted = false;
+    while (!acquired) {
+      try {
+        acquired = w.tryLock(random.nextInt(100), TimeUnit.NANOSECONDS);
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
+      if (!acquired) continue;
+      try {
+        deleted = delete(value, nElems.intValue());
+      } finally {
+        w.unlock();
+      }
     }
+    return deleted;
   }
 
   public int syncInsert(long val) {

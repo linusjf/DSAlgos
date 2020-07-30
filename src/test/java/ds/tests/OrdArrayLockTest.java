@@ -334,7 +334,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayLock.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE, RANDOM)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(
@@ -349,7 +349,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayLock.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE, RANDOM)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(

@@ -15,6 +15,8 @@ public final class TestConstants {
   static final String LOCK = "lock";
 
   static final String WRITE = "w";
+  
+  static final String RANDOM = "random";
 
   private TestConstants() {
     // empty constructor
