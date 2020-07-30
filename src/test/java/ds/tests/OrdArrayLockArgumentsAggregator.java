@@ -1,14 +1,14 @@
 package ds.tests;
 
 import ds.IArray;
-import ds.OrdArrayRecursive;
+import ds.OrdArrayLock;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
 
-class OrdArrayRecursiveArgumentsAggregator implements ArgumentsAggregator {
+class OrdArrayLockArgumentsAggregator implements ArgumentsAggregator {
 
   public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context)
       throws ArgumentsAggregationException {
@@ -17,7 +17,7 @@ class OrdArrayRecursiveArgumentsAggregator implements ArgumentsAggregator {
     Optional<Boolean> strictOptional = Optional.ofNullable(accessor.get(1, Boolean.class));
     boolean strict = strictOptional.orElse(false);
     Object[] args = accessor.toArray();
-    IArray array = new OrdArrayRecursive(size, strict);
+    IArray array = new OrdArrayLock(size, strict);
     for (int i = 2; i < args.length; i++) array.insert(accessor.get(i, Long.class));
     return array;
   }

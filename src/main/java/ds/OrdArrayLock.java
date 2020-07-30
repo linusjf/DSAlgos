@@ -5,22 +5,22 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /** Demonstrates array class with high-level interface. */
 @SuppressWarnings("PMD.LawOfDemeter")
-public class OrdArrayRecursive extends OrdArray {
+public class OrdArrayLock extends OrdArray {
   @SuppressWarnings("all")
   private static final java.util.logging.Logger LOGGER =
-      java.util.logging.Logger.getLogger(OrdArrayRecursive.class.getName());
+      java.util.logging.Logger.getLogger(OrdArrayLock.class.getName());
 
   private final Lock w = new ReentrantReadWriteLock().writeLock();
 
-  public OrdArrayRecursive() {
+  public OrdArrayLock() {
     this(100);
   }
 
-  public OrdArrayRecursive(int max) {
+  public OrdArrayLock(int max) {
     this(max, false);
   }
 
-  public OrdArrayRecursive(int max, boolean strict) {
+  public OrdArrayLock(int max, boolean strict) {
     super(max, strict);
   }
 
@@ -79,8 +79,8 @@ public class OrdArrayRecursive extends OrdArray {
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
     if (o == this) return true;
-    if (!(o instanceof OrdArrayRecursive)) return false;
-    final OrdArrayRecursive other = (OrdArrayRecursive) o;
+    if (!(o instanceof OrdArrayLock)) return false;
+    final OrdArrayLock other = (OrdArrayLock) o;
     if (!other.canEqual((Object) this)) return false;
     if (!super.equals(o)) return false;
     return true;
@@ -88,7 +88,7 @@ public class OrdArrayRecursive extends OrdArray {
 
   @SuppressWarnings("all")
   protected boolean canEqual(final Object other) {
-    return other instanceof OrdArrayRecursive;
+    return other instanceof OrdArrayLock;
   }
 
   @Override

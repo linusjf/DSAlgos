@@ -4,7 +4,7 @@ import static ds.ArrayUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.IArray;
-import ds.OrdArrayRecursive;
+import ds.OrdArrayLock;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -23,14 +23,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
+class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER =
-      Logger.getLogger(OrdArrayRecursiveConcurrencyTest.class.getName());
+      Logger.getLogger(OrdArrayLockConcurrencyTest.class.getName());
 
   @ParameterizedTest
   @MethodSource("provideSyncArraySize")
   void testSyncConcurrent(int size) {
-    IArray ordArray = new OrdArrayRecursive(size, true);
+    IArray ordArray = new OrdArrayLock(size, true);
     LongStream.rangeClosed(1L, size / 2)
         .unordered()
         .parallel()
@@ -70,7 +70,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   @ParameterizedTest
   @MethodSource("provideSyncArraySize")
   void testConcurrent(int size) {
-    IArray ordArray = new OrdArrayRecursive(size, true);
+    IArray ordArray = new OrdArrayLock(size, true);
     LongStream.rangeClosed(1L, size / 2)
         .unordered()
         .parallel()
@@ -113,7 +113,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   void testConcurrentInserts(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
-    IArray ordArray = new OrdArrayRecursive(size, true);
+    IArray ordArray = new OrdArrayLock(size, true);
     ExecutorService service = Executors.newCachedThreadPool();
     LongStream.rangeClosed(1L, (long) size)
         .unordered()
@@ -146,7 +146,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testSyncInserts() {
-    IArray ordArray = new OrdArrayRecursive(1000, true);
+    IArray ordArray = new OrdArrayLock(1000, true);
     LongStream.rangeClosed(1L, 1000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
     assertTrue(isSorted(ordArray), "Array is unsorted!");
     assertEquals(1000, ordArray.count(), "1000 elements not inserted.");
@@ -157,7 +157,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
   void testConcurrentDeletes(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
-    IArray ordArray = new OrdArrayRecursive(size, true);
+    IArray ordArray = new OrdArrayLock(size, true);
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
@@ -189,7 +189,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testSequentialDeletes() {
-    IArray ordArray = new OrdArrayRecursive(1000, true);
+    IArray ordArray = new OrdArrayLock(1000, true);
     LongStream nos = LongStream.rangeClosed(1L, 1000L);
     nos.forEach(
         i -> {
@@ -201,7 +201,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentSyncDeletes() {
-    IArray ordArray = new OrdArrayRecursive(100);
+    IArray ordArray = new OrdArrayLock(100);
     LongStream nos = LongStream.rangeClosed(1L, 1000L);
     nos.forEach(
         i -> {
@@ -213,7 +213,7 @@ class OrdArrayRecursiveConcurrencyTest implements ConcurrencyProvider {
 
   @Test
   void testConcurrentSyncInsertsDeletes() {
-    IArray ordArray = new OrdArrayRecursive(100);
+    IArray ordArray = new OrdArrayLock(100);
     LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();
     nos.forEach(
         i -> {

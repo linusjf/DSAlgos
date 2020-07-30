@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import ds.IArray;
-import ds.OrdArrayRecursive;
+import ds.OrdArrayLock;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class OrdArrayRecursiveTest {
+class OrdArrayLockTest {
   @Nested
   class ConstructorTests {
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -37,7 +37,7 @@ class OrdArrayRecursiveTest {
       IllegalArgumentException iae =
           assertThrows(
               IllegalArgumentException.class,
-              () -> new OrdArrayRecursive(-1),
+              () -> new OrdArrayLock(-1),
               "IllegalArgumentException expected for " + -1);
       Optional<String> msg = Optional.ofNullable(iae.getMessage());
       String val = msg.orElse("");
@@ -46,13 +46,13 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testConstructorParameterOK() {
-      IArray arr = new OrdArrayRecursive(10);
+      IArray arr = new OrdArrayLock(10);
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
     @Test
     void testEmptyConstructor() {
-      IArray arr = new OrdArrayRecursive();
+      IArray arr = new OrdArrayLock();
       boolean strict = (boolean) on(arr).get(STRICT);
       assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
     }
@@ -63,7 +63,7 @@ class OrdArrayRecursiveTest {
       IllegalArgumentException iae =
           assertThrows(
               IllegalArgumentException.class,
-              () -> new OrdArrayRecursive(0),
+              () -> new OrdArrayLock(0),
               "IllegalArgumentException expected for " + 0);
       Optional<String> msg = Optional.ofNullable(iae.getMessage());
       String val = msg.orElse("");
@@ -75,20 +75,19 @@ class OrdArrayRecursiveTest {
   class InsertTests {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void insertDuplicate(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void insertDuplicate(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DUPLICATE_DATA)
-    void insertDuplicateElements(
-        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void insertDuplicateElements(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertOnDirty(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertOnDirty(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       arr.insert(10L);
       assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
@@ -96,7 +95,7 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testInsertOnDirtyEmpty() {
-      IArray arr = new OrdArrayRecursive(10);
+      IArray arr = new OrdArrayLock(10);
       on(arr).set(DIRTY, true);
       arr.insert(10L);
       assertEquals(1, arr.count(), "1 element expected.");
@@ -104,8 +103,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_FULL_DATA)
-    void testInsertOnDirtyFull(
-        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertOnDirtyFull(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       assertThrows(
           ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
@@ -113,14 +111,13 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsert(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsert(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertAtStartExists(
-        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertAtStartExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 0L;
       int index = arr.findIndex(val);
@@ -135,8 +132,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertAtEndExists(
-        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertAtEndExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 99L;
       int index = arr.findIndex(val);
@@ -151,7 +147,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertAtEnd(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertAtEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 100L;
       int insertIndex = arr.insert(val);
@@ -162,7 +158,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertAtStart(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertAtStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = -1L;
       int insertIndex = arr.insert(val);
@@ -174,7 +170,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @ParameterizedTest
     @CsvSource(INIT_SORTED_DATA)
-    void testInsertSorted(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
@@ -184,8 +180,7 @@ class OrdArrayRecursiveTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @ParameterizedTest
     @CsvSource(INIT_ALL_SAME_DATA)
-    void testInsertAllSameSorted(
-        @AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testInsertAllSameSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       on(arr).set(SORTED, false);
       on(arr).set(DIRTY, true);
       int count = arr.count();
@@ -195,7 +190,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_EXCEPTION_DATA)
-    void testException(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray ordArray) {
+    void testException(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray ordArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
           () -> {
@@ -210,7 +205,7 @@ class OrdArrayRecursiveTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-    void testDeleteTrue(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteTrue(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
           arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
@@ -222,7 +217,7 @@ class OrdArrayRecursiveTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    void testDeleteFalse(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteFalse(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(
           arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
@@ -231,7 +226,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testDeleteStart(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 00L;
       assertTrue(
@@ -241,7 +236,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testDeleteEnd(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -251,7 +246,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testDeleteOverflow(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteOverflow(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.delete(searchKey);
       int count = arr.count();
@@ -261,7 +256,7 @@ class OrdArrayRecursiveTest {
 
     @ParameterizedTest
     @CsvSource(INIT_FULL_DATA)
-    void testDeleteEndArray(@AggregateWith(OrdArrayRecursiveArgumentsAggregator.class) IArray arr) {
+    void testDeleteEndArray(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
@@ -274,7 +269,7 @@ class OrdArrayRecursiveTest {
   class ModCountTests {
     @Test
     void testInsertModCount() {
-      IArray arr = new OrdArrayRecursive(100);
+      IArray arr = new OrdArrayLock(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.insert(10L);
@@ -286,7 +281,7 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testClearModCount() {
-      IArray arr = new OrdArrayRecursive(100);
+      IArray arr = new OrdArrayLock(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.clear();
@@ -298,7 +293,7 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testClearEmptyModCount() {
-      IArray arr = new OrdArrayRecursive(100);
+      IArray arr = new OrdArrayLock(100);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -309,7 +304,7 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testDeleteModCount() {
-      IArray arr = new OrdArrayRecursive(100);
+      IArray arr = new OrdArrayLock(100);
       arr.insert(10L);
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -321,7 +316,7 @@ class OrdArrayRecursiveTest {
 
     @Test
     void testDeleteNotFoundModCount() {
-      IArray arr = new OrdArrayRecursive(100);
+      IArray arr = new OrdArrayLock(100);
       int count = arr.count();
       int modCount = getModCount(arr);
       arr.delete(10L);
@@ -338,10 +333,10 @@ class OrdArrayRecursiveTest {
     @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
-      EqualsVerifier.forClass(OrdArrayRecursive.class)
+      EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE)
           .withRedefinedSuperclass()
-          .withRedefinedSubclass(OrdArrayRecursiveExt.class)
+          .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(
               Lock.class,
               new ReentrantReadWriteLock().writeLock(),
@@ -353,10 +348,10 @@ class OrdArrayRecursiveTest {
     @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
-      EqualsVerifier.forClass(OrdArrayRecursive.class)
+      EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE)
           .withRedefinedSuperclass()
-          .withRedefinedSubclass(OrdArrayRecursiveExt.class)
+          .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(
               Lock.class,
               new ReentrantReadWriteLock().writeLock(),
@@ -366,14 +361,14 @@ class OrdArrayRecursiveTest {
     }
   }
 
-  static class OrdArrayRecursiveExt extends OrdArrayRecursive {
-    OrdArrayRecursiveExt(int size) {
+  static class OrdArrayLockExt extends OrdArrayLock {
+    OrdArrayLockExt(int size) {
       super(size);
     }
 
     @Override
     public boolean canEqual(Object obj) {
-      return obj instanceof OrdArrayRecursiveExt;
+      return obj instanceof OrdArrayLockExt;
     }
   }
 }
