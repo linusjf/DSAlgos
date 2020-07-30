@@ -164,7 +164,7 @@
               <targetTests>
                 <param>ds.tests.HighArrayTest</param>
                 <param>ds.tests.OrdArrayTest</param>
-                <param>ds.tests.OrdArrayRecursiveTest</param>
+                <param>ds.tests.OrdArrayLockTest</param>
                 <param>ds.tests.ArrayUtilsTest</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
