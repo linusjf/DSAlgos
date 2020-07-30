@@ -38,7 +38,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size / 2);
     Random random = new Random();
-    ExecutorService service = Executors.newFixedThreadPool(10);
+    ExecutorService service = Executors.newFixedThreadPool(6);
     LongStream.rangeClosed(1L, (long) size / 2)
         .unordered()
         .parallel()
@@ -78,7 +78,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size / 2);
     Random random = new Random();
-    ExecutorService service = Executors.newCachedThreadPool();
+    ExecutorService service = Executors.newFixedThreadPool(6);
     LongStream.rangeClosed(1L, (long) size / 2)
         .unordered()
         .parallel()
@@ -114,7 +114,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
     IArray ordArray = new OrdArrayLock(size, true);
-    ExecutorService service = Executors.newCachedThreadPool();
+    ExecutorService service = Executors.newFixedThreadPool(6);
     LongStream.rangeClosed(1L, (long) size)
         .unordered()
         .parallel()
