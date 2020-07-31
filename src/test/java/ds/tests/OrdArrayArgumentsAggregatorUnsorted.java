@@ -16,8 +16,6 @@ class OrdArrayArgumentsAggregatorUnsorted extends OrdArrayArgumentsAggregator {
     long[] a = new long[array.get().length - 2];
     for (int i = 2; i < args.length; i++) a[i - 2] = accessor.get(i, Long.class);
     on(array).set("a", a);
-    on(array).set("sorted", false);
-    on(array).set("dirty", true);
     return array;
   }
 }
