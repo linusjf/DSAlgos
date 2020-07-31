@@ -34,14 +34,9 @@ public class OrdArrayLock extends OrdArray {
    */
   @Override
   public int insert(long value) {
-    w.lock();
-    try {
-      int length = nElems.intValue();
-      if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
-      return insert(value, length);
-    } finally {
-      w.unlock();
-    }
+    int length = nElems.intValue();
+    if (length == a.length) throw new ArrayIndexOutOfBoundsException(length);
+    return insert(value, length);
   }
 
   protected int insert(long value, int length) {
@@ -54,20 +49,25 @@ public class OrdArrayLock extends OrdArray {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @Override
   public boolean delete(long value) {
+    return delete(value, nElems.intValue());
+  }
+
+  public int syncInsert(long val) {
     w.lock();
     try {
-      return delete(value, nElems.intValue());
+      return insert(val);
     } finally {
       w.unlock();
     }
   }
 
-  public int syncInsert(long val) {
-    return insert(val);
-  }
-
   public boolean syncDelete(long val) {
-    return delete(val);
+    w.lock();
+    try {
+      return delete(val);
+    } finally {
+      w.unlock();
+    }
   }
 
   protected boolean delete(long value, int length) {
