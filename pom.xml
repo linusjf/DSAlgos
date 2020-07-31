@@ -169,6 +169,7 @@
                 <param>ds.tests.HighArrayConcurrencyTest</param>
                 <param>ds.tests.OrdArrayConcurrencyTest</param>
                 <param>ds.tests.OrdArrayLockConcurrencyTest</param>
+                <param>ds.tests.AbstractArrayTest</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
