@@ -103,17 +103,6 @@ class OrdArrayTest {
 
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @ParameterizedTest
-    @CsvSource(INIT_UNSORTED_DATA)
-    void testInsertUnSorted(@AggregateWith(OrdArrayArgumentsAggregatorUnsorted.class) IArray arr) {
-      int count = arr.count();
-      int res = arr.insert(99L);
-      boolean sorted = isSorted(arr);
-      assertTrue(
-          -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
-    }
-
-    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    @ParameterizedTest
     @CsvSource(INIT_SORTED_DATA)
     void testInsertSorted(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
