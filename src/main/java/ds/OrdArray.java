@@ -1,7 +1,7 @@
 package ds;
 
 /** Demonstrates array class with high-level interface. */
-public final class OrdArray extends AbstractOrdArray {
+public class OrdArray extends AbstractOrdArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArray.class.getName());
 

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractArray implements IArray {
-
   protected final long[] a;
   protected final AtomicInteger nElems;
   protected final Object lock = new Object();
@@ -90,5 +89,36 @@ public abstract class AbstractArray implements IArray {
   @Override
   public int count() {
     return nElems.intValue();
+  }
+
+  @Override
+  @SuppressWarnings("all")
+  public boolean equals(final Object o) {
+    if (o == this) return true;
+    if (!(o instanceof AbstractArray)) return false;
+    final AbstractArray other = (AbstractArray) o;
+    if (!other.canEqual((Object) this)) return false;
+    if (!java.util.Arrays.equals(this.a, other.a)) return false;
+    final Object this$nElems = this.nElems;
+    final Object other$nElems = other.nElems;
+    if (this$nElems == null ? other$nElems != null : !this$nElems.equals(other$nElems))
+      return false;
+    return true;
+  }
+
+  @SuppressWarnings("all")
+  protected boolean canEqual(final Object other) {
+    return other instanceof AbstractArray;
+  }
+
+  @Override
+  @SuppressWarnings("all")
+  public int hashCode() {
+    final int PRIME = 59;
+    int result = 1;
+    result = result * PRIME + java.util.Arrays.hashCode(this.a);
+    final Object $nElems = this.nElems;
+    result = result * PRIME + ($nElems == null ? 43 : $nElems.hashCode());
+    return result;
   }
 }

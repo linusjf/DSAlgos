@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /** Demonstrates array class with high-level interface. */
-public final class OrdArrayLock extends AbstractOrdArray {
+public class OrdArrayLock extends AbstractOrdArray {
   private static final java.util.logging.Logger LOGGER =
       java.util.logging.Logger.getLogger(OrdArrayLock.class.getName());
   private final Lock w = new ReentrantReadWriteLock(true).writeLock();
@@ -58,6 +58,7 @@ public final class OrdArrayLock extends AbstractOrdArray {
   @Override
   @SuppressWarnings("all")
   public int hashCode() {
-    return super.hashCode();
+    final int result = super.hashCode();
+    return result;
   }
 }
