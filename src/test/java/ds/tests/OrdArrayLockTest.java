@@ -76,7 +76,7 @@ class OrdArrayLockTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     void insertDuplicate(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
-      assertTrue(6 == arr.insert(66L) && isSorted(arr), "Index 6 expected");
+      assertTrue(6 == arr.syncInsert(66L) && isSorted(arr), "Index 6 expected");
     }
 
     @ParameterizedTest
@@ -97,7 +97,7 @@ class OrdArrayLockTest {
       int count = arr.count();
       long val = 0L;
       int index = arr.findIndex(val);
-      int insertIndex = arr.insert(val);
+      int insertIndex = arr.syncInsert(val);
       assertTrue(
           insertIndex >= index
               && insertIndex <= index + 1
@@ -112,7 +112,7 @@ class OrdArrayLockTest {
       int count = arr.count();
       long val = 99L;
       int index = arr.findIndex(val);
-      int insertIndex = arr.insert(val);
+      int insertIndex = arr.syncInsert(val);
       assertTrue(
           insertIndex >= index
               && insertIndex <= index + 1
@@ -126,7 +126,7 @@ class OrdArrayLockTest {
     void testInsertAtEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 100L;
-      int insertIndex = arr.insert(val);
+      int insertIndex = arr.syncInsert(val);
       assertTrue(
           insertIndex == count && arr.count() == count + 1 && isSorted(arr),
           () -> (count + 1) + " elements expected, index " + count + " expected.");
@@ -137,7 +137,7 @@ class OrdArrayLockTest {
     void testInsertAtStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = -1L;
-      int insertIndex = arr.insert(val);
+      int insertIndex = arr.syncInsert(val);
       assertTrue(
           insertIndex == 0 && arr.count() == count + 1 && isSorted(arr),
           "11 elements expected, index 0 expected.");
@@ -148,7 +148,7 @@ class OrdArrayLockTest {
     @CsvSource(INIT_SORTED_DATA)
     void testInsertSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      int res = arr.insert(99L);
+      int res = arr.syncInsert(99L);
       assertTrue(res == 8 && arr.count() == count + 1, "Sorted and insert at 8 expected.");
     }
 
@@ -157,7 +157,7 @@ class OrdArrayLockTest {
     @CsvSource(INIT_ALL_SAME_DATA)
     void testInsertAllSameSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      int res = arr.insert(99L);
+      int res = arr.syncInsert(99L);
       assertTrue(res == 10 && arr.count() == count + 1, "Insert must succeed.");
     }
 
@@ -167,7 +167,7 @@ class OrdArrayLockTest {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
           () -> {
-            ordArray.insert(45L);
+            ordArray.syncInsert(45L);
           });
     }
   }
@@ -181,7 +181,7 @@ class OrdArrayLockTest {
     void testDeleteTrue(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
           "Elements 0, 55 and 99 must be deleted");
       assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
       assertTrue(isSorted(arr), "Array must be sorted");
@@ -193,7 +193,7 @@ class OrdArrayLockTest {
     void testDeleteFalse(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(
-          arr.delete(12L) || arr.delete(6L) || arr.delete(5L) && arr.count() != count,
+          arr.syncDelete(12L) || arr.syncDelete(6L) || arr.syncDelete(5L) && arr.count() != count,
           "Elements 12, 6, 5 found and deleted");
     }
 
@@ -203,7 +203,7 @@ class OrdArrayLockTest {
       int count = arr.count();
       long searchKey = 00L;
       assertTrue(
-          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          arr.syncDelete(searchKey) && arr.count() == count - 1 && isSorted(arr),
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
@@ -213,7 +213,7 @@ class OrdArrayLockTest {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
-          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          arr.syncDelete(searchKey) && arr.count() == count - 1 && isSorted(arr),
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
@@ -221,10 +221,10 @@ class OrdArrayLockTest {
     @CsvSource(INIT_DATA)
     void testDeleteOverflow(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
-      arr.delete(searchKey);
+      arr.syncDelete(searchKey);
       int count = arr.count();
       assertFalse(
-          arr.delete(searchKey) && arr.count() != count, () -> searchKey + " still available");
+          arr.syncDelete(searchKey) && arr.count() != count, () -> searchKey + " still available");
     }
 
     @ParameterizedTest
@@ -233,7 +233,7 @@ class OrdArrayLockTest {
       int count = arr.count();
       long searchKey = 33L;
       assertTrue(
-          arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
+          arr.syncDelete(searchKey) && arr.count() == count - 1 && isSorted(arr),
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
   }
@@ -245,7 +245,7 @@ class OrdArrayLockTest {
       IArray arr = new OrdArrayLock(100);
       int count = arr.count();
       int modCount = getModCount(arr);
-      arr.insert(10L);
+      arr.syncInsert(10L);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount < newModCount && newModCount == 1 && arr.count() == count + 1,
@@ -255,7 +255,7 @@ class OrdArrayLockTest {
     @Test
     void testClearModCount() {
       IArray arr = new OrdArrayLock(100);
-      arr.insert(10L);
+      arr.syncInsert(10L);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -278,9 +278,9 @@ class OrdArrayLockTest {
     @Test
     void testDeleteModCount() {
       IArray arr = new OrdArrayLock(100);
-      arr.insert(10L);
+      arr.syncInsert(10L);
       int modCount = getModCount(arr);
-      arr.delete(10L);
+      arr.syncDelete(10L);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount < newModCount && newModCount == 2 && arr.count() == 0,
@@ -292,7 +292,7 @@ class OrdArrayLockTest {
       IArray arr = new OrdArrayLock(100);
       int count = arr.count();
       int modCount = getModCount(arr);
-      arr.delete(10L);
+      arr.syncDelete(10L);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount == newModCount && modCount == 0 && arr.count() == count,
