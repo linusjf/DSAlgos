@@ -5,12 +5,12 @@ import static org.joor.Reflect.*;
 import ds.IArray;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
-import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 
 class OrdArrayArgumentsAggregatorUnsorted extends OrdArrayArgumentsAggregator {
 
-  public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context)
-      throws ArgumentsAggregationException {
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
+  public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context) {
     IArray array = (IArray) super.aggregateArguments(accessor, context);
     Object[] args = accessor.toArray();
     long[] a = new long[array.get().length - 2];

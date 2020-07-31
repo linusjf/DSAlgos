@@ -2,8 +2,6 @@ package ds;
 
 /** Demonstrates array class with high-level interface. */
 public class OrdArray extends AbstractOrdArray {
-  private static final java.util.logging.Logger LOGGER =
-      java.util.logging.Logger.getLogger(OrdArray.class.getName());
 
   public OrdArray() {
     this(100);

@@ -93,6 +93,7 @@ public abstract class AbstractOrdArray extends AbstractArray {
     return delete(value, nElems.intValue());
   }
 
+  @SuppressWarnings("PMD.PrematureDeclaration")
   protected boolean delete(long value, int length) {
     int expectedCount = modCount.intValue();
     int j = findIndex(value, length);

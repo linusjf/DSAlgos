@@ -65,7 +65,7 @@
   <rule ref="category/java/bestpractices.xml/UnusedAssignment">
     <properties>
       <property name="checkUnusedPrefixIncrement" value="true"/>
-      <property name="reportUnusedVariables" value="true"/>
+      <property name="reportUnusedVariables" value="false"/>
     </properties>
   </rule>
   <!-- NAMING CONVENTIONS -->
@@ -290,7 +290,6 @@
   </rule>
   <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals"/>
   <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod"/>
-  <rule ref="category/java/errorprone.xml/DataflowAnomalyAnalysis"/>
   <rule ref="category/java/errorprone.xml/DetachedTestCase"/>
   <rule ref="category/java/errorprone.xml/DoNotCallGarbageCollectionExplicitly"/>
   <rule ref="category/java/errorprone.xml/DoNotCallSystemExit"/>

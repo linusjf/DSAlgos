@@ -74,7 +74,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     int excs = excCount.get();
     assertFalse(isSorted(ordArray), "Array is sorted!");
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
-    //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
   }
 
   @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
@@ -117,7 +116,6 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     int excs = excCount.get();
     assertFalse(isSorted(ordArray), "Array is sorted!");
     assertNotEquals(0, excs, () -> excs + " is number of concurrent exceptions.");
-    //  assertEquals(size - excs, ordArray.count(), "Missing element count is " + excs);
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")

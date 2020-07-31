@@ -48,6 +48,7 @@ class HighArrayTest {
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
+    @Test
     void testEmptyConstructor() {
       IArray arr = new HighArray();
       boolean strict = (boolean) on(arr).get(STRICT);
