@@ -4,8 +4,6 @@ import java.util.ConcurrentModificationException;
 
 /** Demonstrates array class with high-level interface. */
 public abstract class AbstractOrdArray extends AbstractArray {
-  private static final java.util.logging.Logger LOGGER =
-      java.util.logging.Logger.getLogger(AbstractOrdArray.class.getName());
 
   public AbstractOrdArray(int max, boolean strict) {
     super(max, strict);

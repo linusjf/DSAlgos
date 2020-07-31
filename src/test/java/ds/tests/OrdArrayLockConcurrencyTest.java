@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.IArray;
 import ds.OrdArrayLock;
-import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,8 +16,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
-  private static final Logger LOGGER =
-      Logger.getLogger(OrdArrayLockConcurrencyTest.class.getName());
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test

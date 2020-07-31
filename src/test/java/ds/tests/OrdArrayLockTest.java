@@ -6,7 +6,6 @@ import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.IArray;
 import ds.OrdArrayLock;

@@ -5,8 +5,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /** Demonstrates array class with high-level interface. */
 public class OrdArrayLock extends AbstractOrdArray {
-  private static final java.util.logging.Logger LOGGER =
-      java.util.logging.Logger.getLogger(OrdArrayLock.class.getName());
   private final Lock w = new ReentrantReadWriteLock(true).writeLock();
 
   public OrdArrayLock() {
@@ -29,6 +27,7 @@ public class OrdArrayLock extends AbstractOrdArray {
     this(a, nElems, false);
   }
 
+  @Override
   public int syncInsert(long val) {
     w.lock();
     try {
@@ -38,6 +37,7 @@ public class OrdArrayLock extends AbstractOrdArray {
     }
   }
 
+  @Override
   public boolean syncDelete(long val) {
     w.lock();
     try {

@@ -19,7 +19,7 @@ public abstract class AbstractArray implements IArray {
   }
 
   public AbstractArray(long[] a, int nElems, boolean strict) {
-    this.a = a;
+    this.a = a.clone();
     this.nElems = new AtomicInteger(nElems);
     modCount = new AtomicInteger();
     this.strict = strict;
@@ -47,6 +47,7 @@ public abstract class AbstractArray implements IArray {
   @Override
   public abstract boolean delete(long value);
 
+  @Override
   public int syncInsert(long value) {
     synchronized (lock) {
       return insert(value);
@@ -62,6 +63,7 @@ public abstract class AbstractArray implements IArray {
     nElems.set(0);
   }
 
+  @Override
   public boolean syncDelete(long value) {
     synchronized (lock) {
       return delete(value);

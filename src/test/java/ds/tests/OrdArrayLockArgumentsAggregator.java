@@ -5,13 +5,13 @@ import ds.OrdArrayLock;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
-import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
 
 class OrdArrayLockArgumentsAggregator implements ArgumentsAggregator {
 
-  public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context)
-      throws ArgumentsAggregationException {
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
+  public Object aggregateArguments(ArgumentsAccessor accessor, ParameterContext context) {
     Optional<Integer> sizeOptional = Optional.ofNullable(accessor.get(0, Integer.class));
     int size = sizeOptional.orElse(100);
     Optional<Boolean> strictOptional = Optional.ofNullable(accessor.get(1, Boolean.class));
