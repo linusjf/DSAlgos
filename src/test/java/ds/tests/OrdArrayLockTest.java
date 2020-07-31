@@ -87,30 +87,6 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertOnDirty(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
-      arr.insert(10L);
-      assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
-    }
-
-    @Test
-    void testInsertOnDirtyEmpty() {
-      IArray arr = new OrdArrayLock(10);
-      on(arr).set(DIRTY, true);
-      arr.insert(10L);
-      assertEquals(1, arr.count(), "1 element expected.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_FULL_DATA)
-    void testInsertOnDirtyFull(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
-      assertThrows(
-          ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
     void testInsert(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
@@ -171,7 +147,6 @@ class OrdArrayLockTest {
     @ParameterizedTest
     @CsvSource(INIT_SORTED_DATA)
     void testInsertSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
       assertTrue(res == 8 && arr.count() == count + 1, "Sorted and insert at 8 expected.");
@@ -181,8 +156,6 @@ class OrdArrayLockTest {
     @ParameterizedTest
     @CsvSource(INIT_ALL_SAME_DATA)
     void testInsertAllSameSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
-      on(arr).set(SORTED, false);
-      on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
       assertTrue(res == 10 && arr.count() == count + 1, "Insert must succeed.");
@@ -334,7 +307,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayLock.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE, RANDOM)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(
@@ -349,7 +322,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayLock.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY, WRITE, RANDOM)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayLockExt.class)
           .withPrefabValues(

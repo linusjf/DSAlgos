@@ -45,30 +45,6 @@ class OrdArrayTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-    void testInsertOnDirty(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
-      arr.insert(10L);
-      assertTrue(arr.count() == 11 && isSorted(arr), "11 elements expected.");
-    }
-
-    @Test
-    void testInsertOnDirtyEmpty() {
-      IArray arr = new OrdArray(10);
-      on(arr).set(DIRTY, true);
-      arr.insert(10L);
-      assertEquals(1, arr.count(), "1 element expected.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_FULL_DATA)
-    void testInsertOnDirtyFull(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
-      assertThrows(
-          ArrayIndexOutOfBoundsException.class, () -> arr.insert(10L), "Array should be full.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
     void testInsert(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
@@ -131,7 +107,7 @@ class OrdArrayTest {
     void testInsertUnSorted(@AggregateWith(OrdArrayArgumentsAggregatorUnsorted.class) IArray arr) {
       int count = arr.count();
       int res = arr.insert(99L);
-      boolean sorted = getSorted(arr);
+      boolean sorted = isSorted(arr);
       assertTrue(
           -1 == res && !sorted && arr.count() == count, "Insert must not succeed on unsorted.");
     }
@@ -140,10 +116,9 @@ class OrdArrayTest {
     @ParameterizedTest
     @CsvSource(INIT_SORTED_DATA)
     void testInsertSorted(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
-      boolean sorted = getSorted(arr);
+      boolean sorted = isSorted(arr);
       assertTrue(
           res == 8 && arr.count() == count + 1 && sorted, "Sorted and insert at 8 expected.");
     }
@@ -152,11 +127,9 @@ class OrdArrayTest {
     @ParameterizedTest
     @CsvSource(INIT_ALL_SAME_DATA)
     void testInsertAllSameSorted(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      on(arr).set(SORTED, false);
-      on(arr).set(DIRTY, true);
       int count = arr.count();
       int res = arr.insert(99L);
-      boolean sorted = getSorted(arr);
+      boolean sorted = isSorted(arr);
       assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
     }
 
@@ -613,7 +586,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArray.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)
@@ -624,7 +597,7 @@ class OrdArrayTest {
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArray.class)
-          .withIgnoredFields(MOD_COUNT, LOCK, STRICT, SORTED, DIRTY)
+          .withIgnoredFields(MOD_COUNT, LOCK, STRICT)
           .withRedefinedSuperclass()
           .withRedefinedSubclass(OrdArrayExt.class)
           .withIgnoredAnnotations(NonNull.class)

@@ -30,8 +30,4 @@ public final class TestUtils {
   static int getModCount(Object arr) {
     return ((AtomicInteger) on(arr).get("modCount")).intValue();
   }
-
-  static boolean getSorted(Object arr) {
-    return (boolean) on(arr).get("sorted");
-  }
 }
