@@ -17,6 +17,14 @@ public class OrdArray extends AbstractOrdArray {
     super(max, strict);
   }
 
+  public OrdArray(long[] a, int nElems, boolean strict) {
+    super(a, nElems, strict);
+  }
+
+  public OrdArray(long[] a, int nElems) {
+    this(a, nElems, false);
+  }
+
   @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {

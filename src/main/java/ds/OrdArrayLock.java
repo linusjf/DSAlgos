@@ -21,6 +21,14 @@ public class OrdArrayLock extends AbstractOrdArray {
     super(max, strict);
   }
 
+  public OrdArrayLock(long[] a, int nElems, boolean strict) {
+    super(a, nElems, strict);
+  }
+
+  public OrdArrayLock(long[] a, int nElems) {
+    this(a, nElems, false);
+  }
+
   public int syncInsert(long val) {
     w.lock();
     try {

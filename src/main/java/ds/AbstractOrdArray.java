@@ -11,6 +11,10 @@ public abstract class AbstractOrdArray extends AbstractArray {
     super(max, strict);
   }
 
+  public AbstractOrdArray(long[] a, int nElems, boolean strict) {
+    super(a, nElems, strict);
+  }
+
   @Override
   public int findIndex(long searchKey) {
     return findIndex(searchKey, nElems.intValue());
