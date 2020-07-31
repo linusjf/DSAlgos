@@ -184,7 +184,7 @@
                 <jvmarg>-XX:MaxMetaspaceSize=512m</jvmarg>
               </jvmargs>
               <failWhenNoMutations>false</failWhenNoMutations>
-              <detectInlinedCode>false</detectInlinedCode>
+              <detectInlinedCode>true</detectInlinedCode>
             </configuration>
             <executions>
               <execution>
