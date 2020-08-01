@@ -20,6 +20,11 @@ public class OrdArray extends AbstractOrdArray {
   }
 
   @Override
+  public IArray copy() {
+    return new OrdArray(this);
+  }
+
+  @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
     if (o == this) return true;

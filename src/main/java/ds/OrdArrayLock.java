@@ -24,6 +24,11 @@ public class OrdArrayLock extends AbstractOrdArray {
   }
 
   @Override
+  public IArray copy() {
+    return new OrdArrayLock(this);
+  }
+
+  @Override
   public int syncInsert(long val) {
     w.lock();
     try {

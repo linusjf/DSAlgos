@@ -30,6 +30,11 @@ public class HighArray extends AbstractArray {
   }
 
   @Override
+  public IArray copy() {
+    return new HighArray(this);
+  }
+
+  @Override
   public int findIndex(long searchKey) {
     int length = nElems.intValue();
     for (int j = 0; j < length; j++) {

@@ -26,6 +26,9 @@ public abstract class AbstractArray implements IArray {
   }
 
   @Override
+  public abstract IArray copy();
+
+  @Override
   public long[] get() {
     return a.clone();
   }

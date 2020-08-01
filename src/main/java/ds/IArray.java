@@ -23,4 +23,6 @@ public interface IArray {
   boolean syncDelete(long value);
 
   void display();
+
+  IArray copy();
 }

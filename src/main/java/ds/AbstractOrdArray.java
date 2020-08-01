@@ -14,6 +14,9 @@ public abstract class AbstractOrdArray extends AbstractArray {
   }
 
   @Override
+  public abstract IArray copy();
+
+  @Override
   public int findIndex(long searchKey) {
     return findIndex(searchKey, nElems.intValue());
   }
