@@ -18,11 +18,11 @@ public abstract class AbstractArray implements IArray {
     this.strict = strict;
   }
 
-  public AbstractArray(long[] a, int nElems, boolean strict) {
-    this.a = a.clone();
-    this.nElems = new AtomicInteger(nElems);
-    modCount = new AtomicInteger();
-    this.strict = strict;
+  public AbstractArray(AbstractArray arr) {
+    this.a = arr.a.clone();
+    this.nElems = new AtomicInteger(arr.nElems.intValue());
+    this.strict = arr.strict;
+    this.modCount = new AtomicInteger();
   }
 
   @Override

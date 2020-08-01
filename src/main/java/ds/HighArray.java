@@ -25,12 +25,8 @@ public class HighArray extends AbstractArray {
     super(max, strict);
   }
 
-  public HighArray(long[] a, int nElems, boolean strict) {
-    super(a, nElems, strict);
-  }
-
-  public HighArray(long[] a, int nElems) {
-    this(a, nElems, false);
+  public HighArray(HighArray array) {
+    super(array);
   }
 
   @Override
