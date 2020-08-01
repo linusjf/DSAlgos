@@ -3,9 +3,16 @@ package ds;
 public class BubbleSort extends AbstractSort {
 
   protected void sort(long[] a, int length) {
-    int out;
-    int in;
-    for (out = length - 1; out > 1; out--)
-      for (in = 0; in < out; in++) if (a[in] > a[in + 1]) swap(a, in, in + 1);
+    int n = length;
+    while (n > 1) {
+      int newn = 0;
+      for (int i = 1; i < n; i++) {
+        if (a[i - 1] > a[i]) {
+          swap(a, i - 1, i);
+          newn = i;
+        }
+      }
+      n = newn;
+    }
   }
 }
