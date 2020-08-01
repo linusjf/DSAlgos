@@ -59,9 +59,7 @@ public abstract class AbstractArray implements IArray {
 
   @Override
   public IArray sort(ISort sorter) {
-    IArray arrayCopy = copy();
-    sorter.sort(arrayCopy.get(), nElems.intValue());
-    return arrayCopy;
+    return sorter.sort(this);
   }
 
   @Override
