@@ -1,5 +1,5 @@
 package ds;
 
 interface ISort {
-  IArray sort(IArray array);
+  void sort(long[] array, int length);
 }

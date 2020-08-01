@@ -30,7 +30,7 @@ public abstract class AbstractArray implements IArray {
 
   @Override
   public long[] get() {
-    return a.clone();
+    return a;
   }
 
   @Override
@@ -55,6 +55,13 @@ public abstract class AbstractArray implements IArray {
     synchronized (lock) {
       return insert(value);
     }
+  }
+
+  @Override
+  public IArray sort(ISort sorter) {
+    IArray arrayCopy = copy();
+    sorter.sort(arrayCopy.get(), nElems.intValue());
+    return arrayCopy;
   }
 
   @Override

@@ -25,4 +25,6 @@ public interface IArray {
   void display();
 
   IArray copy();
+
+  IArray sort(ISort sorter);
 }
