@@ -1,13 +1,9 @@
 package ds;
 
-public class AbstractSort implements ISort {
+public abstract class AbstractSort implements ISort {
 
   @Override
-  public abstract IArray sort(
-      IArray array);
+  public abstract IArray sort(IArray array);
 
-  protected abstract void swap(
-      int first, 
-      int second); 
-
+  protected abstract void swap(int first, int second);
 }
