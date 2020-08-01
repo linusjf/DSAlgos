@@ -2,13 +2,6 @@ package ds;
 
 public class BubbleSort extends AbstractSort {
 
-  @Override
-  public IArray sort(IArray array) {
-    IArray copy = array.copy();
-    sort(copy.get(), copy.count());
-    return copy;
-  }
-
   protected void sort(long[] a, int length) {
     int out, in;
     for (out = length - 1; out > 1; out--)

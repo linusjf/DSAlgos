@@ -5,7 +5,11 @@ public abstract class AbstractSort implements ISort {
   protected abstract void sort(long[] array, int length);
 
   @Override
-  public abstract IArray sort(IArray array);
+  public IArray sort(IArray array) {
+    IArray copy = array.copy();
+    sort(copy.get(), copy.count());
+    return copy;
+  }
 
   protected void swap(long[] a, int first, int second) {
     long temp = a[first];
