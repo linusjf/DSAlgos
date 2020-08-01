@@ -2,7 +2,6 @@ package ds;
 
 public abstract class AbstractSort implements ISort {
 
-  @Override
   protected abstract void sort(long[] array, int length);
 
   @Override
