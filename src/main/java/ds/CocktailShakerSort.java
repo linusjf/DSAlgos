@@ -1,6 +1,6 @@
 package ds;
 
-public class CocktailSort extends AbstractSort {
+public class CocktailShakerSort extends AbstractSort {
 
   protected void sort(long[] a, int length) {
     boolean swapped = true;
