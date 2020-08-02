@@ -8,12 +8,12 @@ public class BubbleSort extends AbstractSort {
     resetCounts();
     while (n > 1) {
       int newn = 0;
-      for (int i = 1; i < n; i++) {
-        comparisonCount++;
+      for (int i = 1; i < n; ++i) {
+        ++comparisonCount;
         if (a[i - 1] > a[i]) {
           swap(a, i - 1, i);
           newn = i;
-          swapCount++;
+          ++swapCount;
         }
       }
       n = newn;

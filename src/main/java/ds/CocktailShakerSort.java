@@ -16,11 +16,11 @@ public class CocktailShakerSort extends AbstractSort {
       // loop from bottom to top same as
       // the bubble sort
       for (int i = start; i < end - 1; ++i) {
-        comparisonCount++;
+        ++comparisonCount;
         if (a[i] > a[i + 1]) {
           swap(a, i, i + 1);
           swapped = true;
-          swapCount++;
+          ++swapCount;
         }
       }
       // if nothing moved, then array is sorted.
@@ -33,12 +33,12 @@ public class CocktailShakerSort extends AbstractSort {
       end = end - 1;
       // from top to bottom, doing the
       // same comparison as in the previous stage
-      for (int i = end - 1; i >= start; i--) {
-        comparisonCount++;
+      for (int i = end - 1; i >= start; --i) {
+        ++comparisonCount;
         if (a[i] > a[i + 1]) {
           swap(a, i, i + 1);
           swapped = true;
-          swapCount++;
+          ++swapCount;
         }
       }
       // increase the starting point, because

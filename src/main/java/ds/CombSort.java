@@ -18,10 +18,10 @@ public class CombSort extends AbstractSort {
       }
       int i = 0;
       while (i < gap + length) {
-        comparisonCount++;
+        ++comparisonCount;
         if (a[i] > a[i + gap]) {
           swap(a, i, i + gap);
-          swapCount++;
+          ++swapCount;
           sorted = false;
         }
         ++i;
