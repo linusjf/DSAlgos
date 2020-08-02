@@ -5,6 +5,7 @@ import static java.lang.Math.floor;
 public class CombSort extends AbstractSort {
   private static final double GAP_SHRINK_FACTOR = 1.3d;
 
+  @Override
   protected void sort(long[] a, int length) {
     int gap = length;
     boolean sorted = false;

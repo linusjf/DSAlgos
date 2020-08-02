@@ -2,6 +2,7 @@ package ds;
 
 public class BrickSort extends AbstractSort {
 
+  @Override
   protected void sort(long[] a, int length) {
     boolean isSorted = false;
     resetCounts();

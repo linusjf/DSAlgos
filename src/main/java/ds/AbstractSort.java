@@ -7,6 +7,7 @@ public abstract class AbstractSort implements ISort {
 
   protected abstract void sort(long[] array, int length);
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public IArray sort(IArray array) {
     IArray copy = array.copy();
@@ -24,14 +25,17 @@ public abstract class AbstractSort implements ISort {
     copyCount = swapCount = comparisonCount = 0;
   }
 
+  @Override
   public int getCopyCount() {
     return copyCount;
   }
 
+  @Override
   public int getSwapCount() {
     return swapCount;
   }
 
+  @Override
   public int getComparisonCount() {
     return comparisonCount;
   }
