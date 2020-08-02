@@ -28,6 +28,7 @@ public abstract class AbstractArray implements IArray {
   @Override
   public abstract IArray copy();
 
+  @SuppressWarnings("PMD.MethodReturnsInternalArray")
   @Override
   public long[] get() {
     return a;

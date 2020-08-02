@@ -8,7 +8,6 @@ public class BrickSort extends AbstractSort {
     resetCounts();
     while (!isSorted) {
       isSorted = true;
-      int temp = 0;
       // Perform Bubble sort on odd indexed element
       for (int i = 1; i <= length - 2; i = i + 2) {
         comparisonCount++;
