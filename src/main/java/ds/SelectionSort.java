@@ -14,8 +14,10 @@ public class SelectionSort extends AbstractSort {
         ++comparisonCount;
         if (a[in] < a[min]) min = in;
       }
-      swap(a, out, min);
-      ++swapCount;
+      if (min != out) {
+        swap(a, out, min);
+        ++swapCount;
+      }
     }
   }
 }

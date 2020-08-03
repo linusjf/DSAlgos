@@ -67,4 +67,19 @@ class InsertionSortTest {
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
   }
+
+  @Test
+  void testCopyCount() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+  }
 }

@@ -67,4 +67,19 @@ class BubbleSortTest {
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
   }
+
+  @Test
+  void testSwapCount() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new BubbleSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+  }
 }

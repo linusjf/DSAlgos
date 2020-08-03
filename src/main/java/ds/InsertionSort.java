@@ -18,8 +18,10 @@ public class InsertionSort extends AbstractSort {
       }
       System.arraycopy(a, in, a, in + 1, out - in);
       if (in > 0) ++comparisonCount;
-      a[in] = temp;
-      ++copyCount;
+      if (in != out) {
+        a[in] = temp;
+        ++copyCount;
+      }
     }
   }
 }
