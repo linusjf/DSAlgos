@@ -50,7 +50,7 @@ class BubbleSortTest {
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
   }
-  
+
   @Test
   void testStreamSorted() {
     IArray high = new HighArray();
