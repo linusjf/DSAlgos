@@ -1,6 +1,6 @@
 package ds;
 
-interface ISort {
+public interface ISort {
   IArray sort(IArray array);
 
   int getComparisonCount();
