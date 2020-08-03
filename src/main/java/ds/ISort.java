@@ -8,4 +8,6 @@ public interface ISort {
   int getSwapCount();
 
   int getCopyCount();
+
+  int getTimeComplexity();
 }

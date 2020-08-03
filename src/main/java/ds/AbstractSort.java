@@ -4,6 +4,8 @@ public abstract class AbstractSort implements ISort {
   protected int comparisonCount;
   protected int swapCount;
   protected int copyCount;
+  protected int innerLoopCount;
+  protected int outerLoopCount;
 
   protected abstract void sort(long[] array, int length);
 
@@ -16,13 +18,16 @@ public abstract class AbstractSort implements ISort {
   }
 
   protected void swap(long[] a, int first, int second) {
+    if (first == second)
+      return;
     long temp = a[first];
     a[first] = a[second];
     a[second] = temp;
   }
 
   protected void resetCounts() {
-    copyCount = swapCount = comparisonCount = 0;
+    copyCount = swapCount = comparisonCount = 
+      innerLoopCount = outerLoopCount = 0;
   }
 
   @Override
@@ -38,5 +43,11 @@ public abstract class AbstractSort implements ISort {
   @Override
   public int getComparisonCount() {
     return comparisonCount;
+  }
+
+  @Override
+  public int getTimeComplexity() {
+    return innerLoopCount == 0 
+      ? outerLoopCount:innerLoopCount;
   }
 }
