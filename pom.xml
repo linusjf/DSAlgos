@@ -172,6 +172,10 @@
                 <param>ds.tests.AbstractArrayTest</param>
                 <param>ds.tests.BubbleSortTest</param>
                 <param>ds.tests.InsertionSortTest</param>
+                <param>ds.tests.SelectionSortTest</param>
+                <param>ds.tests.BrickSortTest</param>
+                <param>ds.tests.CocktailShakerTest</param>
+                <param>ds.tests.CombSortTest</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>

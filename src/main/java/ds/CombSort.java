@@ -1,6 +1,5 @@
 package ds;
 
-import static java.lang.Math.floor;
 
 public class CombSort extends AbstractSort {
   private static final double GAP_SHRINK_FACTOR = 1.3d;
@@ -11,13 +10,13 @@ public class CombSort extends AbstractSort {
     boolean sorted = false;
     resetCounts();
     while (!sorted) {
-      gap = (int) floor(gap / GAP_SHRINK_FACTOR);
+      gap = (int) ((double) gap / GAP_SHRINK_FACTOR);
       if (gap <= 1) {
         gap = 1;
         sorted = true;
       }
       int i = 0;
-      while (i < gap + length) {
+      while ((i + gap) < length) {
         ++comparisonCount;
         if (a[i] > a[i + gap]) {
           swap(a, i, i + gap);

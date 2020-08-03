@@ -8,13 +8,11 @@ public class InsertionSort extends AbstractSort {
     int out;
     resetCounts();
 
-    System.out.println("a: " + a);
     for (out = 1; out < length; ++out) {
       long temp = a[out];
       in = out;
       int loopCount = 0;
       while (in > 0 && a[in - 1] >= temp) {
-        //  a[in] = a[in - 1];
         --in;
         ++comparisonCount;
         ++copyCount;
