@@ -1,6 +1,5 @@
 package ds;
 
-
 public class CombSort extends AbstractSort {
   private static final double GAP_SHRINK_FACTOR = 1.3d;
 
