@@ -10,8 +10,10 @@ public class SelectionSort extends AbstractSort {
     resetCounts();
     for (out = 0; out < length - 1; ++out) {
       min = out;
+      ++outerLoopCount;
       for (in = out + 1; in < length; ++in) {
         ++comparisonCount;
+        ++innerLoopCount;
         if (a[in] < a[min]) min = in;
       }
       if (min != out) {

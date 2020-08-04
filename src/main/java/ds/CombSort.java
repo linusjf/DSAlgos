@@ -9,6 +9,7 @@ public class CombSort extends AbstractSort {
     boolean sorted = false;
     resetCounts();
     while (!sorted) {
+      ++outerLoopCount;
       gap = (int) ((double) gap / GAP_SHRINK_FACTOR);
       if (gap <= 1) {
         gap = 1;
@@ -16,6 +17,7 @@ public class CombSort extends AbstractSort {
       }
       int i = 0;
       while ((i + gap) < length) {
+        ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + gap]) {
           swap(a, i, i + gap);

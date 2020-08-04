@@ -58,9 +58,8 @@ class BubbleSortTest {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20)
         .forEach(
-            i -> {
-              high.insert(i);
-            });
+            i -> 
+              high.insert(i));
     LOGGER.info(() -> high.toString());
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(high);
@@ -75,9 +74,8 @@ class BubbleSortTest {
         .parallel()
         .unordered()
         .forEach(
-            i -> {
-              high.insert(i);
-            });
+            i -> 
+              high.insert(i));
     LOGGER.info(() -> high.toString());
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(high);
@@ -92,9 +90,8 @@ class BubbleSortTest {
     IArray high = new HighArray();
     LongStream.rangeClosed(20, 1)
         .forEach(
-            i -> {
-              high.insert(i);
-            });
+            i -> 
+              high.insert(i));
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(high);
     assertEquals(

@@ -9,6 +9,7 @@ public class CocktailShakerSort extends AbstractSort {
     int start = 0;
     int end = length;
     while (swapped) {
+      ++outerLoopCount;
       // reset the swapped flag on entering the
       // loop, because it might be true from a
       // previous iteration.
@@ -17,6 +18,7 @@ public class CocktailShakerSort extends AbstractSort {
       // the bubble sort
       for (int i = start; i < end - 1; ++i) {
         ++comparisonCount;
+        ++innerLoopCount;
         if (a[i] > a[i + 1]) {
           swap(a, i, i + 1);
           swapped = true;
@@ -34,6 +36,7 @@ public class CocktailShakerSort extends AbstractSort {
       // from top to bottom, doing the
       // same comparison as in the previous stage
       for (int i = end - 1; i >= start; --i) {
+        ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + 1]) {
           swap(a, i, i + 1);

@@ -45,7 +45,6 @@ public abstract class AbstractSort implements ISort {
 
   @Override
   public int getTimeComplexity() {
-    System.out.printf("%d %d%n", innerLoopCount, outerLoopCount);
     return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
   }
 }

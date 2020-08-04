@@ -11,10 +11,12 @@ public class InsertionSort extends AbstractSort {
     for (out = 1; out < length; ++out) {
       long temp = a[out];
       in = out;
+      ++outerLoopCount;
       while (in > 0 && a[in - 1] >= temp) {
         --in;
         ++comparisonCount;
         ++copyCount;
+        ++innerLoopCount;
       }
       System.arraycopy(a, in, a, in + 1, out - in);
       if (in > 0) ++comparisonCount;
