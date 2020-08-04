@@ -10,4 +10,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class AbstractSortTest {}
+class AbstractSortTest {
+// empty class
+}
