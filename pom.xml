@@ -176,6 +176,7 @@
                 <param>ds.tests.BrickSortTest</param>
                 <param>ds.tests.CocktailShakerTest</param>
                 <param>ds.tests.CombSortTest</param>
+                <param>ds.tests.AbstractSortTest</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
