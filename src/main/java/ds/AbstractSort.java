@@ -47,4 +47,22 @@ public abstract class AbstractSort implements ISort {
   public int getTimeComplexity() {
     return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getClass().getName())
+        .append(System.lineSeparator())
+        .append("Comparison count: ")
+        .append(comparisonCount)
+        .append("Swap count: ")
+        .append(swapCount)
+        .append("Copy count: ")
+        .append(copyCount)
+        .append("inner loop count: ")
+        .append(innerLoopCount)
+        .append("outer loop count: ")
+        .append(outerLoopCount);
+    return sb.toString();
+  }
 }

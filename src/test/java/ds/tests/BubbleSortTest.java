@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class BubbleSortTest {
+class BubbleSortTest implements SortProvider {
   private static final Logger LOGGER = Logger.getLogger(BubbleSortTest.class.getName());
 
   @ParameterizedTest
@@ -80,7 +80,7 @@ class BubbleSortTest {
   @Test
   void testReverseSorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(20, 1).forEach(i -> high.insert(i));
+    revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(high);
     assertEquals(

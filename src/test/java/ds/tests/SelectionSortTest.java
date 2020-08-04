@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class SelectionSortTest {
+class SelectionSortTest implements SortProvider {
 
   private static final Logger LOGGER = Logger.getLogger(SelectionSortTest.class.getName());
 
@@ -70,6 +70,17 @@ class SelectionSortTest {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+  }
+
+  @Test
+  void testReverseSorted() {
+    IArray high = new HighArray();
+    revRange(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new SelectionSort();
+    LOGGER.info(() -> high.toString());
+    IArray sorted = sorter.sort(high);
+    assertEquals(
+        (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
   }
 
   @Test
