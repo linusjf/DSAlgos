@@ -7,8 +7,10 @@ public class BubbleSort extends AbstractSort {
     int n = length;
     resetCounts();
     while (n > 1) {
+      ++outerLoopCount;
       int newn = 0;
       for (int i = 1; i < n; ++i) {
+        ++innerLoopCount;
         ++comparisonCount;
         if (a[i - 1] > a[i]) {
           swap(a, i - 1, i);

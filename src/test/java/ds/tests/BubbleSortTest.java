@@ -8,6 +8,7 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
+import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,6 +23,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class BubbleSortTest {
+  private static final Logger LOGGER = Logger.getLogger(BubbleSortTest.class.getName());
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -49,6 +51,56 @@ class BubbleSortTest {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+  }
+
+  @Test
+  void testComparisonCountSorted() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+            });
+    LOGGER.info(() -> high.toString());
+    ISort sorter = new BubbleSort();
+    IArray sorted = sorter.sort(high);
+    int compCount = sorter.getComparisonCount();
+    assertEquals(19, compCount, "Comparison count must be 19.");
+  }
+
+  @Test
+  void testComparisonCountUnsorted() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20)
+        .parallel()
+        .unordered()
+        .forEach(
+            i -> {
+              high.insert(i);
+            });
+    LOGGER.info(() -> high.toString());
+    ISort sorter = new BubbleSort();
+    IArray sorted = sorter.sort(high);
+    int compCount = sorter.getComparisonCount();
+    System.out.println("compCount = " + compCount);
+    assertTrue(
+        19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
+  }
+
+  @Test
+  void testReverseSorted() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(20, 1)
+        .forEach(
+            i -> {
+              high.insert(i);
+            });
+    ISort sorter = new BubbleSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(
+        sorter.getSwapCount(),
+        sorter.getComparisonCount(),
+        "Comparison count must be same as swap count in reverse ordered array.");
   }
 
   @Test

@@ -18,16 +18,14 @@ public abstract class AbstractSort implements ISort {
   }
 
   protected void swap(long[] a, int first, int second) {
-    if (first == second)
-      return;
+    if (first == second) return;
     long temp = a[first];
     a[first] = a[second];
     a[second] = temp;
   }
 
   protected void resetCounts() {
-    copyCount = swapCount = comparisonCount = 
-      innerLoopCount = outerLoopCount = 0;
+    copyCount = swapCount = comparisonCount = innerLoopCount = outerLoopCount = 0;
   }
 
   @Override
@@ -47,7 +45,7 @@ public abstract class AbstractSort implements ISort {
 
   @Override
   public int getTimeComplexity() {
-    return innerLoopCount == 0 
-      ? outerLoopCount:innerLoopCount;
+    System.out.printf("%d %d%n", innerLoopCount, outerLoopCount);
+    return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
   }
 }
