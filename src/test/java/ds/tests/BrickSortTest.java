@@ -25,8 +25,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class BrickSortTest implements SortProvider {
 
-  private static final Logger LOGGER = Logger.getLogger(BrickSortTest.class.getName());
-
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
@@ -87,11 +85,9 @@ class BrickSortTest implements SortProvider {
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
-    LOGGER.info(() -> high.toString());
     ISort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
     int compCount = sorter.getComparisonCount();
-    System.out.println("compCount = " + compCount);
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
   }
