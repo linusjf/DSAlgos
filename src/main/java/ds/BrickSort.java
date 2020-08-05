@@ -12,7 +12,7 @@ public class BrickSort extends AbstractSort {
       ++outerLoopCount;
       isSorted = true;
       // Perform Bubble sort on odd indexed element
-      for (int i = 1; i < end; i = i + 2) {
+      for (int i = 1; i < length -1; i = i + 2) {
         ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + 1]) {
@@ -26,7 +26,7 @@ public class BrickSort extends AbstractSort {
         break;
       }
       // Perform Bubble sort on even indexed element
-      for (int i = 0; i < end; i = i + 2) {
+      for (int i = 0; i < length - 1; i = i + 2) {
         ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + 1]) {
