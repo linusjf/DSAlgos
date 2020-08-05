@@ -4,7 +4,7 @@ import static ds.ArrayUtils.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.BrickSort;
+import ds.CocktailShakerSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
@@ -22,13 +22,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class BrickSortTest implements SortProvider {
+class CocktailShakerSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
@@ -45,24 +45,7 @@ class BrickSortTest implements SortProvider {
               high.insert(i);
               ord.insert(i);
             });
-    ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
-    long[] extentSorted = sorted.getExtentArray();
-    long[] extent = ord.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
-  }
-
-  @Test
-  void testStreamSorted() {
-    IArray high = new HighArray();
-    IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
-        .forEach(
-            i -> {
-              high.insert(i);
-              ord.insert(i);
-            });
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
@@ -73,7 +56,7 @@ class BrickSortTest implements SortProvider {
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
@@ -83,7 +66,7 @@ class BrickSortTest implements SortProvider {
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
@@ -94,7 +77,7 @@ class BrickSortTest implements SortProvider {
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
@@ -107,7 +90,7 @@ class BrickSortTest implements SortProvider {
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
@@ -117,10 +100,27 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+  void testStreamSorted() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new CocktailShakerSort();
+    IArray sorted = sorter.sort(high);
+    long[] extentSorted = sorted.getExtentArray();
+    long[] extent = ord.getExtentArray();
+    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+  }
+
+  @Test
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
@@ -129,7 +129,7 @@ class BrickSortTest implements SortProvider {
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSort();
+    ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }

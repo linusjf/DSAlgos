@@ -6,13 +6,13 @@ public class BrickSort extends AbstractSort {
   protected void sort(long[] a, int length) {
     boolean isSorted = false;
     resetCounts();
-    int swapThreshold =
+    final int maxComparisons =
         (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
     while (!isSorted) {
       ++outerLoopCount;
       isSorted = true;
       // Perform Bubble sort on odd indexed element
-      for (int i = 1; i < length - 1; i = i + 2) {
+      for (int i = 1; i < end; i = i + 2) {
         ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + 1]) {
@@ -21,12 +21,12 @@ public class BrickSort extends AbstractSort {
           ++swapCount;
         }
       }
-      if (swapCount == swapThreshold) {
+      if (swapCount == maxComparisons) {
         isSorted = true;
         break;
       }
       // Perform Bubble sort on even indexed element
-      for (int i = 0; i < length - 1; i = i + 2) {
+      for (int i = 0; i < end; i = i + 2) {
         ++innerLoopCount;
         ++comparisonCount;
         if (a[i] > a[i + 1]) {
@@ -35,7 +35,7 @@ public class BrickSort extends AbstractSort {
           ++swapCount;
         }
       }
-      if (swapCount == swapThreshold) isSorted = true;
+      if (swapCount == maxComparisons) isSorted = true;
     }
   }
 }
