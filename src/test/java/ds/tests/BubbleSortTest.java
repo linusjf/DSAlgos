@@ -109,15 +109,18 @@ class BubbleSortTest implements SortProvider {
   @Test
   void testSwapCount() {
     IArray high = new HighArray();
-    IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
-        .forEach(
-            i -> {
-              high.insert(i);
-              ord.insert(i);
-            });
+    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+  }
+
+  @Test
+  void testTimeComplexity() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new BubbleSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 }
