@@ -18,11 +18,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class AbstractSortTest {
 
-  static class ConcreteSort extends AbstractSort {
-    protected void sort(long[] a, int length) {
-      for (int i = 0; i < length; i++) swap(a, i, i);
-    }
-  }
 
   @Test
   void testConcreteSort() {
@@ -33,5 +28,11 @@ class AbstractSortTest {
     IArray sorted = sorter.sort(high);
     long[] arr2 = sorted.get();
     assertArrayEquals(arr, arr2, "Arrays must be equal");
+  }
+  
+  static class ConcreteSort extends AbstractSort {
+    protected void sort(long[] a, int length) {
+      for (int i = 0; i < length; i++) swap(a, i, i);
+    }
   }
 }
