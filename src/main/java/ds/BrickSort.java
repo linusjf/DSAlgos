@@ -6,7 +6,8 @@ public class BrickSort extends AbstractSort {
   protected void sort(long[] a, int length) {
     boolean isSorted = false;
     resetCounts();
-    int swapThreshold = (length * (length - 1)) >>> 1;
+    int swapThreshold =
+        (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
     while (!isSorted) {
       ++outerLoopCount;
       isSorted = true;
