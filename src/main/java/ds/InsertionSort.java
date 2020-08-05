@@ -15,14 +15,15 @@ public class InsertionSort extends AbstractSort {
       while (in > 0 && a[in - 1] >= temp) {
         --in;
         ++comparisonCount;
-        ++copyCount;
         ++innerLoopCount;
       }
       System.arraycopy(a, in, a, in + 1, out - in);
+      copyCount += out - in;
       if (in > 0) ++comparisonCount;
       if (in != out) {
         a[in] = temp;
-        ++copyCount;
+        ++swapCount;
+        --copyCount;
       }
     }
   }

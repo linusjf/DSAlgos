@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
-class InsertionSortTest {
+class InsertionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -81,5 +81,35 @@ class InsertionSortTest {
     ISort sorter = new InsertionSort();
     IArray sorted = sorter.sort(high);
     assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+  }
+
+  @Test
+  void testTimeComplexity() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+  }
+
+  @Test
+  void testTimeComplexityReverseSorted() {
+    IArray high = new HighArray();
+    revRange(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+  }
+
+  @Test
+  void testReverseSorted() {
+    IArray high = new HighArray();
+    revRange(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(high);
+    assertEquals(
+        sorter.getCopyCount() + sorter.getSwapCount(),
+        sorter.getComparisonCount(),
+        "Comparison count must be same as swap count + copy count in reverse ordered array.");
   }
 }
