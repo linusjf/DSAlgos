@@ -51,16 +51,21 @@ public abstract class AbstractSort implements ISort {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
     sb.append(getClass().getName())
-        .append(System.lineSeparator())
+        .append(lineSeparator)
         .append("Comparison count: ")
         .append(comparisonCount)
+        .append(lineSeparator)
         .append("Swap count: ")
         .append(swapCount)
+        .append(lineSeparator)
         .append("Copy count: ")
         .append(copyCount)
+        .append(lineSeparator)
         .append("inner loop count: ")
         .append(innerLoopCount)
+        .append(lineSeparator)
         .append("outer loop count: ")
         .append(outerLoopCount);
     return sb.toString();
