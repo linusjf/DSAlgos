@@ -12,9 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BrickSortParallel extends AbstractSort {
-  private static final int NO_OF_PROCESSORS =
-    Runime.getRunTime().availableProcessors();
-
+  private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
   private AtomicBoolean isSorted = new AtomicBoolean();
   private AtomicInteger swapCount = new AtomicInteger();
