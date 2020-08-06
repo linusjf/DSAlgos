@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.AbstractSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
@@ -111,5 +112,13 @@ class InsertionSortTest implements SortProvider {
         sorter.getCopyCount() + sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count + copy count in reverse ordered array.");
+  }
+
+  @Test
+  void testToStringClass() {
+    AbstractSort sorter = new InsertionSort();
+    String className = InsertionSort.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 }

@@ -4,6 +4,7 @@ import static ds.ArrayUtils.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.AbstractSort;
 import ds.BrickSort;
 import ds.HighArray;
 import ds.IArray;
@@ -132,5 +133,13 @@ class BrickSortTest implements SortProvider {
     ISort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+  }
+
+  @Test
+  void testToStringClass() {
+    AbstractSort sorter = new BrickSort();
+    String className = BrickSort.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 }

@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.AbstractSort;
 import ds.BubbleSort;
 import ds.HighArray;
 import ds.IArray;
@@ -28,7 +29,7 @@ class BubbleSortTest implements SortProvider {
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(arr);
+    IArray sorted = arr.sort(sorter);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
   }
@@ -45,7 +46,7 @@ class BubbleSortTest implements SortProvider {
               ord.insert(i);
             });
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
@@ -56,7 +57,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
   }
@@ -66,7 +67,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
@@ -77,7 +78,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
@@ -95,7 +96,7 @@ class BubbleSortTest implements SortProvider {
               ord.insert(i);
             });
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
@@ -106,7 +107,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
@@ -115,7 +116,15 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = sorter.sort(high);
+    IArray sorted = high.sort(sorter);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+  }
+
+  @Test
+  void testToStringClass() {
+    AbstractSort sorter = new BubbleSort();
+    String className = BubbleSort.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 }

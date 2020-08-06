@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.AbstractSort;
 import ds.CombSort;
 import ds.HighArray;
 import ds.IArray;
@@ -81,5 +82,13 @@ class CombSortTest {
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+  }
+
+  @Test
+  void testToStringClass() {
+    AbstractSort sorter = new CombSort();
+    String className = CombSort.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 }

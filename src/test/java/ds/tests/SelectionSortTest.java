@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.AbstractSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
@@ -109,5 +110,13 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+  }
+
+  @Test
+  void testToStringClass() {
+    AbstractSort sorter = new SelectionSort();
+    String className = SelectionSort.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 }
