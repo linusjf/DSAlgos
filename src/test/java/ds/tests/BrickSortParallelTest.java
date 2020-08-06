@@ -142,4 +142,23 @@ class BrickSortParallelTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
+
+  @Test
+  void testReverseSortedOddInterrupted() {
+    IArray high = new HighArray();
+    revRange(1, 21).forEach(i -> high.insert(i));
+    ISort sorter = new BrickSortInterruptible();
+    high.sort(sorter);
+    assertFalse(isSorted(high), () -> "Array must be unsorted.");
+  }
+
+  static class BrickSortInterruptible extends BrickSortParallel {
+    protected void bubble(long[] a, int i) {
+      Thread.currentThread().interrupt();
+      super.bubble(a, i);
+      assertTrue(
+          Thread.currentThread().interrupted(),
+          () -> "Thread must be interrupted in " + getClass().getName() + ".bubble");
+    }
+  }
 }

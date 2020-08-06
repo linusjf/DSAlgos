@@ -51,7 +51,6 @@ public class BrickSortParallel extends AbstractSort {
       futures.add(service.submit(new Task(this, a, i)));
     }
     try {
-      //  service.shutdown();
       service.awaitTermination(length, TimeUnit.MILLISECONDS);
       for (int i = 0; i < futures.size(); i++) futures.get(i).get();
     } catch (InterruptedException ie) {
@@ -62,7 +61,6 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   private void evenSort(long[] a, int length) {
-    // service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     List<Future<Void>> futures = new ArrayList<>(length - 1);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
@@ -71,7 +69,6 @@ public class BrickSortParallel extends AbstractSort {
     }
 
     try {
-      //  service.shutdown();
       service.awaitTermination(length, TimeUnit.MILLISECONDS);
       for (int i = 0; i < futures.size(); i++) futures.get(i).get();
     } catch (InterruptedException ie) {

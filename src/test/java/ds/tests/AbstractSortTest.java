@@ -7,7 +7,6 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import java.util.stream.LongStream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -36,8 +35,7 @@ class AbstractSortTest {
     ConcreteSort sorter;
     long[] arr;
 
-    @BeforeEach
-    void setup() {
+    SwapTests() {
       IArray high = new HighArray();
       LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
       arr = high.get();
