@@ -95,6 +95,35 @@ public class BrickSortParallel extends AbstractSort {
     return swapCount.intValue();
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+        .append(lineSeparator)
+        .append("Comparison count: ")
+        .append(comparisonCount)
+        .append(lineSeparator)
+        .append("Swap count: ")
+        .append(swapCount)
+        .append(lineSeparator)
+        .append("Copy count: ")
+        .append(copyCount)
+        .append(lineSeparator)
+        .append("inner loop count: ")
+        .append(innerLoopCount)
+        .append(lineSeparator)
+        .append("outer loop count: ")
+        .append(outerLoopCount)
+        .append(lineSeparator)
+        .append("isSorted: ")
+        .append(isSorted)
+        .append(lineSeparator)
+        .append("ExecutorService: ")
+        .append(service);
+    return sb.toString();
+  }
+
   static class Task implements Callable<Void> {
     long[] a;
     int i;
