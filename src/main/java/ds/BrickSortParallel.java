@@ -12,6 +12,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BrickSortParallel extends AbstractSort {
+  private static final int NO_OF_PROCESSORS =
+    Runime.getRunTime().availableProcessors();
+
 
   private AtomicBoolean isSorted = new AtomicBoolean();
   private AtomicInteger swapCount = new AtomicInteger();
@@ -42,10 +45,10 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   private void oddSort(long[] a, int length) {
-    service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     List<Future<Void>> futures = new ArrayList<>(length - 2);
 
-    for (int i = 1; i < length - 1; i = i + 2) {
+    for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
       futures.add(service.submit(new Task(this, a, i)));
@@ -62,9 +65,9 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   private void evenSort(long[] a, int length) {
-    service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     List<Future<Void>> futures = new ArrayList<>(length - 1);
-    for (int i = 0; i < length - 1; i = i + 2) {
+    for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
       futures.add(service.submit(new Task(this, a, i)));
