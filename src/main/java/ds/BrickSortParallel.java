@@ -16,7 +16,7 @@ public class BrickSortParallel extends AbstractSort {
 
   private AtomicBoolean isSorted = new AtomicBoolean();
   private AtomicInteger swapCount = new AtomicInteger();
-  private ExecutorService service;
+  private ExecutorService service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
 
   private void reset() {
     resetCounts();
@@ -43,7 +43,6 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   private void oddSort(long[] a, int length) {
-    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     List<Future<Void>> futures = new ArrayList<>(length - 2);
 
     for (int i = 1; i < length - 1; i += 2) {
@@ -52,7 +51,7 @@ public class BrickSortParallel extends AbstractSort {
       futures.add(service.submit(new Task(this, a, i)));
     }
     try {
-      service.shutdown();
+      //  service.shutdown();
       service.awaitTermination(length, TimeUnit.MILLISECONDS);
       for (int i = 0; i < futures.size(); i++) futures.get(i).get();
     } catch (InterruptedException ie) {
@@ -63,7 +62,7 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   private void evenSort(long[] a, int length) {
-    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
+    // service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     List<Future<Void>> futures = new ArrayList<>(length - 1);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
@@ -72,7 +71,7 @@ public class BrickSortParallel extends AbstractSort {
     }
 
     try {
-      service.shutdown();
+      //  service.shutdown();
       service.awaitTermination(length, TimeUnit.MILLISECONDS);
       for (int i = 0; i < futures.size(); i++) futures.get(i).get();
     } catch (InterruptedException ie) {
