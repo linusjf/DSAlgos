@@ -162,21 +162,7 @@
                 <param>ds.*</param>
               </targetClasses>
               <targetTests>
-                <param>ds.tests.HighArrayTest</param>
-                <param>ds.tests.OrdArrayTest</param>
-                <param>ds.tests.OrdArrayLockTest</param>
-                <param>ds.tests.ArrayUtilsTest</param>
-                <param>ds.tests.HighArrayConcurrencyTest</param>
-                <param>ds.tests.OrdArrayConcurrencyTest</param>
-                <param>ds.tests.OrdArrayLockConcurrencyTest</param>
-                <param>ds.tests.AbstractArrayTest</param>
-                <param>ds.tests.BubbleSortTest</param>
-                <param>ds.tests.InsertionSortTest</param>
-                <param>ds.tests.SelectionSortTest</param>
-                <param>ds.tests.BrickSortTest</param>
-                <param>ds.tests.CocktailShakerTest</param>
-                <param>ds.tests.CombSortTest</param>
-                <param>ds.tests.AbstractSortTest</param>
+                <param>ds.tests.*Test</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
