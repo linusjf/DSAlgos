@@ -11,21 +11,18 @@ public abstract class AbstractSort implements ISort {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
-  public IArray sort(IArray array) {
+  public final IArray sort(IArray array) {
     IArray copy = array.copy();
     sort(copy.get(), copy.count());
     return copy;
   }
 
-  protected void swap(long[] a, int first, int second) {
+  protected final void swap(long[] a, int first, int second) {
     if (first == second) return;
     if (first < 0 || second < 0)
-      throw new IllegalArgumentException("Invalid range specified: " +
-          first + " - " + second);
-    if (first > a.length - 1 ||
-        second > a.length - 1)
-      throw new IllegalArgumentException("Invalid range specified: " +
-          first + " - " + second);
+      throw new IllegalArgumentException("Invalid range specified: " + first + " - " + second);
+    if (first > a.length - 1 || second > a.length - 1)
+      throw new IllegalArgumentException("Invalid range specified: " + first + " - " + second);
     long temp = a[first];
     a[first] = a[second];
     a[second] = temp;
