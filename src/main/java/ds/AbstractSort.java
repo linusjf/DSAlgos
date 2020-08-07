@@ -11,7 +11,7 @@ public abstract class AbstractSort implements ISort {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
-  public final IArray sort(IArray array) {
+  public IArray sort(IArray array) {
     IArray copy = array.copy();
     sort(copy.get(), copy.count());
     return copy;

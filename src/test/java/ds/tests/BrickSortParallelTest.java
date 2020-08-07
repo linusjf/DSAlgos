@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.ArrayUtils.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import ds.AbstractSort;
 import ds.BrickSortParallel;
@@ -10,6 +11,8 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -144,21 +147,46 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
-  void testReverseSortedOddInterrupted() {
+  void testReverseSortedOddException() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortInterruptible();
-    high.sort(sorter);
-    assertFalse(isSorted(high), () -> "Array must be unsorted.");
+    ISort sorter = new BrickSortExceptionable();
+    assertThrows(
+        CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
+  }
+
+  @Test
+  void testReverseSortedOddMockInterruption() throws InterruptedException, ExecutionException {
+    IArray high = new HighArray();
+    revRange(1, 21).forEach(i -> high.insert(i));
+    BrickSortParallel sorter = new BrickSortParallel();
+    BrickSortParallel spy = spy(sorter);
+    doThrow(InterruptedException.class).when(spy).sortInterruptibly(high);
+    assertThrows(
+        InterruptedException.class,
+        () -> spy.sortInterruptibly(high),
+        "InterruptedException expected.");
+  }
+
+  @Test
+  void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
+    IArray high = new HighArray();
+    revRange(1, 21).forEach(i -> high.insert(i));
+    BrickSortInterruptible sorter = new BrickSortInterruptible();
+    assertThrows(
+        CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
+  }
+
+  static class BrickSortExceptionable extends BrickSortParallel {
+    protected void bubble(long[] a, int i) {
+      throw new IllegalStateException("Error in " + BrickSortExceptionable.class + ".bubble");
+    }
   }
 
   static class BrickSortInterruptible extends BrickSortParallel {
-    protected void bubble(long[] a, int i) {
-      Thread.currentThread().interrupt();
-      super.bubble(a, i);
-      assertTrue(
-          Thread.currentThread().interrupted(),
-          () -> "Thread must be interrupted in " + getClass().getName() + ".bubble");
+    public IArray sortInterruptibly(IArray arr) throws InterruptedException, ExecutionException {
+      throw new InterruptedException(
+          "Error in " + BrickSortInterruptible.class + ".sortInterruptible");
     }
   }
 }
