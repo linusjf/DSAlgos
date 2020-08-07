@@ -57,7 +57,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = high.sort(sorter);
+    high.sort(sorter);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
   }
@@ -67,7 +67,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = high.sort(sorter);
+    high.sort(sorter);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
@@ -78,7 +78,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = high.sort(sorter);
+    high.sort(sorter);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
@@ -107,7 +107,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = high.sort(sorter);
+    high.sort(sorter);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
@@ -116,7 +116,7 @@ class BubbleSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BubbleSort();
-    IArray sorted = high.sort(sorter);
+    high.sort(sorter);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 

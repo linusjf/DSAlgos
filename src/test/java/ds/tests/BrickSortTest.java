@@ -77,7 +77,7 @@ class BrickSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
   }
@@ -87,18 +87,19 @@ class BrickSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
@@ -106,6 +107,7 @@ class BrickSortTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted");
   }
 
+  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   void testReverseSortedOdd() {
     IArray high = new HighArray();
@@ -124,7 +126,7 @@ class BrickSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
@@ -133,7 +135,7 @@ class BrickSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
