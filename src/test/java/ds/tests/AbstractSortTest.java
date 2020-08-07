@@ -92,31 +92,32 @@ class AbstractSortTest {
   }
 
   static class ConcreteSort extends AbstractSort {
+    @Override
     protected void sort(long[] a, int length) {
       for (int i = 0; i < length; i++) swap(a, i, i);
     }
 
-    void swapNegativeLeft(long[] a) {
+    void swapNegativeLeft(long... a) {
       swap(a, -10, 0);
     }
 
-    void swapNegativeRight(long[] a) {
+    void swapNegativeRight(long... a) {
       swap(a, 0, -10);
     }
 
-    void swapNegatives(long[] a) {
+    void swapNegatives(long... a) {
       swap(a, -5, -10);
     }
 
-    void swapBeyondRight(long[] a) {
+    void swapBeyondRight(long... a) {
       swap(a, 0, a.length + 10);
     }
 
-    void swapBeyondLeft(long[] a) {
+    void swapBeyondLeft(long... a) {
       swap(a, a.length + 10, 0);
     }
 
-    void swapBeyonds(long[] a) {
+    void swapBeyonds(long... a) {
       swap(a, a.length + 10, a.length);
     }
   }

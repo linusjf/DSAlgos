@@ -77,7 +77,7 @@ class BrickSortParallelTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSortParallel();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
   }
@@ -87,7 +87,7 @@ class BrickSortParallelTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new BrickSortParallel();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
@@ -124,7 +124,7 @@ class BrickSortParallelTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSortParallel();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
@@ -133,7 +133,7 @@ class BrickSortParallelTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSortParallel();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
@@ -164,12 +164,14 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortExceptionable extends BrickSortParallel {
+    @Override
     protected void bubble(long[] a, int i) {
       throw new IllegalStateException("Error in " + BrickSortExceptionable.class + ".bubble");
     }
   }
 
   static class BrickSortInterruptible extends BrickSortParallel {
+    @Override
     protected void sortInterruptibly(long[] a, int length)
         throws InterruptedException, ExecutionException {
       throw new InterruptedException(
