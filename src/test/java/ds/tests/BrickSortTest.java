@@ -99,7 +99,7 @@ class BrickSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
-    sorter.sort(high);
+    IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
