@@ -9,7 +9,6 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import ds.SelectionSort;
-import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,8 +23,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class SelectionSortTest implements SortProvider {
-
-  private static final Logger LOGGER = Logger.getLogger(SelectionSortTest.class.getName());
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -78,8 +75,7 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
-    LOGGER.info(() -> high.toString());
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(
         (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
   }
@@ -89,8 +85,7 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
-    LOGGER.info(() -> high.toString());
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(190, sorter.getComparisonCount(), "Comparison count must be 190.");
   }
 
@@ -99,7 +94,7 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertTrue(sorter.getSwapCount() < 20, "Swap count must be less than array length.");
   }
 
@@ -108,7 +103,7 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 

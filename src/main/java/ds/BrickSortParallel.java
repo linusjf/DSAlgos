@@ -129,7 +129,7 @@ public class BrickSortParallel extends AbstractSort {
     return sb.toString();
   }
 
-  static class BubbleTask implements Callable<Void> {
+  static final class BubbleTask implements Callable<Void> {
     long[] a;
     int i;
     BrickSortParallel sorter;
