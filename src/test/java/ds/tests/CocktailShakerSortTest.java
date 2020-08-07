@@ -48,8 +48,9 @@ class CocktailShakerSortTest implements SortProvider {
             });
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
+    IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
-    long[] extent = ord.getExtentArray();
+    long[] extent = sortedOrd.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
   }
 
@@ -112,8 +113,9 @@ class CocktailShakerSortTest implements SortProvider {
             });
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
+    IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
-    long[] extent = ord.getExtentArray();
+    long[] extent = sortedOrd.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
   }
 
