@@ -80,7 +80,7 @@ class CombSortTest {
               ord.insert(i);
             });
     ISort sorter = new CombSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 

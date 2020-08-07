@@ -89,7 +89,7 @@ class InsertionSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
@@ -98,7 +98,7 @@ class InsertionSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
@@ -107,7 +107,7 @@ class InsertionSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(
         sorter.getCopyCount() + sorter.getSwapCount(),
         sorter.getComparisonCount(),

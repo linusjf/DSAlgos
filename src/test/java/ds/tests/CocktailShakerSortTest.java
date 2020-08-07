@@ -124,7 +124,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
@@ -133,7 +133,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
