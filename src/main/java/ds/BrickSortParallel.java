@@ -16,8 +16,8 @@ public class BrickSortParallel extends AbstractSort {
 
   protected ExecutorService service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
   protected List<Future<Void>> futures = new ArrayList<>();
-  private AtomicBoolean isSorted = new AtomicBoolean();
-  private AtomicInteger swapCount = new AtomicInteger();
+  private final AtomicBoolean isSorted = new AtomicBoolean();
+  private final AtomicInteger swapCount = new AtomicInteger();
 
   private void reset() {
     resetCounts();
@@ -25,6 +25,7 @@ public class BrickSortParallel extends AbstractSort {
     swapCount.set(0);
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public IArray sort(IArray arr) {
     IArray copy = arr.copy();
@@ -32,12 +33,12 @@ public class BrickSortParallel extends AbstractSort {
     return copy;
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
     try {
       sortInterruptibly(a, length);
     } catch (ExecutionException ee) {
-      System.err.println(ee.getMessage());
       throw new CompletionException(ee);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
@@ -63,24 +64,26 @@ public class BrickSortParallel extends AbstractSort {
     }
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     futures = new ArrayList<>(length - 2);
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      futures.add(service.submit(new Task(this, a, i)));
+      futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    for (int i = 0; i < futures.size(); i++) futures.get(i).get();
+    for (Future future : futures) future.get();
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     futures = new ArrayList<>(length - 1);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      futures.add(service.submit(new Task(this, a, i)));
+      futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    for (int i = 0; i < futures.size(); i++) futures.get(i).get();
+    for (Future future : futures) future.get();
   }
 
   protected void bubble(long[] a, int i) {
@@ -96,6 +99,7 @@ public class BrickSortParallel extends AbstractSort {
     return swapCount.intValue();
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -125,17 +129,18 @@ public class BrickSortParallel extends AbstractSort {
     return sb.toString();
   }
 
-  static class Task implements Callable<Void> {
+  static class BubbleTask implements Callable<Void> {
     long[] a;
     int i;
     BrickSortParallel sorter;
 
-    Task(BrickSortParallel sorter, long[] a, int i) {
+    private BubbleTask(BrickSortParallel sorter, long[] a, int i) {
       this.a = a;
       this.i = i;
       this.sorter = sorter;
     }
 
+    @Override
     public Void call() throws InterruptedException {
       sorter.bubble(a, i);
       return null;

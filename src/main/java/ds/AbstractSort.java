@@ -52,6 +52,7 @@ public abstract class AbstractSort implements ISort {
     return innerLoopCount == 0 ? outerLoopCount : innerLoopCount;
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
