@@ -9,7 +9,7 @@ import ds.CocktailShakerSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
-import ds.OrdArray;
+import ds.OrdArrayLock;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -38,7 +38,7 @@ class CocktailShakerSortTest implements SortProvider {
   @Test
   void testStreamUnSorted() {
     IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray ord = new OrdArrayLock();
     LongStream.rangeClosed(1, 20)
         .unordered()
         .forEach(
@@ -103,7 +103,7 @@ class CocktailShakerSortTest implements SortProvider {
   @Test
   void testStreamSorted() {
     IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray ord = new OrdArrayLock();
     LongStream.rangeClosed(1, 20)
         .forEach(
             i -> {
