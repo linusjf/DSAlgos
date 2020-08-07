@@ -3,7 +3,6 @@ package ds.tests;
 import static ds.ArrayUtils.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.AbstractSort;
 import ds.BrickSortParallel;
@@ -156,19 +155,6 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
-  void testReverseSortedOddMockInterruption() throws InterruptedException, ExecutionException {
-    IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
-    BrickSortParallel sorter = new BrickSortParallel();
-    BrickSortParallel spy = spy(sorter);
-    doThrow(InterruptedException.class).when(spy).sortInterruptibly(high);
-    assertThrows(
-        InterruptedException.class,
-        () -> spy.sortInterruptibly(high),
-        "InterruptedException expected.");
-  }
-
-  @Test
   void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
@@ -184,7 +170,8 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortInterruptible extends BrickSortParallel {
-    public IArray sortInterruptibly(IArray arr) throws InterruptedException, ExecutionException {
+    protected void sortInterruptibly(long[] a, int length)
+        throws InterruptedException, ExecutionException {
       throw new InterruptedException(
           "Error in " + BrickSortInterruptible.class + ".sortInterruptible");
     }

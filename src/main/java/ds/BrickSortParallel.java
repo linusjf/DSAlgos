@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BrickSortParallel extends AbstractSort implements ISortInterruptible {
+public class BrickSortParallel extends AbstractSort {
   private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
   protected ExecutorService service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
@@ -27,21 +27,8 @@ public class BrickSortParallel extends AbstractSort implements ISortInterruptibl
 
   @Override
   public IArray sort(IArray arr) {
-    try {
-      return sortInterruptibly(arr);
-    } catch (InterruptedException ie) {
-      System.err.println(ie.getMessage());
-      throw new CompletionException(ie);
-    } catch (ExecutionException ee) {
-      System.err.println(ee.getMessage());
-      throw new CompletionException(ee);
-    }
-  }
-
-  @Override
-  public IArray sortInterruptibly(IArray arr) throws InterruptedException, ExecutionException {
     IArray copy = arr.copy();
-    sortInterruptibly(copy.get(), copy.count());
+    sort(copy.get(), copy.count());
     return copy;
   }
 
@@ -51,8 +38,10 @@ public class BrickSortParallel extends AbstractSort implements ISortInterruptibl
       sortInterruptibly(a, length);
     } catch (ExecutionException ee) {
       System.err.println(ee.getMessage());
+      throw new CompletionException(ee);
     } catch (InterruptedException ie) {
       Thread.currentThread().interrupt();
+      throw new CompletionException(ie);
     }
   }
 
