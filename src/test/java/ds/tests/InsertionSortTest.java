@@ -45,6 +45,14 @@ class InsertionSortTest implements SortProvider {
   }
 
   @ParameterizedTest
+  @CsvSource(INIT_INSERTION_SORT_DATA)
+  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(arr);
+    assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
+  }
+
+  @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
@@ -146,9 +154,9 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     sorter.sort(high);
     assertEquals(
-        sorter.getCopyCount() + sorter.getSwapCount(),
+        sorter.getCopyCount(),
         sorter.getComparisonCount(),
-        "Comparison count must be same as swap count + copy count in reverse ordered array.");
+        "Comparison count must be same as copy count in reverse ordered array.");
   }
 
   @Test
@@ -163,7 +171,7 @@ class InsertionSortTest implements SortProvider {
   void testPreReset() {
     ISort sorter = new InsertionSort();
     assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
     assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
     assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
   }

@@ -16,15 +16,11 @@ public class InsertionSort extends AbstractSort {
         --in;
         ++comparisonCount;
         ++innerLoopCount;
+        ++copyCount;
       }
       System.arraycopy(a, in, a, in + 1, out - in);
-      copyCount += out - in;
       if (in > 0) ++comparisonCount;
-      if (in != out) {
-        a[in] = temp;
-        ++swapCount;
-        --copyCount;
-      }
+      if (in != out) a[in] = temp;
     }
   }
 }

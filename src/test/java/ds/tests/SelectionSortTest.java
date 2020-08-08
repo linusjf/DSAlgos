@@ -55,6 +55,14 @@ class SelectionSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
+  @ParameterizedTest
+  @CsvSource(INIT_SELECTION_SORT_DATA)
+  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    ISort sorter = new SelectionSort();
+    IArray sorted = sorter.sort(arr);
+    assertEquals(5, sorter.getSwapCount(), "Swap count will be five.");
+  }
+
   @Test
   void testReset() {
     IArray high = new HighArray();
