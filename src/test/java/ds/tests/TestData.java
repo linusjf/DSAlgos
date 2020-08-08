@@ -30,6 +30,10 @@ final class TestData {
   public static final String INIT_BUBBLE_SORT_DATA = "100, false, 14, 33, 27, 35, 10";
 
   public static final String INIT_BRICK_SORT_DATA = "100, false, 3, 2, 3, 8, 5, 6, 4, 1";
+  
+  public static final String INIT_COCKTAIL_SHAKER_SORT_DATA = "100, false, 6, 2, 5, 3, 9, 1, 3";
+
+  public static final String INIT_COMB_SORT_DATA = "100, false, 8, 4, 1, 56, 3, -44, 23, -6, 28, 0";
 
   private TestData() {
     // empty constructor

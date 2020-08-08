@@ -55,6 +55,14 @@ class CocktailShakerSortTest implements SortProvider {
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
+  
+  @ParameterizedTest
+  @CsvSource(INIT_COCKTAIL_SHAKER_SORT_DATA)
+  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    ISort sorter = new CocktailShakerSort();
+    IArray sorted = sorter.sort(arr);
+    assertEquals(12, sorter.getSwapCount(), "Swap count will be five.");
+  }
 
   @Test
   void testReset() {
