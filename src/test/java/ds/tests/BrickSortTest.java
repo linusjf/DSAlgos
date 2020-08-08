@@ -56,6 +56,14 @@ class BrickSortTest implements SortProvider {
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
+  @ParameterizedTest
+  @CsvSource(INIT_BRICK_SORT_DATA)
+  void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    ISort sorter = new BrickSort();
+    IArray sorted = sorter.sort(arr);
+    assertEquals(13, sorter.getSwapCount(), "Swap count will be five.");
+  }
+
   @Test
   void testStreamUnSorted() {
     IArray high = new HighArray();

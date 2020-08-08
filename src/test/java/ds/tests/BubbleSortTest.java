@@ -54,11 +54,11 @@ class BubbleSortTest implements SortProvider {
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
-  
+
   @ParameterizedTest
   @CsvSource(INIT_BUBBLE_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-    ISort sorter = new SelectionSort();
+    ISort sorter = new BubbleSort();
     IArray sorted = sorter.sort(arr);
     assertEquals(5, sorter.getSwapCount(), "Swap count will be five.");
   }
