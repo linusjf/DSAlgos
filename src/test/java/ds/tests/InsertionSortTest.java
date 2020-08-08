@@ -34,6 +34,16 @@ class InsertionSortTest implements SortProvider {
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
   }
 
+  @ParameterizedTest
+  @CsvSource(INIT_DUPLICATE_DATA)
+  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
+    ISort sorter = new InsertionSort();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+  }
+
   @Test
   void testReset() {
     IArray high = new HighArray();

@@ -34,6 +34,16 @@ class SelectionSortTest implements SortProvider {
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
   }
 
+  @ParameterizedTest
+  @CsvSource(INIT_DUPLICATE_DATA)
+  void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
+    ISort sorter = new SelectionSort();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+  }
+
   @Test
   void testReset() {
     IArray high = new HighArray();
@@ -92,9 +102,22 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
+    IArray sorted = sorter.sort(high);
+    long[] a = sorted.get();
+    assertEquals(
+        (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
+    assertTrue(a[0] == 1 && a[19] == 20, "First element must be 1 and last element must be 20.");
+  }
+
+  @Test
+  void testSortedTimeComplexity() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new SelectionSort();
     sorter.sort(high);
     assertEquals(
         (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
   @Test
@@ -102,8 +125,10 @@ class SelectionSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
-    sorter.sort(high);
+    IArray sorted = sorter.sort(high);
+    long[] a = sorted.get();
     assertEquals(190, sorter.getComparisonCount(), "Comparison count must be 190.");
+    assertTrue(a[0] == 1 && a[19] == 20, "First element must be 1 and last element must be 20.");
   }
 
   @Test
