@@ -37,16 +37,44 @@ class AbstractSortTest {
 
     SwapTests() {
       IArray high = new HighArray();
-      LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
+      LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
       arr = high.get();
       sorter = new ConcreteSort();
+    }
+
+    @Test
+    void testSwapZeroIndex() {
+      long[] a = arr.clone();
+      sorter.swapZerothIndex(a);
+      assertTrue(a[0] == 20 && a[19] == 1, "Swap must succeed.");
+    }
+
+    @Test
+    void testSwapIndexOne() {
+      long[] a = arr.clone();
+      sorter.swapIndexOne(a);
+      assertTrue(a[1] == 19 && a[18] == 2, "Swap must succeed.");
+    }
+
+    @Test
+    void testSwapNthIndex() {
+      long[] a = arr.clone();
+      sorter.swapNthIndex(a);
+      assertTrue(a[0] == 20 && a[19] == 1, "Swap must succeed.");
+    }
+
+    @Test
+    void testSwapNMinusOneIndex() {
+      long[] a = arr.clone();
+      sorter.swapNthMinusOne(a);
+      assertTrue(a[1] == 19 && a[18] == 2, "Swap must succeed.");
     }
 
     @Test
     void testSwapNegativeLeft() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapNegativeLeft(arr),
+          () -> sorter.swapNegativeLeft(arr.clone()),
           () -> "Swap negative left must throw exception");
     }
 
@@ -54,7 +82,7 @@ class AbstractSortTest {
     void testSwapNegativeRight() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapNegativeRight(arr),
+          () -> sorter.swapNegativeRight(arr.clone()),
           () -> "Swap negative right must throw exception");
     }
 
@@ -62,7 +90,7 @@ class AbstractSortTest {
     void testSwapNegatives() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapNegatives(arr),
+          () -> sorter.swapNegatives(arr.clone()),
           () -> "Swap negatives must throw exception");
     }
 
@@ -70,7 +98,7 @@ class AbstractSortTest {
     void testSwapBeyonds() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapBeyonds(arr),
+          () -> sorter.swapBeyonds(arr.clone()),
           () -> "Swap beyonds must throw exception");
     }
 
@@ -78,7 +106,7 @@ class AbstractSortTest {
     void testSwapBeyondLeft() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapBeyondLeft(arr),
+          () -> sorter.swapBeyondLeft(arr.clone()),
           () -> "Swap beyond left must throw exception");
     }
 
@@ -86,7 +114,7 @@ class AbstractSortTest {
     void testSwapBeyondRight() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> sorter.swapBeyondRight(arr),
+          () -> sorter.swapBeyondRight(arr.clone()),
           () -> "Swap beyond right must throw exception");
     }
   }
@@ -95,6 +123,22 @@ class AbstractSortTest {
     @Override
     protected void sort(long[] a, int length) {
       for (int i = 0; i < length; i++) swap(a, i, i);
+    }
+
+    void swapZerothIndex(long... a) {
+      swap(a, 0, 19);
+    }
+
+    void swapIndexOne(long... a) {
+      swap(a, 1, 18);
+    }
+
+    void swapNthIndex(long... a) {
+      swap(a, 19, 0);
+    }
+
+    void swapNthMinusOne(long... a) {
+      swap(a, 18, 1);
     }
 
     void swapNegativeLeft(long... a) {

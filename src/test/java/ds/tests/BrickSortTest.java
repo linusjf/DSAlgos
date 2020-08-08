@@ -146,4 +146,15 @@ class BrickSortTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
+
+  @Test
+  void testPreReset() {
+    IArray high = new HighArray();
+    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    ISort sorter = new BrickSort();
+    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+  }
 }
