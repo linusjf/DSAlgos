@@ -26,6 +26,8 @@ final class TestData {
       "100, false, 14, 33, 27, 10, 35, 19, 42, 44";
 
   public static final String INIT_INSERTION_SORT_DATA = "100, false, 4, 3, 2, 10, 12, 1, 5, 6";
+  
+  public static final String INIT_BUBBLE_SORT_DATA = "100, false, 14, 33, 27, 35, 10";
 
   private TestData() {
     // empty constructor
