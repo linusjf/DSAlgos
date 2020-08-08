@@ -12,7 +12,7 @@ public class InsertionSort extends AbstractSort {
       long temp = a[out];
       in = out;
       ++outerLoopCount;
-      while (in > 0 && a[in - 1] >= temp) {
+      while (in > 0 && a[in - 1] > temp) {
         --in;
         ++comparisonCount;
         ++innerLoopCount;

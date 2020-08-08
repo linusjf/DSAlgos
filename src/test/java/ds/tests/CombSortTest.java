@@ -44,6 +44,17 @@ class CombSortTest {
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
   }
 
+  @ParameterizedTest
+  @CsvSource(INIT_ALL_SAME_DATA)
+  void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
+    long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
+    ISort sorter = new CombSort();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
+  }
+
   @Test
   void testReset() {
     IArray high = new HighArray();
