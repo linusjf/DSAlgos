@@ -117,6 +117,15 @@ class AbstractSortTest {
           () -> sorter.swapBeyondRight(arr.clone()),
           () -> "Swap beyond right must throw exception");
     }
+
+    @Test
+    void testResetCounts() {
+      sorter.setAndResetCounts();
+      assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
+      assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
+      assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
+      assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+    }
   }
 
   static class ConcreteSort extends AbstractSort {
@@ -163,6 +172,11 @@ class AbstractSortTest {
 
     void swapBeyonds(long... a) {
       swap(a, a.length + 10, a.length);
+    }
+
+    void setAndResetCounts() {
+      innerLoopCount = outerLoopCount = comparisonCount = copyCount = swapCount = 190;
+      resetCounts();
     }
   }
 }

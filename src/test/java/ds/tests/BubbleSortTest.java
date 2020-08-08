@@ -53,6 +53,22 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
+  void testReset() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new BubbleSort();
+    sorter.sort(high);
+    sorter.sort(ord);
+    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+  }
+
+  @Test
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -127,7 +143,7 @@ class BubbleSortTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
-  
+
   @Test
   void testPreReset() {
     ISort sorter = new BubbleSort();

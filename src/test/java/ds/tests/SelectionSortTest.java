@@ -35,6 +35,23 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+  void testReset() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new SelectionSort();
+    sorter.sort(high);
+    sorter.sort(ord);
+    assertEquals(190, sorter.getComparisonCount(), "Comparison count must be (n * n -1) / 2.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be 0.");
+  }
+
+  @Test
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -114,7 +131,7 @@ class SelectionSortTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
-  
+
   @Test
   void testPreReset() {
     ISort sorter = new SelectionSort();

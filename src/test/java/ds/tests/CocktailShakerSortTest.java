@@ -36,6 +36,22 @@ class CocktailShakerSortTest implements SortProvider {
   }
 
   @Test
+  void testReset() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArrayLock();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new CocktailShakerSort();
+    sorter.sort(high);
+    sorter.sort(ord);
+    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+  }
+
+  @Test
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArrayLock();
@@ -144,7 +160,7 @@ class CocktailShakerSortTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
-  
+
   @Test
   void testPreReset() {
     ISort sorter = new CocktailShakerSort();

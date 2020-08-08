@@ -73,6 +73,22 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+  void testReset() {
+    IArray high = new HighArray();
+    IArray ord = new OrdArray();
+    LongStream.rangeClosed(1, 20)
+        .forEach(
+            i -> {
+              high.insert(i);
+              ord.insert(i);
+            });
+    ISort sorter = new BrickSort();
+    sorter.sort(high);
+    sorter.sort(ord);
+    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+  }
+
+  @Test
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
