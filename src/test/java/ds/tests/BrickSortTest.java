@@ -149,8 +149,6 @@ class BrickSortTest implements SortProvider {
 
   @Test
   void testPreReset() {
-    IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new BrickSort();
     assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
     assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");

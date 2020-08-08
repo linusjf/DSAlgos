@@ -127,4 +127,13 @@ class BubbleSortTest implements SortProvider {
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
+  
+  @Test
+  void testPreReset() {
+    ISort sorter = new BubbleSort();
+    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+  }
 }
