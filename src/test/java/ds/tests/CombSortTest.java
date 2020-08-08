@@ -60,7 +60,7 @@ class CombSortTest {
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(arr);
-    assertEquals(12, sorter.getSwapCount(), "Swap count will be twelve.");
+    assertEquals(16, sorter.getSwapCount(), "Swap count will be sixteen.");
   }
 
   @Test
