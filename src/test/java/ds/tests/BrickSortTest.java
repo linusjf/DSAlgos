@@ -61,7 +61,8 @@ class BrickSortTest implements SortProvider {
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
-    assertEquals(13, sorter.getSwapCount(), "Swap count will be five.");
+    assertEquals(13, sorter.getSwapCount(), "Swap count will be thirteen.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @Test

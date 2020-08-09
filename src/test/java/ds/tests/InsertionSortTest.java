@@ -50,6 +50,7 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     IArray sorted = sorter.sort(arr);
     assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @ParameterizedTest

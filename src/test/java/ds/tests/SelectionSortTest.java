@@ -61,6 +61,7 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(arr);
     assertEquals(5, sorter.getSwapCount(), "Swap count will be five.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @Test

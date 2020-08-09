@@ -61,6 +61,7 @@ class CombSortTest {
     ISort sorter = new CombSort();
     IArray sorted = sorter.sort(arr);
     assertEquals(16, sorter.getSwapCount(), "Swap count will be sixteen.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @Test

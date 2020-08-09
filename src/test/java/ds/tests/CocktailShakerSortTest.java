@@ -61,7 +61,8 @@ class CocktailShakerSortTest implements SortProvider {
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(arr);
-    assertEquals(12, sorter.getSwapCount(), "Swap count will be five.");
+    assertEquals(12, sorter.getSwapCount(), "Swap count will be twelve.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @Test
