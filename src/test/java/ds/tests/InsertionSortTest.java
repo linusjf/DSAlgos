@@ -49,7 +49,13 @@ class InsertionSortTest implements SortProvider {
   @CsvSource(INIT_INSERTION_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new InsertionSort();
+    OrdArray ord = new OrdArray();
+    long[] a = arr.getExtentArray();
+    for (int i = 0; i < arr.count(); i++) ord.insert(a[i]);
+    a = ord.getExtentArray();
     IArray sorted = sorter.sort(arr);
+    long[] internal = sorted.getExtentArray();
+    assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
     assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }

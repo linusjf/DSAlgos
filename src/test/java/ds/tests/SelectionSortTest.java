@@ -60,7 +60,13 @@ class SelectionSortTest implements SortProvider {
   @CsvSource(INIT_SELECTION_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new SelectionSort();
+    OrdArray ord = new OrdArray();
+    long[] a = arr.getExtentArray();
+    for (int i = 0; i < arr.count(); i++) ord.insert(a[i]);
+    a = ord.getExtentArray();
     IArray sorted = sorter.sort(arr);
+    long[] internal = sorted.getExtentArray();
+    assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
     assertEquals(5, sorter.getSwapCount(), "Swap count will be five.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }

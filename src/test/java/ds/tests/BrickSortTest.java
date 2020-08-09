@@ -60,7 +60,13 @@ class BrickSortTest implements SortProvider {
   @CsvSource(INIT_BRICK_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new BrickSort();
+    OrdArray ord = new OrdArray();
+    long[] a = arr.getExtentArray();
+    for (int i = 0; i < arr.count(); i++) ord.insert(a[i]);
+    a = ord.getExtentArray();
     IArray sorted = sorter.sort(arr);
+    long[] internal = sorted.getExtentArray();
+    assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
     assertEquals(13, sorter.getSwapCount(), "Swap count will be thirteen.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
