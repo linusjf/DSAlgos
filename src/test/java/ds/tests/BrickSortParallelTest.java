@@ -171,6 +171,20 @@ class BrickSortParallelTest implements SortProvider {
         CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
   }
 
+  @Test
+  void testZeroTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortZeroLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+  }
+
+  @Test
+  void testOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOneLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+  }
+
   static class BrickSortExceptionable extends BrickSortParallel {
     @Override
     protected void bubble(long[] a, int i) {
@@ -184,6 +198,18 @@ class BrickSortParallelTest implements SortProvider {
         throws InterruptedException, ExecutionException {
       throw new InterruptedException(
           "Error in " + BrickSortInterruptible.class + ".sortInterruptible");
+    }
+  }
+
+  static class BrickSortComplex extends BrickSortParallel {
+    void sortZeroLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 0);
+    }
+
+    void sortOneLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 1);
     }
   }
 }

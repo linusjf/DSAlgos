@@ -20,6 +20,7 @@ public class BrickSortParallel extends AbstractSort {
   private final AtomicInteger swapCount = new AtomicInteger();
 
   private void reset() {
+    System.out.println("Into reset");
     resetCounts();
     isSorted.getAndSet(false);
     swapCount.set(0);
@@ -51,7 +52,8 @@ public class BrickSortParallel extends AbstractSort {
     reset();
     final int maxComparisons =
         (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
-    while (!isSorted.get()) {
+    System.out.println("maxComparisons = " + maxComparisons);
+    while (!isSorted.get() && length > 1) {
       ++outerLoopCount;
       isSorted.set(true);
       oddSort(a, length);
