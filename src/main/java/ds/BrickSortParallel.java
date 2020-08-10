@@ -31,7 +31,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     sorted.getAndSet(false);
     swapCount.set(0);
     oddTaskCount = (length & 1) == 1 ? length >>> 1 : length > 0 ? (length - 1) >>> 1 : 0;
-    evenTaskCount = length >>> 1;
+    evenTaskCount = length > 0 ? length >>> 1: 0;
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
