@@ -1,7 +1,6 @@
 package ds;
 
 public class CombSort extends AbstractSort {
-  private static final double GAP_SHRINK_FACTOR = 1.3d;
 
   private int getNextGap(int gap) {
     // Shrink gap by Shrink factor
@@ -15,7 +14,7 @@ public class CombSort extends AbstractSort {
     int gap = length;
     boolean swapped = true;
     resetCounts();
-    while (gap != 1 || swapped) {
+    while (gap > 1 || swapped) {
       ++outerLoopCount;
       gap = getNextGap(gap);
       swapped = false;

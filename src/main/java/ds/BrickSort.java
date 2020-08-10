@@ -14,7 +14,7 @@ public class BrickSort extends AbstractSort {
     reset();
     final int maxComparisons =
         (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
-    while (!isSorted) {
+    while (!isSorted && length > 1) {
       ++outerLoopCount;
       isSorted = true;
       oddSort(a, length);

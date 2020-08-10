@@ -185,6 +185,55 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
   }
 
+  @Test
+  void testNMinusOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortNMinusOneLengthArray();
+    assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
+  }
+
+  @Test
+  void testReset() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternals();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testResetAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternalsAfterSort();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testInternalsAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortAndSetInternals();
+    assertNotEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertNotEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertNotEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertNotEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testInnerLoopAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    int innerLoopCount = bsc.getInnerLoopCountAfterSort();
+    assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
   static class BrickSortExceptionable extends BrickSortParallel {
     @Override
     protected void bubble(long[] a, int i) {
@@ -210,6 +259,31 @@ class BrickSortParallelTest implements SortProvider {
     void sortOneLengthArray() {
       long[] a = {2, 5, 6, 8, 0};
       sort(a, 1);
+    }
+
+    void sortNMinusOneLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 4);
+    }
+
+    void resetInternals() {
+      reset();
+    }
+
+    void sortAndSetInternals() {
+      long[] a = {12, 9, 7, 22, 25};
+      sort(a, a.length);
+    }
+
+    void resetInternalsAfterSort() {
+      sortAndSetInternals();
+      reset();
+    }
+
+    int getInnerLoopCountAfterSort() {
+      long[] a = {12, 9, 7, 22, 25};
+      sort(a, a.length);
+      return innerLoopCount;
     }
   }
 }
