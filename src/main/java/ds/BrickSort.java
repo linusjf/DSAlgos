@@ -9,7 +9,7 @@ public class BrickSort extends AbstractBrickSort {
     return sorted;
   }
 
-  private void reset() {
+  protected void reset() {
     resetCounts();
     sorted = false;
   }

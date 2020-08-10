@@ -207,4 +207,155 @@ class BrickSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
     assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
   }
+
+  @Test
+  void testZeroTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortZeroLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+  }
+
+  @Test
+  void testOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOneLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+  }
+
+  @Test
+  void testNMinusOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortNMinusOneLengthArray();
+    assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
+  }
+
+  @Test
+  void testResetSubClass() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternals();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testResetAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternalsAfterSort();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testInternalsAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortAndSetInternals();
+    assertNotEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertNotEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertNotEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertNotEquals(false, bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  void testInnerLoopAfterOddSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOdd();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testInnerLoopAfterEvenSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortEven();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testEmptyArray() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortEmptyArray();
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testSingleElementArray() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortSingleElementArray();
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  static class BrickSortComplex extends BrickSort {
+    void sortZeroLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 0);
+    }
+
+    void sortOneLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 1);
+    }
+
+    void sortNMinusOneLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, 4);
+    }
+
+    void sortEmptyArray() {
+      long[] a = {};
+      sort(a, 0);
+    }
+
+    void sortSingleElementArray() {
+      long[] a = {10};
+      sort(a, 1);
+    }
+
+    void resetInternals() {
+      reset();
+    }
+
+    void sortAndSetInternals() {
+      long[] a = {12, 9, 7, 22, 25};
+      sort(a, a.length);
+    }
+
+    void resetInternalsAfterSort() {
+      sortAndSetInternals();
+      reset();
+    }
+
+    void sortOdd() {
+      long[] a = {12, 9, 7, 22, 25};
+      sort(a, a.length);
+    }
+
+    void sortEven() {
+      long[] a = {12, 9, 7, 22, 25, 19};
+      sort(a, a.length);
+    }
+
+    int getInnerLoopCount() {
+      return innerLoopCount;
+    }
+
+    int getOuterLoopCount() {
+      return outerLoopCount;
+    }
+  }
 }
