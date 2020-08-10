@@ -226,11 +226,52 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
-  void testInnerLoopAfterSort() {
+  void testInnerLoopAfterOddSort() {
     BrickSortComplex bsc = new BrickSortComplex();
-    int innerLoopCount = bsc.getInnerLoopCountAfterSort();
+    bsc.sortOdd();
+    int innerLoopCount = bsc.getInnerLoopCount();
+    int outerLoopCount = bsc.getOuterLoopCount();
+    int oddTaskCount = bsc.getOddTaskCount();
+    int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * outerLoopCount,
+        innerLoopCount,
+        "Inner loop count must be 4.");
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testInnerLoopAfterEvenSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortEven();
+    int innerLoopCount = bsc.getInnerLoopCount();
+    int outerLoopCount = bsc.getOuterLoopCount();
+    int oddTaskCount = bsc.getOddTaskCount();
+    int evenTaskCount = bsc.getEvenTaskCount();
+    assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * outerLoopCount,
+        innerLoopCount,
+        "Inner loop count must be 4.");
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testEmptyArray() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortEmptyArray();
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+  }
+
+  @Test
+  void testSingleElementArray() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortSingleElementArray();
     assertEquals(true, bsc.isSorted(), "Sorted.");
   }
 
@@ -266,8 +307,18 @@ class BrickSortParallelTest implements SortProvider {
       sort(a, 4);
     }
 
+    void sortEmptyArray() {
+      long[] a = {};
+      sort(a, 0);
+    }
+
+    void sortSingleElementArray() {
+      long[] a = {10};
+      sort(a, 1);
+    }
+
     void resetInternals() {
-      reset();
+      reset(0);
     }
 
     void sortAndSetInternals() {
@@ -277,13 +328,25 @@ class BrickSortParallelTest implements SortProvider {
 
     void resetInternalsAfterSort() {
       sortAndSetInternals();
-      reset();
+      reset(5);
     }
 
-    int getInnerLoopCountAfterSort() {
+    void sortOdd() {
       long[] a = {12, 9, 7, 22, 25};
       sort(a, a.length);
+    }
+
+    void sortEven() {
+      long[] a = {12, 9, 7, 22, 25, 19};
+      sort(a, a.length);
+    }
+
+    int getInnerLoopCount() {
       return innerLoopCount;
+    }
+
+    int getOuterLoopCount() {
+      return outerLoopCount;
     }
   }
 }

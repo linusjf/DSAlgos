@@ -14,22 +14,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BrickSortParallel extends AbstractSort {
   private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
-  protected ExecutorService service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
-  private final AtomicBoolean sorted = new AtomicBoolean();
-  private final AtomicInteger swapCount = new AtomicInteger();
+  protected ExecutorService service;
+  private final AtomicBoolean sorted;
+  private final AtomicInteger swapCount;
+  private int oddTaskCount;
+  private int evenTaskCount;
 
-  protected void reset() {
+  public BrickSortParallel() {
+    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
+    sorted = new AtomicBoolean();
+    swapCount = new AtomicInteger();
+  }
+
+  protected void reset(int length) {
     resetCounts();
     sorted.getAndSet(false);
     swapCount.set(0);
-  }
-
-  @SuppressWarnings("PMD.LawOfDemeter")
-  @Override
-  public IArray sort(IArray arr) {
-    IArray copy = arr.copy();
-    sort(copy.get(), copy.count());
-    return copy;
+    oddTaskCount = (length & 1) == 1 ? length >>> 1 : (length - 1) >>> 1;
+    evenTaskCount = length >>> 1;
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -40,7 +42,6 @@ public class BrickSortParallel extends AbstractSort {
     } catch (ExecutionException ee) {
       throw new CompletionException(ee);
     } catch (InterruptedException ie) {
-      //      Thread.currentThread().interrupt();
       throw new CompletionException(ie);
     }
     assert sorted.get();
@@ -48,12 +49,11 @@ public class BrickSortParallel extends AbstractSort {
 
   protected void sortInterruptibly(long[] a, int length)
       throws InterruptedException, ExecutionException {
-    reset();
+    reset(length);
     if (length <= 1) {
       sorted.set(true);
       return;
     }
-
     final int maxComparisons =
         (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
     while (!sorted.get()) {
@@ -71,27 +71,25 @@ public class BrickSortParallel extends AbstractSort {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
-    int capacity = (length & 1) == 1 ? length >>> 1 : (length - 1) >>> 1;
-    List<Future<Void>> futures = new ArrayList<>(capacity);
+    List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == capacity;
+    assert futures.size() == oddTaskCount;
     for (Future future : futures) future.get();
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
-    int capacity = length >>> 1;
-    List<Future<Void>> futures = new ArrayList<>(capacity);
+    List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == capacity;
+    assert futures.size() == evenTaskCount;
     for (Future future : futures) future.get();
   }
 
@@ -110,6 +108,14 @@ public class BrickSortParallel extends AbstractSort {
 
   public boolean isSorted() {
     return sorted.get();
+  }
+
+  public int getOddTaskCount() {
+    return oddTaskCount;
+  }
+
+  public int getEvenTaskCount() {
+    return evenTaskCount;
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
