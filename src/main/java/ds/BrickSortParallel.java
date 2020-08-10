@@ -44,7 +44,6 @@ public class BrickSortParallel extends AbstractBrickSort {
     } catch (InterruptedException ie) {
       throw new CompletionException(ie);
     }
-    assert sorted.get();
   }
 
   protected void sortInterruptibly(long[] a, int length)
@@ -77,7 +76,6 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == oddTaskCount;
     for (Future future : futures) future.get();
   }
 
@@ -90,7 +88,6 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == evenTaskCount;
     for (Future future : futures) future.get();
   }
 
