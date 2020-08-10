@@ -1,33 +1,42 @@
 package ds;
 
-public class BrickSort extends AbstractSort {
+public class BrickSort extends AbstractBrickSort {
 
-  private boolean isSorted;
+  private boolean sorted;
+
+  @Override
+  public boolean isSorted() {
+    return sorted;
+  }
 
   private void reset() {
     resetCounts();
-    isSorted = false;
+    sorted = false;
   }
 
   @Override
   protected void sort(long[] a, int length) {
     reset();
-    final int maxComparisons =
-        (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
-    while (!isSorted && length > 1) {
+    if (length <= 1) {
+      sorted = true;
+      return;
+    }
+    final int maxComparisons = computeMaxComparisons(length);
+    while (!sorted) {
       ++outerLoopCount;
-      isSorted = true;
+      sorted = true;
       oddSort(a, length);
       if (swapCount == maxComparisons) {
-        isSorted = true;
+        sorted = true;
         break;
       }
       evenSort(a, length);
-      if (swapCount == maxComparisons) isSorted = true;
+      if (swapCount == maxComparisons) sorted = true;
     }
   }
 
-  private void oddSort(long[] a, int length) {
+  @Override
+  protected void oddSort(long[] a, int length) {
     for (int i = 1; i < length - 1; i = i + 2) {
       ++innerLoopCount;
       ++comparisonCount;
@@ -35,7 +44,8 @@ public class BrickSort extends AbstractSort {
     }
   }
 
-  private void evenSort(long[] a, int length) {
+  @Override
+  protected void evenSort(long[] a, int length) {
     for (int i = 0; i < length - 1; i = i + 2) {
       ++innerLoopCount;
       ++comparisonCount;
@@ -43,10 +53,11 @@ public class BrickSort extends AbstractSort {
     }
   }
 
+  @Override
   protected void bubble(long[] a, int i) {
     if (a[i] > a[i + 1]) {
       swap(a, i, i + 1);
-      isSorted = false;
+      sorted = false;
       ++swapCount;
     }
   }

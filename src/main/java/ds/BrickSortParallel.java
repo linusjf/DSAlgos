@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BrickSortParallel extends AbstractSort {
+public class BrickSortParallel extends AbstractBrickSort {
   private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
   protected ExecutorService service;
@@ -54,8 +54,7 @@ public class BrickSortParallel extends AbstractSort {
       sorted.set(true);
       return;
     }
-    final int maxComparisons =
-        (length & 1) == 1 ? length * ((length - 1) >>> 1) : (length >>> 1) * (length - 1);
+    final int maxComparisons = computeMaxComparisons(length);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
@@ -70,6 +69,7 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
     for (int i = 1; i < length - 1; i += 2) {
@@ -82,6 +82,7 @@ public class BrickSortParallel extends AbstractSort {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
     for (int i = 0; i < length - 1; i += 2) {
@@ -93,6 +94,7 @@ public class BrickSortParallel extends AbstractSort {
     for (Future future : futures) future.get();
   }
 
+  @Override
   protected void bubble(long[] a, int i) {
     if (a[i] > a[i + 1]) {
       swap(a, i, i + 1);
@@ -106,6 +108,7 @@ public class BrickSortParallel extends AbstractSort {
     return swapCount.intValue();
   }
 
+  @Override
   public boolean isSorted() {
     return sorted.get();
   }
@@ -139,6 +142,12 @@ public class BrickSortParallel extends AbstractSort {
         .append(lineSeparator)
         .append("outer loop count: ")
         .append(outerLoopCount)
+        .append(lineSeparator)
+        .append("odd task count: ")
+        .append(oddTaskCount)
+        .append(lineSeparator)
+        .append("even task count: ")
+        .append(evenTaskCount)
         .append(lineSeparator)
         .append("sorted: ")
         .append(sorted)

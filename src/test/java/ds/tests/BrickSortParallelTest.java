@@ -229,10 +229,10 @@ class BrickSortParallelTest implements SortProvider {
   void testInnerLoopAfterOddSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
-    int innerLoopCount = bsc.getInnerLoopCount();
-    int outerLoopCount = bsc.getOuterLoopCount();
-    int oddTaskCount = bsc.getOddTaskCount();
-    int evenTaskCount = bsc.getEvenTaskCount();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
@@ -247,10 +247,10 @@ class BrickSortParallelTest implements SortProvider {
   void testInnerLoopAfterEvenSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEven();
-    int innerLoopCount = bsc.getInnerLoopCount();
-    int outerLoopCount = bsc.getOuterLoopCount();
-    int oddTaskCount = bsc.getOddTaskCount();
-    int evenTaskCount = bsc.getEvenTaskCount();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");

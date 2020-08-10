@@ -29,7 +29,7 @@
   <rule ref="category/java/bestpractices.xml/JUnitAssertionsShouldIncludeMessage"/>
   <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts">
     <properties>
-      <property name="maximumAsserts" value="3"/>
+      <property name="maximumAsserts" value="5"/>
     </properties>
   </rule>
   <rule ref="category/java/bestpractices.xml/JUnitTestsShouldIncludeAssert"/>
