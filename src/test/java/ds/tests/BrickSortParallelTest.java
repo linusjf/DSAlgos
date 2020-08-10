@@ -31,18 +31,20 @@ class BrickSortParallelTest implements SortProvider {
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @ParameterizedTest
   @CsvSource(INIT_BRICK_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(arr);
     assertEquals(13, sorter.getSwapCount(), "Swap count will be five.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -56,11 +58,12 @@ class BrickSortParallelTest implements SortProvider {
               high.insert(i);
               ord.insert(i);
             });
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -73,76 +76,97 @@ class BrickSortParallelTest implements SortProvider {
               high.insert(i);
               ord.insert(i);
             });
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
     assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
     assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
+  }
+
+  @Test
+  void testReverseSortedOdd255() {
+    IArray high = new HighArray(255);
+    revRange(1, 255).forEach(i -> high.insert(i));
+    BrickSortParallel sorter = new BrickSortParallel();
+    IArray sorted = sorter.sort(high);
+    assertEquals(
+        sorter.getSwapCount(),
+        sorter.getComparisonCount(),
+        "Comparison count must be same as swap count in reverse ordered array.");
+    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortParallel();
+    BrickSortParallel sorter = new BrickSortParallel();
     sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertTrue(sorter.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -176,6 +200,7 @@ class BrickSortParallelTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+    assertTrue(bsc.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -183,6 +208,7 @@ class BrickSortParallelTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+    assertTrue(bsc.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -190,6 +216,7 @@ class BrickSortParallelTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
     assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
+    assertTrue(bsc.isSorted(), "Sorted must be set.");
   }
 
   @Test
@@ -265,14 +292,30 @@ class BrickSortParallelTest implements SortProvider {
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * outerLoopCount,
+        innerLoopCount,
+        "Inner loop count must be 0.");
   }
 
   @Test
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * outerLoopCount,
+        innerLoopCount,
+        "Inner loop count must be 0.");
   }
 
   static class BrickSortExceptionable extends BrickSortParallel {
