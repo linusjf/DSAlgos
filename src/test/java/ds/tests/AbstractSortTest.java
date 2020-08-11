@@ -104,6 +104,14 @@ class AbstractSortTest {
     }
 
     @Test
+    void testSwapBeyondsLengthPlusOne() {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> sorter.swapBeyondsLengthPlusOne(arr.clone()),
+          () -> "Swap beyonds must throw exception");
+    }
+
+    @Test
     void testSwapBeyondLeftLength() {
       assertThrows(
           IllegalArgumentException.class,
@@ -173,6 +181,10 @@ class AbstractSortTest {
 
     void swapBeyondsLength(long... a) {
       swap(a, a.length, a.length);
+    }
+
+    void swapBeyondsLengthPlusOne(long... a) {
+      swap(a, a.length + 1, a.length + 1);
     }
 
     void setAndResetCounts() {
