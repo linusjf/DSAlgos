@@ -26,12 +26,20 @@ public class BrickSortParallel extends AbstractBrickSort {
     swapCount = new AtomicInteger();
   }
 
+  private boolean isOdd(int num) {
+    return (num & 1) == 1;
+  }
+
   protected void reset(int length) {
     resetCounts();
     sorted.getAndSet(false);
     swapCount.set(0);
-    oddTaskCount = (length & 1) == 1 ? length >>> 1 : length > 0 ? (length - 1) >>> 1 : 0;
-    evenTaskCount = length > 0 ? length >>> 1 : 0;
+    if (length <= 1) {
+      oddTaskCount = evenTaskCount = 0;
+      return;
+    }
+    oddTaskCount = isOdd(length) ? length >>> 1 : (length - 1) >>> 1;
+    evenTaskCount = length >>> 1;
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
