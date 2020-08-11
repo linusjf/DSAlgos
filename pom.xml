@@ -168,7 +168,7 @@
                 <param>ds.*</param>
               </targetClasses>
               <targetTests>
-                <param>ds.tests.*Sort*Test</param>
+                <param>ds.tests.*Test</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual</excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
