@@ -304,6 +304,21 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+  void testNegativeLengthArray() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortNegativeLengthArray();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
+    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * outerLoopCount,
+        innerLoopCount,
+        "Inner loop count must be 0.");
+  }
+
+  @Test
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
@@ -335,6 +350,11 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortComplex extends BrickSortParallel {
+    void sortNegativeLengthArray() {
+      long[] a = {2, 5, 6, 8, 0};
+      sort(a, Integer.MIN_VALUE);
+    }
+
     void sortZeroLengthArray() {
       long[] a = {2, 5, 6, 8, 0};
       sort(a, 0);

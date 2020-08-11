@@ -140,6 +140,8 @@
         <dependency>
           <groupId>org.pitest</groupId>
           <artifactId>pitest</artifactId>
+          <version>1.5.2</version>
+          <scope>test</scope>
         </dependency>
       </dependencies>
       <id>pitest</id>
@@ -161,6 +163,7 @@
               </dependency>
             </dependencies>
             <configuration>
+              <mutationEngine>gregor</mutationEngine>
               <targetClasses>
                 <param>ds.*</param>
               </targetClasses>
@@ -184,20 +187,7 @@
             </configuration>
             <executions>
               <execution>
-                <configuration>
-              <mutationEngine>gregor</mutationEngine>
-                </configuration>
-                <id>gregor-report</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>mutationCoverage</goal>
-                </goals>
-              </execution>
-              <execution>
-                <configuration>
-              <mutationEngine>descartes</mutationEngine>
-                </configuration>
-                <id>descartes-report</id>
+                <id>pit-report</id>
                 <phase>test</phase>
                 <goals>
                   <goal>mutationCoverage</goal>
@@ -625,14 +615,6 @@
                     <excludes/>
                     <message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
                   </bannedPlugins>
-              <dependency>
-                <groupId>eu.stamp-project</groupId>
-                <artifactId>descartes</artifactId>
-              </dependency>
-              <dependency>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-junit5-plugin</artifactId>
-              </dependency>
                   <requireMavenVersion>
                     <version>${maven.minimal.version}</version>
                   </requireMavenVersion>
