@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressWarnings("PMD.DataClass")
 public class BrickSortParallel extends AbstractBrickSort {
   private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
@@ -41,10 +42,8 @@ public class BrickSortParallel extends AbstractBrickSort {
   protected void sort(long[] a, int length) {
     try {
       sortInterruptibly(a, length);
-    } catch (ExecutionException ee) {
+    } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
-    } catch (InterruptedException ie) {
-      throw new CompletionException(ie);
     }
   }
 

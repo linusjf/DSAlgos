@@ -4,9 +4,9 @@ public class CombSort extends AbstractSort {
 
   private int getNextGap(int gap) {
     // Shrink gap by Shrink factor
-    gap = (gap * 10) / 13;
-    if (gap < 1) return 1;
-    return gap;
+    int newGap = (gap * 10) / 13;
+    if (newGap < 1) return 1;
+    return newGap;
   }
 
   @Override
