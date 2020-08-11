@@ -296,6 +296,8 @@ class BrickSortParallelTest implements SortProvider {
     final int outerLoopCount = bsc.getOuterLoopCount();
     final int oddTaskCount = bsc.getOddTaskCount();
     final int evenTaskCount = bsc.getEvenTaskCount();
+    assertEquals(0, oddTaskCount, "Odd task count zero");
+    assertEquals(0, evenTaskCount, "Even task count zero");
     assertEquals(true, bsc.isSorted(), "Sorted.");
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
@@ -311,6 +313,8 @@ class BrickSortParallelTest implements SortProvider {
     final int outerLoopCount = bsc.getOuterLoopCount();
     final int oddTaskCount = bsc.getOddTaskCount();
     final int evenTaskCount = bsc.getEvenTaskCount();
+    assertEquals(0, oddTaskCount, "Odd task count zero");
+    assertEquals(0, evenTaskCount, "Even task count zero");
     assertEquals(true, bsc.isSorted(), "Sorted.");
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
@@ -326,6 +330,8 @@ class BrickSortParallelTest implements SortProvider {
     final int outerLoopCount = bsc.getOuterLoopCount();
     final int oddTaskCount = bsc.getOddTaskCount();
     final int evenTaskCount = bsc.getEvenTaskCount();
+    assertEquals(0, oddTaskCount, "Odd task count zero");
+    assertEquals(0, evenTaskCount, "Even task count zero");
     assertEquals(true, bsc.isSorted(), "Sorted.");
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
