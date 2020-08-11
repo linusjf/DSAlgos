@@ -1,5 +1,7 @@
 package ds;
 
+import static ds.MathUtils.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -24,10 +26,6 @@ public class BrickSortParallel extends AbstractBrickSort {
     service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
     sorted = new AtomicBoolean();
     swapCount = new AtomicInteger();
-  }
-
-  private boolean isOdd(int num) {
-    return (num & 1) == 1;
   }
 
   protected void reset(int length) {
