@@ -1,6 +1,5 @@
 package ds.tests;
 
-import static ds.ArrayUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AbstractSort;
@@ -19,6 +18,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 class AbstractSortTest {
+
+  private static final String SWAP_MUST_SUCCEED = "Swap must succeed";
 
   @Test
   void testConcreteSort() {
@@ -47,28 +48,28 @@ class AbstractSortTest {
     void testSwapZeroIndex() {
       long[] a = arr.clone();
       sorter.swapZerothIndex(a);
-      assertTrue(a[0] == 20 && a[19] == 1, "Swap must succeed.");
+      assertTrue(a[0] == 20 && a[19] == 1, SWAP_MUST_SUCCEED);
     }
 
     @Test
     void testSwapIndexOne() {
       long[] a = arr.clone();
       sorter.swapIndexOne(a);
-      assertTrue(a[1] == 19 && a[18] == 2, "Swap must succeed.");
+      assertTrue(a[1] == 19 && a[18] == 2, SWAP_MUST_SUCCEED);
     }
 
     @Test
     void testSwapNthIndex() {
       long[] a = arr.clone();
       sorter.swapNthIndex(a);
-      assertTrue(a[0] == 20 && a[19] == 1, "Swap must succeed.");
+      assertTrue(a[0] == 20 && a[19] == 1, SWAP_MUST_SUCCEED);
     }
 
     @Test
     void testSwapNMinusOneIndex() {
       long[] a = arr.clone();
       sorter.swapNthMinusOne(a);
-      assertTrue(a[1] == 19 && a[18] == 2, "Swap must succeed.");
+      assertTrue(a[1] == 19 && a[18] == 2, SWAP_MUST_SUCCEED);
     }
 
     @Test
@@ -130,10 +131,10 @@ class AbstractSortTest {
     @Test
     void testResetCounts() {
       sorter.setAndResetCounts();
-      assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-      assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
-      assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
-      assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+      assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+      assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+      assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+      assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     }
   }
 

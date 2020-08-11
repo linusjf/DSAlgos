@@ -2,6 +2,7 @@ package ds.tests;
 
 import static ds.ArrayUtils.*;
 import static ds.tests.TestData.*;
+import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AbstractSort;
@@ -25,7 +26,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class SelectionSortTest implements SortProvider {
 
-  private static final String INITIAL_VALUE_ZERO = "Initial value must be zero.";
 private static final String SORTED_AND_EQUAL = "Elements must be sorted and equal.";
 
   @ParameterizedTest

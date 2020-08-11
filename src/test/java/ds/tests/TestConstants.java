@@ -14,6 +14,8 @@ public final class TestConstants {
   static final String WRITE = "w";
 
   static final String LOCK = "lock";
+  
+  static final String INITIAL_VALUE_ZERO = "Initial value must be zero.";
 
   private TestConstants() {
     // empty constructor
