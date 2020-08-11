@@ -25,6 +25,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class SelectionSortTest implements SortProvider {
 
+  private static final String INITIAL_VALUE_ZERO = "Initial value must be zero.";
+private static final String SORTED_AND_EQUAL = "Elements must be sorted and equal.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
@@ -32,7 +35,7 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, SORTED_AND_EQUAL);
   }
 
   @ParameterizedTest
@@ -42,7 +45,7 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, SORTED_AND_EQUAL);
   }
 
   @ParameterizedTest
@@ -52,7 +55,7 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, SORTED_AND_EQUAL);
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
@@ -66,7 +69,7 @@ class SelectionSortTest implements SortProvider {
     a = ord.getExtentArray();
     IArray sorted = sorter.sort(arr);
     long[] internal = sorted.getExtentArray();
-    assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
+    assertArrayEquals(a, internal, SORTED_AND_EQUAL);
     assertEquals(5, sorter.getSwapCount(), "Swap count will be five.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
@@ -104,7 +107,7 @@ class SelectionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, SORTED_AND_EQUAL);
   }
 
   @Test
@@ -121,7 +124,7 @@ class SelectionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, SORTED_AND_EQUAL);
   }
 
   @Test
@@ -187,9 +190,9 @@ class SelectionSortTest implements SortProvider {
   @Test
   void testPreReset() {
     ISort sorter = new SelectionSort();
-    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
-    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
 }
