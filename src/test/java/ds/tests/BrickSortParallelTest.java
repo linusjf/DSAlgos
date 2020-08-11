@@ -29,6 +29,9 @@ class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
   private static final String SORTED_MUST_BE_SET = "Sorted must be set.";
+  private static final String SORTED = "Sorted.";
+  private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
@@ -329,8 +332,8 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
         innerLoopCount,
-        "Inner loop count must be 4.");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+        SUM_OF_TASKS);
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   @Test
@@ -347,8 +350,8 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
         innerLoopCount,
-        "Inner loop count must be 4.");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+        SUM_OF_TASKS);
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   @Test
@@ -380,11 +383,11 @@ class BrickSortParallelTest implements SortProvider {
     final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(0, oddTaskCount, "Odd task count zero");
     assertEquals(0, evenTaskCount, "Even task count zero");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), SORTED);
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
         innerLoopCount,
-        "Inner loop count must be 0.");
+        SUM_OF_TASKS);
   }
 
   @Test
@@ -397,11 +400,11 @@ class BrickSortParallelTest implements SortProvider {
     final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(0, oddTaskCount, "Odd task count zero");
     assertEquals(0, evenTaskCount, "Even task count zero");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), SORTED);
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
         innerLoopCount,
-        "Inner loop count must be 0.");
+        SUM_OF_TASKS);
   }
 
   @Test
@@ -414,11 +417,11 @@ class BrickSortParallelTest implements SortProvider {
     final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(0, oddTaskCount, "Odd task count zero");
     assertEquals(0, evenTaskCount, "Even task count zero");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), SORTED);
     assertEquals(
         (oddTaskCount + evenTaskCount) * outerLoopCount,
         innerLoopCount,
-        "Inner loop count must be 0.");
+        SUM_OF_TASKS);
   }
 
   static class BrickSortExceptionable extends BrickSortParallel {
