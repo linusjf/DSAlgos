@@ -303,6 +303,19 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+  void testStateAfterReset() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOdd();
+    final int oldInnerLoopCount = bsc.getInnerLoopCount();
+    final int oldOuterLoopCount = bsc.getOuterLoopCount();
+    bsc.sortEven();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
+    assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
+  }
+
+  @Test
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();

@@ -289,6 +289,25 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+  void testStateAfterReset() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOdd();
+    final int oldInnerLoopCount = bsc.getInnerLoopCount();
+    final int oldOuterLoopCount = bsc.getOuterLoopCount();
+    final int oldOddTaskCount = bsc.getOddTaskCount();
+    final int oldEvenTaskCount = bsc.getEvenTaskCount();
+    bsc.sortEven();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    final int oddTaskCount = bsc.getOddTaskCount();
+    final int evenTaskCount = bsc.getEvenTaskCount();
+    assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
+    assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
+    assertEquals(oldOddTaskCount, oddTaskCount, "Odd task count must  be same.");
+    assertNotEquals(oldEvenTaskCount, evenTaskCount, "Even task count must not be same.");
+  }
+
+  @Test
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
