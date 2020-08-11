@@ -73,7 +73,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testReset() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     IArray ord = new OrdArray();
     LongStream.rangeClosed(1, 20)
         .forEach(
@@ -90,7 +90,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testStreamUnSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     IArray ord = new OrdArray();
     LongStream.rangeClosed(1, 20)
         .parallel()
@@ -109,7 +109,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testStreamSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     IArray ord = new OrdArray();
     LongStream.rangeClosed(1, 20)
         .forEach(
@@ -126,7 +126,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testReverseSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(high);
@@ -138,7 +138,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testSortedTimeComplexity() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
@@ -149,7 +149,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testComparisonCountUnsorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(high);
@@ -160,7 +160,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testSwapCountUnsorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
@@ -169,7 +169,7 @@ class SelectionSortTest implements SortProvider {
 
   @Test
   void testSwapCountSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
