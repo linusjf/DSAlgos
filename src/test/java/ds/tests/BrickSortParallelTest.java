@@ -92,6 +92,18 @@ class BrickSortParallelTest implements SortProvider {
       assertEquals(
           Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), "Two tasks expected");
     }
+
+    @Test
+    void testMaxValueLengthEven() {
+      assertEquals(
+          (Integer.MAX_VALUE - 2) / 2,
+          computeOddTaskCount(Integer.MAX_VALUE - 1),
+          "Half tasks expected");
+      assertEquals(
+          (Integer.MAX_VALUE - 1) / 2,
+          computeEvenTaskCount(Integer.MAX_VALUE - 1),
+          "Two tasks expected");
+    }
   }
 
   @ParameterizedTest

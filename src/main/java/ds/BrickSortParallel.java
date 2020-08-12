@@ -77,6 +77,9 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
+    System.out.println("Futures size: " + futures.size());
+    System.out.println("Odd task count: " + oddTaskCount);
+
     for (Future future : futures) future.get();
   }
 
@@ -89,6 +92,8 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
+    System.out.println("Futures size: " + futures.size());
+    System.out.println("Even task count: " + evenTaskCount);
     for (Future future : futures) future.get();
   }
 
