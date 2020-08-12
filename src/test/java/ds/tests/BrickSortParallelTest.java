@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
+import static ds.BrickSortParallel.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,8 +42,9 @@ class BrickSortParallelTest implements SortProvider {
     long[] extent = sorted.getExtentArray();
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = arr.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -55,8 +57,9 @@ class BrickSortParallelTest implements SortProvider {
     sorter.sort(arr);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = arr.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(13, sorter.getSwapCount(), "Swap count will be five.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -79,8 +82,9 @@ class BrickSortParallelTest implements SortProvider {
     long[] extent = ord.getExtentArray();
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -102,8 +106,9 @@ class BrickSortParallelTest implements SortProvider {
     long[] extent = ord.getExtentArray();
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -118,8 +123,9 @@ class BrickSortParallelTest implements SortProvider {
     int compCount = sorter.getComparisonCount();
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(19, compCount, "Comparison count must be 19.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -134,8 +140,9 @@ class BrickSortParallelTest implements SortProvider {
     int compCount = sorter.getComparisonCount();
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
@@ -150,8 +157,9 @@ class BrickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(
         sorter.getSwapCount(),
@@ -169,8 +177,9 @@ class BrickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals(
         (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
         innerLoopCount,
@@ -191,8 +200,9 @@ class BrickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals(
         (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
         innerLoopCount,
@@ -213,8 +223,9 @@ class BrickSortParallelTest implements SortProvider {
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -228,8 +239,9 @@ class BrickSortParallelTest implements SortProvider {
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
-    final int oddTaskCount = sorter.getOddTaskCount();
-    final int evenTaskCount = sorter.getEvenTaskCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -486,6 +498,14 @@ class BrickSortParallelTest implements SortProvider {
 
     int getOuterLoopCount() {
       return outerLoopCount;
+    }
+
+    int getOddTaskCount() {
+      return oddTaskCount;
+    }
+
+    int getEvenTaskCount() {
+      return evenTaskCount;
     }
   }
 }

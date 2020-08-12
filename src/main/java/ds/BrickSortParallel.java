@@ -20,8 +20,8 @@ public class BrickSortParallel extends AbstractBrickSort {
   protected ExecutorService service;
   private final AtomicBoolean sorted;
   private final AtomicInteger swapCount;
-  private int oddTaskCount;
-  private int evenTaskCount;
+  protected int oddTaskCount;
+  protected int evenTaskCount;
 
   public BrickSortParallel() {
     service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
@@ -33,8 +33,8 @@ public class BrickSortParallel extends AbstractBrickSort {
     resetCounts();
     sorted.getAndSet(false);
     swapCount.set(0);
-    oddTaskCount = length < 2 ? 0 : isOdd(length) ? length >> 1 : (length - 1) >> 1;
-    evenTaskCount = length > 0 ? length >> 1 : 0;
+    oddTaskCount = computeOddTaskCount(length);
+    evenTaskCount = computeEvenTaskCount(length);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -111,14 +111,6 @@ public class BrickSortParallel extends AbstractBrickSort {
     return sorted.get();
   }
 
-  public int getOddTaskCount() {
-    return oddTaskCount;
-  }
-
-  public int getEvenTaskCount() {
-    return evenTaskCount;
-  }
-
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
@@ -153,6 +145,14 @@ public class BrickSortParallel extends AbstractBrickSort {
         .append("ExecutorService: ")
         .append(service);
     return sb.toString();
+  }
+
+  public static int computeOddTaskCount(int length) {
+    return length < 2 ? 0 : isOdd(length) ? length >> 1 : (length - 1) >> 1;
+  }
+
+  public static int computeEvenTaskCount(int length) {
+    return length > 0 ? length >> 1 : 0;
   }
 
   static final class BubbleTask implements Callable<Void> {
