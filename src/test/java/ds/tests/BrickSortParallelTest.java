@@ -14,12 +14,7 @@ import ds.ISort;
 import ds.OrdArray;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -35,7 +30,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class BrickSortParallelTest implements SortProvider {
 
-  private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
   private static final String MUST_BE_EQUAL = "Must be equal";
   private static final String SORTED = "Sorted.";
   private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
@@ -43,29 +37,11 @@ class BrickSortParallelTest implements SortProvider {
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
 
-  private final ExecutorService service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
-
-  @BeforeAll
-  void initializeTests() {
-    // empty since initialized in constructor
-  }
-
-  @AfterAll
-  void finishTests() {
-    service.shutdown();
-    try {
-      if (!service.awaitTermination(1, TimeUnit.SECONDS)) service.shutdownNow();
-    } catch (InterruptedException ie) {
-      service.shutdownNow();
-      Thread.currentThread().interrupt();
-    }
-  }
-
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -81,7 +57,7 @@ class BrickSortParallelTest implements SortProvider {
   @ParameterizedTest
   @CsvSource(INIT_BRICK_SORT_DATA)
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(arr);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -104,7 +80,7 @@ class BrickSortParallelTest implements SortProvider {
               high.insert(i);
               ord.insert(i);
             });
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
@@ -128,7 +104,7 @@ class BrickSortParallelTest implements SortProvider {
               high.insert(i);
               ord.insert(i);
             });
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
@@ -146,7 +122,7 @@ class BrickSortParallelTest implements SortProvider {
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -163,7 +139,7 @@ class BrickSortParallelTest implements SortProvider {
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -181,7 +157,7 @@ class BrickSortParallelTest implements SortProvider {
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -201,7 +177,7 @@ class BrickSortParallelTest implements SortProvider {
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -224,7 +200,7 @@ class BrickSortParallelTest implements SortProvider {
   void testReverseSortedOdd255() {
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -247,7 +223,7 @@ class BrickSortParallelTest implements SortProvider {
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -263,7 +239,7 @@ class BrickSortParallelTest implements SortProvider {
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex(service);
+    BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
@@ -277,7 +253,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testToStringClass() {
-    AbstractSort sorter = new BrickSortParallel(service);
+    AbstractSort sorter = new BrickSortParallel();
     String className = BrickSortParallel.class.getName();
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
@@ -287,7 +263,7 @@ class BrickSortParallelTest implements SortProvider {
   void testReverseSortedOddException() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortExceptionable(service);
+    ISort sorter = new BrickSortExceptionable();
     assertThrows(
         CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
   }
@@ -296,14 +272,14 @@ class BrickSortParallelTest implements SortProvider {
   void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
-    BrickSortInterruptible sorter = new BrickSortInterruptible(service);
+    BrickSortInterruptible sorter = new BrickSortInterruptible();
     assertThrows(
         CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
   }
 
   @Test
   void testZeroTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
@@ -311,7 +287,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testOneTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
@@ -319,7 +295,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testNMinusOneTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
     assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
@@ -327,7 +303,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testReset() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
@@ -338,7 +314,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testResetAfterSort() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
@@ -349,7 +325,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testInternalsAfterSort() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortAndSetInternals();
     assertNotEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
     assertNotEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
@@ -360,7 +336,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testInnerLoopAfterOddSort() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
@@ -375,7 +351,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testInnerLoopAfterEvenSort() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEven();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
@@ -390,7 +366,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testStateAfterReset() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
     final int oldInnerLoopCount = bsc.getInnerLoopCount();
     final int oldOuterLoopCount = bsc.getOuterLoopCount();
@@ -409,7 +385,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testEmptyArray() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
@@ -423,7 +399,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testNegativeLengthArray() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNegativeLengthArray();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
@@ -437,7 +413,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @Test
   void testSingleElementArray() {
-    BrickSortComplex bsc = new BrickSortComplex(service);
+    BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
@@ -448,7 +424,7 @@ class BrickSortParallelTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
   }
-
+  
   @Nested
   class ComputeTaskCountTest {
 
@@ -522,10 +498,6 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortExceptionable extends BrickSortParallel {
-    BrickSortExceptionable(ExecutorService service) {
-      super(service);
-    }
-
     @Override
     protected void bubble(long[] a, int i) {
       throw new IllegalStateException("Error in " + BrickSortExceptionable.class + ".bubble");
@@ -533,10 +505,6 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortInterruptible extends BrickSortParallel {
-    BrickSortInterruptible(ExecutorService service) {
-      super(service);
-    }
-
     @Override
     protected void sortInterruptibly(long[] a, int length)
         throws InterruptedException, ExecutionException {
@@ -546,10 +514,6 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   static class BrickSortComplex extends BrickSortParallel {
-    BrickSortComplex(ExecutorService service) {
-      super(service);
-    }
-
     void sortNegativeLengthArray() {
       long[] a = {2, 5, 6, 8, 0};
       sort(a, Integer.MIN_VALUE);
