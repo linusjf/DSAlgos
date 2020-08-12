@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ class CocktailShakerSortTest implements SortProvider {
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @ParameterizedTest
@@ -42,7 +43,7 @@ class CocktailShakerSortTest implements SortProvider {
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @ParameterizedTest
@@ -52,7 +53,7 @@ class CocktailShakerSortTest implements SortProvider {
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
@@ -103,7 +104,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = sortedOrd.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @Test
@@ -111,7 +112,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
   }
@@ -121,7 +122,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
@@ -168,7 +169,7 @@ class CocktailShakerSortTest implements SortProvider {
     IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = sortedOrd.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @Test
@@ -200,9 +201,9 @@ class CocktailShakerSortTest implements SortProvider {
   @Test
   void testPreReset() {
     ISort sorter = new CocktailShakerSort();
-    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
-    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
 }

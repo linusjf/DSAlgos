@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,8 +32,8 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @ParameterizedTest
@@ -42,8 +43,8 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @ParameterizedTest
@@ -53,9 +54,9 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @ParameterizedTest
@@ -71,7 +72,7 @@ class BrickSortTest implements SortProvider {
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
     assertEquals(13, sorter.getSwapCount(), "Swap count will be thirteen.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -90,8 +91,8 @@ class BrickSortTest implements SortProvider {
     IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = sortedOrd.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -109,8 +110,8 @@ class BrickSortTest implements SortProvider {
     IArray sortedOrd = sorter.sort(ord);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = sortedOrd.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -127,7 +128,7 @@ class BrickSortTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -138,7 +139,7 @@ class BrickSortTest implements SortProvider {
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertEquals(19, compCount, "Comparison count must be 19.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -150,7 +151,7 @@ class BrickSortTest implements SortProvider {
     int compCount = sorter.getComparisonCount();
     assertTrue(
         19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -165,7 +166,7 @@ class BrickSortTest implements SortProvider {
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
     assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -180,7 +181,7 @@ class BrickSortTest implements SortProvider {
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
     assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -190,7 +191,7 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -200,7 +201,7 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
-    assertTrue(sorter.isSorted(), "Sorted must be set.");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -214,10 +215,10 @@ class BrickSortTest implements SortProvider {
   @Test
   void testPreReset() {
     BrickSort sorter = new BrickSort();
-    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getSwapCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
-    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertFalse(sorter.isSorted(), "Sorted must not be set.");
   }
 
@@ -226,7 +227,7 @@ class BrickSortTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
-    assertTrue(bsc.isSorted(), "Sorted must be set.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -234,7 +235,7 @@ class BrickSortTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
-    assertTrue(bsc.isSorted(), "Sorted must be set.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -242,7 +243,7 @@ class BrickSortTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
     assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
-    assertTrue(bsc.isSorted(), "Sorted must be set.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Test
@@ -253,7 +254,7 @@ class BrickSortTest implements SortProvider {
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -264,7 +265,7 @@ class BrickSortTest implements SortProvider {
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -275,7 +276,7 @@ class BrickSortTest implements SortProvider {
     assertNotEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertNotEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertNotEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertTrue(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -287,7 +288,7 @@ class BrickSortTest implements SortProvider {
     assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), "Sorted.");
   }
 
   @Test
@@ -299,7 +300,7 @@ class BrickSortTest implements SortProvider {
     assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), "Sorted.");
   }
 
   @Test
@@ -319,14 +320,14 @@ class BrickSortTest implements SortProvider {
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), "Sorted.");
   }
 
   @Test
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
-    assertEquals(true, bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), "Sorted.");
   }
 
   static class BrickSortComplex extends BrickSort {

@@ -17,11 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BrickSortParallel extends AbstractBrickSort {
   private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
+  protected int oddTaskCount;
+  protected int evenTaskCount;
   protected ExecutorService service;
   private final AtomicBoolean sorted;
   private final AtomicInteger swapCount;
-  protected int oddTaskCount;
-  protected int evenTaskCount;
 
   public BrickSortParallel() {
     service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
@@ -68,8 +68,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     }
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter",
-  "PMD.SystemPrintln"})
+  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   @Override
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
@@ -84,8 +83,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     for (Future future : futures) future.get();
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter",
-  "PMD.SystemPrintln"})
+  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   @Override
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);

@@ -16,6 +16,8 @@ public final class TestConstants {
   static final String LOCK = "lock";
 
   static final String INITIAL_VALUE_ZERO = "Initial value must be zero.";
+  static final String SORTED_MUST_BE_SET = "Sorted must be set.";
+  static final String ELEMENTS_SORTED_EQUAL = "Elements must be sorted and equal.";
 
   private TestConstants() {
     // empty constructor

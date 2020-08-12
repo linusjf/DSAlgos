@@ -2,6 +2,7 @@ package ds.tests;
 
 import static ds.ArrayUtils.*;
 import static ds.BrickSortParallel.*;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,84 +31,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
-  private static final String SORTED_MUST_BE_SET = "Sorted must be set.";
   private static final String SORTED = "Sorted.";
   private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
   private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
-
-  @Nested
-  class ComputeTaskCountTest {
-
-    @Test
-    void testZeroLength() {
-      assertEquals(0, computeOddTaskCount(0), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(0), ZERO_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testMinusOneLength() {
-      assertEquals(0, computeOddTaskCount(-1), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(-1), ZERO_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testMinusTwoLength() {
-      assertEquals(0, computeOddTaskCount(-2), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(-2), ZERO_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testMinValueLength() {
-      assertEquals(0, computeOddTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testOneValueLength() {
-      assertEquals(0, computeOddTaskCount(1), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(1), ZERO_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testTwoValueLength() {
-      assertEquals(0, computeOddTaskCount(2), ZERO_TASKS_EXPECTED);
-      assertEquals(1, computeEvenTaskCount(2), ONE_TASK_EXPECTED);
-    }
-
-    @Test
-    void testThreeValueLength() {
-      assertEquals(1, computeOddTaskCount(3), ONE_TASK_EXPECTED);
-      assertEquals(1, computeEvenTaskCount(3), ONE_TASK_EXPECTED);
-    }
-
-    @Test
-    void testFourValueLength() {
-      assertEquals(1, computeOddTaskCount(4), ONE_TASK_EXPECTED);
-      assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
-    }
-
-    @Test
-    void testMaxValueLength() {
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-    }
-
-    @Test
-    void testMaxValueLengthEven() {
-      assertEquals(
-          (Integer.MAX_VALUE - 2) / 2,
-          computeOddTaskCount(Integer.MAX_VALUE - 1),
-          HALF_TASKS_EXPECTED);
-      assertEquals(
-          (Integer.MAX_VALUE - 1) / 2,
-          computeEvenTaskCount(Integer.MAX_VALUE - 1),
-          HALF_TASKS_EXPECTED);
-    }
-  }
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -495,6 +423,78 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(0, evenTaskCount, "Even task count zero");
     assertTrue(bsc.isSorted(), SORTED);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
+  }
+  
+  @Nested
+  class ComputeTaskCountTest {
+
+    @Test
+    void testZeroLength() {
+      assertEquals(0, computeOddTaskCount(0), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenTaskCount(0), ZERO_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testMinusOneLength() {
+      assertEquals(0, computeOddTaskCount(-1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenTaskCount(-1), ZERO_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testMinusTwoLength() {
+      assertEquals(0, computeOddTaskCount(-2), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenTaskCount(-2), ZERO_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testMinValueLength() {
+      assertEquals(0, computeOddTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testOneValueLength() {
+      assertEquals(0, computeOddTaskCount(1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenTaskCount(1), ZERO_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testTwoValueLength() {
+      assertEquals(0, computeOddTaskCount(2), ZERO_TASKS_EXPECTED);
+      assertEquals(1, computeEvenTaskCount(2), ONE_TASK_EXPECTED);
+    }
+
+    @Test
+    void testThreeValueLength() {
+      assertEquals(1, computeOddTaskCount(3), ONE_TASK_EXPECTED);
+      assertEquals(1, computeEvenTaskCount(3), ONE_TASK_EXPECTED);
+    }
+
+    @Test
+    void testFourValueLength() {
+      assertEquals(1, computeOddTaskCount(4), ONE_TASK_EXPECTED);
+      assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
+    }
+
+    @Test
+    void testMaxValueLength() {
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+    }
+
+    @Test
+    void testMaxValueLengthEven() {
+      assertEquals(
+          (Integer.MAX_VALUE - 2) / 2,
+          computeOddTaskCount(Integer.MAX_VALUE - 1),
+          HALF_TASKS_EXPECTED);
+      assertEquals(
+          (Integer.MAX_VALUE - 1) / 2,
+          computeEvenTaskCount(Integer.MAX_VALUE - 1),
+          HALF_TASKS_EXPECTED);
+    }
   }
 
   static class BrickSortExceptionable extends BrickSortParallel {

@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
+import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +33,7 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @ParameterizedTest
@@ -42,7 +43,7 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @ParameterizedTest
@@ -67,7 +68,7 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
     assertEquals(0, sorter.getSwapCount(), "Swap count will be zero.");
   }
 
@@ -102,7 +103,7 @@ class InsertionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @Test
@@ -119,7 +120,7 @@ class InsertionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+    assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
 
   @Test
@@ -133,7 +134,7 @@ class InsertionSortTest implements SortProvider {
               ord.insert(i);
             });
     ISort sorter = new InsertionSort();
-    IArray sorted = sorter.sort(high);
+    sorter.sort(high);
     assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
   }
 
@@ -178,9 +179,9 @@ class InsertionSortTest implements SortProvider {
   @Test
   void testPreReset() {
     ISort sorter = new InsertionSort();
-    assertEquals(0, sorter.getComparisonCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
-    assertEquals(0, sorter.getTimeComplexity(), "Initial value must be zero.");
-    assertEquals(0, sorter.getCopyCount(), "Initial value must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
 }
