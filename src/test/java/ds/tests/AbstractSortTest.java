@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AbstractSort;
