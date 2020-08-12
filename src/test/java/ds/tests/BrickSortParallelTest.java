@@ -90,7 +90,7 @@ class BrickSortParallelTest implements SortProvider {
       assertEquals(
           Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), "Half tasks expected");
       assertEquals(
-          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), "Two tasks expected");
+          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), "Half tasks expected");
     }
 
     @Test
@@ -102,7 +102,7 @@ class BrickSortParallelTest implements SortProvider {
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
           computeEvenTaskCount(Integer.MAX_VALUE - 1),
-          "Two tasks expected");
+          "Half tasks expected");
     }
   }
 
