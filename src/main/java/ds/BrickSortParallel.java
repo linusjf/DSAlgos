@@ -68,7 +68,8 @@ public class BrickSortParallel extends AbstractBrickSort {
     }
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter",
+  "PMD.SystemPrintln"})
   @Override
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
@@ -83,7 +84,8 @@ public class BrickSortParallel extends AbstractBrickSort {
     for (Future future : futures) future.get();
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter",
+  "PMD.SystemPrintln"})
   @Override
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
