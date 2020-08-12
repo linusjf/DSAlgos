@@ -14,6 +14,7 @@ import ds.OrdArray;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -32,6 +33,66 @@ class BrickSortParallelTest implements SortProvider {
   private static final String SORTED_MUST_BE_SET = "Sorted must be set.";
   private static final String SORTED = "Sorted.";
   private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
+
+  @Nested
+  class ComputeTaskCountTest {
+
+    @Test
+    void testZeroLength() {
+      assertEquals(0, computeOddTaskCount(0), "Zero tasks expected");
+      assertEquals(0, computeEvenTaskCount(0), "Zero tasks expected");
+    }
+
+    @Test
+    void testMinusOneLength() {
+      assertEquals(0, computeOddTaskCount(-1), "Zero tasks expected");
+      assertEquals(0, computeEvenTaskCount(-1), "Zero tasks expected");
+    }
+
+    @Test
+    void testMinusTwoLength() {
+      assertEquals(0, computeOddTaskCount(-2), "Zero tasks expected");
+      assertEquals(0, computeEvenTaskCount(-2), "Zero tasks expected");
+    }
+
+    @Test
+    void testMinValueLength() {
+      assertEquals(0, computeOddTaskCount(Integer.MIN_VALUE), "Zero tasks expected");
+      assertEquals(0, computeEvenTaskCount(Integer.MIN_VALUE), "Zero tasks expected");
+    }
+
+    @Test
+    void testOneValueLength() {
+      assertEquals(0, computeOddTaskCount(1), "Zero tasks expected");
+      assertEquals(0, computeEvenTaskCount(1), "Zero tasks expected");
+    }
+
+    @Test
+    void testTwoValueLength() {
+      assertEquals(0, computeOddTaskCount(2), "Zero tasks expected");
+      assertEquals(1, computeEvenTaskCount(2), "One task expected");
+    }
+
+    @Test
+    void testThreeValueLength() {
+      assertEquals(1, computeOddTaskCount(3), "One task expected");
+      assertEquals(1, computeEvenTaskCount(3), "One task expected");
+    }
+
+    @Test
+    void testFourValueLength() {
+      assertEquals(1, computeOddTaskCount(4), "One task expected");
+      assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
+    }
+
+    @Test
+    void testMaxValueLength() {
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), "Half tasks expected");
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), "Two tasks expected");
+    }
+  }
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
