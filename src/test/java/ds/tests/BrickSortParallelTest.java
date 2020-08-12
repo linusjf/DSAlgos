@@ -293,7 +293,7 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -304,7 +304,7 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -315,7 +315,7 @@ class BrickSortParallelTest implements SortProvider {
     assertNotEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
     assertNotEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertNotEquals(false, bsc.isSorted(), "sorted must be reset.");
+    assertTrue(bsc.isSorted(), "sorted must be reset.");
   }
 
   @Test
@@ -326,7 +326,7 @@ class BrickSortParallelTest implements SortProvider {
     final int outerLoopCount = bsc.getOuterLoopCount();
     final int oddTaskCount = bsc.getOddTaskCount();
     final int evenTaskCount = bsc.getEvenTaskCount();
-    assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(12, innerLoopCount, "Inner loop count must be 12.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
@@ -341,8 +341,8 @@ class BrickSortParallelTest implements SortProvider {
     final int outerLoopCount = bsc.getOuterLoopCount();
     final int oddTaskCount = bsc.getOddTaskCount();
     final int evenTaskCount = bsc.getEvenTaskCount();
-    assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
-    assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
+    assertEquals(15, innerLoopCount, "Inner loop count must be 15.");
+    assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
     assertTrue(bsc.isSorted(), SORTED);
