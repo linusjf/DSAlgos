@@ -8,14 +8,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("PMD.DataClass")
 public class BrickSortParallel extends AbstractBrickSort {
-  private static final int NO_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
   protected int oddTaskCount;
   protected int evenTaskCount;
@@ -23,8 +21,8 @@ public class BrickSortParallel extends AbstractBrickSort {
   private final AtomicBoolean sorted;
   private final AtomicInteger swapCount;
 
-  public BrickSortParallel() {
-    service = Executors.newFixedThreadPool(NO_OF_PROCESSORS);
+  public BrickSortParallel(ExecutorService service) {
+    this.service = service;
     sorted = new AtomicBoolean();
     swapCount = new AtomicInteger();
   }
@@ -50,7 +48,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   protected void sortInterruptibly(long[] a, int length)
       throws InterruptedException, ExecutionException {
     reset(length);
-    if (length <= 1) {
+    if (length == 0 || length == 1) {
       sorted.set(true);
       return;
     }
@@ -172,7 +170,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     }
 
     @Override
-    public Void call() throws InterruptedException {
+    public Void call() {
       sorter.bubble(a, i);
       return null;
     }

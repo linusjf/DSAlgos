@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
   <Match>
+    <Class name="ds.AbstractArray"/>
+    <Bug pattern="EI_EXPOSE_REP"/>
+  </Match>
+  <Match>
+    <Class name="ds.BrickSortParallel"/>
+    <Method name="sort"/>
+    <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
+  </Match>
+  <Match>
     <Method name="hashCode"/>
     <Bug pattern="USBR_UNNECESSARY_STORE_BEFORE_RETURN"/>
   </Match>
@@ -14,5 +23,11 @@
   </Match>
   <Match>
     <Bug pattern="SIC_INNER_SHOULD_BE_STATIC"/>
+  </Match>
+  <Match>
+    <Bug pattern="ITU_INAPPROPRIATE_TOSTRING_USE"/>
+  </Match>
+  <Match>
+    <Bug pattern="CLI_CONSTANT_LIST_INDEX"/>
   </Match>
 </FindBugsFilter>
