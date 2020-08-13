@@ -28,7 +28,7 @@ public abstract class AbstractSort implements ISort {
     a[second] = temp;
   }
 
-  protected void resetCounts() {
+  protected void reset() {
     copyCount = swapCount = comparisonCount = innerLoopCount = outerLoopCount = 0;
   }
 
