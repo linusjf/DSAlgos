@@ -2,6 +2,7 @@ package ds;
 
 import static ds.MathUtils.*;
 
+import ds.Generated;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -69,6 +70,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
+  @Generated
   @Override
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
@@ -82,6 +84,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
+  @Generated
   @Override
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
