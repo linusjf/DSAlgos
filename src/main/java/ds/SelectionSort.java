@@ -7,7 +7,7 @@ public class SelectionSort extends AbstractSort {
     int out;
     int in;
     int min;
-    resetCounts();
+    reset();
     for (out = 0; out < length - 1; ++out) {
       min = out;
       ++outerLoopCount;

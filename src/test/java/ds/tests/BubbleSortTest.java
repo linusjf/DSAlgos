@@ -190,7 +190,7 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
-  
+
   @Test
   void testSortEmptyArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
@@ -200,7 +200,7 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
-  
+
   @Test
   void testSortSingleElementArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
@@ -210,29 +210,30 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
-  
+
   @Test
   void testSortNegativeLengthArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
-    assertThrows(IllegalArgumentException.class,
-    () -> sorter.sortNegativeLengthArray(),
-    "Array length cannot be negative.");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortNegativeLengthArray(),
+        "Array length cannot be negative.");
   }
 
   static class BubbleSortComplex extends BubbleSort {
     void sortEmptyArray() {
       long[] a = {};
-      sort(a,0);
+      sort(a, 0);
     }
-    
+
     void sortSingleElementArray() {
       long[] a = {1};
-      sort(a,1);
+      sort(a, 1);
     }
-    
+
     void sortNegativeLengthArray() {
       long[] a = {1};
-      sort(a,-1);
+      sort(a, -1);
     }
   }
 }

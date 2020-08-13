@@ -4,6 +4,10 @@ public class BubbleSort extends AbstractSort {
 
   protected boolean sorted;
 
+  public boolean isSorted() {
+    return sorted;
+  }
+
   @Override
   protected void reset() {
     super.reset();
@@ -12,11 +16,9 @@ public class BubbleSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0)
-      throw new IllegalArgumentException("Invalid length : " + length);
+    if (length < 0) throw new IllegalArgumentException("Invalid length : " + length);
     reset();
-    if (length <= 1)
-    {
+    if (length <= 1) {
       sorted = true;
       return;
     }
@@ -35,6 +37,6 @@ public class BubbleSort extends AbstractSort {
       }
       n = newn;
     }
+    sorted = true;
   }
-  sorted = true;
 }

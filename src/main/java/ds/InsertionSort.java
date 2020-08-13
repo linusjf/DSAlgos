@@ -4,9 +4,9 @@ public class InsertionSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
+    reset();
     int in;
     int out;
-    resetCounts();
 
     for (out = 1; out < length; ++out) {
       long temp = a[out];

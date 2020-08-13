@@ -30,7 +30,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   }
 
   protected void reset(int length) {
-    resetCounts();
+    super.reset();
     sorted.getAndSet(false);
     swapCount.set(0);
     oddTaskCount = computeOddTaskCount(length);

@@ -10,7 +10,7 @@ public class BrickSort extends AbstractBrickSort {
   }
 
   protected void reset() {
-    resetCounts();
+    super.reset();
     sorted = false;
   }
 

@@ -13,7 +13,7 @@ public class CombSort extends AbstractSort {
   protected void sort(long[] a, int length) {
     int gap = length;
     boolean swapped = true;
-    resetCounts();
+    reset();
     while (gap > 1 || swapped) {
       ++outerLoopCount;
       gap = getNextGap(gap);
