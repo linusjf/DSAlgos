@@ -9,6 +9,7 @@ public class BrickSort extends AbstractBrickSort {
     return sorted;
   }
 
+  @Override
   protected void reset() {
     super.reset();
     sorted = false;
