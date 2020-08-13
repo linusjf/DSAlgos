@@ -424,7 +424,7 @@ class BrickSortParallelTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
   }
-  
+
   @Nested
   class ComputeTaskCountTest {
 
@@ -436,20 +436,34 @@ class BrickSortParallelTest implements SortProvider {
 
     @Test
     void testMinusOneLength() {
-      assertEquals(0, computeOddTaskCount(-1), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(-1), ZERO_TASKS_EXPECTED);
+      assertThrows(
+          IllegalArgumentException.class, () -> computeOddTaskCount(-1), "Illegal length expected");
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> computeEvenTaskCount(-1),
+          "Illegal length expected");
     }
 
     @Test
     void testMinusTwoLength() {
-      assertEquals(0, computeOddTaskCount(-2), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(-2), ZERO_TASKS_EXPECTED);
+      assertThrows(
+          IllegalArgumentException.class, () -> computeOddTaskCount(-2), "Illegal length expected");
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> computeEvenTaskCount(-2),
+          "Illegal length expected");
     }
 
     @Test
     void testMinValueLength() {
-      assertEquals(0, computeOddTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(Integer.MIN_VALUE), ZERO_TASKS_EXPECTED);
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> computeOddTaskCount(Integer.MIN_VALUE),
+          "Illegal length expected");
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> computeEvenTaskCount(Integer.MIN_VALUE),
+          "Illegal length expected");
     }
 
     @Test
