@@ -425,9 +425,7 @@ class BrickSortParallelTest implements SortProvider {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class,
-          () -> computeEvenTaskCount(-1),
-          ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
@@ -435,9 +433,7 @@ class BrickSortParallelTest implements SortProvider {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class,
-          () -> computeEvenTaskCount(-2),
-          ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test

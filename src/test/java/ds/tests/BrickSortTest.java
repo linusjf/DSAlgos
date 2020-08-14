@@ -25,8 +25,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class BrickSortTest implements SortProvider {
 
-  private static final String INNER_LOOP_COUNT_4 =
-    "Inner loop count must be 4.";
+  private static final String INNER_LOOP_COUNT_4 = "Inner loop count must be 4.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
