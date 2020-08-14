@@ -31,11 +31,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
-  private static final String SORTED = "Sorted.";
   private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
   private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
+  private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -423,21 +423,21 @@ class BrickSortParallelTest implements SortProvider {
     @Test
     void testMinusOneLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddTaskCount(-1), "Illegal length expected");
+          IllegalArgumentException.class, () -> computeOddTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
           IllegalArgumentException.class,
           () -> computeEvenTaskCount(-1),
-          "Illegal length expected");
+          ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
     void testMinusTwoLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddTaskCount(-2), "Illegal length expected");
+          IllegalArgumentException.class, () -> computeOddTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
           IllegalArgumentException.class,
           () -> computeEvenTaskCount(-2),
-          "Illegal length expected");
+          ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
@@ -445,11 +445,11 @@ class BrickSortParallelTest implements SortProvider {
       assertThrows(
           IllegalArgumentException.class,
           () -> computeOddTaskCount(Integer.MIN_VALUE),
-          "Illegal length expected");
+          ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
           IllegalArgumentException.class,
           () -> computeEvenTaskCount(Integer.MIN_VALUE),
-          "Illegal length expected");
+          ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test

@@ -25,6 +25,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class BrickSortTest implements SortProvider {
 
+  private static final String INNER_LOOP_COUNT_4 =
+    "Inner loop count must be 4.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
@@ -285,10 +288,10 @@ class BrickSortTest implements SortProvider {
     bsc.sortOdd();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    assertEquals(12, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(12, innerLoopCount, INNER_LOOP_COUNT_4);
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
-    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertTrue(bsc.isSorted(), "Sorted.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, INNER_LOOP_COUNT_4);
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   @Test
@@ -297,10 +300,10 @@ class BrickSortTest implements SortProvider {
     bsc.sortEven();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    assertEquals(15, innerLoopCount, "Inner loop count must be 4.");
+    assertEquals(15, innerLoopCount, INNER_LOOP_COUNT_4);
     assertEquals(3, outerLoopCount, "Outer loop count must be 4.");
-    assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertTrue(bsc.isSorted(), "Sorted.");
+    assertEquals(bsc.getComparisonCount(), innerLoopCount, INNER_LOOP_COUNT_4);
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   @Test
@@ -320,14 +323,14 @@ class BrickSortTest implements SortProvider {
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
-    assertTrue(bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   @Test
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
-    assertTrue(bsc.isSorted(), "Sorted.");
+    assertTrue(bsc.isSorted(), SORTED);
   }
 
   static class BrickSortComplex extends BrickSort {
