@@ -57,7 +57,7 @@ class GnomeSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] internal = sorted.getExtentArray();
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
-    assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
+    assertEquals(12, sorter.getSwapCount(), "Swap count must be twelve.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
@@ -163,9 +163,9 @@ class GnomeSortTest implements SortProvider {
     ISort sorter = new GnomeSort();
     sorter.sort(high);
     assertEquals(
-        sorter.getCopyCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as copy count in reverse ordered array.");
+        190,
+        sorter.getSwapCount(),
+        "Swap count must be same as n * (n - 1) in reverse ordered array.");
   }
 
   @Test

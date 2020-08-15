@@ -162,9 +162,8 @@ class CycleSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(19,
-        sorter.getCopyCount(),
-        "Copy count must be same as n - 1 in reverse ordered array.");
+    assertEquals(
+        20, sorter.getCopyCount(), "Copy count must be same as n - 1 in reverse ordered array.");
   }
 
   @Test

@@ -57,7 +57,7 @@ class ShellSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] internal = sorted.getExtentArray();
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
-    assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
+    assertEquals(8, sorter.getCopyCount(), "Copy count will be eight.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
@@ -85,7 +85,7 @@ class ShellSortTest implements SortProvider {
     ISort sorter = new ShellSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(62, sorter.getComparisonCount(), "Comparison count must be 62.");
   }
 
   @Test
@@ -144,7 +144,7 @@ class ShellSortTest implements SortProvider {
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(248, sorter.getTimeComplexity(), "Time complexity must be 248.");
   }
 
   @Test
@@ -153,7 +153,7 @@ class ShellSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
-    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(36, sorter.getTimeComplexity(), "Time complexity must be thirty six.");
   }
 
   @Test
@@ -162,10 +162,7 @@ class ShellSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
-    assertEquals(
-        sorter.getCopyCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as copy count in reverse ordered array.");
+    assertEquals(36, sorter.getCopyCount(), "Copy count must be 36 in reverse ordered array.");
   }
 
   @Test
