@@ -398,19 +398,19 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
           <configuration>
-            <childDelegation>true</childDelegation>
+            <childDelegation>false</childDelegation>
             <redirectTestOutputToFile>false</redirectTestOutputToFile>
-            <reuseForks>true</reuseForks>
+            <reuseForks>false</reuseForks>
             <runOrder>alphabetical</runOrder>
             <trimStackTrace>true</trimStackTrace>
-            <useManifestOnlyJar>false</useManifestOnlyJar>
+            <useManifestOnlyJar>true</useManifestOnlyJar>
             <forkCount>1</forkCount>
             <shutdown>kill</shutdown>
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
-            <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
+            <argline>-Xms1g -Xmx2g -XX:MaxMetaspaceSize=512m</argline>
           </configuration>
         </plugin>
         <plugin>

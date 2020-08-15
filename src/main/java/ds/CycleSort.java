@@ -67,7 +67,7 @@ public class CycleSort extends AbstractSort {
             ++pos;
           }
           ++comparisonCount;
-          // put the item to it's right position
+          // put the item to its right position
           if (item != a[pos]) {
             long temp = item;
             item = a[pos];
