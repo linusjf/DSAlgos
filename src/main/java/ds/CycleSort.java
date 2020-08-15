@@ -30,21 +30,20 @@ public class CycleSort extends AbstractSort {
         // Find position where we put the item. We basically
         // count all smaller elements on right side of item.
         int pos = cycle_start;
-        for (int i = cycle_start + 1; i < length; ++i) { 
-            ++innerLoopCount;
-++comparisonCount;
-          if (a[i] < item) 
-        ++pos;
-      }
+        for (int i = cycle_start + 1; i < length; ++i) {
+          ++innerLoopCount;
+          ++comparisonCount;
+          if (a[i] < item) ++pos;
+        }
         // If item is already in correct position
         if (pos == cycle_start) continue;
         // ignore all duplicate elements
         while (item == a[pos]) {
-            ++innerLoopCount;
-++comparisonCount;
-++pos;
-        } 
+          ++innerLoopCount;
           ++comparisonCount;
+          ++pos;
+        }
+        ++comparisonCount;
         // put the item to its right position
         if (pos != cycle_start) {
           long temp = item;
@@ -65,7 +64,7 @@ public class CycleSort extends AbstractSort {
           while (item == a[pos]) {
             ++innerLoopCount;
             ++comparisonCount;
-           ++pos;
+            ++pos;
           }
           ++comparisonCount;
           // put the item to it's right position
