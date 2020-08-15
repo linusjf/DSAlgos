@@ -57,7 +57,7 @@ class CycleSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] internal = sorted.getExtentArray();
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
-    assertEquals(12, sorter.getCopyCount(), "Copy count will be twelve.");
+    assertEquals(8, sorter.getCopyCount(), "Copy count will be eight.");
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
@@ -85,7 +85,7 @@ class CycleSortTest implements SortProvider {
     ISort sorter = new CycleSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
   }
 
   @Test
@@ -144,7 +144,7 @@ class CycleSortTest implements SortProvider {
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be n * n - 1.");
   }
 
   @Test
@@ -153,7 +153,7 @@ class CycleSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(335, sorter.getTimeComplexity(), "Time complexity must be 335.");
   }
 
   @Test
@@ -162,10 +162,9 @@ class CycleSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(
+    assertEquals(19,
         sorter.getCopyCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as copy count in reverse ordered array.");
+        "Copy count must be same as n - 1 in reverse ordered array.");
   }
 
   @Test
