@@ -16,11 +16,6 @@ public final class TestUtils {
         .addOpens(
             ReentrantReadWriteLock.WriteLock.class.getPackageName(),
             nl.jqno.equalsverifier.internal.reflection.FieldAccessor.class.getModule());
-    java.util.Random.class
-        .getModule()
-        .addOpens(
-            java.util.Random.class.getPackageName(),
-            nl.jqno.equalsverifier.internal.reflection.FieldAccessor.class.getModule());
   }
 
   private TestUtils() {
