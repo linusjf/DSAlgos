@@ -4,7 +4,9 @@ public class InsertionSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
+    if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
     reset();
+    if (length <= 1) return;
     int in;
     int out;
 

@@ -184,4 +184,77 @@ class InsertionSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
+
+  @Test
+  void testFullArraySort() {
+    InsertionSub sorter = new InsertionSub();
+    sorter.sortFullArray();
+    assertEquals(10, sorter.getComparisonCount(), "Comparison count must be 10.");
+    assertEquals(7, sorter.getCopyCount(), "Copy count must be 7.");
+    assertEquals(10, sorter.getTimeComplexity(), "Time complexity must be 10.");
+  }
+
+  @Test
+  void testNotFullArraySort() {
+    InsertionSub sorter = new InsertionSub();
+    sorter.sortNotFullArray();
+    assertEquals(6, sorter.getComparisonCount(), "Comparison count must be 6.");
+    assertEquals(4, sorter.getCopyCount(), "Copy count must be 4.");
+    assertEquals(4, sorter.getTimeComplexity(), "Time complexity must be 4.");
+  }
+
+  @Test
+  void testEmptyArraySort() {
+    InsertionSub sorter = new InsertionSub();
+    sorter.sortEmptyArray();
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  void testSingleElementArraySort() {
+    InsertionSub sorter = new InsertionSub();
+    sorter.sortSingleElementArray();
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  void testNegativeLengthArraySort() {
+    InsertionSub sorter = new InsertionSub();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortNegativeLengthArray(),
+        "Invalid length expected.");
+  }
+
+  static class InsertionSub extends InsertionSort {
+
+    void sortFullArray() {
+      long[] a = {12, 23, 12, 5, 6};
+      sort(a, 5);
+    }
+
+    void sortNotFullArray() {
+      long[] a = {12, 23, 12, 5, 0};
+      sort(a, 4);
+    }
+
+    void sortEmptyArray() {
+      long[] a = {};
+      sort(a, 0);
+    }
+
+    void sortSingleElementArray() {
+      long[] a = {0};
+      sort(a, 0);
+    }
+
+    void sortNegativeLengthArray() {
+      long[] a = null;
+      sort(a, -2);
+    }
+  }
 }

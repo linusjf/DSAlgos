@@ -1,6 +1,7 @@
 package ds;
 
 import static ds.MathUtils.*;
+import static java.lang.Math.abs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,7 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   public static int computeOddTaskCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
-    return length <= 2 ? 0 : isOdd(length) ? length >> 1 : (length - 1) >> 1;
+    return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
   }
 
   public static int computeEvenTaskCount(int length) {
