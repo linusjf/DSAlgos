@@ -152,12 +152,12 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   public static int computeOddTaskCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
-    return length < 2 ? 0 : isOdd(length) ? length >> 1 : (length - 1) >> 1;
+    return length <= 2 ? 0 : isOdd(length) ? length >> 1 : (length - 1) >> 1;
   }
 
   public static int computeEvenTaskCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
-    return length > 0 ? length >> 1 : 0;
+    return length >= 0 ? length >> 1 : 0;
   }
 
   static final class BubbleTask implements Callable<Void> {
