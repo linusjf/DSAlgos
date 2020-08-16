@@ -14,7 +14,7 @@ public class CycleSort extends AbstractSort {
     sorted = false;
   }
 
-  private int iterateTillPositioned(int cycleStart, int length, long item, long[] a) {
+  private int iterateTillPositioned(int cycleStart, int length, long item, long... a) {
     int pos = cycleStart;
     for (int i = cycleStart + 1; i < length; ++i) {
       ++innerLoopCount;
@@ -24,7 +24,7 @@ public class CycleSort extends AbstractSort {
     return pos;
   }
 
-  private int iterateDuplicates(int startPos, long item, long[] a) {
+  private int iterateDuplicates(int startPos, long item, long... a) {
     int pos = startPos;
     while (item == a[pos]) {
       ++innerLoopCount;
@@ -34,7 +34,7 @@ public class CycleSort extends AbstractSort {
     return pos;
   }
 
-  private long swapOutItem(long item, long[] a, int pos) {
+  private long swapOutItem(long item, int pos, long... a) {
     long temp = a[pos];
     a[pos] = item;
     return temp;
@@ -63,7 +63,7 @@ public class CycleSort extends AbstractSort {
         ++comparisonCount;
         // put the item to its right position
         if (pos != cycleStart) {
-          item = swapOutItem(item, a, pos);
+          item = swapOutItem(item, pos, a);
           ++copyCount;
         }
         // Rotate rest of the cycle
@@ -78,7 +78,7 @@ public class CycleSort extends AbstractSort {
           ++comparisonCount;
           // put the item to its right position
           if (item != a[pos]) {
-            item = swapOutItem(item, a, pos);
+            item = swapOutItem(item, pos, a);
             ++copyCount;
           }
         }
