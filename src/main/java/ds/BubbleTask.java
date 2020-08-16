@@ -7,6 +7,7 @@ final class BubbleTask implements Callable<Void> {
   int i;
   BrickSortParallel sorter;
 
+  @SuppressWarnings("PMD.ArrayIsStoredDirectly")
   BubbleTask(BrickSortParallel sorter, long[] a, int i) {
     this.sorter = sorter;
     this.a = a;

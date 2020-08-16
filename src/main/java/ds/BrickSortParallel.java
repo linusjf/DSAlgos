@@ -66,8 +66,12 @@ public class BrickSortParallel extends AbstractBrickSort {
     }
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   @Generated
+  private void assertEquality(int size, int count) {
+    assert size == count;
+  }
+
+  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   @Override
   protected void oddSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
@@ -76,12 +80,11 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == oddTaskCount;
+    assertEquality(futures.size(), oddTaskCount);
     for (Future future : futures) future.get();
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  @Generated
   @Override
   protected void evenSort(long[] a, int length) throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
@@ -90,7 +93,7 @@ public class BrickSortParallel extends AbstractBrickSort {
       ++comparisonCount;
       futures.add(service.submit(new BubbleTask(this, a, i)));
     }
-    assert futures.size() == evenTaskCount;
+    assertEquality(futures.size(), evenTaskCount);
     for (Future future : futures) future.get();
   }
 

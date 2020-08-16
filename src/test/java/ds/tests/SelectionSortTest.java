@@ -264,7 +264,7 @@ class SelectionSortTest implements SortProvider {
     }
 
     void sortNegativeLengthArray() {
-      long[] a = null;
+      long[] a = {};
       sort(a, -2);
     }
   }

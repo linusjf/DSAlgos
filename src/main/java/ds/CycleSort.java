@@ -14,6 +14,32 @@ public class CycleSort extends AbstractSort {
     sorted = false;
   }
 
+  private int iterateTillPositioned(int cycleStart, int length, long item, long[] a) {
+    int pos = cycleStart;
+    for (int i = cycleStart + 1; i < length; ++i) {
+      ++innerLoopCount;
+      ++comparisonCount;
+      if (a[i] < item) ++pos;
+    }
+    return pos;
+  }
+
+  private int iterateDuplicates(int startPos, long item, long[] a) {
+    int pos = startPos;
+    while (item == a[pos]) {
+      ++innerLoopCount;
+      ++comparisonCount;
+      ++pos;
+    }
+    return pos;
+  }
+
+  private long swapOutItem(long item, long[] a, int pos) {
+    long temp = a[pos];
+    a[pos] = item;
+    return temp;
+  }
+
   @Override
   protected void sort(long[] a, int length) {
     {
@@ -23,43 +49,26 @@ public class CycleSort extends AbstractSort {
         sorted = true;
         return;
       }
-      for (int cycle_start = 0; cycle_start <= length - 2; ++cycle_start) {
+      for (int cycleStart = 0; cycleStart <= length - 2; ++cycleStart) {
         ++outerLoopCount;
         // initialize item as starting point
-        long item = a[cycle_start];
+        long item = a[cycleStart];
         // Find position where we put the item. We basically
         // count all smaller elements on right side of item.
-        int pos = cycle_start;
-        for (int i = cycle_start + 1; i < length; ++i) {
-          ++innerLoopCount;
-          ++comparisonCount;
-          if (a[i] < item) ++pos;
-        }
+        int pos = iterateTillPositioned(cycleStart, length, item, a);
         // If item is already in correct position
-        if (pos == cycle_start) continue;
+        if (pos == cycleStart) continue;
         // ignore all duplicate elements
-        while (item == a[pos]) {
-          ++innerLoopCount;
-          ++comparisonCount;
-          ++pos;
-        }
+        pos = iterateDuplicates(pos, item, a);
         ++comparisonCount;
         // put the item to its right position
-        if (pos != cycle_start) {
-          long temp = item;
-          item = a[pos];
-          a[pos] = temp;
+        if (pos != cycleStart) {
+          item = swapOutItem(item, a, pos);
           ++copyCount;
         }
         // Rotate rest of the cycle
-        while (pos != cycle_start) {
-          pos = cycle_start;
-          // Find position where we put the element
-          for (int i = cycle_start + 1; i < length; ++i) {
-            ++innerLoopCount;
-            ++comparisonCount;
-            if (a[i] < item) ++pos;
-          }
+        while (pos != cycleStart) {
+          pos = iterateTillPositioned(cycleStart, length, item, a);
           // ignore all duplicate elements
           while (item == a[pos]) {
             ++innerLoopCount;
@@ -69,9 +78,7 @@ public class CycleSort extends AbstractSort {
           ++comparisonCount;
           // put the item to its right position
           if (item != a[pos]) {
-            long temp = item;
-            item = a[pos];
-            a[pos] = temp;
+            item = swapOutItem(item, a, pos);
             ++copyCount;
           }
         }
