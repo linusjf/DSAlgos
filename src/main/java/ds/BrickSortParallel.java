@@ -5,7 +5,6 @@ import static java.lang.Math.abs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +13,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings("PMD.DataClass")
 public class BrickSortParallel extends AbstractBrickSort {
 
   protected int oddTaskCount;
@@ -159,23 +157,5 @@ public class BrickSortParallel extends AbstractBrickSort {
   public static int computeEvenTaskCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
     return length >> 1;
-  }
-
-  static final class BubbleTask implements Callable<Void> {
-    long[] a;
-    int i;
-    BrickSortParallel sorter;
-
-    private BubbleTask(BrickSortParallel sorter, long[] a, int i) {
-      this.a = a;
-      this.i = i;
-      this.sorter = sorter;
-    }
-
-    @Override
-    public Void call() {
-      sorter.bubble(a, i);
-      return null;
-    }
   }
 }

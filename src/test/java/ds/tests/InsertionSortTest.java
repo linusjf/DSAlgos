@@ -191,7 +191,7 @@ class InsertionSortTest implements SortProvider {
     sorter.sortFullArray();
     assertEquals(10, sorter.getComparisonCount(), "Comparison count must be 10.");
     assertEquals(7, sorter.getCopyCount(), "Copy count must be 7.");
-    assertEquals(10, sorter.getTimeComplexity(), "Time complexity must be 10.");
+    assertEquals(7, sorter.getTimeComplexity(), "Time complexity must be 7.");
   }
 
   @Test

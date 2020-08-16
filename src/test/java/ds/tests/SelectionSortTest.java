@@ -200,7 +200,6 @@ class SelectionSortTest implements SortProvider {
   void testFullArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortFullArray();
-    System.out.println(sorter.toString());
     assertEquals(10, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(2, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(10, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
@@ -210,7 +209,6 @@ class SelectionSortTest implements SortProvider {
   void testNotFullArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortNotFullArray();
-    System.out.println(sorter.toString());
     assertEquals(6, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(3, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(6, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
@@ -220,7 +218,6 @@ class SelectionSortTest implements SortProvider {
   void testEmptyArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortEmptyArray();
-    System.out.println(sorter.toString());
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
@@ -230,7 +227,6 @@ class SelectionSortTest implements SortProvider {
   void testSingleElementArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortSingleElementArray();
-    System.out.println(sorter.toString());
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
