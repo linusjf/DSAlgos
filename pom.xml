@@ -398,14 +398,14 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
           <configuration>
-            <childDelegation>false</childDelegation>
+            <childDelegation>true</childDelegation>
             <redirectTestOutputToFile>false</redirectTestOutputToFile>
             <reuseForks>false</reuseForks>
             <runOrder>alphabetical</runOrder>
             <trimStackTrace>true</trimStackTrace>
-            <useManifestOnlyJar>true</useManifestOnlyJar>
+            <useManifestOnlyJar>false</useManifestOnlyJar>
             <forkCount>1</forkCount>
-            <shutdown>kill</shutdown>
+            <shutdown>exit</shutdown>
             <systemPropertyVariables>
               <java.util.logging.config.file>${project.build.testOutputDirectory}/logging-test.properties</java.util.logging.config.file>
             </systemPropertyVariables>
