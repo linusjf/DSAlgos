@@ -245,7 +245,7 @@
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.6.0</checker.version>
     <groovy.version>3.0.5</groovy.version>
-    <junit.version>5.7.0-M1</junit.version>
+    <junit.version>5.7.0-RC1</junit.version>
     <pitest.version>1.5.2</pitest.version>
   </properties>
   <dependencyManagement>
@@ -264,7 +264,7 @@
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
-        <version>1.7.0-M1</version>
+        <version>1.7.0-RC1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
