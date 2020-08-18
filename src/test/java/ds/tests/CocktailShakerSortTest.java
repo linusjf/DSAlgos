@@ -12,6 +12,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArrayLock;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,6 +25,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("CocktailShakerSortTest")
 class CocktailShakerSortTest implements SortProvider {
 
   @ParameterizedTest
