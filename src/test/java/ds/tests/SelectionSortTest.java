@@ -12,6 +12,7 @@ import ds.ISort;
 import ds.OrdArray;
 import ds.SelectionSort;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,12 +25,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("SelectionSortTest")
 class SelectionSortTest implements SortProvider {
 
   private static final String SORTED_AND_EQUAL = "Elements must be sorted and equal.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
+@DisplayName("SelectionSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new SelectionSort();
@@ -40,6 +43,7 @@ class SelectionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
+@DisplayName("SelectionSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new SelectionSort();
@@ -50,6 +54,7 @@ class SelectionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
+@DisplayName("SelectionSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new SelectionSort();
@@ -61,6 +66,7 @@ class SelectionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_SELECTION_SORT_DATA)
+@DisplayName("SelectionSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new SelectionSort();
     OrdArray ord = new OrdArray();
@@ -75,6 +81,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testReset")
   void testReset() {
     IArray high = new HighArray(20);
     IArray ord = new OrdArray();
@@ -92,6 +99,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray(20);
     IArray ord = new OrdArray();
@@ -111,6 +119,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray(20);
     IArray ord = new OrdArray();
@@ -128,6 +137,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray(20);
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -140,6 +150,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testSortedTimeComplexity")
   void testSortedTimeComplexity() {
     IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -151,6 +162,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
@@ -162,6 +174,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testSwapCountUnsorted")
   void testSwapCountUnsorted() {
     IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
@@ -171,6 +184,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testSwapCountSorted")
   void testSwapCountSorted() {
     IArray high = new HighArray(20);
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -180,6 +194,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new SelectionSort();
     String className = SelectionSort.class.getName();
@@ -188,6 +203,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new SelectionSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -197,6 +213,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testFullArraySort")
   void testFullArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortFullArray();
@@ -206,6 +223,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testNotFullArraySort")
   void testNotFullArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortNotFullArray();
@@ -215,6 +233,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testEmptyArraySort")
   void testEmptyArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortEmptyArray();
@@ -224,6 +243,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testSingleElementArraySort")
   void testSingleElementArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortSingleElementArray();
@@ -233,6 +253,7 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("SelectionSortTest.testNegativeLengthArraySort")
   void testNegativeLengthArraySort() {
     SelectionSub sorter = new SelectionSub();
     assertThrows(
