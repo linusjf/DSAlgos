@@ -18,14 +18,14 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class ArrayUtilsTest {
 
   @Test
-@DisplayName("ArrayUtilsTest.testSorted")
+  @DisplayName("ArrayUtilsTest.testSorted")
   void testSorted() {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 0L, 0L, 0L, 0L, 0L};
     int length = 5;
     assertTrue(isSorted(arr, length), "Array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testUnSorted")
+  @DisplayName("ArrayUtilsTest.testUnSorted")
   @Test
   void testUnSorted() {
     long[] arr = {1L, 2L, 5L, 7L, 6L, 0L, 0L, 0L, 0L, 0L};
@@ -34,14 +34,14 @@ class ArrayUtilsTest {
   }
 
   @Test
-@DisplayName("ArrayUtilsTest.testEmptyArray")
+  @DisplayName("ArrayUtilsTest.testEmptyArray")
   void testEmptyArray() {
     long[] arr = new long[0];
     int length = 0;
     assertTrue(isSorted(arr, length), "Empty array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testFullArray")
+  @DisplayName("ArrayUtilsTest.testFullArray")
   @Test
   void testFullArray() {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 20L};
@@ -49,7 +49,7 @@ class ArrayUtilsTest {
     assertTrue(isSorted(arr, length), "Full array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testLessThanFullArray")
+  @DisplayName("ArrayUtilsTest.testLessThanFullArray")
   @Test
   void testLessThanFullArray() {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 0L};
@@ -57,7 +57,7 @@ class ArrayUtilsTest {
     assertTrue(isSorted(arr, length), "Less than full array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testLengthZero")
+  @DisplayName("ArrayUtilsTest.testLengthZero")
   @Test
   void testLengthZero() {
     long[] arr = new long[10];
@@ -65,7 +65,7 @@ class ArrayUtilsTest {
     assertTrue(isSorted(arr, length), "Length zero array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testLengthOne")
+  @DisplayName("ArrayUtilsTest.testLengthOne")
   @Test
   void testLengthOne() {
     long[] arr = new long[10];
@@ -74,7 +74,7 @@ class ArrayUtilsTest {
     assertTrue(isSorted(arr, length), "One element array is sorted!");
   }
 
-@DisplayName("ArrayUtilsTest.testSizeOne")
+  @DisplayName("ArrayUtilsTest.testSizeOne")
   @Test
   void testSizeOne() {
     long[] arr = new long[1];
@@ -85,7 +85,7 @@ class ArrayUtilsTest {
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
-@DisplayName("ArrayUtilsTest.testNegativeLength")
+  @DisplayName("ArrayUtilsTest.testNegativeLength")
   void testNegativeLength() {
     long[] arr = new long[10];
     int length = -1;
@@ -100,7 +100,7 @@ class ArrayUtilsTest {
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
-@DisplayName("ArrayUtilsTest.testExcessiveLength")
+  @DisplayName("ArrayUtilsTest.testExcessiveLength")
   void testExcessiveLength() {
     long[] arr = new long[10];
     int length = 11;

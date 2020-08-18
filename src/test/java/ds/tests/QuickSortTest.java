@@ -74,8 +74,7 @@ class QuickSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(),
-        "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
   @Test
@@ -133,8 +132,7 @@ class QuickSortTest implements SortProvider {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(),
-        "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
   @Test
