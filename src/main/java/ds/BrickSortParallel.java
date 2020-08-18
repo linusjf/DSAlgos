@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/** Not thread-safe. */
 public class BrickSortParallel extends AbstractBrickSort {
 
   protected int oddTaskCount;
