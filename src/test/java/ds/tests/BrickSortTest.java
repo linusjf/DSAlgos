@@ -11,6 +11,7 @@ import ds.HighArray;
 import ds.IArray;
 import ds.OrdArray;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -23,12 +24,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
 
   private static final String INNER_LOOP_COUNT_4 = "Inner loop count must be 4.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
+@DisplayName("BrickSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     BrickSort sorter = new BrickSort();
@@ -40,6 +43,7 @@ class BrickSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
+@DisplayName("BrickSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     BrickSort sorter = new BrickSort();
@@ -51,6 +55,7 @@ class BrickSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
+@DisplayName("BrickSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     BrickSort sorter = new BrickSort();
@@ -63,6 +68,7 @@ class BrickSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_BRICK_SORT_DATA)
+@DisplayName("BrickSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     BrickSort sorter = new BrickSort();
     OrdArray ord = new OrdArray();
@@ -78,6 +84,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -98,6 +105,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -117,6 +125,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -134,6 +143,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -145,6 +155,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
@@ -157,6 +168,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
+@DisplayName("BrickSortTest.testReverseSorted")
   @Test
   void testReverseSorted() {
     IArray high = new HighArray();
@@ -173,6 +185,7 @@ class BrickSortTest implements SortProvider {
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
+@DisplayName("BrickSortTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
@@ -187,6 +200,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -197,6 +211,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -207,6 +222,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSort();
     String className = BrickSort.class.getName();
@@ -215,6 +231,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testPreReset")
   void testPreReset() {
     BrickSort sorter = new BrickSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -225,6 +242,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
@@ -233,6 +251,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
@@ -241,6 +260,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testMinusOneTimeComplexity")
   void testNMinusOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
@@ -249,6 +269,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testResetSubClass")
   void testResetSubClass() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
@@ -260,6 +281,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testResetAfterSort")
   void testResetAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
@@ -271,6 +293,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testInternalsAfterSort")
   void testInternalsAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortAndSetInternals();
@@ -282,6 +305,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testInnerLoopAfterOddSort")
   void testInnerLoopAfterOddSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -294,6 +318,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testInnerLoopAfterEvenSort")
   void testInnerLoopAfterEvenSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEven();
@@ -306,6 +331,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testStateAfterReset")
   void testStateAfterReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -319,6 +345,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testEmptyArray")
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
@@ -326,6 +353,7 @@ class BrickSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortTest.testSingleElementArray")
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
