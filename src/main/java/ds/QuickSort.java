@@ -18,7 +18,7 @@ public class QuickSort extends AbstractSort {
   private int randomPartition(long[] a, int low, int high) {
     int random = randomInRange(low, high + 1);
     printRandom(random);
-    if (random != high) {
+    if (random != high && a[random] > a[high]) {
       swap(a, random, high);
       ++swapCount;
     }

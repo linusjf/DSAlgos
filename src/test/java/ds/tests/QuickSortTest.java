@@ -14,7 +14,6 @@ import ds.QuickSort;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
@@ -28,7 +27,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("QuickSortTest")
 @SuppressWarnings("PMD.LawOfDemeter")
 class QuickSortTest implements SortProvider {
-
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -148,7 +146,7 @@ class QuickSortTest implements SortProvider {
             });
     ISort sorter = new QuickSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
   @Test
