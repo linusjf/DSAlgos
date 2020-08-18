@@ -74,6 +74,8 @@ class QuickSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    assertEquals(0, sorter.getSwapCount(),
+        "Swap count must be zero.");
   }
 
   @Test
@@ -131,6 +133,8 @@ class QuickSortTest implements SortProvider {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
+    assertEquals(0, sorter.getSwapCount(),
+        "Swap count must be zero.");
   }
 
   @Test
@@ -156,7 +160,7 @@ class QuickSortTest implements SortProvider {
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must be 248.");
+    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
   }
 
   @Test
@@ -166,7 +170,7 @@ class QuickSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must be thirty six.");
+    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
   }
 
   @Test
@@ -176,7 +180,7 @@ class QuickSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getSwapCount(), "Swap count must be 20 in reverse ordered array.");
+    assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
   }
 
   @Test
@@ -195,6 +199,6 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
-    assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
   }
 }

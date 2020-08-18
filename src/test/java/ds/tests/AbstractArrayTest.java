@@ -21,7 +21,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class AbstractArrayTest {
 
   @Test
-@DisplayName("AbstractArrayTest.leafAbstractArrayNodeEquals")
+  @DisplayName("AbstractArrayTest.leafAbstractArrayNodeEquals")
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void leafAbstractArrayNodeEquals() {
     EqualsVerifier.forClass(AbstractArray.class)
@@ -33,7 +33,7 @@ class AbstractArrayTest {
   }
 
   @Test
-@DisplayName("AbstractArrayTest.leafAbstractOrdArrayNodeEquals")
+  @DisplayName("AbstractArrayTest.leafAbstractOrdArrayNodeEquals")
   @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
   void leafAbstractOrdArrayNodeEquals() {
     EqualsVerifier.forClass(AbstractOrdArray.class)

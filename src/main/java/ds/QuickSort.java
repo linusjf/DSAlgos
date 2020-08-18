@@ -22,6 +22,8 @@ public class QuickSort extends AbstractSort {
       swap(a, random, high);
       ++swapCount;
     }
+    if (random != high)
+      ++comparisonCount;
     return partition(a, low, high);
   }
 

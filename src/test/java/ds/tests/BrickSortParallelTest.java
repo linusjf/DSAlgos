@@ -15,6 +15,7 @@ import ds.OrdArray;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,6 +29,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("BrickSortParallelTest")
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
@@ -39,6 +41,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
+@DisplayName("BrickSortParallelTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     BrickSortComplex sorter = new BrickSortComplex();
@@ -56,6 +59,7 @@ class BrickSortParallelTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_BRICK_SORT_DATA)
+@DisplayName("BrickSortParallelTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(arr);
@@ -70,6 +74,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -95,6 +100,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -119,6 +125,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -136,6 +143,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
@@ -154,6 +162,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -174,6 +183,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
@@ -197,6 +207,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReverseSortedOdd255")
   void testReverseSortedOdd255() {
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
@@ -220,6 +231,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -236,6 +248,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -252,6 +265,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSortParallel();
     String className = BrickSortParallel.class.getName();
@@ -260,6 +274,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReverseSortedOddException")
   void testReverseSortedOddException() {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
@@ -269,6 +284,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReverseSortedOddInterruption")
   void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
     IArray high = new HighArray();
     revRange(1, 21).forEach(i -> high.insert(i));
@@ -278,6 +294,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortZeroLengthArray();
@@ -286,6 +303,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOneLengthArray();
@@ -294,6 +312,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testNMinusOneTimeComplexity")
   void testNMinusOneTimeComplexity() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortNMinusOneLengthArray();
@@ -302,6 +321,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testReset")
   void testReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
@@ -313,6 +333,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testResetAfterSort")
   void testResetAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
@@ -324,6 +345,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testInternalsAfterSort")
   void testInternalsAfterSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortAndSetInternals();
@@ -335,6 +357,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testInnerLoopAfterOddSort")
   void testInnerLoopAfterOddSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -350,6 +373,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testInnerLoopAfterEvenSort")
   void testInnerLoopAfterEvenSort() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEven();
@@ -365,6 +389,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testStateAfterReset")
   void testStateAfterReset() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
@@ -384,6 +409,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testEmptyArray")
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
@@ -398,6 +424,7 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
+@DisplayName("BrickSortParallelTest.testSingleElementArray")
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
@@ -412,15 +439,18 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Nested
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest")
   class ComputeTaskCountTest {
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testZeroLength")
     void testZeroLength() {
       assertEquals(0, computeOddTaskCount(0), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenTaskCount(0), ZERO_TASKS_EXPECTED);
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinusOneLength")
     void testMinusOneLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
@@ -429,6 +459,7 @@ class BrickSortParallelTest implements SortProvider {
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinusTwoLength")
     void testMinusTwoLength() {
       assertThrows(
           IllegalArgumentException.class, () -> computeOddTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
@@ -437,6 +468,7 @@ class BrickSortParallelTest implements SortProvider {
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinValueLength")
     void testMinValueLength() {
       assertThrows(
           IllegalArgumentException.class,
@@ -449,30 +481,35 @@ class BrickSortParallelTest implements SortProvider {
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testOneValueLength")
     void testOneValueLength() {
       assertEquals(0, computeOddTaskCount(1), ZERO_TASKS_EXPECTED);
       assertEquals(0, computeEvenTaskCount(1), ZERO_TASKS_EXPECTED);
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testTwoValueLength")
     void testTwoValueLength() {
       assertEquals(0, computeOddTaskCount(2), ZERO_TASKS_EXPECTED);
       assertEquals(1, computeEvenTaskCount(2), ONE_TASK_EXPECTED);
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testThreeValueLength")
     void testThreeValueLength() {
       assertEquals(1, computeOddTaskCount(3), ONE_TASK_EXPECTED);
       assertEquals(1, computeEvenTaskCount(3), ONE_TASK_EXPECTED);
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testFourValueLength")
     void testFourValueLength() {
       assertEquals(1, computeOddTaskCount(4), ONE_TASK_EXPECTED);
       assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
       assertEquals(
           Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
@@ -481,6 +518,7 @@ class BrickSortParallelTest implements SortProvider {
     }
 
     @Test
+@DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
           (Integer.MAX_VALUE - 2) / 2,

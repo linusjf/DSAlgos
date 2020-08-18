@@ -25,7 +25,7 @@ class AbstractSortTest {
   private static final String SWAP_MUST_SUCCEED = "Swap must succeed";
 
   @Test
-@DisplayName("AbstractSortTest.testConcreteSort")
+  @DisplayName("AbstractSortTest.testConcreteSort")
   void testConcreteSort() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
@@ -36,7 +36,7 @@ class AbstractSortTest {
     assertArrayEquals(arr, arr2, "Arrays must be equal");
   }
 
-@DisplayName("AbstractSortTest.SwapTests")
+  @DisplayName("AbstractSortTest.SwapTests")
   @Nested
   class SwapTests {
     ConcreteSort sorter;
@@ -50,7 +50,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapZeroIndex")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapZeroIndex")
     void testSwapZeroIndex() {
       long[] a = arr.clone();
       sorter.swapZerothIndex(a);
@@ -58,7 +58,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapIndexOne")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapIndexOne")
     void testSwapIndexOne() {
       long[] a = arr.clone();
       sorter.swapIndexOne(a);
@@ -66,7 +66,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapNthIndex")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapNthIndex")
     void testSwapNthIndex() {
       long[] a = arr.clone();
       sorter.swapNthIndex(a);
@@ -74,7 +74,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapNMinusOneIndex")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapNMinusOneIndex")
     void testSwapNMinusOneIndex() {
       long[] a = arr.clone();
       sorter.swapNthMinusOne(a);
@@ -82,7 +82,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapNegativeLeft")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapNegativeLeft")
     void testSwapNegativeLeft() {
       assertThrows(
           IllegalArgumentException.class,
@@ -91,7 +91,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapNegativeRight")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapNegativeRight")
     void testSwapNegativeRight() {
       assertThrows(
           IllegalArgumentException.class,
@@ -100,7 +100,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testSwapNegatives")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapNegatives")
     void testSwapNegatives() {
       assertThrows(
           IllegalArgumentException.class,
@@ -108,7 +108,7 @@ class AbstractSortTest {
           () -> "Swap negatives must throw exception");
     }
 
-@DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLength")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLength")
     @Test
     void testSwapBeyondsLength() {
       assertThrows(
@@ -117,7 +117,7 @@ class AbstractSortTest {
           () -> "Swap beyonds must throw exception");
     }
 
-@DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLengthPlusOne")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLengthPlusOne")
     @Test
     void testSwapBeyondsLengthPlusOne() {
       assertThrows(
@@ -126,7 +126,7 @@ class AbstractSortTest {
           () -> "Swap beyonds must throw exception");
     }
 
-@DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLengthMinusOne")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapBeyondsLengthMinusOne")
     @Test
     void testSwapBeyondsLengthMinusOne() {
       long[] a = arr.clone();
@@ -135,7 +135,7 @@ class AbstractSortTest {
       assertEquals(val, a[a.length - 1], "No swap occurs.");
     }
 
-@DisplayName("AbstractSortTest.SwapTests.testSwapBeyondLeftLength")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapBeyondLeftLength")
     @Test
     void testSwapBeyondLeftLength() {
       assertThrows(
@@ -144,7 +144,7 @@ class AbstractSortTest {
           () -> "Swap beyond left must throw exception");
     }
 
-@DisplayName("AbstractSortTest.SwapTests.testSwapBeyondRightLength")
+    @DisplayName("AbstractSortTest.SwapTests.testSwapBeyondRightLength")
     @Test
     void testSwapBeyondRightLength() {
       assertThrows(
@@ -154,7 +154,7 @@ class AbstractSortTest {
     }
 
     @Test
-@DisplayName("AbstractSortTest.SwapTests.testResetCounts")
+    @DisplayName("AbstractSortTest.SwapTests.testResetCounts")
     void testResetCounts() {
       sorter.setAndResetCounts();
       assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
