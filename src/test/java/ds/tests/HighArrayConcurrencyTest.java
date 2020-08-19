@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -23,10 +24,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("HighArrayConcurrencyTest")
 class HighArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
 
   @Test
+@DisplayName("HighArrayConcurrencyTest.testConcurrentInserts")
   void testConcurrentInserts() {
     IArray highArray = new HighArray(10_000);
     LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
@@ -37,6 +40,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @ParameterizedTest
   @MethodSource("provideArraySize")
+@DisplayName("HighArrayConcurrencyTest.testConcurrentDeletes")
   void testConcurrentDeletes(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
@@ -76,6 +80,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
+@DisplayName("HighArrayConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray highArray = new HighArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
@@ -89,6 +94,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
+@DisplayName("HighArrayConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray highArray = new HighArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
