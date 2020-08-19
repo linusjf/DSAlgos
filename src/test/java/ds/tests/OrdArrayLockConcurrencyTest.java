@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.IArray;
 import ds.OrdArrayLock;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -15,10 +16,12 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("OrdArrayLockConcurrencyTest")
 class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
+  @DisplayName("OrdArrayLockConcurrencyTest.testSyncInserts")
   void testSyncInserts() {
     IArray ordArray = new OrdArrayLock(1000, true);
     LongStream.rangeClosed(1L, 1000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
@@ -27,6 +30,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
+  @DisplayName("OrdArrayLockConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray ordArray = new OrdArrayLock(1000, true);
     LongStream nos = LongStream.rangeClosed(1L, 1000L);
@@ -39,6 +43,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
+  @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray ordArray = new OrdArrayLock(100);
     LongStream nos = LongStream.rangeClosed(1L, 1000L);
@@ -51,6 +56,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
+  @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncInsertsDeletes")
   void testConcurrentSyncInsertsDeletes() {
     IArray ordArray = new OrdArrayLock(100);
     LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();

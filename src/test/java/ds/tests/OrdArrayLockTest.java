@@ -31,11 +31,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("OrdArrayLockTest")
 class OrdArrayLockTest {
   @Nested
-@DisplayName("OrdArrayLockTest.ConstructorTests")
+  @DisplayName("OrdArrayLockTest.ConstructorTests")
   class ConstructorTests {
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     @Test
-@DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterNegative")
+    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterNegative")
     void testConstructorParameterNegative() {
       IllegalArgumentException iae =
           assertThrows(
@@ -48,14 +48,14 @@ class OrdArrayLockTest {
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterOK")
+    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterOK")
     void testConstructorParameterOK() {
       IArray arr = new OrdArrayLock(10);
       assertEquals(10, arr.get().length, "Length 10 expected");
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ConstructorTests.testEmptyConstructor")
+    @DisplayName("OrdArrayLockTest.ConstructorTests.testEmptyConstructor")
     void testEmptyConstructor() {
       IArray arr = new OrdArrayLock();
       boolean strict = (boolean) on(arr).get(STRICT);
@@ -64,7 +64,7 @@ class OrdArrayLockTest {
 
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     @Test
-@DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterZero")
+    @DisplayName("OrdArrayLockTest.ConstructorTests.testConstructorParameterZero")
     void testConstructorParameterZero() {
       IllegalArgumentException iae =
           assertThrows(
@@ -78,32 +78,32 @@ class OrdArrayLockTest {
   }
 
   @Nested
-@DisplayName("OrdArrayLockTest.InsertTests")
+  @DisplayName("OrdArrayLockTest.InsertTests")
   class InsertTests {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.insertDuplicate")
+    @DisplayName("OrdArrayLockTest.InsertTests.insertDuplicate")
     void insertDuplicate(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(6 == arr.syncInsert(66L) && isSorted(arr), "Index 6 expected");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DUPLICATE_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.insertDuplicateElements")
+    @DisplayName("OrdArrayLockTest.InsertTests.insertDuplicateElements")
     void insertDuplicateElements(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsert")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsert")
     void testInsert(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStartExists")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStartExists")
     void testInsertAtStartExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 0L;
@@ -119,7 +119,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEndExists")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEndExists")
     void testInsertAtEndExists(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 99L;
@@ -135,7 +135,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEnd")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtEnd")
     void testInsertAtEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = 100L;
@@ -147,7 +147,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStart")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAtStart")
     void testInsertAtStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long val = -1L;
@@ -160,7 +160,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @ParameterizedTest
     @CsvSource(INIT_SORTED_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertSorted")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertSorted")
     void testInsertSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       int res = arr.syncInsert(99L);
@@ -170,7 +170,7 @@ class OrdArrayLockTest {
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     @ParameterizedTest
     @CsvSource(INIT_ALL_SAME_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testInsertAllSameSorted")
+    @DisplayName("OrdArrayLockTest.InsertTests.testInsertAllSameSorted")
     void testInsertAllSameSorted(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       int res = arr.syncInsert(99L);
@@ -179,7 +179,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_EXCEPTION_DATA)
-@DisplayName("OrdArrayLockTest.InsertTests.testException")
+    @DisplayName("OrdArrayLockTest.InsertTests.testException")
     void testException(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray ordArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
@@ -190,13 +190,13 @@ class OrdArrayLockTest {
   }
 
   @Nested
-@DisplayName("OrdArrayLockTest.DeleteTests")
+  @DisplayName("OrdArrayLockTest.DeleteTests")
   class DeleteTests {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.JUnitTestContainsTooManyAsserts"})
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteTrue")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteTrue")
     void testDeleteTrue(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
@@ -209,7 +209,7 @@ class OrdArrayLockTest {
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteFalse")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteFalse")
     void testDeleteFalse(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertFalse(
@@ -219,7 +219,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteStart")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteStart")
     void testDeleteStart(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 00L;
@@ -230,7 +230,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEnd")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEnd")
     void testDeleteEnd(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
@@ -241,7 +241,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteOverflow")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteOverflow")
     void testDeleteOverflow(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.syncDelete(searchKey);
@@ -252,7 +252,7 @@ class OrdArrayLockTest {
 
     @ParameterizedTest
     @CsvSource(INIT_FULL_DATA)
-@DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEndArray")
+    @DisplayName("OrdArrayLockTest.DeleteTests.testDeleteEndArray")
     void testDeleteEndArray(@AggregateWith(OrdArrayLockArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       long searchKey = 33L;
@@ -263,10 +263,10 @@ class OrdArrayLockTest {
   }
 
   @Nested
-@DisplayName("OrdArrayLockTest.ModCountTests")
+  @DisplayName("OrdArrayLockTest.ModCountTests")
   class ModCountTests {
     @Test
-@DisplayName("OrdArrayLockTest.ModCountTests.testInsertModCount")
+    @DisplayName("OrdArrayLockTest.ModCountTests.testInsertModCount")
     void testInsertModCount() {
       IArray arr = new OrdArrayLock(100);
       int count = arr.count();
@@ -279,7 +279,7 @@ class OrdArrayLockTest {
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ModCountTests.testClearModCount")
+    @DisplayName("OrdArrayLockTest.ModCountTests.testClearModCount")
     void testClearModCount() {
       IArray arr = new OrdArrayLock(100);
       arr.syncInsert(10L);
@@ -292,7 +292,7 @@ class OrdArrayLockTest {
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ModCountTests.testClearEmptyModCount")
+    @DisplayName("OrdArrayLockTest.ModCountTests.testClearEmptyModCount")
     void testClearEmptyModCount() {
       IArray arr = new OrdArrayLock(100);
       int modCount = getModCount(arr);
@@ -304,7 +304,7 @@ class OrdArrayLockTest {
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ModCountTests.testDeleteModCount")
+    @DisplayName("OrdArrayLockTest.ModCountTests.testDeleteModCount")
     void testDeleteModCount() {
       IArray arr = new OrdArrayLock(100);
       arr.syncInsert(10L);
@@ -317,7 +317,7 @@ class OrdArrayLockTest {
     }
 
     @Test
-@DisplayName("OrdArrayLockTest.ModCountTests.testDeleteNotFoundModCount")
+    @DisplayName("OrdArrayLockTest.ModCountTests.testDeleteNotFoundModCount")
     void testDeleteNotFoundModCount() {
       IArray arr = new OrdArrayLock(100);
       int count = arr.count();
@@ -331,12 +331,12 @@ class OrdArrayLockTest {
   }
 
   @Nested
-@DisplayName("OrdArrayLockTest.EqualsVerifierTests")
+  @DisplayName("OrdArrayLockTest.EqualsVerifierTests")
   class EqualsVerifierTests {
     /** Added tests for code coverage completeness. */
     @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-@DisplayName("OrdArrayLockTest.EqualsVerifierTests.equalsContract")
+    @DisplayName("OrdArrayLockTest.EqualsVerifierTests.equalsContract")
     void equalsContract() {
       EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)
@@ -352,7 +352,7 @@ class OrdArrayLockTest {
 
     @Test
     @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
-@DisplayName("OrdArrayLockTest.EqualsVerifierTests.leafNodeEquals")
+    @DisplayName("OrdArrayLockTest.EqualsVerifierTests.leafNodeEquals")
     void leafNodeEquals() {
       EqualsVerifier.forClass(OrdArrayLock.class)
           .withIgnoredFields(MOD_COUNT, LOCK, STRICT, WRITE)

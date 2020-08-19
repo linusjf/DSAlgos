@@ -2,9 +2,7 @@ package ds;
 
 import java.util.Random;
 
-/** 
- * Quick sort using random partitioning.
- **/
+/** Quick sort using random partitioning. */
 public class QuickSort extends AbstractSort {
 
   private static int randomInRange(int low, int high) {
