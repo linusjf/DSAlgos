@@ -12,6 +12,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,10 +25,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("GnomeSortTest")
 class GnomeSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
+@DisplayName("GnomeSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new GnomeSort();
@@ -38,6 +41,7 @@ class GnomeSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
+@DisplayName("GnomeSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new GnomeSort();
@@ -48,6 +52,7 @@ class GnomeSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_INSERTION_SORT_DATA)
+@DisplayName("GnomeSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new GnomeSort();
     OrdArray ord = new OrdArray();
@@ -63,6 +68,7 @@ class GnomeSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
+@DisplayName("GnomeSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new GnomeSort();
@@ -73,6 +79,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -89,6 +96,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -107,6 +115,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -124,6 +133,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testCopyCount")
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -139,6 +149,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -148,6 +159,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -157,6 +169,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -169,6 +182,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new GnomeSort();
     String className = GnomeSort.class.getName();
@@ -177,6 +191,7 @@ class GnomeSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("GnomeSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new GnomeSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
