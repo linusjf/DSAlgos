@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.IArray;
 import ds.OrdArray;
 import java.util.stream.LongStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.TestInstance;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 @SuppressWarnings("PMD.LawOfDemeter")
+@DisplayName("OrdArrayRepeatTest")
 class OrdArrayRepeatTest {
   IArray array;
 
@@ -28,6 +30,7 @@ class OrdArrayRepeatTest {
 
   @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
+@DisplayName("OrdArrayRepeatTest.repeatedTestWithRepetitionInfo")
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     if (!array.delete(current)) fail(() -> "Element " + current + " not found.");
