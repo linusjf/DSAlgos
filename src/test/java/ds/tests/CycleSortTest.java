@@ -52,6 +52,7 @@ class CycleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_INSERTION_SORT_DATA)
+@DisplayName("CycleSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new CycleSort();
     OrdArray ord = new OrdArray();
@@ -67,6 +68,7 @@ class CycleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
+@DisplayName("CycleSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new CycleSort();
@@ -77,6 +79,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -93,6 +96,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -111,6 +115,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -128,6 +133,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testCopyCount")
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -143,6 +149,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -152,6 +159,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -161,6 +169,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -171,6 +180,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new CycleSort();
     String className = CycleSort.class.getName();
@@ -179,6 +189,7 @@ class CycleSortTest implements SortProvider {
   }
 
   @Test
+@DisplayName("CycleSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new CycleSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
