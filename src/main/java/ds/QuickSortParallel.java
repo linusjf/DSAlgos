@@ -29,10 +29,10 @@ public class QuickSortParallel extends AbstractSort {
 
   @Override
   public void reset() {
-   swapCount.set(0); 
-   innerLoopCount.set(0); 
-   outerLoopCount.set(0); 
-   comparisonCount.set(0); 
+    swapCount.set(0);
+    innerLoopCount.set(0);
+    outerLoopCount.set(0);
+    comparisonCount.set(0);
   }
 
   protected void sort(long[] a, int length) {
@@ -67,7 +67,7 @@ public class QuickSortParallel extends AbstractSort {
     }
 
     protected void compute() {
-      if (low < high) {
+      while (low < high) {
 
         int n = high - low + 1;
 
@@ -78,9 +78,13 @@ public class QuickSortParallel extends AbstractSort {
         }
         int pivotIndex = partition(a, low, high);
 
-        invokeAll(
-            new QuickSortAction(a, low, pivotIndex - 1),
-            new QuickSortAction(a, pivotIndex + 1, high));
+        if ((pivotIndex - low) <= (high - pivotIndex)) {
+          invokeAll(new QuickSortAction(a, low, pivotIndex - 1));
+          low = pivotIndex + 1;
+        } else {
+          invokeAll(new QuickSortAction(a, pivotIndex + 1, high));
+          high = pivotIndex - 1;
+        }
       }
     }
 
