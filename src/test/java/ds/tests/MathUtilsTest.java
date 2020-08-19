@@ -17,43 +17,43 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class MathUtilsTest {
 
   @Test
-@DisplayName("MathUtilsTest.testZero")
+  @DisplayName("MathUtilsTest.testZero")
   void testZero() {
     assertFalse(isOdd(0), "Zero is even!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testOne")
+  @DisplayName("MathUtilsTest.testOne")
   void testOne() {
     assertTrue(isOdd(1), "One is odd!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testMinusOne")
+  @DisplayName("MathUtilsTest.testMinusOne")
   void testMinusOne() {
     assertTrue(isOdd(-1), "Minus One is odd!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testTwo")
+  @DisplayName("MathUtilsTest.testTwo")
   void testTwo() {
     assertFalse(isOdd(2), "Two is even!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testMinusTwo")
+  @DisplayName("MathUtilsTest.testMinusTwo")
   void testMinusTwo() {
     assertFalse(isOdd(-2), "Minus Two is even!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testMaxValue")
+  @DisplayName("MathUtilsTest.testMaxValue")
   void testMaxValue() {
     assertTrue(isOdd(Integer.MAX_VALUE), () -> Integer.MAX_VALUE + " is odd!");
   }
 
   @Test
-@DisplayName("MathUtilsTest.testMinValue")
+  @DisplayName("MathUtilsTest.testMinValue")
   void testMinValue() {
     assertFalse(isOdd(Integer.MIN_VALUE), () -> Integer.MIN_VALUE + " is even!");
   }

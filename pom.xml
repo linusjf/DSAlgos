@@ -236,7 +236,7 @@
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.26.0</pmd.version>
-    <spotbugs.version>4.1.1</spotbugs.version>
+    <spotbugs.version>4.1.2</spotbugs.version>
     <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
@@ -559,6 +559,13 @@
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
           <version>${maven.spotbugs.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.github.spotbugs</groupId>
+              <artifactId>spotbugs</artifactId>
+              <version>${spotbugs.version}</version>
+            </dependency>
+          </dependencies>
           <configuration>
             <plugins>
               <plugin>
@@ -587,13 +594,6 @@
               </goals>
             </execution>
           </executions>
-          <dependencies>
-            <dependency>
-              <groupId>com.github.spotbugs</groupId>
-              <artifactId>spotbugs</artifactId>
-              <version>${spotbugs.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

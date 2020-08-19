@@ -30,7 +30,7 @@ class BubbleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
-@DisplayName("BubbleSortTest.testSort")
+  @DisplayName("BubbleSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new BubbleSort();
@@ -41,7 +41,7 @@ class BubbleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
-@DisplayName("BubbleSortTest.testSortDuplicates")
+  @DisplayName("BubbleSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new BubbleSort();
@@ -52,7 +52,7 @@ class BubbleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
-@DisplayName("BubbleSortTest.testSortAllSame")
+  @DisplayName("BubbleSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new BubbleSort();
@@ -64,7 +64,7 @@ class BubbleSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_BUBBLE_SORT_DATA)
-@DisplayName("BubbleSortTest.testSortSmallData")
+  @DisplayName("BubbleSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new BubbleSort();
     OrdArray ord = new OrdArray();
@@ -79,7 +79,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testStreamUnSorted")
+  @DisplayName("BubbleSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -98,7 +98,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testReset")
+  @DisplayName("BubbleSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -115,7 +115,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testComparisonCountSorted")
+  @DisplayName("BubbleSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -126,7 +126,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testComparisonCountUnsorted")
+  @DisplayName("BubbleSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
@@ -138,7 +138,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testReverseSorted")
+  @DisplayName("BubbleSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -151,7 +151,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testStreamSorted")
+  @DisplayName("BubbleSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -169,7 +169,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testSwapCount")
+  @DisplayName("BubbleSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -179,7 +179,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testTimeComplexity")
+  @DisplayName("BubbleSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -189,7 +189,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testToStringClass")
+  @DisplayName("BubbleSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BubbleSort();
     String className = BubbleSort.class.getName();
@@ -198,7 +198,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testPreReset")
+  @DisplayName("BubbleSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new BubbleSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -208,7 +208,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testSortEmptyArray")
+  @DisplayName("BubbleSortTest.testSortEmptyArray")
   void testSortEmptyArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortEmptyArray();
@@ -219,7 +219,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testSortSingleElementArray")
+  @DisplayName("BubbleSortTest.testSortSingleElementArray")
   void testSortSingleElementArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     sorter.sortSingleElementArray();
@@ -230,7 +230,7 @@ class BubbleSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("BubbleSortTest.testSortNegativeLengthArray")
+  @DisplayName("BubbleSortTest.testSortNegativeLengthArray")
   void testSortNegativeLengthArray() {
     BubbleSortComplex sorter = new BubbleSortComplex();
     assertThrows(

@@ -12,11 +12,9 @@ public class QuickSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0)
-      throw new IllegalArgumentException("Invalid length parameter: " + length);
+    if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
     reset();
-    if (length <= 1)
-      return;
+    if (length <= 1) return;
     quickSort(a, 0, length - 1);
   }
 
@@ -67,7 +65,9 @@ public class QuickSort extends AbstractSort {
   /*
    * This QuickSort requires O(Log n) auxiliary space in worst case.
    */
-  void quickSort(long[] a, int low, int high) {
+  void quickSort(long[] a, int lower, int upper) {
+    int low = lower;
+    int high = upper;
     while (low < high) {
       ++outerLoopCount;
       printSubArray(a, low, high);
@@ -97,6 +97,6 @@ public class QuickSort extends AbstractSort {
   }
 
   private void printRandom(int num) {
-    System.out.printf("%d %n", num);
+    System.out.printf("Random: %d %n", num);
   }
 }

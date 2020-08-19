@@ -30,7 +30,7 @@ class HighArrayRepeatTest {
 
   @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
-@DisplayName("HighArrayRepeatTest.repeatedTestWithRepetitionInfo")
+  @DisplayName("HighArrayRepeatTest.repeatedTestWithRepetitionInfo")
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
     int current = repetitionInfo.getCurrentRepetition();
     if (!array.delete(current)) fail(() -> "Element " + current + " not found.");

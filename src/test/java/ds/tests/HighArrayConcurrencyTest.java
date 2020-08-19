@@ -29,7 +29,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   private static final Logger LOGGER = Logger.getLogger(HighArrayConcurrencyTest.class.getName());
 
   @Test
-@DisplayName("HighArrayConcurrencyTest.testConcurrentInserts")
+  @DisplayName("HighArrayConcurrencyTest.testConcurrentInserts")
   void testConcurrentInserts() {
     IArray highArray = new HighArray(10_000);
     LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
@@ -40,7 +40,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
   @ParameterizedTest
   @MethodSource("provideArraySize")
-@DisplayName("HighArrayConcurrencyTest.testConcurrentDeletes")
+  @DisplayName("HighArrayConcurrencyTest.testConcurrentDeletes")
   void testConcurrentDeletes(int size) {
     CountDownLatch cdl = new CountDownLatch(1);
     CountDownLatch done = new CountDownLatch(size);
@@ -80,7 +80,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
-@DisplayName("HighArrayConcurrencyTest.testSequentialDeletes")
+  @DisplayName("HighArrayConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray highArray = new HighArray(10_000, true);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);
@@ -94,7 +94,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   }
 
   @Test
-@DisplayName("HighArrayConcurrencyTest.testConcurrentSyncDeletes")
+  @DisplayName("HighArrayConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray highArray = new HighArray(100);
     LongStream nos = LongStream.rangeClosed(1L, 10_000L);

@@ -30,7 +30,7 @@ class CombSortTest {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
-@DisplayName("CombSortTest.testSort")
+  @DisplayName("CombSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new CombSort();
@@ -41,7 +41,7 @@ class CombSortTest {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
-@DisplayName("CombSortTest.testSortDuplicates")
+  @DisplayName("CombSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new CombSort();
@@ -52,7 +52,7 @@ class CombSortTest {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
-@DisplayName("CombSortTest.testSortAllSame")
+  @DisplayName("CombSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new CombSort();
@@ -64,7 +64,7 @@ class CombSortTest {
 
   @ParameterizedTest
   @CsvSource(INIT_COMB_SORT_DATA)
-@DisplayName("CombSortTest.testSortSmallData")
+  @DisplayName("CombSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new CombSort();
     OrdArray ord = new OrdArray();
@@ -79,7 +79,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testReset")
+  @DisplayName("CombSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -96,7 +96,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testStreamUnSorted")
+  @DisplayName("CombSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -115,7 +115,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testStreamSorted")
+  @DisplayName("CombSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -133,7 +133,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testSwapCount")
+  @DisplayName("CombSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -149,7 +149,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testToStringClass")
+  @DisplayName("CombSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new CombSort();
     String className = CombSort.class.getName();
@@ -158,7 +158,7 @@ class CombSortTest {
   }
 
   @Test
-@DisplayName("CombSortTest.testPreReset")
+  @DisplayName("CombSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new CombSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);

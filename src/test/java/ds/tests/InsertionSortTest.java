@@ -30,7 +30,7 @@ class InsertionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
-@DisplayName("InsertionSortTest.testSort")
+  @DisplayName("InsertionSortTest.testSort")
   void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
     ISort sorter = new InsertionSort();
@@ -41,7 +41,7 @@ class InsertionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
-@DisplayName("InsertionSortTest.testSortDuplicates")
+  @DisplayName("InsertionSortTest.testSortDuplicates")
   void testSortDuplicates(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {00, 00, 00, 00, 11, 11, 11, 22, 22, 33, 33, 44, 55, 66, 77, 77, 77, 88, 88, 99, 99};
     ISort sorter = new InsertionSort();
@@ -52,7 +52,7 @@ class InsertionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_INSERTION_SORT_DATA)
-@DisplayName("InsertionSortTest.testSortSmallData")
+  @DisplayName("InsertionSortTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     ISort sorter = new InsertionSort();
     OrdArray ord = new OrdArray();
@@ -68,7 +68,7 @@ class InsertionSortTest implements SortProvider {
 
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
-@DisplayName("InsertionSortTest.testSortAllSame")
+  @DisplayName("InsertionSortTest.testSortAllSame")
   void testSortAllSame(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
     long[] a = {43, 43, 43, 43, 43, 43, 43, 43, 43, 43};
     ISort sorter = new InsertionSort();
@@ -79,7 +79,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testReset")
+  @DisplayName("InsertionSortTest.testReset")
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -96,7 +96,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testStreamUnSorted")
+  @DisplayName("InsertionSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -115,7 +115,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testStreamSorted")
+  @DisplayName("InsertionSortTest.testStreamSorted")
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -133,7 +133,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testCopyCount")
+  @DisplayName("InsertionSortTest.testCopyCount")
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
@@ -149,7 +149,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testTimeComplexity")
+  @DisplayName("InsertionSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
@@ -159,7 +159,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testTimeComplexityReverseSorted")
+  @DisplayName("InsertionSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -169,7 +169,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testReverseSorted")
+  @DisplayName("InsertionSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
     revRange(1, 20).forEach(i -> high.insert(i));
@@ -182,7 +182,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testToStringClass")
+  @DisplayName("InsertionSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new InsertionSort();
     String className = InsertionSort.class.getName();
@@ -191,7 +191,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testPreReset")
+  @DisplayName("InsertionSortTest.testPreReset")
   void testPreReset() {
     ISort sorter = new InsertionSort();
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
@@ -201,7 +201,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testFullArraySort")
+  @DisplayName("InsertionSortTest.testFullArraySort")
   void testFullArraySort() {
     InsertionSub sorter = new InsertionSub();
     sorter.sortFullArray();
@@ -211,7 +211,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testNotFullArraySort")
+  @DisplayName("InsertionSortTest.testNotFullArraySort")
   void testNotFullArraySort() {
     InsertionSub sorter = new InsertionSub();
     sorter.sortNotFullArray();
@@ -221,7 +221,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testEmptyArraySort")
+  @DisplayName("InsertionSortTest.testEmptyArraySort")
   void testEmptyArraySort() {
     InsertionSub sorter = new InsertionSub();
     sorter.sortEmptyArray();
@@ -231,7 +231,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testSingleElementArraySort")
+  @DisplayName("InsertionSortTest.testSingleElementArraySort")
   void testSingleElementArraySort() {
     InsertionSub sorter = new InsertionSub();
     sorter.sortSingleElementArray();
@@ -241,7 +241,7 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-@DisplayName("InsertionSortTest.testNegativeLengthArraySort")
+  @DisplayName("InsertionSortTest.testNegativeLengthArraySort")
   void testNegativeLengthArraySort() {
     InsertionSub sorter = new InsertionSub();
     assertThrows(
