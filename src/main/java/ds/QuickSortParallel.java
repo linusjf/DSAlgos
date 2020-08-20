@@ -49,7 +49,7 @@ public class QuickSortParallel extends AbstractSort {
 
   // return the index of the median element among a[i], a[j], and a[k]
   public static int median3(long[] a, int i, int j, int k) {
-    return less(a[i], a[j]
+    return less(a[i], a[j])
         ? less(a[j], a[k]) ? j : less(a[i], a[k]) ? k : i
         : less(a[k], a[j]) ? j : less(a[k], a[i]) ? k : i;
   }
