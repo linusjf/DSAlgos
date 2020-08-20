@@ -32,7 +32,7 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   protected void reset(int length) {
     super.reset();
-    if (service.isTerminated())
+    if (service.isTerminated() || service.isShutdown())
       service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     sorted.getAndSet(false);
     swapCount.set(0);

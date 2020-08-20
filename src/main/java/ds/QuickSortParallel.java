@@ -32,7 +32,7 @@ public class QuickSortParallel extends AbstractSort {
 
   @Override
   public void reset() {
-    if (pool.isTerminated()) pool = new ForkJoinPool();
+    if (pool.isTerminated() || pool.isShutdown()) pool = new ForkJoinPool();
     swapCount.set(0);
     innerLoopCount.set(0);
     outerLoopCount.set(0);
