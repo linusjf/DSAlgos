@@ -46,13 +46,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
     }
-    service.shutdown();
-    try {
-      if (!service.awaitTermination(length, TimeUnit.MILLISECONDS)) 
-        service.shutdownNow();
-    } catch (InterruptedException ie) {
-      service.shutdownNow();
-    }
+    ExecutorUtils.terminateExecutor(service, length, TimeUnit.MILLISECONDS);
   }
 
   protected void sortInterruptibly(long[] a, int length)

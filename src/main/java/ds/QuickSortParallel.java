@@ -43,12 +43,7 @@ public class QuickSortParallel extends AbstractSort {
     reset();
     if (length <= 1) return;
     pool.invoke(new QuickSortAction(a, 0, length - 1));
-    pool.shutdown();
-    try {
-      if (!pool.awaitTermination(length, TimeUnit.MILLISECONDS)) pool.shutdownNow();
-    } catch (InterruptedException ie) {
-      pool.shutdownNow();
-    }
+    ExecutorUtils.terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
   }
 
   public static boolean less(long v, long w) {
