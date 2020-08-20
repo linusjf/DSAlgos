@@ -349,6 +349,11 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
+          <configuration>
+            <runOrder>alphabetical</runOrder>
+            <rerunFailingTestsCount>2</rerunFailingTestsCount>
+            <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.pitest</groupId>
