@@ -20,7 +20,6 @@ public class QuickSort extends AbstractSort {
 
   private int randomPartition(long[] a, int low, int high) {
     int random = randomInRange(low, high + 1);
-    printRandom(random);
     if (random != high && a[random] > a[high]) {
       swap(a, random, high);
       ++swapCount;
@@ -70,8 +69,6 @@ public class QuickSort extends AbstractSort {
     int high = upper;
     while (low < high) {
       ++outerLoopCount;
-      printSubArray(a, low, high);
-      printThis();
       /* pi is partitioning index, a[p] is now
       at right place */
       int pi = randomPartition(a, low, high);
@@ -85,18 +82,5 @@ public class QuickSort extends AbstractSort {
         high = pi - 1;
       }
     }
-  }
-
-  private void printSubArray(long[] a, int start, int end) {
-    for (int i = start; i <= end; i++) System.out.printf("%d ", a[i]);
-    System.out.println("");
-  }
-
-  private void printThis() {
-    System.out.println(this);
-  }
-
-  private void printRandom(int num) {
-    System.out.printf("Random: %d %n", num);
   }
 }
