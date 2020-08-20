@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,6 +31,7 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   protected void reset(int length) {
     super.reset();
+    service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     sorted.getAndSet(false);
     swapCount.set(0);
     oddTaskCount = computeOddTaskCount(length);
@@ -43,6 +45,13 @@ public class BrickSortParallel extends AbstractBrickSort {
       sortInterruptibly(a, length);
     } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
+    }
+    service.shutdown();
+    try {
+      if (!service.awaitTermination(length, TimeUnit.MILLISECONDS)) 
+        service.shutdownNow();
+    } catch (InterruptedException ie) {
+      service.shutdownNow();
     }
   }
 

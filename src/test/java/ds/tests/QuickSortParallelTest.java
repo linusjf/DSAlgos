@@ -92,7 +92,6 @@ class QuickSortParallelTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
-    System.out.println("comparisonCount = " + comparisonCount);
     assertTrue(
         20 * Math.log(20) < comparisonCount && comparisonCount <= 20 * 19,
         "Comparison count must be in range nlogn to n(n-1)");

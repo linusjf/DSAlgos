@@ -2,10 +2,11 @@ package ds;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuickSortParallel extends AbstractSort {
-  private final ForkJoinPool pool = new ForkJoinPool();
+  private ForkJoinPool pool = new ForkJoinPool();
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
   private final AtomicInteger innerLoopCount = new AtomicInteger();
@@ -29,6 +30,7 @@ public class QuickSortParallel extends AbstractSort {
 
   @Override
   public void reset() {
+    pool = new ForkJoinPool();
     swapCount.set(0);
     innerLoopCount.set(0);
     outerLoopCount.set(0);
@@ -41,6 +43,12 @@ public class QuickSortParallel extends AbstractSort {
     reset();
     if (length <= 1) return;
     pool.invoke(new QuickSortAction(a, 0, length - 1));
+    pool.shutdown();
+    try {
+      if (!pool.awaitTermination(length, TimeUnit.MILLISECONDS)) pool.shutdownNow();
+    } catch (InterruptedException ie) {
+      pool.shutdownNow();
+    }
   }
 
   public static boolean less(long v, long w) {
@@ -61,6 +69,7 @@ public class QuickSortParallel extends AbstractSort {
     int low;
     int high;
 
+    @SuppressWarnings("PMD.ArrayIsStoredDirectly")
     QuickSortAction(long[] a, int low, int high) {
       this.a = a;
       this.low = low;
