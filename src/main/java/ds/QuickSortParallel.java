@@ -5,11 +5,11 @@ import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuickSortParallel extends AbstractSort {
-  private ForkJoinPool pool = new ForkJoinPool();
-  private AtomicInteger swapCount = new AtomicInteger();
-  private AtomicInteger comparisonCount = new AtomicInteger();
-  private AtomicInteger innerLoopCount = new AtomicInteger();
-  private AtomicInteger outerLoopCount = new AtomicInteger();
+  private final ForkJoinPool pool = new ForkJoinPool();
+  private final AtomicInteger swapCount = new AtomicInteger();
+  private final AtomicInteger comparisonCount = new AtomicInteger();
+  private final AtomicInteger innerLoopCount = new AtomicInteger();
+  private final AtomicInteger outerLoopCount = new AtomicInteger();
 
   @Override
   public int getSwapCount() {
@@ -35,6 +35,7 @@ public class QuickSortParallel extends AbstractSort {
     comparisonCount.set(0);
   }
 
+  @Override
   protected void sort(long[] a, int length) {
     if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
     reset();
@@ -48,9 +49,9 @@ public class QuickSortParallel extends AbstractSort {
 
   // return the index of the median element among a[i], a[j], and a[k]
   public static int median3(long[] a, int i, int j, int k) {
-    return (less(a[i], a[j])
-        ? (less(a[j], a[k]) ? j : less(a[i], a[k]) ? k : i)
-        : (less(a[k], a[j]) ? j : less(a[k], a[i]) ? k : i));
+    return less(a[i], a[j]
+        ? less(a[j], a[k]) ? j : less(a[i], a[k]) ? k : i
+        : less(a[k], a[j]) ? j : less(a[k], a[i]) ? k : i;
   }
 
   class QuickSortAction extends RecursiveAction {
@@ -66,6 +67,7 @@ public class QuickSortParallel extends AbstractSort {
       this.high = high;
     }
 
+    @Override
     protected void compute() {
       while (low < high) {
 
