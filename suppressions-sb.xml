@@ -30,4 +30,16 @@
   <Match>
     <Bug pattern="CLI_CONSTANT_LIST_INDEX"/>
   </Match>
+  <Match>
+    <Class name="ds.BrickSortParallel"/>
+    <Bug pattern="HES_EXECUTOR_NEVER_SHUTDOWN"/>
+  </Match>
+  <Match>
+    <Class name="ds.BrickSortParallel"/>
+    <Bug pattern="HES_EXECUTOR_OVERWRITTEN_WITHOUT_SHUTDOWN"/>
+  </Match>
+  <Match>
+    <Class name="ds.QuickSortParallel"/>
+    <Bug pattern="HES_EXECUTOR_NEVER_SHUTDOWN"/>
+  </Match>
 </FindBugsFilter>

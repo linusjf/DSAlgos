@@ -1,5 +1,6 @@
 package ds;
 
+import static ds.ExecutorUtils.*;
 import static ds.MathUtils.*;
 import static java.lang.Math.abs;
 
@@ -31,7 +32,8 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   protected void reset(int length) {
     super.reset();
-    service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    if (service.isTerminated())
+      service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     sorted.getAndSet(false);
     swapCount.set(0);
     oddTaskCount = computeOddTaskCount(length);
@@ -45,8 +47,9 @@ public class BrickSortParallel extends AbstractBrickSort {
       sortInterruptibly(a, length);
     } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
+    } finally {
+      terminateExecutor(service, length, TimeUnit.MILLISECONDS);
     }
-    ExecutorUtils.terminateExecutor(service, length, TimeUnit.MILLISECONDS);
   }
 
   protected void sortInterruptibly(long[] a, int length)

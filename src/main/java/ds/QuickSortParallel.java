@@ -1,5 +1,7 @@
 package ds;
 
+import static ds.ExecutorUtils.*;
+
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +32,7 @@ public class QuickSortParallel extends AbstractSort {
 
   @Override
   public void reset() {
-    pool = new ForkJoinPool();
+    if (pool.isTerminated()) pool = new ForkJoinPool();
     swapCount.set(0);
     innerLoopCount.set(0);
     outerLoopCount.set(0);
@@ -43,7 +45,7 @@ public class QuickSortParallel extends AbstractSort {
     reset();
     if (length <= 1) return;
     pool.invoke(new QuickSortAction(a, 0, length - 1));
-    ExecutorUtils.terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
+    terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
   }
 
   public static boolean less(long v, long w) {
