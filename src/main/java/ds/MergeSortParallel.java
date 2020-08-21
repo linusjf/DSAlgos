@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /***
  * <p>Merge sort using parallelism.</p>
@@ -14,6 +15,34 @@ public class MergeSortParallel extends MergeSort {
 
   private static final int SEQ_SORT_BARRIER = 8192;
   private static final int CUTOFF = 8;
+  private final AtomicInteger copyCount = new AtomicInteger();
+  private final AtomicInteger comparisonCount = new AtomicInteger();
+  private final AtomicInteger innerLoopCount = new AtomicInteger();
+  private final AtomicInteger outerLoopCount = new AtomicInteger();
+
+  @Override
+  public int getCopyCount() {
+    return copyCount.intValue();
+  }
+
+  @Override
+  public int getComparisonCount() {
+    return comparisonCount.intValue();
+  }
+
+  @Override
+  public int getTimeComplexity() {
+    int count = innerLoopCount.intValue();
+    return count > 0 ? count : outerLoopCount.intValue();
+  }
+
+  @Override
+  public void reset() {
+    copyCount.set(0);
+    innerLoopCount.set(0);
+    outerLoopCount.set(0);
+    comparisonCount.set(0);
+  }
 
   @Override
   protected void sort(long[] a, int length) {
@@ -33,16 +62,16 @@ public class MergeSortParallel extends MergeSort {
     int start2 = mid + 1;
     // If the direct merge is already sorted
     if (a[mid] <= a[start2]) {
-      ++comparisonCount;
+      comparisonCount.incrementAndGet();
       return;
     }
     // Two pointers to maintain start
     // of both arrays to merge
     while (start <= mid && start2 <= end) {
       // If element 1 is in right place
-      ++outerLoopCount;
+      outerLoopCount.incrementAndGet();
       if (a[start] <= a[start2]) {
-        ++comparisonCount;
+        comparisonCount.incrementAndGet();
         ++start;
       } else {
         long value = a[start2];
@@ -50,13 +79,13 @@ public class MergeSortParallel extends MergeSort {
         // Shift all the elements between element 1
         // element 2, right by 1.
         while (index != start) {
-          ++innerLoopCount;
+          innerLoopCount.incrementAndGet();
           System.arraycopy(a, index - 1, a, index, 1);
           --index;
-          ++copyCount;
+          copyCount.incrementAndGet();
         }
         a[start] = value;
-        ++copyCount;
+        copyCount.incrementAndGet();
         // Update all the pointers
         ++start;
         ++mid;
