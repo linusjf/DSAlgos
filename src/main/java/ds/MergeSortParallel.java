@@ -8,7 +8,7 @@ import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
 /***
- * Merge sort using parallelism.
+ * <p>Merge sort using parallelism.</p>
  ***/
 public class MergeSortParallel extends MergeSort {
 
