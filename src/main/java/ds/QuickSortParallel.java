@@ -2,12 +2,14 @@ package ds;
 
 import static ds.ExecutorUtils.*;
 
+import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuickSortParallel extends AbstractSort {
+  private static final int CUTOFF = 8;
   private ForkJoinPool pool = new ForkJoinPool();
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
@@ -79,7 +81,22 @@ public class QuickSortParallel extends AbstractSort {
 
         int n = high - low + 1;
 
-        int m = median3(a, low, low + n / 2, high);
+        if (n <= CUTOFF) {
+          Arrays.sort(a, low, low + n);
+          return;
+        }
+
+        int m;
+        int middle = n >> 1;
+        if (n >= (Integer.MAX_VALUE >> 1)) {
+          int s = n >> 3;
+          m =
+              median3(
+                  a,
+                  median3(a, low, low + s, low + (s << 1)),
+                  median3(a, middle - s, middle, middle + s),
+                  median3(a, high - (s << 1), high - s, high));
+        } else m = median3(a, low, low + middle, high);
         if (m != low && a[low] > a[m]) {
           swap(a, m, low);
           swapCount.incrementAndGet();
