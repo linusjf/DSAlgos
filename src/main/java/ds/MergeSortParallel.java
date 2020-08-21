@@ -51,6 +51,10 @@ public class MergeSortParallel extends MergeSort {
     if (length <= 1) return;
     if (length <= SEQ_SORT_BARRIER) {
       super.sort(a, length);
+      copyCount.set(super.copyCount);
+      innerLoopCount.set(super.innerLoopCount);
+      outerLoopCount.set(super.outerLoopCount);
+      comparisonCount.set(super.comparisonCount);
       return;
     }
     ForkJoinPool pool = new ForkJoinPool();

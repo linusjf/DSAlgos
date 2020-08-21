@@ -74,7 +74,7 @@ class MergeSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
   @Test
@@ -92,9 +92,7 @@ class MergeSortTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
-    assertTrue(
-        20 * Math.log(20) < comparisonCount && comparisonCount <= 20 * 19,
-        "Comparison count must be in range nlogn to n(n-1)");
+    assertEquals(19, comparisonCount, "Comparison count must be in n-1.");
   }
 
   @Test
@@ -132,12 +130,12 @@ class MergeSortTest implements SortProvider {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
   @Test
-  @DisplayName("MergeSortTest.testSwapCount")
-  void testSwapCount() {
+  @DisplayName("MergeSortTest.testCopyCount")
+  void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
     LongStream.rangeClosed(1, 20)
@@ -148,7 +146,7 @@ class MergeSortTest implements SortProvider {
             });
     ISort sorter = new MergeSort();
     sorter.sort(high);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), "Swap count must be zero.");
   }
 
   @Test
@@ -158,7 +156,7 @@ class MergeSortTest implements SortProvider {
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new MergeSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
   }
 
   @Test
@@ -178,7 +176,7 @@ class MergeSortTest implements SortProvider {
     revRange(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new MergeSort();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
+    assertNotEquals(0, sorter.getCopyCount(), "Swap count must not be zero.");
   }
 
   @Test
@@ -197,6 +195,5 @@ class MergeSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
-    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
   }
 }
