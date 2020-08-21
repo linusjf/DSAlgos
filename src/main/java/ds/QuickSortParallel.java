@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuickSortParallel extends AbstractSort {
   private static final int CUTOFF = 8;
+  private static final int MEDIUM = 40;
   private ForkJoinPool pool = new ForkJoinPool();
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
@@ -88,7 +89,7 @@ public class QuickSortParallel extends AbstractSort {
 
         int m;
         int middle = n >> 1;
-        if (n >= (Integer.MAX_VALUE >> 1)) {
+        if (n > MEDIUM) {
           int s = n >> 3;
           m =
               median3(
