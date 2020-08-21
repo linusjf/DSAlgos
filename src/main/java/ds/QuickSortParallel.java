@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class QuickSortParallel extends AbstractSort {
   private static final int CUTOFF = 8;
   private static final int MEDIUM = 40;
-  private ForkJoinPool pool = new ForkJoinPool();
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
   private final AtomicInteger innerLoopCount = new AtomicInteger();
@@ -35,7 +34,6 @@ public class QuickSortParallel extends AbstractSort {
 
   @Override
   public void reset() {
-    if (pool.isTerminated() || pool.isShutdown()) pool = new ForkJoinPool();
     swapCount.set(0);
     innerLoopCount.set(0);
     outerLoopCount.set(0);
@@ -47,6 +45,7 @@ public class QuickSortParallel extends AbstractSort {
     if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
     reset();
     if (length <= 1) return;
+    ForkJoinPool pool = new ForkJoinPool();
     pool.invoke(new QuickSortAction(a, 0, length - 1));
     terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
   }

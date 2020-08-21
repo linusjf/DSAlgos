@@ -1,7 +1,7 @@
 package ds;
 
-/*** 
- * Quick sort using random partitioning. 
+/***
+ * Quick sort using random partitioning.
  ***/
 public class MergeSort extends AbstractSort {
 
