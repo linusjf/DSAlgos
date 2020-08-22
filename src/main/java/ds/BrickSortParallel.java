@@ -18,8 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** Not thread-safe. */
 public class BrickSortParallel extends AbstractBrickSort {
 
-  protected int oddTaskCount;
-  protected int evenTaskCount;
   private final AtomicBoolean sorted;
   private final AtomicInteger swapCount;
 
@@ -32,8 +30,6 @@ public class BrickSortParallel extends AbstractBrickSort {
     super.reset();
     sorted.getAndSet(false);
     swapCount.set(0);
-    oddTaskCount = computeOddTaskCount(length);
-    evenTaskCount = computeEvenTaskCount(length);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -58,15 +54,17 @@ public class BrickSortParallel extends AbstractBrickSort {
       return;
     }
     final int maxComparisons = computeMaxComparisons(length);
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
-      oddSort(a, length, service);
+      oddSort(a, length, service, oddTaskCount);
       if (swapCount.intValue() == maxComparisons) {
         sorted.set(true);
         break;
       }
-      evenSort(a, length, service);
+      evenSort(a, length, service, evenTaskCount);
       if (swapCount.intValue() == maxComparisons) sorted.set(true);
     }
   }
@@ -77,7 +75,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void oddSort(long[] a, int length, ExecutorService service)
+  protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
     for (int i = 1; i < length - 1; i += 2) {
@@ -90,7 +88,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void evenSort(long[] a, int length, ExecutorService service)
+  protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
     for (int i = 0; i < length - 1; i += 2) {
@@ -142,12 +140,6 @@ public class BrickSortParallel extends AbstractBrickSort {
         .append(lineSeparator)
         .append("outer loop count: ")
         .append(outerLoopCount)
-        .append(lineSeparator)
-        .append("odd task count: ")
-        .append(oddTaskCount)
-        .append(lineSeparator)
-        .append("even task count: ")
-        .append(evenTaskCount)
         .append(lineSeparator)
         .append("sorted: ")
         .append(sorted)
