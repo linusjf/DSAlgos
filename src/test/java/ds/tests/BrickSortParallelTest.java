@@ -606,13 +606,5 @@ class BrickSortParallelTest implements SortProvider {
     int getOuterLoopCount() {
       return outerLoopCount;
     }
-
-    int getOddTaskCount() {
-      return oddTaskCount;
-    }
-
-    int getEvenTaskCount() {
-      return evenTaskCount;
-    }
   }
 }
