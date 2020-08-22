@@ -22,8 +22,11 @@ public class HeapSort extends AbstractSort {
     for (int i = length - 1; i > 0; --i) {
       ++outerLoopCount;
       // Move current root to end
-      swap(a, i, 0);
-      ++swapCount;
+      ++comparisonCount;
+      if (a[i] != a[0]) {
+        swap(a, i, 0);
+        ++swapCount;
+      }
       // call max heapify on the reduced heap
       heapify(a, i, 0);
     }
@@ -50,9 +53,10 @@ public class HeapSort extends AbstractSort {
     }
 
     // If largest is not root
-    if (largest != i) {
+    if (largest != i && a[largest] != a[i]) {
       swap(a, i, largest);
       ++swapCount;
+      ++comparisonCount;
       // Recursively heapify the affected sub-tree
       heapify(a, n, largest);
     }
