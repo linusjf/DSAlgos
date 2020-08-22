@@ -40,6 +40,28 @@ public class QuickSortParallel extends AbstractSort {
     comparisonCount.set(0);
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+        .append(lineSeparator)
+        .append("Comparison count: ")
+        .append(comparisonCount)
+        .append(lineSeparator)
+        .append("Swap count: ")
+        .append(swapCount)
+        .append(lineSeparator)
+        .append("inner loop count: ")
+        .append(innerLoopCount)
+        .append(lineSeparator)
+        .append("outer loop count: ")
+        .append(outerLoopCount)
+        .append(lineSeparator);
+    return sb.toString();
+  }
+
   @Override
   protected void sort(long[] a, int length) {
     if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);

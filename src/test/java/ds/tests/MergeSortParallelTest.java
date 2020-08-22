@@ -80,8 +80,8 @@ class MergeSortParallelTest implements SortProvider {
   @Test
   @DisplayName("MergeSortParallelTest.testReset")
   void testReset() {
-    IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray high = new HighArray(10000);
+    IArray ord = new OrdArray(10000);
     LongStream.rangeClosed(1, 10000)
         .forEach(
             i -> {
@@ -92,14 +92,14 @@ class MergeSortParallelTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
-    assertEquals(9999, comparisonCount, "Comparison count must be in n-1.");
+    assertEquals(9999, comparisonCount, "Comparison count must be n-1.");
   }
 
   @Test
   @DisplayName("MergeSortParallelTest.testStreamUnsorted")
   void testStreamUnSorted() {
-    IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray high = new HighArray(10000);
+    IArray ord = new OrdArray(10000);
     LongStream.rangeClosed(1, 10000)
         .unordered()
         .forEach(
@@ -117,8 +117,8 @@ class MergeSortParallelTest implements SortProvider {
   @Test
   @DisplayName("MergeSortParallelTest.testStreamSorted")
   void testStreamSorted() {
-    IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray high = new HighArray(10000);
+    IArray ord = new OrdArray(10000);
     LongStream.rangeClosed(1, 10000)
         .forEach(
             i -> {
@@ -136,8 +136,8 @@ class MergeSortParallelTest implements SortProvider {
   @Test
   @DisplayName("MergeSortParallelTest.testSwapCount")
   void testCopyCount() {
-    IArray high = new HighArray();
-    IArray ord = new OrdArray();
+    IArray high = new HighArray(10000);
+    IArray ord = new OrdArray(10000);
     LongStream.rangeClosed(1, 10000)
         .forEach(
             i -> {
@@ -152,17 +152,17 @@ class MergeSortParallelTest implements SortProvider {
   @Test
   @DisplayName("MergeSortParallelTest.testTimeComplexity")
   void testTimeComplexity() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(10000);
     LongStream.rangeClosed(1, 10000).forEach(i -> high.insert(i));
     ISort sorter = new MergeSortParallel();
     sorter.sort(high);
-    assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
   }
 
   @Test
   @DisplayName("MergeSortParallelTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(10000);
     revRange(1, 10000).forEach(i -> high.insert(i));
     ISort sorter = new MergeSortParallel();
     sorter.sort(high);
@@ -172,7 +172,7 @@ class MergeSortParallelTest implements SortProvider {
   @Test
   @DisplayName("MergeSortParallelTest.testReverseSorted")
   void testReverseSorted() {
-    IArray high = new HighArray();
+    IArray high = new HighArray(10000);
     revRange(1, 10000).forEach(i -> high.insert(i));
     ISort sorter = new MergeSortParallel();
     sorter.sort(high);

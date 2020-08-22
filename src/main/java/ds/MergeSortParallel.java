@@ -2,7 +2,6 @@ package ds;
 
 import static ds.ExecutorUtils.*;
 
-import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
@@ -51,10 +50,7 @@ public class MergeSortParallel extends MergeSort {
     if (length <= 1) return;
     if (length <= SEQ_SORT_BARRIER) {
       super.sort(a, length);
-      copyCount.set(super.copyCount);
-      innerLoopCount.set(super.innerLoopCount);
-      outerLoopCount.set(super.outerLoopCount);
-      comparisonCount.set(super.comparisonCount);
+      sequentialSort(a, length);
       return;
     }
     ForkJoinPool pool = new ForkJoinPool();
@@ -62,11 +58,39 @@ public class MergeSortParallel extends MergeSort {
     terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
   }
 
+  private void printArray(long[] a, int length) {
+    for (int i = 0; i < length; i++) System.out.printf("%d ", a[i]);
+    System.out.println("");
+  }
+
+  private void printArray(long[] a, int start, int length) {
+    for (int i = start; i < length; i++) System.out.printf("%d ", a[i]);
+    System.out.println("");
+  }
+
+  private void printThis() {
+    System.out.println(this);
+  }
+
+  private void sequentialSort(long[] a, int length) {
+    System.out.println("Sequential sort");
+    // printArray(a, length);
+    printThis();
+    super.sort(a, length);
+    copyCount.set(super.copyCount);
+    innerLoopCount.set(super.innerLoopCount);
+    outerLoopCount.set(super.outerLoopCount);
+    comparisonCount.set(super.comparisonCount);
+  }
+
   private void merge(long[] a, int start, int mid, int end) {
+    //  System.out.println("Merging arrays");
+    // printArray(a, start, mid);
+    // printArray(a, mid, end);
     int start2 = mid + 1;
     // If the direct merge is already sorted
+    comparisonCount.incrementAndGet();
     if (a[mid] <= a[start2]) {
-      comparisonCount.incrementAndGet();
       return;
     }
     // Two pointers to maintain start
@@ -74,8 +98,8 @@ public class MergeSortParallel extends MergeSort {
     while (start <= mid && start2 <= end) {
       // If element 1 is in right place
       outerLoopCount.incrementAndGet();
+      comparisonCount.incrementAndGet();
       if (a[start] <= a[start2]) {
-        comparisonCount.incrementAndGet();
         ++start;
       } else {
         long value = a[start2];
@@ -98,6 +122,28 @@ public class MergeSortParallel extends MergeSort {
     }
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+        .append(lineSeparator)
+        .append("Comparison count: ")
+        .append(comparisonCount)
+        .append(lineSeparator)
+        .append("Copy count: ")
+        .append(copyCount)
+        .append(lineSeparator)
+        .append("inner loop count: ")
+        .append(innerLoopCount)
+        .append(lineSeparator)
+        .append("outer loop count: ")
+        .append(outerLoopCount)
+        .append(lineSeparator);
+    return sb.toString();
+  }
+
   class MergeSortAction extends RecursiveAction {
     private static final long serialVersionUID = 1L;
 
@@ -115,11 +161,13 @@ public class MergeSortParallel extends MergeSort {
     @Override
     protected void compute() {
       if (low < high) {
+        //   System.out.println("Starting sort");
+        //    printArray(a, low, high);
         int size = high - low + 1;
-        if (size <= CUTOFF) {
-          Arrays.sort(a, low, low + size);
-          return;
-        }
+        //        if (size <= CUTOFF) {
+        //        Arrays.sort(a, low, low + size);
+        //      return;
+        //  }
         int m = low + ((high - low) >> 1);
         invokeAll(new MergeSortAction(a, low, m));
         invokeAll(new MergeSortAction(a, m + 1, high));

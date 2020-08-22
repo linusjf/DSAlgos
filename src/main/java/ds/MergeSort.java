@@ -25,8 +25,8 @@ public class MergeSort extends AbstractSort {
   private void merge(long[] a, int start, int mid, int end) {
     int start2 = mid + 1;
     // If the direct merge is already sorted
+    ++comparisonCount;
     if (a[mid] <= a[start2]) {
-      ++comparisonCount;
       return;
     }
     // Two pointers to maintain start
@@ -34,8 +34,8 @@ public class MergeSort extends AbstractSort {
     while (start <= mid && start2 <= end) {
       // If element 1 is in right place
       ++outerLoopCount;
+      ++comparisonCount;
       if (a[start] <= a[start2]) {
-        ++comparisonCount;
         ++start;
       } else {
         long value = a[start2];
