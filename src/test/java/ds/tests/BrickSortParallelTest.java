@@ -51,9 +51,6 @@ class BrickSortParallelTest implements SortProvider {
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
     int length = arr.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
@@ -364,12 +361,9 @@ class BrickSortParallelTest implements SortProvider {
     bsc.sortOdd();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    final int oddTaskCount = bsc.getOddTaskCount();
-    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(12, innerLoopCount, "Inner loop count must be 12.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
     assertTrue(bsc.isSorted(), SORTED);
   }
 
@@ -380,12 +374,9 @@ class BrickSortParallelTest implements SortProvider {
     bsc.sortEven();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    final int oddTaskCount = bsc.getOddTaskCount();
-    final int evenTaskCount = bsc.getEvenTaskCount();
     assertEquals(15, innerLoopCount, "Inner loop count must be 15.");
     assertEquals(3, outerLoopCount, "Outer loop count must be 3.");
     assertEquals(bsc.getComparisonCount(), innerLoopCount, "Inner loop count must be 4.");
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
     assertTrue(bsc.isSorted(), SORTED);
   }
 
@@ -396,17 +387,11 @@ class BrickSortParallelTest implements SortProvider {
     bsc.sortOdd();
     final int oldInnerLoopCount = bsc.getInnerLoopCount();
     final int oldOuterLoopCount = bsc.getOuterLoopCount();
-    final int oldOddTaskCount = bsc.getOddTaskCount();
-    final int oldEvenTaskCount = bsc.getEvenTaskCount();
     bsc.sortEven();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    final int oddTaskCount = bsc.getOddTaskCount();
-    final int evenTaskCount = bsc.getEvenTaskCount();
     assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
     assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
-    assertEquals(oldOddTaskCount, oddTaskCount, "Odd task count must  be same.");
-    assertNotEquals(oldEvenTaskCount, evenTaskCount, "Even task count must not be same.");
   }
 
   @Test
@@ -416,12 +401,7 @@ class BrickSortParallelTest implements SortProvider {
     bsc.sortEmptyArray();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    final int oddTaskCount = bsc.getOddTaskCount();
-    final int evenTaskCount = bsc.getEvenTaskCount();
-    assertEquals(0, oddTaskCount, "Odd task count zero");
-    assertEquals(0, evenTaskCount, "Even task count zero");
     assertTrue(bsc.isSorted(), SORTED);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
   }
 
   @Test
@@ -431,12 +411,7 @@ class BrickSortParallelTest implements SortProvider {
     bsc.sortSingleElementArray();
     final int innerLoopCount = bsc.getInnerLoopCount();
     final int outerLoopCount = bsc.getOuterLoopCount();
-    final int oddTaskCount = bsc.getOddTaskCount();
-    final int evenTaskCount = bsc.getEvenTaskCount();
-    assertEquals(0, oddTaskCount, "Odd task count zero");
-    assertEquals(0, evenTaskCount, "Even task count zero");
     assertTrue(bsc.isSorted(), SORTED);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, SUM_OF_TASKS);
   }
 
   @Nested
