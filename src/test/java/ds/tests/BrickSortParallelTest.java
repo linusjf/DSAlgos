@@ -14,6 +14,7 @@ import ds.ISort;
 import ds.OrdArray;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -540,7 +541,7 @@ class BrickSortParallelTest implements SortProvider {
 
   static class BrickSortInterruptible extends BrickSortParallel {
     @Override
-    protected void sortInterruptibly(long[] a, int length)
+    protected void sortInterruptibly(long[] a, int length, ExecutorService service)
         throws InterruptedException, ExecutionException {
       throw new InterruptedException(
           "Error in " + BrickSortInterruptible.class + ".sortInterruptible");

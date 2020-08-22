@@ -36,7 +36,6 @@ public class BrickSort extends AbstractBrickSort {
     }
   }
 
-  @Override
   protected void oddSort(long[] a, int length) {
     for (int i = 1; i < length - 1; i = i + 2) {
       ++innerLoopCount;
@@ -45,7 +44,6 @@ public class BrickSort extends AbstractBrickSort {
     }
   }
 
-  @Override
   protected void evenSort(long[] a, int length) {
     for (int i = 0; i < length - 1; i = i + 2) {
       ++innerLoopCount;

@@ -7,12 +7,6 @@ public abstract class AbstractBrickSort extends AbstractSort {
   @Override
   protected abstract void sort(long[] a, int length);
 
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  protected abstract void oddSort(long[] a, int length) throws Exception;
-
-  @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-  protected abstract void evenSort(long[] a, int length) throws Exception;
-
   protected abstract void bubble(long[] a, int i);
 
   protected int computeMaxComparisons(int length) {
