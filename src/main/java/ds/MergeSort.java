@@ -22,13 +22,15 @@ public class MergeSort extends AbstractSort {
     }
   }
 
-  private void merge(long[] a, int start, int mid, int end) {
+  private void merge(long[] a, int begin, int middle, int end) {
+    int mid = middle;
     int start2 = mid + 1;
     // If the direct merge is already sorted
     ++comparisonCount;
     if (a[mid] <= a[start2]) {
       return;
     }
+    int start = begin;
     // Two pointers to maintain start
     // of both arrays to merge
     while (start <= mid && start2 <= end) {

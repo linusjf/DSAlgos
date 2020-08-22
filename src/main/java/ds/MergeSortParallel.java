@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MergeSortParallel extends MergeSort {
 
   private static final int SEQ_SORT_BARRIER = 8192;
-  private static final int CUTOFF = 8;
   private final AtomicInteger copyCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
   private final AtomicInteger innerLoopCount = new AtomicInteger();
@@ -58,24 +57,7 @@ public class MergeSortParallel extends MergeSort {
     terminateExecutor(pool, length, TimeUnit.MILLISECONDS);
   }
 
-  private void printArray(long[] a, int length) {
-    for (int i = 0; i < length; i++) System.out.printf("%d ", a[i]);
-    System.out.println("");
-  }
-
-  private void printArray(long[] a, int start, int length) {
-    for (int i = start; i < length; i++) System.out.printf("%d ", a[i]);
-    System.out.println("");
-  }
-
-  private void printThis() {
-    System.out.println(this);
-  }
-
   private void sequentialSort(long[] a, int length) {
-    System.out.println("Sequential sort");
-    // printArray(a, length);
-    printThis();
     super.sort(a, length);
     copyCount.set(super.copyCount);
     innerLoopCount.set(super.innerLoopCount);
@@ -83,16 +65,15 @@ public class MergeSortParallel extends MergeSort {
     comparisonCount.set(super.comparisonCount);
   }
 
-  private void merge(long[] a, int start, int mid, int end) {
-    //  System.out.println("Merging arrays");
-    // printArray(a, start, mid);
-    // printArray(a, mid, end);
+  private void merge(long[] a, int begin, int middle, int end) {
+    int mid = middle;
     int start2 = mid + 1;
     // If the direct merge is already sorted
     comparisonCount.incrementAndGet();
     if (a[mid] <= a[start2]) {
       return;
     }
+    int start = begin;
     // Two pointers to maintain start
     // of both arrays to merge
     while (start <= mid && start2 <= end) {
@@ -161,13 +142,6 @@ public class MergeSortParallel extends MergeSort {
     @Override
     protected void compute() {
       if (low < high) {
-        //   System.out.println("Starting sort");
-        //    printArray(a, low, high);
-        int size = high - low + 1;
-        //        if (size <= CUTOFF) {
-        //        Arrays.sort(a, low, low + size);
-        //      return;
-        //  }
         int m = low + ((high - low) >> 1);
         invokeAll(new MergeSortAction(a, low, m));
         invokeAll(new MergeSortAction(a, m + 1, high));
@@ -177,6 +151,7 @@ public class MergeSortParallel extends MergeSort {
   }
 
   static class SeqMergeSort extends MergeSort {
+    @Override
     public void sort(long[] a, int length) {
       super.sort(a, length);
     }
