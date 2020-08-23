@@ -19,14 +19,14 @@ public class LinkedListStack {
   }
 
   public long pop() {
-    if (root == null) return Integer.MIN_VALUE;
+    if (root == null) return Long.MIN_VALUE;
     long popped = root.data;
     root = root.next;
     return popped;
   }
 
   public long peek() {
-    return root == null ? Integer.MIN_VALUE : root.data;
+    return root == null ? Long.MIN_VALUE : root.data;
   }
 
   static class StackNode {
