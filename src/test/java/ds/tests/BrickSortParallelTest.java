@@ -34,7 +34,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
-  private static final String SUM_OF_TASKS = "Inner loop count must be sum of tasks.";
   private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
@@ -48,9 +47,6 @@ class BrickSortParallelTest implements SortProvider {
     BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = arr.count();
     assertArrayEquals(a, extent, "Elements must be sorted and equal.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
@@ -399,8 +395,6 @@ class BrickSortParallelTest implements SortProvider {
   void testEmptyArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortEmptyArray();
-    final int innerLoopCount = bsc.getInnerLoopCount();
-    final int outerLoopCount = bsc.getOuterLoopCount();
     assertTrue(bsc.isSorted(), SORTED);
   }
 
@@ -409,8 +403,6 @@ class BrickSortParallelTest implements SortProvider {
   void testSingleElementArray() {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
-    final int innerLoopCount = bsc.getInnerLoopCount();
-    final int outerLoopCount = bsc.getOuterLoopCount();
     assertTrue(bsc.isSorted(), SORTED);
   }
 

@@ -1,7 +1,7 @@
 package ds;
 
 public class SimpleStack {
-  private int maxSize;
+  private final int maxSize;
   private long[] stackArray;
   private int top;
 
