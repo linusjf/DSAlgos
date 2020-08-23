@@ -7,9 +7,10 @@ public class BracketChecker {
     input = in;
   }
 
-  public void check() {
+  public boolean check() {
+    boolean matchFound = true;
     LinkedListStack theStack = new LinkedListStack();
-    for (int j = 0; j < input.length(); j++) {
+    for (int j = 0; j < input.length() && matchFound; j++) {
       char ch = input.charAt(j);
       switch (ch) {
         case '{':
@@ -23,16 +24,30 @@ public class BracketChecker {
         case ')':
           if (!theStack.isEmpty()) {
             char chx = (char) theStack.pop();
-            if ((ch == '}' && chx != '{') || (ch == ']' && chx != '[') || (ch == ')' && chx != '('))
+            if (!doesBracketMatch(chx, ch)) {
               System.out.println("Error: " + ch + " at " + j);
-          } else 
+              matchFound = false;
+            }
+          } else {
             System.out.println("Error: " + ch + " at " + j);
+            matchFound = false;
+          }
           break;
-            
+
         default:
       }
     }
-    if (!theStack.isEmpty()) 
+    if (!theStack.isEmpty()) {
       System.out.println("Error: missing right delimiter");
+      matchFound = false;
+    }
+    return matchFound;
+  }
+
+  private boolean doesBracketMatch(char start, char end) {
+    if (start == '{' && end == '}') return true;
+    if (start == '[' && end == ']') return true;
+    if (start == '(' && end == ')') return true;
+    return false;
   }
 }
