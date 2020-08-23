@@ -2,36 +2,39 @@ package ds;
 
 public class LinkedListStack {
 
-  StackNode root;
+  StackNode[] root = new StackNode[0];
 
   public boolean isEmpty() {
-    return root == null;
+    return root.length == 0;
   }
 
   public void push(long data) {
     StackNode newNode = new StackNode(data);
-    if (root == null) root = newNode;
-    else {
-      StackNode temp = root;
-      root = newNode;
-      newNode.next = temp;
+    if (isEmpty()) {
+      root = new StackNode[1];
+      root[0] = newNode;
+    } else {
+      StackNode temp = root[0];
+      root[0] = newNode;
+      newNode.next = new StackNode[1];
+      newNode.next[0] = temp;
     }
   }
 
   public long pop() {
-    if (root == null) return Long.MIN_VALUE;
-    long popped = root.data;
-    root = root.next;
+    StackNode node = root[0];
+    long popped = node.data;
+    root = node.next;
     return popped;
   }
 
   public long peek() {
-    return root == null ? Long.MIN_VALUE : root.data;
+    return root[0].data;
   }
 
   static class StackNode {
     long data;
-    StackNode next;
+    StackNode[] next = new StackNode[0];
 
     StackNode(long data) {
       this.data = data;
