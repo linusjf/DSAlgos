@@ -7,6 +7,7 @@ public class BracketChecker {
     input = in;
   }
 
+  @SuppressWarnings("PMD.SystemPrintln")
   private boolean handleClosingBracket(LinkedListStack theStack, char ch, int j) {
     boolean matchFound = true;
     if (theStack.isEmpty()) {
@@ -52,8 +53,6 @@ public class BracketChecker {
   }
 
   private boolean doesBracketMatch(char start, char end) {
-    return (start == '{' && end == '}')
-        || (start == '[' && end == ']')
-        || (start == '(' && end == ')');
+    return start == '{' && end == '}' || start == '[' && end == ']' || start == '(' && end == ')';
   }
 }
