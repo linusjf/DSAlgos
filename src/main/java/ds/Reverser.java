@@ -1,7 +1,7 @@
 package ds;
 
 public class Reverser {
-  private String input;
+  private final String input;
 
   public Reverser(String in) {
     input = in;
