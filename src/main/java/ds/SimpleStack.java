@@ -24,10 +24,10 @@ public class SimpleStack {
   }
 
   public boolean isEmpty() {
-    return (top == -1);
+    return top == -1;
   }
 
   public boolean isFull() {
-    return (top == maxSize - 1);
+    return top == maxSize - 1;
   }
 }
