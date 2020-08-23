@@ -7,6 +7,22 @@ public class BracketChecker {
     input = in;
   }
 
+  private boolean handleClosingBracket(LinkedListStack theStack, char ch, int j) {
+    boolean matchFound = true;
+    if (theStack.isEmpty()) {
+      System.out.println("Error: " + ch + " at " + j);
+      matchFound = false;
+    } else {
+      char chx = (char) theStack.pop();
+      if (!doesBracketMatch(chx, ch)) {
+        System.out.println("Error: " + ch + " at " + j);
+        matchFound = false;
+      }
+    }
+    return matchFound;
+  }
+
+  @SuppressWarnings("PMD.SystemPrintln")
   public boolean check() {
     boolean matchFound = true;
     LinkedListStack theStack = new LinkedListStack();
@@ -22,16 +38,7 @@ public class BracketChecker {
         case '}':
         case ']':
         case ')':
-          if (!theStack.isEmpty()) {
-            char chx = (char) theStack.pop();
-            if (!doesBracketMatch(chx, ch)) {
-              System.out.println("Error: " + ch + " at " + j);
-              matchFound = false;
-            }
-          } else {
-            System.out.println("Error: " + ch + " at " + j);
-            matchFound = false;
-          }
+          matchFound = handleClosingBracket(theStack, ch, j);
           break;
 
         default:
@@ -45,9 +52,8 @@ public class BracketChecker {
   }
 
   private boolean doesBracketMatch(char start, char end) {
-    if (start == '{' && end == '}') return true;
-    if (start == '[' && end == ']') return true;
-    if (start == '(' && end == ')') return true;
-    return false;
+    return (start == '{' && end == '}')
+        || (start == '[' && end == ']')
+        || (start == '(' && end == ')');
   }
 }
