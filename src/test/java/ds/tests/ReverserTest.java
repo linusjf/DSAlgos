@@ -41,7 +41,7 @@ class ReverserTest {
 
   @DisplayName("ReverserTest.testReverse")
   @Test
-  void testSingleLetter() {
+  void testReverse() {
     String reverse = "Reverse";
     Reverser r = new Reverser(reverse);
     assertEquals("esreveR", r.doRev(), "Reverse of Reverse expected.");
