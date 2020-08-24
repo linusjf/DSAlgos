@@ -56,25 +56,6 @@ class LinkedListStackTest {
     assertEquals(val, stack.peek(), "Pop returns last value pushed.");
   }
 
-  @DisplayName("LinkedListStackTest.testPushException")
-  @Test
-  void testPushException() {
-    IStack stack = new LinkedListStack();
-    long val = VAL;
-    stack.push(val);
-    assertThrows(
-        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception.");
-  }
-
-  @DisplayName("LinkedListStackTest.testPushZeroSizeException")
-  @Test
-  void testPushZeroSizeException() {
-    IStack stack = new LinkedListStack();
-    long val = VAL;
-    assertThrows(
-        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception.");
-  }
-
   @DisplayName("LinkedListStackTest.testIsEmpty")
   @Test
   void testIsEmpty() {
@@ -101,7 +82,7 @@ class LinkedListStackTest {
   @Test
   void testIsFull() {
     IStack stack = new LinkedListStack();
-    assertTrue(stack.isFull(), "Stack must be full.");
+    assertFalse(stack.isFull(), "Stack must not be full.");
   }
 
   @DisplayName("LinkedListStackTest.testIsFullSizeOne")
