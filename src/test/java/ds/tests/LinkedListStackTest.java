@@ -47,13 +47,23 @@ class LinkedListStackTest {
     assertEquals(val, stack.pop(), "Pop returns last value pushed.");
   }
 
-  @DisplayName("LinkedListStackTest.testPush")
+  @DisplayName("LinkedListStackTest.testPushOne")
   @Test
-  void testPushSizeOne() {
+  void testPushOne() {
     IStack stack = new LinkedListStack();
     long val = VAL;
     stack.push(val);
     assertEquals(val, stack.peek(), "Pop returns last value pushed.");
+  }
+  
+  @DisplayName("LinkedListStackTest.testPushTwo")
+  @Test
+  void testPushTwo() {
+    IStack stack = new LinkedListStack();
+    long val = VAL;
+    stack.push(val);
+    stack.push(val + 1);
+    assertEquals(val + 1, stack.peek(), "Peek returns last value pushed.");
   }
 
   @DisplayName("LinkedListStackTest.testIsEmpty")
