@@ -55,7 +55,7 @@ class LinkedListStackTest {
     stack.push(val);
     assertEquals(val, stack.peek(), "Pop returns last value pushed.");
   }
-  
+
   @DisplayName("LinkedListStackTest.testPushTwo")
   @Test
   void testPushTwo() {
