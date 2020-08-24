@@ -63,7 +63,7 @@ class SimpleStackTest {
     long val = VAL;
     stack.push(val);
     assertThrows(
-        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception");
+        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception.");
   }
 
   @DisplayName("SimpleStackTest.testPushZeroSizeException")
@@ -72,6 +72,39 @@ class SimpleStackTest {
     IStack stack = new SimpleStack(0);
     long val = VAL;
     assertThrows(
-        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception");
+        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception.");
+
+  }
+  
+  @DisplayName("SimpleStackTest.testIsEmpty")
+  @Test
+  void testIsEmpty() {
+    IStack stack = new SimpleStack(0);
+    assertTrue(
+        stack.isEmpty(), "Stack must be empty.");
+  }
+  
+  @DisplayName("SimpleStackTest.testIsEmptySizeOne")
+  @Test
+  void testIsEmptySizeOne() {
+    IStack stack = new SimpleStack(1);
+    assertTrue(
+        stack.isEmpty(), "Stack must be empty.");
+  }
+  
+  @DisplayName("SimpleStackTest.testIsFull")
+  @Test
+  void testIsFull() {
+    IStack stack = new SimpleStack(0);
+    assertTrue(
+        stack.isFull(), "Stack must be full.");
+  }
+  
+  @DisplayName("SimpleStackTest.testIsFullSizeOne")
+  @Test
+  void testIsFullSizeOne() {
+    IStack stack = new SimpleStack(1);
+    assertFalse(
+        stack.isFull(), "Stack must be empty.");
   }
 }
