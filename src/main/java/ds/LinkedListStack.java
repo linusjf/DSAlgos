@@ -1,13 +1,15 @@
 package ds;
 
-public class LinkedListStack {
+public class LinkedListStack implements IStack {
 
   StackNode[] root = new StackNode[0];
 
+  @Override
   public boolean isEmpty() {
     return root.length == 0;
   }
 
+  @Override
   public void push(long data) {
     StackNode newNode = new StackNode(data);
     if (isEmpty()) {
@@ -21,6 +23,7 @@ public class LinkedListStack {
     }
   }
 
+  @Override
   public long pop() {
     StackNode node = root[0];
     long popped = node.data;
@@ -28,8 +31,14 @@ public class LinkedListStack {
     return popped;
   }
 
+  @Override
   public long peek() {
     return root[0].data;
+  }
+
+  @Override
+  public boolean isFull() {
+    return false;
   }
 
   static class StackNode {

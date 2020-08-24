@@ -2,6 +2,7 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.IStack;
 import ds.SimpleStack;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,12 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class SimpleStackTest {
 
+  private static final long VAL = 20;
+
   @Test
   @DisplayName("SimpleStackTest.testPopEmpty")
   void testPopEmpty() {
-    SimpleStack stack = new SimpleStack(0);
+    IStack stack = new SimpleStack(0);
     assertThrows(
         ArrayIndexOutOfBoundsException.class,
         () -> stack.pop(),
@@ -28,7 +31,7 @@ class SimpleStackTest {
   @DisplayName("SimpleStackTest.testPopEmptyOne")
   @Test
   void testPopEmptyOne() {
-    SimpleStack stack = new SimpleStack(1);
+    IStack stack = new SimpleStack(1);
     assertThrows(
         ArrayIndexOutOfBoundsException.class,
         () -> stack.pop(),
@@ -38,9 +41,37 @@ class SimpleStackTest {
   @DisplayName("SimpleStackTest.testPop")
   @Test
   void testPop() {
-    SimpleStack stack = new SimpleStack(1);
-    long val = 20;
+    IStack stack = new SimpleStack(1);
+    long val = VAL;
     stack.push(val);
     assertEquals(val, stack.pop(), "Pop returns last value pushed.");
+  }
+
+  @DisplayName("SimpleStackTest.testPush")
+  @Test
+  void testPushSizeOne() {
+    IStack stack = new SimpleStack(1);
+    long val = VAL;
+    stack.push(val);
+    assertEquals(val, stack.peek(), "Pop returns last value pushed.");
+  }
+
+  @DisplayName("SimpleStackTest.testPushException")
+  @Test
+  void testPushException() {
+    IStack stack = new SimpleStack(1);
+    long val = VAL;
+    stack.push(val);
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception");
+  }
+
+  @DisplayName("SimpleStackTest.testPushZeroSizeException")
+  @Test
+  void testPushZeroSizeException() {
+    IStack stack = new SimpleStack(0);
+    long val = VAL;
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception");
   }
 }

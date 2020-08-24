@@ -1,6 +1,6 @@
 package ds;
 
-public class SimpleStack {
+public class SimpleStack implements IStack {
   private final int maxSize;
   private long[] stackArray;
   private int top;
@@ -11,22 +11,28 @@ public class SimpleStack {
     top = -1;
   }
 
+  @Override
   public void push(long j) {
-    stackArray[++top] = j;
+    stackArray[top + 1] = j;
+    ++top;
   }
 
+  @Override
   public long pop() {
     return stackArray[top--];
   }
 
+  @Override
   public long peek() {
     return stackArray[top];
   }
 
+  @Override
   public boolean isEmpty() {
     return top == -1;
   }
 
+  @Override
   public boolean isFull() {
     return top == maxSize - 1;
   }
