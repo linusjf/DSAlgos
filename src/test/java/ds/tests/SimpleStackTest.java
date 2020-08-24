@@ -73,38 +73,62 @@ class SimpleStackTest {
     long val = VAL;
     assertThrows(
         ArrayIndexOutOfBoundsException.class, () -> stack.push(val), "Push throws exception.");
-
   }
-  
+
   @DisplayName("SimpleStackTest.testIsEmpty")
   @Test
   void testIsEmpty() {
     IStack stack = new SimpleStack(0);
-    assertTrue(
-        stack.isEmpty(), "Stack must be empty.");
+    assertTrue(stack.isEmpty(), "Stack must be empty.");
   }
-  
+
   @DisplayName("SimpleStackTest.testIsEmptySizeOne")
   @Test
   void testIsEmptySizeOne() {
     IStack stack = new SimpleStack(1);
-    assertTrue(
-        stack.isEmpty(), "Stack must be empty.");
+    assertTrue(stack.isEmpty(), "Stack must be empty.");
   }
-  
+
   @DisplayName("SimpleStackTest.testIsFull")
   @Test
   void testIsFull() {
     IStack stack = new SimpleStack(0);
-    assertTrue(
-        stack.isFull(), "Stack must be full.");
+    assertTrue(stack.isFull(), "Stack must be full.");
   }
-  
+
   @DisplayName("SimpleStackTest.testIsFullSizeOne")
   @Test
   void testIsFullSizeOne() {
     IStack stack = new SimpleStack(1);
-    assertFalse(
-        stack.isFull(), "Stack must be empty.");
+    assertFalse(stack.isFull(), "Stack must be empty.");
+  }
+
+  @Test
+  @DisplayName("SimpleStackTest.testPeekEmpty")
+  void testPeekEmpty() {
+    IStack stack = new SimpleStack(0);
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class,
+        () -> stack.peek(),
+        "Empty stack peep throws exception.");
+  }
+
+  @DisplayName("SimpleStackTest.testPeekEmptyOne")
+  @Test
+  void testPeekEmptyOne() {
+    IStack stack = new SimpleStack(1);
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class,
+        () -> stack.peek(),
+        "Empty stack peek throws exception.");
+  }
+
+  @DisplayName("SimpleStackTest.testPeek")
+  @Test
+  void testPeek() {
+    IStack stack = new SimpleStack(1);
+    long val = VAL;
+    stack.push(val);
+    assertEquals(val, stack.peek(), "Peek returns last value pushed.");
   }
 }
