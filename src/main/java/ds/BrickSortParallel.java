@@ -1,7 +1,7 @@
 package ds;
 
-import static ds.ExecutorUtils.*;
-import static ds.MathUtils.*;
+import static ds.ExecutorUtils.terminateExecutor;
+import static ds.MathUtils.isOdd;
 import static java.lang.Math.abs;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/** Not thread-safe. */
+/** Not thread-safe with state variables. */
 public class BrickSortParallel extends AbstractBrickSort {
 
   private final AtomicBoolean sorted;

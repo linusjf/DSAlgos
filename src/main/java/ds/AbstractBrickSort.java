@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.MathUtils.*;
+import static ds.MathUtils.isOdd;
 
 public abstract class AbstractBrickSort extends AbstractSort {
 
