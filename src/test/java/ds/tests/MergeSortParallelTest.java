@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.MergeSortParallel;
 import ds.OrdArray;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,15 +29,16 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class MergeSortParallelTest implements SortProvider {
 
-  @ParameterizedTest
-  @CsvSource(INIT_DATA)
-  @DisplayName("MergeSortParallelTest.testSort")
-  void testSort(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-    long[] a = {00, 11, 22, 33, 44, 55, 66, 77, 88, 99};
+  @Test
+  @DisplayName("MergeSortParallelTest.testSortRandom")
+  void testSortRandom() {
+    Random random = new Random();
+    HighArray high = new HighArray(10_000);
+    LongStream stream = random.longs(10_000);
+    stream.forEach(i -> high.insert(i));
     ISort sorter = new MergeSortParallel();
-    IArray sorted = sorter.sort(arr);
-    long[] extent = sorted.getExtentArray();
-    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @ParameterizedTest
