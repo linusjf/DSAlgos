@@ -7,7 +7,7 @@ public final class ArrayUtils {
     throw new IllegalStateException("Private constructor for" + ArrayUtils.class.getName());
   }
   
-  public static boolean isSorted(long[] a) {
+  public static boolean isSorted(long... a) {
     return isSorted(a, a.length);
   }
 

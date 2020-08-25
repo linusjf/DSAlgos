@@ -38,7 +38,7 @@ class ArrayUtilsTest {
   void testEmptyArray() {
     long[] arr = new long[0];
     int length = 0;
-    assertTrue(isSorted(arr, length), "Empty array is sorted!");
+    assertTrue(isSorted(arr), "Empty array is sorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testFullArray")
@@ -46,7 +46,7 @@ class ArrayUtilsTest {
   void testFullArray() {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 20L};
     int length = 10;
-    assertTrue(isSorted(arr, length), "Full array is sorted!");
+    assertTrue(isSorted(arr), "Full array is sorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testLessThanFullArray")
