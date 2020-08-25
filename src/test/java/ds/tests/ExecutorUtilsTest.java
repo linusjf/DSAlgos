@@ -16,6 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("ExecutorUtilsTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
+@SuppressWarnings("PMD.LawOfDemeter")
 class ExecutorUtilsTest {
 
   @Test
@@ -68,6 +69,7 @@ class ExecutorUtilsTest {
       parentThread = parent;
     }
 
+    @Override
     public void run() {
       try {
         Thread.currentThread().sleep(100);

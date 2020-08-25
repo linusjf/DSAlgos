@@ -15,6 +15,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BracketCheckerTest {
 
+  private static final String INVALID_RES_EXPECTED =
+    "Invalid result expected.";
+
   @Test
   @DisplayName("BracketCheckerTest.testEmptyString")
   void testEmptyString() {
@@ -92,7 +95,7 @@ class BracketCheckerTest {
   void testInvalidInput() {
     String input = "{call(a[i]);]";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testInvalidInput2")
@@ -100,7 +103,7 @@ class BracketCheckerTest {
   void testInvalidInput2() {
     String input = "[call{a(i)];}";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testInvalidInput3")
@@ -108,7 +111,7 @@ class BracketCheckerTest {
   void testInvalidInput3() {
     String input = "[call[a{i};])";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testInvalidInput4")
@@ -116,7 +119,7 @@ class BracketCheckerTest {
   void testInvalidInput4() {
     String input = "[call{a{i};])";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testInvalidInput5")
@@ -124,7 +127,7 @@ class BracketCheckerTest {
   void testInvalidInput5() {
     String input = "{calla[i]);]";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testInvalidInput6")
@@ -132,7 +135,7 @@ class BracketCheckerTest {
   void testInvalidInput6() {
     String input = "[call{a(i];}";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 
   @DisplayName("BracketCheckerTest.testNoLeftBrackets")
@@ -140,6 +143,6 @@ class BracketCheckerTest {
   void testNoLeftBrackets() {
     String input = ")]}";
     BracketChecker r = new BracketChecker(input);
-    assertFalse(r.check(), "Invalid result expected.");
+    assertFalse(r.check(), INVALID_RES_EXPECTED);
   }
 }

@@ -21,10 +21,7 @@ public class BrickSortParallel extends AbstractBrickSort {
   private final AtomicBoolean sorted = new AtomicBoolean();
   private final AtomicInteger swapCount = new AtomicInteger();
 
-  public BrickSortParallel() {
-    // implicit super invoked
-  }
-
+  @Override
   protected void reset() {
     super.reset();
     sorted.getAndSet(false);
