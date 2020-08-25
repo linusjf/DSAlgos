@@ -78,6 +78,26 @@ class MergeSortParallelTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("MergeSortParallelTest.testSortAllSameBigData")
+  void testSortAllSameBigData() {
+    ISort sorter = new MergeSortParallel();
+    HighArray arr = new HighArray(10_000);
+    LongStream stream =
+        LongStream.iterate(
+            43L,
+            (val) -> {
+              return val;
+            });
+    stream = stream.limit(10_000);
+    stream.forEach(i -> arr.insert(i));
+    long[] a = arr.getExtentArray();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+  }
+
+  @Test
   @DisplayName("MergeSortParallelTest.testReset")
   void testReset() {
     IArray high = new HighArray(10_000);
@@ -195,5 +215,40 @@ class MergeSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  @DisplayName("MergeSortParallelTest.testSortEmptyArray")
+  void testSortEmptyArray() {
+    long[] a = {};
+    MergeSortSimple mss = new MergeSortSimple();
+    mss.sortArray(a, 0);
+    assertTrue(isSorted(a, 0), "Empty array is sorted!");
+  }
+
+  @Test
+  @DisplayName("MergeSortParallelTest.testSortSingleElementArray")
+  void testSortSingleElementArray() {
+    long[] a = {1};
+    MergeSortSimple mss = new MergeSortSimple();
+    mss.sortArray(a, 1);
+    assertTrue(isSorted(a, 1), "Single element array is sorted!");
+  }
+
+  @Test
+  @DisplayName("MergeSortParallelTest.testNegativeLengthException")
+  void testNegativeLengthException() {
+    long[] a = {1};
+    MergeSortSimple mss = new MergeSortSimple();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> mss.sortArray(a, -1),
+        "Negative length will throw exception.");
+  }
+
+  static class MergeSortSimple extends MergeSortParallel {
+    public void sortArray(long[] a, int length) {
+      sort(a, length);
+    }
   }
 }
