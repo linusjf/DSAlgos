@@ -38,4 +38,52 @@ class BracketCheckerTest {
     BracketChecker r = new BracketChecker(letter);
     assertTrue(r.check(), "Letter works.");
   }
+
+  @DisplayName("BracketCheckerTest.testEmptyParentheses")
+  @Test
+  void testEmptyParentheses() {
+    String input = "()";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Empty parentheses valid.");
+  }
+
+  @DisplayName("BracketCheckerTest.testEmptyCurlyBraces")
+  @Test
+  void testEmptyCurlyBraces() {
+    String input = "{}";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Empty parentheses valid.");
+  }
+
+  @DisplayName("BracketCheckerTest.testEmptySquareBrackets")
+  @Test
+  void testEmptySquareBrackets() {
+    String input = "[]";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Empty parentheses valid.");
+  }
+
+  @DisplayName("BracketCheckerTest.testValidInput")
+  @Test
+  void testValidInput() {
+    String input = "{call(a[i]);}";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Valid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testValidInput2")
+  @Test
+  void testValidInput2() {
+    String input = "[call{a(i)};]";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Valid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testValidInput3")
+  @Test
+  void testValidInput3() {
+    String input = "(call[a{i};])";
+    BracketChecker r = new BracketChecker(input);
+    assertTrue(r.check(), "Valid result expected.");
+  }
 }

@@ -33,7 +33,7 @@ class ExecutorUtilsTest {
     es.submit(
         () -> {
           try {
-            Thread.currentThread().sleep(1000);
+            while (true) Thread.currentThread().sleep(1000);
           } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
           }
