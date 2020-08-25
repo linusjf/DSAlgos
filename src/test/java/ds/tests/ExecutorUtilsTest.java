@@ -32,10 +32,12 @@ class ExecutorUtilsTest {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(
         () -> {
+          while(true) {
           try {
-            while (true) Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(1000);
           } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
+          }
           }
         });
     terminateExecutor(es, 10, TimeUnit.MILLISECONDS);

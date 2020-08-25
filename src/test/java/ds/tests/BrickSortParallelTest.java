@@ -543,7 +543,7 @@ class BrickSortParallelTest implements SortProvider {
     }
 
     void resetInternals() {
-      reset(0);
+      reset();
     }
 
     void sortAndSetInternals() {
@@ -553,7 +553,7 @@ class BrickSortParallelTest implements SortProvider {
 
     void resetInternalsAfterSort() {
       sortAndSetInternals();
-      reset(5);
+      reset();
     }
 
     void sortOdd() {

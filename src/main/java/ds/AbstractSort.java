@@ -6,6 +6,10 @@ public abstract class AbstractSort implements ISort {
   protected int copyCount;
   protected int innerLoopCount;
   protected int outerLoopCount;
+  
+  public AbstractSort() {
+    // empty constructor
+  }
 
   protected abstract void sort(long[] array, int length);
 

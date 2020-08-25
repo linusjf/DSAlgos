@@ -18,15 +18,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** Not thread-safe with state variables. */
 public class BrickSortParallel extends AbstractBrickSort {
 
-  private final AtomicBoolean sorted;
-  private final AtomicInteger swapCount;
+  private final AtomicBoolean sorted = new AtomicBoolean();
+  private final AtomicInteger swapCount = new AtomicInteger();
 
   public BrickSortParallel() {
-    sorted = new AtomicBoolean();
-    swapCount = new AtomicInteger();
+    // implicit super invoked
   }
 
-  protected void reset(int length) {
+  protected void reset() {
     super.reset();
     sorted.getAndSet(false);
     swapCount.set(0);
@@ -48,7 +47,7 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   protected void sortInterruptibly(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
-    reset(length);
+    reset();
     if (length <= 1) {
       sorted.set(true);
       return;

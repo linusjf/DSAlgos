@@ -4,6 +4,10 @@ import static ds.MathUtils.isOdd;
 
 public abstract class AbstractBrickSort extends AbstractSort {
 
+  public AbstractBrickSort() {
+    // implicit super invoked
+  }
+
   @Override
   protected abstract void sort(long[] a, int length);
 

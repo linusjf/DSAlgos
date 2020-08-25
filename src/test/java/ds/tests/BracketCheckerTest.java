@@ -86,4 +86,60 @@ class BracketCheckerTest {
     BracketChecker r = new BracketChecker(input);
     assertTrue(r.check(), "Valid result expected.");
   }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput")
+  @Test
+  void testInvalidInput() {
+    String input = "{call(a[i]);]";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput2")
+  @Test
+  void testInvalidInput2() {
+    String input = "[call{a(i)];}";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput3")
+  @Test
+  void testInvalidInput3() {
+    String input = "[call[a{i};])";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput4")
+  @Test
+  void testInvalidInput4() {
+    String input = "[call{a{i};])";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput5")
+  @Test
+  void testInvalidInput5() {
+    String input = "{calla[i]);]";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testInvalidInput6")
+  @Test
+  void testInvalidInput6() {
+    String input = "[call{a(i];}";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
+
+  @DisplayName("BracketCheckerTest.testNoLeftBrackets")
+  @Test
+  void testNoLeftBrackets() {
+    String input = ")]}";
+    BracketChecker r = new BracketChecker(input);
+    assertFalse(r.check(), "Invalid result expected.");
+  }
 }
