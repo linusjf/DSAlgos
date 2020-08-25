@@ -15,8 +15,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BracketCheckerTest {
 
-  private static final String INVALID_RES_EXPECTED =
-    "Invalid result expected.";
+  private static final String INVALID_RES_EXPECTED = "Invalid result expected.";
 
   @Test
   @DisplayName("BracketCheckerTest.testEmptyString")

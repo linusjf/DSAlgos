@@ -6,7 +6,7 @@ public abstract class AbstractSort implements ISort {
   protected int copyCount;
   protected int innerLoopCount;
   protected int outerLoopCount;
-  
+
   protected abstract void sort(long[] array, int length);
 
   @SuppressWarnings("PMD.LawOfDemeter")

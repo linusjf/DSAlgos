@@ -149,11 +149,4 @@ public class MergeSortParallel extends MergeSort {
       }
     }
   }
-
-  static class SeqMergeSort extends MergeSort {
-    @Override
-    public void sort(long[] a, int length) {
-      super.sort(a, length);
-    }
-  }
 }
