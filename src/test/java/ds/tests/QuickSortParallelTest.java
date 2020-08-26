@@ -39,7 +39,7 @@ class QuickSortParallelTest implements SortProvider {
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
-  
+
   @Test
   @DisplayName("QuickSortParallelTest.testSortRandom")
   void testSortRandom() {
@@ -50,10 +50,9 @@ class QuickSortParallelTest implements SortProvider {
     stream.forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
-    assertTrue(isSorted(sorted),
-        "Array must be sorted.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
-  
+
   @Test
   @DisplayName("QuickSortParallelTest.testSortRandomMedium")
   void testSortRandomMedium() {
@@ -64,8 +63,7 @@ class QuickSortParallelTest implements SortProvider {
     stream.forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
-    assertTrue(isSorted(sorted),
-        "Array must be sorted.");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @ParameterizedTest
