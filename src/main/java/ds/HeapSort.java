@@ -51,7 +51,7 @@ public class HeapSort extends AbstractSort {
     }
 
     // If largest is not root
-    if (largest != i && a[largest] != a[i]) {
+    if (largest != i) {
       swap(a, i, largest);
       ++swapCount;
       ++comparisonCount;
