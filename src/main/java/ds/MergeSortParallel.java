@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /***
- * <p>Merge sort using parallelism.</p>
+ * <p>Merge sort using parallelism in-place.</p>
  ***/
 public class MergeSortParallel extends MergeSort {
 

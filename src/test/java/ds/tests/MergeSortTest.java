@@ -180,6 +180,42 @@ class MergeSortTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("MergeSortTest.testSingleElementArray")
+  void testSingleElementArray() {
+    IArray high = new HighArray(1);
+    high.insert(1L);
+    ISort sorter = new MergeSort();
+    sorter.sort(high);
+    assertTrue(isSorted(high), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("MergeSortTest.testEmptyArray")
+  void testEmptyArray() {
+    long[] a = {};
+    MergeSortSub sorter = new MergeSortSub();
+    sorter.sortArray(a, 0);
+    assertTrue(isSorted(a), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("MergeSortTest.testIllegalArgumentException")
+  void testIllegalArgumentException() {
+    long[] a = {};
+    MergeSortSub sorter = new MergeSortSub();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortArray(a, -1),
+        "IllegalArgumentException expected.");
+  }
+
+  @Test
   @DisplayName("MergeSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new MergeSort();
@@ -195,5 +231,11 @@ class MergeSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  static final class MergeSortSub extends MergeSort {
+    public void sortArray(long[] a, int length) {
+      super.sort(a, length);
+    }
   }
 }
