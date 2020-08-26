@@ -23,7 +23,7 @@ public class CycleSort extends AbstractSort {
   }
 
   private long swapOutItem(long item, int pos, long... a) {
-    if (item == a[pos]) return item;
+    //    if (item == a[pos]) return item;
     long temp = a[pos];
     a[pos] = item;
     ++copyCount;
