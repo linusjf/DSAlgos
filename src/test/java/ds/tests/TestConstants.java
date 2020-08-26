@@ -20,6 +20,9 @@ public final class TestConstants {
   static final String ELEMENTS_SORTED_EQUAL = "Elements must be sorted and equal.";
   static final String SORTED = "Sorted.";
 
+  static final int SCORE = 20;
+  static final int MYRIAD = 10_000;
+
   private TestConstants() {
     // empty constructor
   }

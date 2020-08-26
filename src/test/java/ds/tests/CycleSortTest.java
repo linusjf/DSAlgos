@@ -207,6 +207,20 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
+  
+  @Test
+  @DisplayName("CycleSortTest.testTwoElementArray")
+  void testTwoElementArray() {
+    IArray high = new HighArray(2);
+    high.insert(1L);
+    high.insert(10L);
+    ISort sorter = new CycleSort();
+    sorter.sort(high);
+    assertTrue(isSorted(high), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
+    assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(1, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
 
   @Test
   @DisplayName("CycleSortTest.testEmptyArray")
