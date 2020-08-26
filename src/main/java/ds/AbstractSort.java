@@ -10,9 +10,9 @@ public abstract class AbstractSort implements ISort {
   protected boolean shouldSort(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
     reset();
-    return length <= 1 ? false:true;
+    return length <= 1 ? false : true;
   }
-  
+
   protected abstract void sort(long[] array, int length);
 
   @SuppressWarnings("PMD.LawOfDemeter")

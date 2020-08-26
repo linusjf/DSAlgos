@@ -30,6 +30,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class QuickSortParallelTest implements SortProvider {
 
   private static final String SWAP_COUNT_ZERO = "Swap count must be zero.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   @DisplayName("QuickSortParallelTest.testSort")
