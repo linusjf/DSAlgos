@@ -1,6 +1,6 @@
 package ds.tests;
 
-import static ds.ArrayUtils.*;
+import static ds.ArrayUtils.isSorted;
 import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import ds.QuickSortParallel;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,34 @@ class QuickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+  }
+  
+  @Test
+  @DisplayName("QuickSortParallelTest.testSortRandom")
+  void testSortRandom() {
+    Random random = new Random();
+    LongStream stream = random.longs();
+    stream = stream.limit(10_000);
+    HighArray high = new HighArray(10_000);
+    stream.forEach(i -> high.insert(i));
+    ISort sorter = new QuickSortParallel();
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted),
+        "Array must be sorted.");
+  }
+  
+  @Test
+  @DisplayName("QuickSortParallelTest.testSortRandomMedium")
+  void testSortRandomMedium() {
+    Random random = new Random();
+    LongStream stream = random.longs();
+    stream = stream.limit(40);
+    HighArray high = new HighArray(40);
+    stream.forEach(i -> high.insert(i));
+    ISort sorter = new QuickSortParallel();
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted),
+        "Array must be sorted.");
   }
 
   @ParameterizedTest

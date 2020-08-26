@@ -28,6 +28,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("CycleSortTest")
 class CycleSortTest implements SortProvider {
 
+  private static final String COPY_COUNT_ZERO = "Copy count must be zero.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   @DisplayName("CycleSortTest.testSort")
@@ -92,7 +94,7 @@ class CycleSortTest implements SortProvider {
     ISort sorter = new CycleSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
   }
 
   @Test
@@ -145,7 +147,7 @@ class CycleSortTest implements SortProvider {
             });
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
   }
 
   @Test
@@ -187,7 +189,7 @@ class CycleSortTest implements SortProvider {
     ISort sorter = new CycleSort();
     sorter.sort(high);
     assertTrue(isSorted(high), "Array is sorted.");
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
@@ -199,7 +201,7 @@ class CycleSortTest implements SortProvider {
     CycleSortSub sorter = new CycleSortSub();
     sorter.sortArray(a, 0);
     assertTrue(isSorted(a), "Array is sorted.");
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
