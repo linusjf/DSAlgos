@@ -67,7 +67,7 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   @Generated
   private void assertEquality(int size, int count) {
-    assert size == count;
+    if (size != count) throw new AssertionError("Size is not the same as count.");
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})

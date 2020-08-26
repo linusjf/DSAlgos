@@ -87,7 +87,7 @@ class MergeSortParallelTest implements SortProvider {
     LongStream stream =
         LongStream.iterate(
             43L,
-            (val) -> {
+            val -> {
               return val;
             });
     stream = stream.limit(10_000);
