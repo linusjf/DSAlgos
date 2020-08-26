@@ -92,6 +92,26 @@ class QuickSortParallelTest implements SortProvider {
     assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
+  @Test
+  @DisplayName("QuickSortParallelTest.testSortAllSameBigData")
+  void testSortAllSameBigData() {
+    ISort sorter = new QuickSortParallel();
+    HighArray arr = new HighArray(10_000);
+    LongStream stream =
+        LongStream.iterate(
+            43L,
+            val -> {
+              return val;
+            });
+    stream = stream.limit(10_000);
+    stream.forEach(i -> arr.insert(i));
+    long[] a = arr.getExtentArray();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+  }
+
   @ParameterizedTest
   @CsvSource(INIT_ALL_SAME_DATA)
   @DisplayName("QuickSortParallelTest.testSortAllSame")
@@ -201,8 +221,18 @@ class QuickSortParallelTest implements SortProvider {
   @Test
   @DisplayName("QuickSortParallelTest.testReverseSorted")
   void testReverseSorted() {
+    IArray high = new HighArray(10_000);
+    revRange(1, 10_000).forEach(i -> high.insert(i));
+    ISort sorter = new QuickSortParallel();
+    sorter.sort(high);
+    assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
+  }
+
+  @Test
+  @DisplayName("QuickSortParallelTest.testReverseSortedMedium")
+  void testReverseSortedMedium() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, 40).forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
     assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");

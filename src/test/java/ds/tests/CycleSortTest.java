@@ -11,6 +11,7 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,19 @@ class CycleSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+  }
+  
+  @Test
+  @DisplayName("CycleSortTest.testSortRandom")
+  void testSortRandom() {
+    Random random = new Random();
+    LongStream stream = random.longs();
+    stream = stream.limit(10_000);
+    HighArray high = new HighArray(10_000);
+    stream.forEach(i -> high.insert(i));
+    ISort sorter = new CycleSort();
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted), "Array must be sorted.");
   }
 
   @ParameterizedTest

@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ExecutorUtils.*;
+import static ds.ExecutorUtils.terminateExecutor;
 
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
@@ -145,14 +145,15 @@ public class QuickSortParallel extends AbstractSort {
         while (less(a[++i], v)) {
           innerLoopCount.incrementAndGet();
           comparisonCount.incrementAndGet();
-          if (i == hi) break;
+          //    if (i == hi) break;
+          //    shouldn't happen because of median swap
         }
         comparisonCount.incrementAndGet();
         // find item on hi to swap
         while (less(v, a[--j])) {
           innerLoopCount.incrementAndGet();
           comparisonCount.incrementAndGet();
-          if (j == lo) break;
+          //  if (j == lo) break;
           // redundant since a[lo] acts as sentinel
         }
         comparisonCount.incrementAndGet();
@@ -161,12 +162,10 @@ public class QuickSortParallel extends AbstractSort {
         swap(a, i, j);
         swapCount.incrementAndGet();
       }
-      // put v = a[j] into position
       if (lo != j && a[lo] != a[j]) {
         swap(a, lo, j);
         swapCount.incrementAndGet();
       }
-      // with a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
       return j;
     }
   }
