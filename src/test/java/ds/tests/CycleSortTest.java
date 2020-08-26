@@ -41,7 +41,7 @@ class CycleSortTest implements SortProvider {
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
-  
+
   @Test
   @DisplayName("CycleSortTest.testSortRandom")
   void testSortRandom() {
@@ -207,7 +207,7 @@ class CycleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
-  
+
   @Test
   @DisplayName("CycleSortTest.testTwoElementArray")
   void testTwoElementArray() {

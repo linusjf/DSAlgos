@@ -4,9 +4,7 @@ public class GnomeSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
-    reset();
-    if (length <= 1) return;
+    if (!shouldSort(length)) return;
     for (int pos = 1; pos < length; ++pos) gnomeSort(a, pos);
     outerLoopCount = length - 1;
   }

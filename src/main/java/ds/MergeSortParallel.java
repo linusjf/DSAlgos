@@ -44,9 +44,7 @@ public class MergeSortParallel extends MergeSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
-    reset();
-    if (length <= 1) return;
+    if (!shouldSort(length)) return;
     if (length <= SEQ_SORT_BARRIER) {
       super.sort(a, length);
       sequentialSort(a, length);

@@ -40,7 +40,7 @@ class HeapSortTest implements SortProvider {
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
-  
+
   @Test
   @DisplayName("HeapSortTest.testSortRandom")
   void testSortRandom() {

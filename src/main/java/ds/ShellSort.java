@@ -20,9 +20,7 @@ public class ShellSort extends AbstractSort {
   @Override
   protected void sort(long[] a, int length) {
     {
-      if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
-      reset();
-      if (length <= 1) return;
+      if (!shouldSort(length)) return;
       int n = length;
       for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
         ++gapCount;

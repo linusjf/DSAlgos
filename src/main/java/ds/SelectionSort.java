@@ -4,9 +4,7 @@ public class SelectionSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0) throw new IllegalArgumentException("Invalid length parameter: " + length);
-    reset();
-    if (length <= 1) return;
+    if (!shouldSort(length)) return;
     int out;
     int in;
     int min;

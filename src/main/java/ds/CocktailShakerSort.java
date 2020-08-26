@@ -4,7 +4,7 @@ public class CocktailShakerSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    reset();
+    if (!shouldSort(length)) return;
     int start = 0;
     int end = length - 2;
     while (start <= end) {

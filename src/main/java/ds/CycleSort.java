@@ -23,50 +23,38 @@ public class CycleSort extends AbstractSort {
   }
 
   private long swapOutItem(long item, int pos, long... a) {
+    if (item == a[pos]) return item;
     long temp = a[pos];
     a[pos] = item;
+    ++copyCount;
     return temp;
   }
 
   @Override
   protected void sort(long[] a, int length) {
-    {
-      if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
-      reset();
-      if (length <= 1) return;
-      for (int cycleStart = 0; cycleStart <= length - 2; ++cycleStart) {
-        ++outerLoopCount;
-        // initialize item as starting point
-        long item = a[cycleStart];
-        // Find position where we put the item. We basically
-        // count all smaller elements on right side of item.
-        int pos = iterateTillPositioned(cycleStart, length, item, a);
-        // If item is already in correct position
-        if (pos == cycleStart) continue;
+    if (!shouldSort(length)) return;
+    for (int cycleStart = 0; cycleStart <= length - 2; ++cycleStart) {
+      ++outerLoopCount;
+      // initialize item as starting point
+      long item = a[cycleStart];
+      // Find position where we put the item. We basically
+      // count all smaller elements on right side of item.
+      int pos = iterateTillPositioned(cycleStart, length, item, a);
+      // If item is already in correct position
+      if (pos == cycleStart) continue;
+      // ignore all duplicate elements
+      pos = iterateDuplicates(pos, item, a);
+      ++comparisonCount;
+      // put the item to its right position
+      item = swapOutItem(item, pos, a);
+      // Rotate rest of the cycle
+      while (pos != cycleStart) {
+        pos = iterateTillPositioned(cycleStart, length, item, a);
         // ignore all duplicate elements
         pos = iterateDuplicates(pos, item, a);
         ++comparisonCount;
         // put the item to its right position
-        if (pos != cycleStart) {
-          item = swapOutItem(item, pos, a);
-          ++copyCount;
-        }
-        // Rotate rest of the cycle
-        while (pos != cycleStart) {
-          pos = iterateTillPositioned(cycleStart, length, item, a);
-          // ignore all duplicate elements
-          while (item == a[pos]) {
-            ++innerLoopCount;
-            ++comparisonCount;
-            ++pos;
-          }
-          ++comparisonCount;
-          // put the item to its right position
-          if (item != a[pos]) {
-            item = swapOutItem(item, pos, a);
-            ++copyCount;
-          }
-        }
+        item = swapOutItem(item, pos, a);
       }
     }
   }

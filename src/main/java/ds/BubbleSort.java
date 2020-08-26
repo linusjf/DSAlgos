@@ -2,26 +2,9 @@ package ds;
 
 public class BubbleSort extends AbstractSort {
 
-  protected boolean sorted;
-
-  public boolean isSorted() {
-    return sorted;
-  }
-
-  @Override
-  protected void reset() {
-    super.reset();
-    sorted = false;
-  }
-
   @Override
   protected void sort(long[] a, int length) {
-    if (length < 0) throw new IllegalArgumentException("Invalid length : " + length);
-    reset();
-    if (length <= 1) {
-      sorted = true;
-      return;
-    }
+    if (!shouldSort(length)) return;
     int n = length;
     while (n > 1) {
       ++outerLoopCount;
@@ -37,6 +20,5 @@ public class BubbleSort extends AbstractSort {
       }
       n = newn;
     }
-    sorted = true;
   }
 }

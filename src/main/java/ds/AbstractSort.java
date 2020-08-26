@@ -9,6 +9,13 @@ public abstract class AbstractSort implements ISort {
 
   protected abstract void sort(long[] array, int length);
 
+  protected boolean shouldSort(int length) {
+    if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
+    reset();
+    if (length <= 1) return false;
+    return true;
+  }
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public IArray sort(IArray array) {
