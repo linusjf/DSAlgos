@@ -2,18 +2,6 @@ package ds;
 
 public class CycleSort extends AbstractSort {
 
-  protected boolean sorted;
-
-  public boolean isSorted() {
-    return sorted;
-  }
-
-  @Override
-  protected void reset() {
-    super.reset();
-    sorted = false;
-  }
-
   private int iterateTillPositioned(int cycleStart, int length, long item, long... a) {
     int pos = cycleStart;
     for (int i = cycleStart + 1; i < length; ++i) {
@@ -45,10 +33,7 @@ public class CycleSort extends AbstractSort {
     {
       if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
       reset();
-      if (length <= 1) {
-        sorted = true;
-        return;
-      }
+      if (length <= 1) return;
       for (int cycleStart = 0; cycleStart <= length - 2; ++cycleStart) {
         ++outerLoopCount;
         // initialize item as starting point
@@ -84,6 +69,5 @@ public class CycleSort extends AbstractSort {
         }
       }
     }
-    sorted = true;
   }
 }

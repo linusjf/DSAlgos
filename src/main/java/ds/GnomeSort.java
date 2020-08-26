@@ -2,29 +2,13 @@ package ds;
 
 public class GnomeSort extends AbstractSort {
 
-  protected boolean sorted;
-
-  public boolean isSorted() {
-    return sorted;
-  }
-
-  @Override
-  protected void reset() {
-    super.reset();
-    sorted = false;
-  }
-
   @Override
   protected void sort(long[] a, int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
     reset();
-    if (length <= 1) {
-      sorted = true;
-      return;
-    }
+    if (length <= 1) return;
     for (int pos = 1; pos < length; ++pos) gnomeSort(a, pos);
     outerLoopCount = length - 1;
-    sorted = true;
   }
 
   private void gnomeSort(long[] a, int upper) {

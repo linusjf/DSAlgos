@@ -2,12 +2,7 @@ package ds;
 
 public class ShellSort extends AbstractSort {
 
-  protected boolean sorted;
   protected int gapCount;
-
-  public boolean isSorted() {
-    return sorted;
-  }
 
   @Override
   public int getTimeComplexity() {
@@ -20,7 +15,6 @@ public class ShellSort extends AbstractSort {
   protected void reset() {
     super.reset();
     gapCount = 0;
-    sorted = false;
   }
 
   @Override
@@ -28,10 +22,7 @@ public class ShellSort extends AbstractSort {
     {
       if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
       reset();
-      if (length <= 1) {
-        sorted = true;
-        return;
-      }
+      if (length <= 1) return;
       int n = length;
       for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
         ++gapCount;
@@ -50,6 +41,5 @@ public class ShellSort extends AbstractSort {
         }
       }
     }
-    sorted = true;
   }
 }
