@@ -7,14 +7,13 @@ public abstract class AbstractSort implements ISort {
   protected int innerLoopCount;
   protected int outerLoopCount;
 
-  protected abstract void sort(long[] array, int length);
-
   protected boolean shouldSort(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal value for length: " + length);
     reset();
-    if (length <= 1) return false;
-    return true;
+    return length <= 1 ? false:true;
   }
+  
+  protected abstract void sort(long[] array, int length);
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override

@@ -48,11 +48,6 @@ public class BrickSortParallel extends AbstractBrickSort {
 
   protected void sortInterruptibly(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
-    reset();
-    if (length <= 1) {
-      sorted.set(true);
-      return;
-    }
     final int maxComparisons = computeMaxComparisons(length);
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);

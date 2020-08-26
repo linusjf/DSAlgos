@@ -29,6 +29,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 class QuickSortParallelTest implements SortProvider {
 
+  private static final String SWAP_COUNT_ZERO = "Swap count must be zero.";
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   @DisplayName("QuickSortParallelTest.testSort")
@@ -109,7 +110,7 @@ class QuickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), SWAP_COUNT_ZERO);
   }
 
   @ParameterizedTest
@@ -121,7 +122,7 @@ class QuickSortParallelTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), SWAP_COUNT_ZERO);
   }
 
   @Test
@@ -179,7 +180,7 @@ class QuickSortParallelTest implements SortProvider {
     long[] extentSorted = sorted.getExtentArray();
     long[] extent = ord.getExtentArray();
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), SWAP_COUNT_ZERO);
   }
 
   @Test
@@ -195,7 +196,7 @@ class QuickSortParallelTest implements SortProvider {
             });
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+    assertEquals(0, sorter.getSwapCount(), SWAP_COUNT_ZERO);
   }
 
   @Test

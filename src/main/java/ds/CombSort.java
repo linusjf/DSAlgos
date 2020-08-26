@@ -11,7 +11,6 @@ public class CombSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (!shouldSort(length)) return;
     int gap = length;
     boolean swapped = true;
     reset();
