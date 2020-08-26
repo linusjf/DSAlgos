@@ -182,6 +182,42 @@ class QuickSortParallelTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("QuickSortParallelTest.testSingleElementArray")
+  void testSingleElementArray() {
+    IArray high = new HighArray(1);
+    high.insert(1L);
+    ISort sorter = new QuickSortParallel();
+    sorter.sort(high);
+    assertTrue(isSorted(high), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("QuickSortParallelTest.testEmptyArray")
+  void testEmptyArray() {
+    long[] a = {};
+    QuickSortParallelSub sorter = new QuickSortParallelSub();
+    sorter.sortArray(a, 0);
+    assertTrue(isSorted(a), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("QuickSortParallelTest.testIllegalArgumentException")
+  void testIllegalArgumentException() {
+    long[] a = {};
+    QuickSortParallelSub sorter = new QuickSortParallelSub();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortArray(a, -1),
+        "IllegalArgumentException expected.");
+  }
+
+  @Test
   @DisplayName("QuickSortParallelTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new QuickSortParallel();
@@ -198,5 +234,11 @@ class QuickSortParallelTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+  }
+
+  static final class QuickSortParallelSub extends QuickSortParallel {
+    public void sortArray(long[] a, int length) {
+      super.sort(a, length);
+    }
   }
 }

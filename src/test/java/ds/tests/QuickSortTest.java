@@ -182,6 +182,42 @@ class QuickSortTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("QuickSortTest.testSingleElementArray")
+  void testSingleElementArray() {
+    IArray high = new HighArray(1);
+    high.insert(1L);
+    ISort sorter = new QuickSort();
+    sorter.sort(high);
+    assertTrue(isSorted(high), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("QuickSortTest.testEmptyArray")
+  void testEmptyArray() {
+    long[] a = {};
+    QuickSortSub sorter = new QuickSortSub();
+    sorter.sortArray(a, 0);
+    assertTrue(isSorted(a), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("QuickSortTest.testIllegalArgumentException")
+  void testIllegalArgumentException() {
+    long[] a = {};
+    QuickSortSub sorter = new QuickSortSub();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortArray(a, -1),
+        "IllegalArgumentException expected.");
+  }
+
+  @Test
   @DisplayName("QuickSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new QuickSort();
@@ -198,5 +234,11 @@ class QuickSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+  }
+
+  static final class QuickSortSub extends QuickSort {
+    public void sortArray(long[] a, int length) {
+      super.sort(a, length);
+    }
   }
 }

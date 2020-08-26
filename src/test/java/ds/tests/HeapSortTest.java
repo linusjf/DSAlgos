@@ -194,6 +194,42 @@ class HeapSortTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("HeapSortTest.testSingleElementArray")
+  void testSingleElementArray() {
+    IArray high = new HighArray(1);
+    high.insert(1L);
+    ISort sorter = new HeapSort();
+    sorter.sort(high);
+    assertTrue(isSorted(high), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("HeapSortTest.testEmptyArray")
+  void testEmptyArray() {
+    long[] a = {};
+    HeapSortSub sorter = new HeapSortSub();
+    sorter.sortArray(a, 0);
+    assertTrue(isSorted(a), "Array is sorted.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
+    assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
+  }
+
+  @Test
+  @DisplayName("HeapSortTest.testIllegalArgumentException")
+  void testIllegalArgumentException() {
+    long[] a = {};
+    HeapSortSub sorter = new HeapSortSub();
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> sorter.sortArray(a, -1),
+        "IllegalArgumentException expected.");
+  }
+
+  @Test
   @DisplayName("HeapSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new HeapSort();
@@ -209,5 +245,11 @@ class HeapSortTest implements SortProvider {
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  static final class HeapSortSub extends HeapSort {
+    public void sortArray(long[] a, int length) {
+      super.sort(a, length);
+    }
   }
 }
