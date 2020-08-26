@@ -31,7 +31,10 @@ public class BrickSortParallel extends AbstractBrickSort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
-    if (!shouldSort(length)) return;
+    if (!shouldSort(length)) {
+      sorted.getAndSet(true);
+      return;
+    }
     ExecutorService service =
         Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     try {
