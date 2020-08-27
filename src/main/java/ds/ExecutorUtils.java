@@ -5,9 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 public final class ExecutorUtils {
 
-  private ExecutorUtils() {
-    throw new IllegalStateException("Private constructor called for class: "
-        + ExecutorUtils.class.getName());
+  private ExecutorUtils() throws InstantiationException {
+    throw new InstantiationException("Private constructor for: " + ExecutorUtils.class.getName());
   }
 
   public static void terminateExecutor(ExecutorService service, long timeUnits, TimeUnit unit) {

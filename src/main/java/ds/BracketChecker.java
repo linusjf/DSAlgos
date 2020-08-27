@@ -11,12 +11,10 @@ public class BracketChecker {
   private boolean handleClosingBracket(LinkedListStack theStack, char ch, int j) {
     boolean matchFound = true;
     if (theStack.isEmpty()) {
-      System.out.println("Error: " + ch + " at " + j);
       matchFound = false;
     } else {
       char chx = (char) theStack.pop();
       if (!doesBracketMatch(chx, ch)) {
-        System.out.println("Error: " + ch + " at " + j);
         matchFound = false;
       }
     }
@@ -46,7 +44,6 @@ public class BracketChecker {
       }
     }
     if (!theStack.isEmpty()) {
-      System.out.println("Error: missing right delimiter");
       matchFound = false;
     }
     return matchFound;

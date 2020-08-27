@@ -1,11 +1,12 @@
 package ds.tests;
 
-import static org.joor.Reflect.*;
 import static ds.ArrayUtils.isSorted;
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.ArrayUtils;
 import java.util.Optional;
+import org.joor.ReflectException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,11 +23,12 @@ class ArrayUtilsTest {
   @Test
   @DisplayName("ArrayUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
-   assertThrows(IllegalStateException.class,
-       () -> on(ArrayUtils.class).create(),
-       "Private constructor throws exception.");
+    assertThrows(
+        ReflectException.class,
+        () -> on(ArrayUtils.class).create(),
+        "Private constructor throws exception.");
   }
-  
+
   @Test
   @DisplayName("ArrayUtilsTest.testSorted")
   void testSorted() {
@@ -56,7 +58,7 @@ class ArrayUtilsTest {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 20L};
     assertTrue(isSorted(arr), "Full array is sorted!");
   }
-  
+
   @DisplayName("ArrayUtilsTest.testFullArrayUnsorted")
   @Test
   void testFullArrayUnsorted() {

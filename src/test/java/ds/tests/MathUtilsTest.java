@@ -1,10 +1,11 @@
 package ds.tests;
 
-import static org.joor.Reflect.*;
 import static ds.MathUtils.isOdd;
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.MathUtils;
+import org.joor.ReflectException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -21,11 +22,12 @@ class MathUtilsTest {
   @Test
   @DisplayName("MathUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
-   assertThrows(IllegalStateException.class,
-       () -> on(MathUtils.class).create(),
-       "Private constructor throws exception.");
+    assertThrows(
+        ReflectException.class,
+        () -> on(MathUtils.class).create(),
+        "Private constructor throws exception.");
   }
-  
+
   @Test
   @DisplayName("MathUtilsTest.testZero")
   void testZero() {

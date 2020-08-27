@@ -8,7 +8,7 @@ public class ShellSort extends AbstractSort {
   public int getTimeComplexity() {
     return innerLoopCount > 0
         ? innerLoopCount
-        : outerLoopCount > 0 ? gapCount * outerLoopCount : gapCount;
+        : outerLoopCount > 0 ? outerLoopCount : gapCount;
   }
 
   @Override

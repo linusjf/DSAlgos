@@ -226,6 +226,26 @@ class BubbleSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
+  
+  @Test
+  @DisplayName("BubbleSortTest.testSortTwoElementArraySorted")
+  void testSortTwoElementArraySorted() {
+    BubbleSortComplex sorter = new BubbleSortComplex();
+    sorter.sortTwoElementArraySorted();
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+  }
+  
+  @Test
+  @DisplayName("BubbleSortTest.testSortTwoElementArrayUnsorted")
+  void testSortTwoElementArrayUnsorted() {
+    BubbleSortComplex sorter = new BubbleSortComplex();
+    sorter.sortTwoElementArrayUnsorted();
+    assertEquals(1, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+  }
 
   @Test
   @DisplayName("BubbleSortTest.testSortNegativeLengthArray")
@@ -251,6 +271,16 @@ class BubbleSortTest implements SortProvider {
     void sortNegativeLengthArray() {
       long[] a = {1};
       sort(a, -1);
+    }
+    
+    void sortTwoLengthArraySorted() {
+      long[] a = {1,2};
+      sort(a);
+    }
+    
+    void sortTwoLengthArrayUnsorted() {
+      long[] a = {2,1};
+      sort(a);
     }
   }
 }

@@ -1,13 +1,14 @@
 package ds.tests;
 
-import static org.joor.Reflect.*;
 import static ds.ExecutorUtils.terminateExecutor;
+import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.ExecutorUtils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import org.joor.ReflectException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,13 +23,14 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class ExecutorUtilsTest {
 
   @Test
-  @DisplayName("ExeecutorUtilsTest.testPrivateConstructor")
+  @DisplayName("ExecutorUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
-   assertThrows(IllegalStateException.class,
-       () -> on(ExecutorUtils.class).create(),
-       "Private constructor throws exception.");
+    assertThrows(
+        ReflectException.class,
+        () -> on(ExecutorUtils.class).create(),
+        "Private constructor throws exception.");
   }
-  
+
   @Test
   @DisplayName("ExecutorUtilsTest.testNormalTerminate")
   void testNormalTerminate() {
@@ -55,15 +57,14 @@ class ExecutorUtilsTest {
     assertTrue(es.isShutdown(), "Executor is shutdown!");
     assertFalse(es.isTerminated(), "Not all tasks complete expected!");
   }
-  
+
   @Test
   @DisplayName("ExecutorUtilsTest.testForceShutdownNormal")
   void testForceShutdownNormal() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.execute(
         () -> {
-        System.out.println("Executed task.");  
-        }
+          System.out.println("Executed task.");
         });
     terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
