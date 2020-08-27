@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import ds.QuickSort;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,18 @@ class QuickSortTest implements SortProvider {
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
+  @Test
+  @DisplayName("QuickSortTest.testSortRandom")
+  void testSortRandom() {
+    HighArray high = new HighArray(MYRIAD);
+    Random random = new Random();
+    LongStream stream = random.longs().limit(MYRIAD);
+    stream.forEach(i -> high.insert(i));
+    ISort sorter = new QuickSort();
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted), "Elements are sorted.");
+  }
+
   @ParameterizedTest
   @CsvSource(INIT_DUPLICATE_DATA)
   @DisplayName("QuickSortTest.testSortDuplicates")
@@ -48,6 +61,16 @@ class QuickSortTest implements SortProvider {
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+  }
+
+  @Test
+  @DisplayName("QuickSortTest.testSortBigDuplicates")
+  void testSortBigDuplicates() {
+    HighArray high = new HighArray(MYRIAD);
+    for (int i = 0; i < MYRIAD; i++) high.insert(i & 1023);
+    ISort sorter = new QuickSort();
+    IArray sorted = sorter.sort(high);
+    assertTrue(isSorted(sorted), "Elements are sorted.");
   }
 
   @ParameterizedTest

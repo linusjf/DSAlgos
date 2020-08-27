@@ -155,7 +155,7 @@ class ShellSortTest implements SortProvider {
     LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
-    assertEquals(248, sorter.getTimeComplexity(), "Time complexity must be 248.");
+    assertEquals(62, sorter.getTimeComplexity(), "Time complexity must be 248.");
   }
 
   @Test
