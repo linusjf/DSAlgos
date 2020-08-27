@@ -515,6 +515,7 @@ class BrickSortParallelTest implements SortProvider {
     }
   }
 
+  // CPD-OFF
   static class BrickSortComplex extends BrickSortParallel {
 
     void sortZeroLengthArray() {
@@ -574,4 +575,5 @@ class BrickSortParallelTest implements SortProvider {
       return outerLoopCount;
     }
   }
+  // CPD-ON
 }

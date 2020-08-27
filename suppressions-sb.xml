@@ -30,12 +30,24 @@
   <Match>
     <Bug pattern="CLI_CONSTANT_LIST_INDEX"/>
   </Match>
-  <!--  <Match>
-    <Class name="ds.BrickSortParallel"/>
-    <Bug pattern="HES_EXECUTOR_NEVER_SHUTDOWN"/>
+  <Match>
+    <Class name="ds.tests.LinkedListStackTest"/>
+    <Method name="testPeekEmpty"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
   </Match>
   <Match>
-    <Class name="ds.BrickSortParallel"/>
-    <Bug pattern="HES_EXECUTOR_OVERWRITTEN_WITHOUT_SHUTDOWN"/>
-  </Match> -->
+    <Class name="ds.tests.LinkedListStackTest"/>
+    <Method name="testPeekEmptyOne"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.SimpleStackTest"/>
+    <Method name="testPeekEmpty"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.SimpleStackTest"/>
+    <Method name="testPeekEmptyOne"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
 </FindBugsFilter>

@@ -541,6 +541,9 @@
               </goals>
               <configuration>
                 <format>net.sourceforge.pmd.cpd.SimpleRenderer</format>
+                <excludes>
+                  <exclude>**/*Test.java</exclude>
+                </excludes>
               </configuration>
             </execution>
           </executions>

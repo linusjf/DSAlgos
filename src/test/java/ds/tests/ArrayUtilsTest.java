@@ -1,8 +1,10 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static ds.ArrayUtils.isSorted;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.ArrayUtils;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,14 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 class ArrayUtilsTest {
 
+  @Test
+  @DisplayName("ArrayUtilsTest.testPrivateConstructor")
+  void testPrivateConstructor() {
+   assertThrows(IllegalStateException.class,
+       () -> on(ArrayUtils.class).create(),
+       "Private constructor throws exception.");
+  }
+  
   @Test
   @DisplayName("ArrayUtilsTest.testSorted")
   void testSorted() {
@@ -45,6 +55,13 @@ class ArrayUtilsTest {
   void testFullArray() {
     long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 20L};
     assertTrue(isSorted(arr), "Full array is sorted!");
+  }
+  
+  @DisplayName("ArrayUtilsTest.testFullArrayUnsorted")
+  @Test
+  void testFullArrayUnsorted() {
+    long[] arr = {1L, 2L, 0L, -7L, 8L, 5L, 8L, 2L, 0L, 200L};
+    assertFalse(isSorted(arr), "Full array is unsorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testLessThanFullArray")

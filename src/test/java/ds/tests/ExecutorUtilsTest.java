@@ -1,8 +1,10 @@
 package ds.tests;
 
+import static org.joor.Reflect.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.ExecutorUtils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +22,14 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class ExecutorUtilsTest {
 
   @Test
+  @DisplayName("ExeecutorUtilsTest.testPrivateConstructor")
+  void testPrivateConstructor() {
+   assertThrows(IllegalStateException.class,
+       () -> on(ExecutorUtils.class).create(),
+       "Private constructor throws exception.");
+  }
+  
+  @Test
   @DisplayName("ExecutorUtilsTest.testNormalTerminate")
   void testNormalTerminate() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -31,11 +41,11 @@ class ExecutorUtilsTest {
   @DisplayName("ExecutorUtilsTest.testForceShutdown")
   void testForceShutdown() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    es.submit(
+    es.execute(
         () -> {
           while (true) {
             try {
-              Thread.currentThread().sleep(1000);
+              Thread.sleep(1000);
             } catch (InterruptedException ie) {
               Thread.currentThread().interrupt();
             }
@@ -44,6 +54,20 @@ class ExecutorUtilsTest {
     terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
     assertFalse(es.isTerminated(), "Not all tasks complete expected!");
+  }
+  
+  @Test
+  @DisplayName("ExecutorUtilsTest.testForceShutdownNormal")
+  void testForceShutdownNormal() {
+    ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    es.execute(
+        () -> {
+        System.out.println("Executed task.");  
+        }
+        });
+    terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
+    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isTerminated(), "All tasks complete expected!");
   }
 
   @Test
@@ -72,7 +96,7 @@ class ExecutorUtilsTest {
     @Override
     public void run() {
       try {
-        Thread.currentThread().sleep(100);
+        Thread.sleep(100);
         parentThread.interrupt();
       } catch (InterruptedException ie) {
         Thread.currentThread().interrupt();
