@@ -82,6 +82,9 @@ class ExecutorUtilsTest {
     es.submit(new InterruptThread(Thread.currentThread()));
     es.submit(new InterruptThread(Thread.currentThread()));
     es.submit(new InterruptThread(Thread.currentThread()));
+    es.submit(new InterruptThread(Thread.currentThread()));
+    es.submit(new InterruptThread(Thread.currentThread()));
+    es.submit(new InterruptThread(Thread.currentThread()));
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
     assertFalse(es.isTerminated(), "All tasks not complete!");
@@ -97,7 +100,7 @@ class ExecutorUtilsTest {
     @Override
     public void run() {
       try {
-        Thread.sleep(1000);
+        Thread.sleep(100);
         parentThread.interrupt();
       } catch (InterruptedException ie) {
         Thread.currentThread().interrupt();
