@@ -22,7 +22,8 @@ public final class ExecutorUtils {
 
   @Generated
   public static void assertServiceTerminated(ExecutorService service) {
-    if (!service.isTerminated())
+    if (!service.isShutdown()) throw new AssertionError("ExecutorService must be shutdown.");
+    if (!Thread.currentThread().isInterrupted() && !service.isTerminated())
       throw new AssertionError("ExecutorService must terminate cleanly.");
   }
 }

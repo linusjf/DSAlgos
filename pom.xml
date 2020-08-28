@@ -170,7 +170,14 @@
               <targetTests>
                 <param>ds.tests.*Test</param>
               </targetTests>
-              <excludedMethods>display,equals,hashCode,canEqual,assertEquality</excludedMethods>
+              <excludedMethods>
+                <excludedMethod>display</excludedMethod>
+                <excludedMethod>equals</excludedMethod>
+                <excludedMethod>hashCode</excludedMethod>
+                <excludedMethod>canEqual</excludedMethod>
+                <excludedMethod>assertEquality</excludedMethod>
+                <excludedMethod>assertServiceTerminated</excludedMethod>
+              </excludedMethods>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
               <timeoutFactor>2</timeoutFactor>

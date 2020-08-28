@@ -224,4 +224,46 @@ class CocktailShakerSortTest implements SortProvider {
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
+
+  @Test
+  @DisplayName("CocktailShakerSortTest.testSortEmptyArray")
+  void testSortEmptyArray() {
+    CocktailShakerSortComplex sorter = new CocktailShakerSortComplex();
+    sorter.sortEmptyArray();
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getOuterLoopCount(), "Outer loop never entered.");
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+  }
+
+  static class CocktailShakerSortComplex extends CocktailShakerSort {
+    void sortEmptyArray() {
+      long[] a = {};
+      sort(a, 0);
+    }
+
+    void sortSingleElementArray() {
+      long[] a = {1};
+      sort(a, 1);
+    }
+
+    void sortNegativeLengthArray() {
+      long[] a = {1};
+      sort(a, -1);
+    }
+
+    void sortTwoLengthArraySorted() {
+      long[] a = {1, 2};
+      sort(a, 2);
+    }
+
+    void sortTwoLengthArrayUnsorted() {
+      long[] a = {2, 1};
+      sort(a, 2);
+    }
+
+    int getOuterLoopCount() {
+      return outerLoopCount;
+    }
+  }
 }

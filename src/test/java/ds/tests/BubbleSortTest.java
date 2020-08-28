@@ -214,6 +214,7 @@ class BubbleSortTest implements SortProvider {
     sorter.sortEmptyArray();
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getOuterLoopCount(), "Outer loop never entered.");
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
@@ -224,6 +225,7 @@ class BubbleSortTest implements SortProvider {
     sorter.sortSingleElementArray();
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getOuterLoopCount(), "Outer loop never entered.");
     assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
@@ -234,6 +236,7 @@ class BubbleSortTest implements SortProvider {
     sorter.sortTwoLengthArraySorted();
     assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getOuterLoopCount(), "Outer loop count incremented by one.");
     assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
@@ -244,6 +247,7 @@ class BubbleSortTest implements SortProvider {
     sorter.sortTwoLengthArrayUnsorted();
     assertEquals(1, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
     assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getOuterLoopCount(), "Outer loop count incremented by one.");
     assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
   }
 
@@ -281,6 +285,10 @@ class BubbleSortTest implements SortProvider {
     void sortTwoLengthArrayUnsorted() {
       long[] a = {2, 1};
       sort(a, 2);
+    }
+
+    int getOuterLoopCount() {
+      return outerLoopCount;
     }
   }
 }

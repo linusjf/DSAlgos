@@ -12,6 +12,7 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
+import java.util.Random;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -51,6 +52,17 @@ class BrickSortParallelTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
+  @Test
+  @DisplayName("BrickSortParallelTest.testSortRandom")
+  void testSortRandom() {
+    HighArray arr = new HighArray(MYRIAD);
+    LongStream stream = new Random().longs().limit(MYRIAD);
+    stream.forEach(i -> arr.insert(i));
+    BrickSortComplex sorter = new BrickSortComplex();
+    IArray sorted = sorter.sort(arr);
+    assertTrue(isSorted(sorted), "Array must be sorted.");
+  }
+
   @ParameterizedTest
   @CsvSource(INIT_BRICK_SORT_DATA)
   @DisplayName("BrickSortParallelTest.testSortSmallData")
@@ -72,7 +84,7 @@ class BrickSortParallelTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -98,7 +110,7 @@ class BrickSortParallelTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -122,7 +134,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
@@ -132,7 +144,7 @@ class BrickSortParallelTest implements SortProvider {
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(19, compCount, "Comparison count must be 19.");
+    assertEquals(SCORE - 1, compCount, "Comparison count must be " + (SCORE - 1));
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -140,7 +152,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
@@ -151,7 +163,8 @@ class BrickSortParallelTest implements SortProvider {
     final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertTrue(
-        19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
+        SCORE - 1 <= compCount && compCount <= 400,
+        "Comparison count must be in range " + (SCORE - 1) + " and " + SCORE * (SCORE - 1));
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -159,7 +172,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -228,7 +241,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -245,7 +258,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -254,7 +267,7 @@ class BrickSortParallelTest implements SortProvider {
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
     assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -390,20 +403,23 @@ class BrickSortParallelTest implements SortProvider {
     assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testEmptyArray")
-  void testEmptyArray() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortEmptyArray();
-    assertTrue(bsc.isSorted(), SORTED);
-  }
+  @Nested
+  class CornerCasesTest {
+    @Test
+    @DisplayName("BrickSortParallelTest.CornerCasesTest.testEmptyArray")
+    void testEmptyArray() {
+      BrickSortComplex bsc = new BrickSortComplex();
+      bsc.sortEmptyArray();
+      assertTrue(bsc.isSorted(), SORTED);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testSingleElementArray")
-  void testSingleElementArray() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortSingleElementArray();
-    assertTrue(bsc.isSorted(), SORTED);
+    @Test
+    @DisplayName("BrickSortParallelTest.CornerCasesTest.testSingleElementArray")
+    void testSingleElementArray() {
+      BrickSortComplex bsc = new BrickSortComplex();
+      bsc.sortSingleElementArray();
+      assertTrue(bsc.isSorted(), SORTED);
+    }
   }
 
   @Nested

@@ -43,7 +43,8 @@ public class BrickSortParallel extends AbstractBrickSort {
     } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
     } finally {
-      terminateExecutor(service, length, TimeUnit.MILLISECONDS);
+      long timeToWait = length < 100L ? 100L : length;
+      terminateExecutor(service, timeToWait, TimeUnit.MILLISECONDS);
     }
     assertServiceTerminated(service);
   }
