@@ -12,10 +12,8 @@ public final class ExecutorUtils {
   public static void terminateExecutor(ExecutorService service, long timeUnits, TimeUnit unit) {
     service.shutdown();
     try {
-      if (!service.awaitTermination(timeUnits, unit))
-        service.shutdownNow();
-      if (!service.awaitTermination((long)(timeUnits * 0.2), unit))
-        service.shutdownNow();
+      if (!service.awaitTermination(timeUnits, unit)) service.shutdownNow();
+      if (!service.awaitTermination((long) (timeUnits * 0.2), unit)) service.shutdownNow();
     } catch (InterruptedException ie) {
       service.shutdownNow();
       Thread.currentThread().interrupt();
