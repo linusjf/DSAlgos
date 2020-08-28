@@ -43,8 +43,6 @@ public class NoCountQueue implements IQueue {
 
   @Override
   public int size() {
-    return rear >= front ?
-      rear - front + 1
-    : maxSize + rear - front + 1;
+    return rear >= front ? rear - front + 1 : maxSize + rear - front + 1;
   }
 }

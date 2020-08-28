@@ -30,9 +30,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:classfanoutcomplexity"})
 @DisplayName("BrickSortParallelTest")
-@SuppressWarnings("checkstyle:classfanoutcomplexity")
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
