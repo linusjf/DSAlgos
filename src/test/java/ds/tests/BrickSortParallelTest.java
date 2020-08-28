@@ -32,6 +32,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings("PMD.LawOfDemeter")
 @DisplayName("BrickSortParallelTest")
+@SuppressWarnings("checkstyle:classfanoutcomplexity")
 class BrickSortParallelTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
@@ -193,7 +194,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
+    revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
     final int innerLoopCount = sorter.getInnerLoopCount();
@@ -284,7 +285,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testReverseSortedOddException")
   void testReverseSortedOddException() {
     IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
+    revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     ISort sorter = new BrickSortExceptionable();
     assertThrows(
         CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
@@ -294,7 +295,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testReverseSortedOddInterruption")
   void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
     IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
+    revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     BrickSortInterruptible sorter = new BrickSortInterruptible();
     assertThrows(
         CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
@@ -591,5 +592,4 @@ class BrickSortParallelTest implements SortProvider {
       return outerLoopCount;
     }
   }
-  // CPD-ON
 }
