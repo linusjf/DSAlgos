@@ -253,6 +253,26 @@ class SelectionSortTest implements SortProvider {
   }
 
   @Test
+  @DisplayName("SelectionSortTest.testTwoElementArraySorted")
+  void testTwoElementArraySorted() {
+    SelectionSub sorter = new SelectionSub();
+    sorter.sortTwoElementArraySorted();
+    assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  @DisplayName("SelectionSortTest.testTwoElementArrayUnsorted")
+  void testTwoElementArrayUnsorted() {
+    SelectionSub sorter = new SelectionSub();
+    sorter.sortTwoElementArrayUnsorted();
+    assertEquals(1, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
   @DisplayName("SelectionSortTest.testNegativeLengthArraySort")
   void testNegativeLengthArraySort() {
     SelectionSub sorter = new SelectionSub();
@@ -287,6 +307,16 @@ class SelectionSortTest implements SortProvider {
     void sortNegativeLengthArray() {
       long[] a = {};
       sort(a, -2);
+    }
+
+    void sortTwoElementArraySorted() {
+      long[] a = {1, 2};
+      sort(a, 2);
+    }
+
+    void sortTwoElementArrayUnsorted() {
+      long[] a = {2, 1};
+      sort(a, 2);
     }
   }
 }
