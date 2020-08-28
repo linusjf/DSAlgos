@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import ds.ShellSort;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,24 @@ class ShellSortTest implements SortProvider {
     ISort sorter = new ShellSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
+    assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
+  }
+
+  @Test
+  @DisplayName("ShellSortTest.testSortRandom")
+  void testSortRandom() {
+    HighArray arr = new HighArray(MYRIAD);
+    OrdArray ord = new OrdArray(MYRIAD);
+    LongStream stream = new Random().longs().limit(MYRIAD);
+    stream.forEach(
+        i -> {
+          arr.insert(i);
+          ord.insert(i);
+        });
+    ISort sorter = new ShellSort();
+    IArray sorted = sorter.sort(arr);
+    long[] extent = sorted.getExtentArray();
+    long[] a = ord.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);
   }
 
@@ -83,7 +102,7 @@ class ShellSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -100,7 +119,7 @@ class ShellSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,7 +138,7 @@ class ShellSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -137,7 +156,7 @@ class ShellSortTest implements SortProvider {
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -152,7 +171,7 @@ class ShellSortTest implements SortProvider {
   @DisplayName("ShellSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
     assertEquals(62, sorter.getTimeComplexity(), "Time complexity must be 248.");
@@ -162,7 +181,7 @@ class ShellSortTest implements SortProvider {
   @DisplayName("ShellSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
     assertEquals(36, sorter.getTimeComplexity(), "Time complexity must be thirty six.");
@@ -172,7 +191,7 @@ class ShellSortTest implements SortProvider {
   @DisplayName("ShellSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new ShellSort();
     sorter.sort(high);
     assertEquals(36, sorter.getCopyCount(), "Copy count must be 36 in reverse ordered array.");
@@ -233,9 +252,39 @@ class ShellSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
   }
 
+  @Test
+  @DisplayName("ShellSortTest.testSortTwoElementArraySorted")
+  void testSortTwoElementArraySorted() {
+    ShellSortSub sorter = new ShellSortSub();
+    sorter.sortTwoElementArraySorted();
+    assertEquals(1, sorter.getComparisonCount(), "Comparison count must be 2.");
+    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be one.");
+  }
+
+  @Test
+  @DisplayName("ShellSortTest.testSortTwoElementArrayUnsorted")
+  void testSortTwoElementArrayUnsorted() {
+    ShellSortSub sorter = new ShellSortSub();
+    sorter.sortTwoElementArrayUnsorted();
+    assertEquals(1, sorter.getComparisonCount(), "Comparison count must be 2.");
+    assertEquals(1, sorter.getCopyCount(), "Copy count must be one.");
+    assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be one.");
+  }
+
   static final class ShellSortSub extends ShellSort {
     public void sortArray(long[] a, int length) {
       super.sort(a, length);
+    }
+
+    void sortTwoElementArraySorted() {
+      long[] a = {1L, 2L};
+      sort(a, 2);
+    }
+
+    void sortTwoElementArrayUnsorted() {
+      long[] a = {2L, 1L};
+      sort(a, 2);
     }
   }
 }

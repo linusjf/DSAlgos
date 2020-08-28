@@ -22,7 +22,7 @@ public class ShellSort extends AbstractSort {
       int n = length;
       for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
         ++gapCount;
-        for (int i = gap; i < n; i += 1) {
+        for (int i = gap; i < n; ++i) {
           ++outerLoopCount;
           long temp = a[i];
           int j;
