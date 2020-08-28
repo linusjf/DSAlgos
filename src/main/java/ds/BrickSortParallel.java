@@ -1,5 +1,6 @@
 package ds;
 
+import static ds.ExecutorUtils.assertServiceTerminated;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
 import static java.lang.Math.abs;
@@ -44,6 +45,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     } finally {
       terminateExecutor(service, length, TimeUnit.MILLISECONDS);
     }
+    assertServiceTerminated(service);
   }
 
   protected void sortInterruptibly(long[] a, int length, ExecutorService service)

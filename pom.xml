@@ -171,9 +171,6 @@
                 <param>ds.tests.*Test</param>
               </targetTests>
               <excludedMethods>display,equals,hashCode,canEqual,assertEquality</excludedMethods>
-              <avoidCallsTo>
-                <avoidCallsTo>ds.ExecutorUtils</avoidCallsTo>
-              </avoidCallsTo>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
               <timeoutFactor>2</timeoutFactor>

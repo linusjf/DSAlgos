@@ -83,7 +83,7 @@ class CocktailShakerSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArrayLock();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -92,7 +92,7 @@ class CocktailShakerSortTest implements SortProvider {
     ISort sorter = new CocktailShakerSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(SCORE - 1, sorter.getComparisonCount(), "Comparison count must be n -1.");
   }
 
   @Test
@@ -100,7 +100,7 @@ class CocktailShakerSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArrayLock();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,30 +119,31 @@ class CocktailShakerSortTest implements SortProvider {
   @DisplayName("CocktailShakerSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
-    assertEquals(19, compCount, "Comparison count must be 19.");
+    assertEquals(SCORE - 1, compCount, "Comparison count must be " + (SCORE - 1));
   }
 
   @Test
   @DisplayName("CocktailShakerSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
-        19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
+        SCORE - 1 <= compCount && compCount <= SCORE * (SCORE - 1),
+        "Comparison count must be in range " + (SCORE - 1) + " and 400.");
   }
 
   @Test
   @DisplayName("CocktailShakerSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
@@ -156,7 +157,7 @@ class CocktailShakerSortTest implements SortProvider {
   @DisplayName("CocktailShakerSortTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
+    revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
@@ -171,7 +172,7 @@ class CocktailShakerSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArrayLock();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -189,7 +190,7 @@ class CocktailShakerSortTest implements SortProvider {
   @DisplayName("CocktailShakerSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
@@ -199,10 +200,10 @@ class CocktailShakerSortTest implements SortProvider {
   @DisplayName("CocktailShakerSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CocktailShakerSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be " + SCORE);
   }
 
   @Test
@@ -211,7 +212,7 @@ class CocktailShakerSortTest implements SortProvider {
     AbstractSort sorter = new CocktailShakerSort();
     String className = CocktailShakerSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+        sorter.toString().startsWith(className), () -> "toString must start with " + className);
   }
 
   @Test

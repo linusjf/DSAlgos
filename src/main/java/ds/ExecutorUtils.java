@@ -12,15 +12,18 @@ public final class ExecutorUtils {
   public static void terminateExecutor(ExecutorService service, long timeUnits, TimeUnit unit) {
     service.shutdown();
     try {
-      if (!service.awaitTermination(timeUnits, unit)) service.shutdownNow();
+      if (!service.awaitTermination(timeUnits, unit))
+        service.shutdownNow();
+      if (!service.awaitTermination((long)(timeUnits * 0.2), unit))
+        service.shutdownNow();
     } catch (InterruptedException ie) {
       service.shutdownNow();
+      Thread.currentThread().interrupt();
     }
-    assertServiceTerminated(service);
   }
 
   @Generated
-  private static void assertServiceTerminated(ExecutorService service) {
+  public static void assertServiceTerminated(ExecutorService service) {
     if (!service.isTerminated())
       throw new AssertionError("ExecutorService must terminate cleanly.");
   }

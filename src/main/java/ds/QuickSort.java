@@ -1,14 +1,9 @@
 package ds;
 
-import java.util.Random;
+import static ds.RandomUtils.randomInRange;
 
 /** Quick sort using random partitioning. */
 public class QuickSort extends AbstractSort {
-
-  private static int randomInRange(int low, int high) {
-    Random rand = new Random();
-    return rand.nextInt(high - low) + low;
-  }
 
   @Override
   protected void sort(long[] a, int length) {

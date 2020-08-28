@@ -90,6 +90,16 @@ class ExecutorUtilsTest {
     assertFalse(es.isTerminated(), "All tasks not complete!");
   }
 
+  @Test
+  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedTrue")
+  void testAwaitTerminationTrue() {
+    ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    es.submit(new InterruptThread(Thread.currentThread()));
+    terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
+    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isTerminated(), "All tasks not complete!");
+  }
+
   static class InterruptThread extends Thread {
     Thread parentThread;
 
