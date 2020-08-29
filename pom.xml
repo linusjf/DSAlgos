@@ -175,9 +175,10 @@
                 <excludedMethod>equals</excludedMethod>
                 <excludedMethod>hashCode</excludedMethod>
                 <excludedMethod>canEqual</excludedMethod>
-                <excludedMethod>assertEquality</excludedMethod>
-                <excludedMethod>assertServiceTerminated</excludedMethod>
               </excludedMethods>
+              <avoidCallsTo>
+              <avoidCallsTo>ds.AssertionUtils</avoidCallsTo>
+              </avoidCallsTo>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
               <timeoutFactor>2</timeoutFactor>
