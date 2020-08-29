@@ -1,7 +1,7 @@
 package ds;
 
 public class NoCountQueue implements IQueue {
-  private int maxSize;
+  private final int maxSize;
   private long[] queArray;
   private int front;
   private int rear;

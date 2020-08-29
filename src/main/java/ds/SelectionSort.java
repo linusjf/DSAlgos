@@ -4,7 +4,7 @@ public class SelectionSort extends AbstractSort {
 
   @Override
   protected void sort(long[] a, int length) {
-    if (!shouldSort(length)) return;
+    reset();
     int out;
     int in;
     int min;

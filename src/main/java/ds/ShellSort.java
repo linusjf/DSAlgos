@@ -18,7 +18,7 @@ public class ShellSort extends AbstractSort {
   @Override
   protected void sort(long[] a, int length) {
     {
-      if (!shouldSort(length)) return;
+      reset();
       int n = length;
       for (int gap = n >> 1; gap > 0; gap = gap >> 1) {
         ++gapCount;

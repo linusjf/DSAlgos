@@ -223,17 +223,6 @@ class ShellSortTest implements SortProvider {
   }
 
   @Test
-  @DisplayName("ShellSortTest.testIllegalArgumentException")
-  void testIllegalArgumentException() {
-    long[] a = {};
-    ShellSortSub sorter = new ShellSortSub();
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> sorter.sortArray(a, -1),
-        "IllegalArgumentException expected.");
-  }
-
-  @Test
   @DisplayName("ShellSortTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new ShellSort();
@@ -250,6 +239,26 @@ class ShellSortTest implements SortProvider {
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
     assertEquals(0, sorter.getCopyCount(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  @DisplayName("ShellSortTest.testEmptyArraySort")
+  void testEmptyArraySort() {
+    ShellSortSub sorter = new ShellSortSub();
+    sorter.sortEmptyArray();
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+  }
+
+  @Test
+  @DisplayName("ShellSortTest.testSingleElementArraySort")
+  void testSingleElementArraySort() {
+    ShellSortSub sorter = new ShellSortSub();
+    sorter.sortSingleElementArray();
+    assertEquals(0, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
+    assertEquals(0, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
   }
 
   @Test
@@ -273,8 +282,18 @@ class ShellSortTest implements SortProvider {
   }
 
   static final class ShellSortSub extends ShellSort {
-    public void sortArray(long[] a, int length) {
+    void sortArray(long[] a, int length) {
       super.sort(a, length);
+    }
+
+    void sortEmptyArray() {
+      long[] a = {};
+      sort(a, 0);
+    }
+
+    void sortSingleElementArray() {
+      long[] a = {0};
+      sort(a, 0);
     }
 
     void sortTwoElementArraySorted() {

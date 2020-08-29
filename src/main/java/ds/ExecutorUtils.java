@@ -3,6 +3,7 @@ package ds;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public final class ExecutorUtils {
 
   private ExecutorUtils() throws InstantiationException {

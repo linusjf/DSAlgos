@@ -40,6 +40,15 @@ class ExecutorUtilsTest {
   }
 
   @Test
+  @DisplayName("ExecutorUtilsTest.testImmediateTerminate")
+  void testImmediateTerminate() {
+    ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    terminateExecutor(es, 0, TimeUnit.NANOSECONDS);
+    assertTrue(es.isShutdown(), "Service shutdown!");
+    assertTrue(es.isTerminated(), "All tasks completed!");
+  }
+
+  @Test
   @DisplayName("ExecutorUtilsTest.testForceShutdown")
   void testForceShutdown() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -87,6 +96,7 @@ class ExecutorUtilsTest {
     es.submit(new InterruptThread(Thread.currentThread()));
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(Thread.interrupted(), "Thread interrupted!");
     assertFalse(es.isTerminated(), "All tasks not complete!");
   }
 
@@ -97,7 +107,26 @@ class ExecutorUtilsTest {
     es.submit(new InterruptThread(Thread.currentThread()));
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
-    assertTrue(es.isTerminated(), "All tasks not complete!");
+    assertTrue(Thread.interrupted(), "Thread interrupted!");
+  }
+
+  @Test
+  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedLong")
+  void testAwaitTerminatedLong() {
+    ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    es.submit(new LongThread());
+    terminateExecutor(es, 100L, TimeUnit.NANOSECONDS);
+    assertTrue(es.isShutdown(), "Executor is shutdown!");
+  }
+
+  @Test
+  @DisplayName("ExecutorUtilsTest.testAwaitTerminatedLongImmediate")
+  void testAwaitTerminatedLongImmediate() {
+    ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    es.submit(new LongThread());
+    terminateExecutor(es, 0L, TimeUnit.NANOSECONDS);
+    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertFalse(es.isTerminated(), "Executor is not terminated!");
   }
 
   static class InterruptThread extends Thread {
@@ -110,8 +139,20 @@ class ExecutorUtilsTest {
     @Override
     public void run() {
       try {
-        Thread.sleep(100);
+        TimeUnit.MILLISECONDS.sleep(100L);
         parentThread.interrupt();
+      } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  static class LongThread extends Thread {
+
+    @Override
+    public void run() {
+      try {
+        TimeUnit.NANOSECONDS.sleep(Long.MAX_VALUE);
       } catch (InterruptedException ie) {
         Thread.currentThread().interrupt();
       }

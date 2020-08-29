@@ -7,8 +7,7 @@ public class BracketChecker {
     input = in;
   }
 
-  @SuppressWarnings("PMD.SystemPrintln")
-  private boolean handleClosingBracket(LinkedListStack theStack, char ch, int j) {
+  private boolean handleClosingBracket(IStack theStack, char ch) {
     boolean matchFound = true;
     if (theStack.isEmpty()) {
       matchFound = false;
@@ -21,10 +20,9 @@ public class BracketChecker {
     return matchFound;
   }
 
-  @SuppressWarnings("PMD.SystemPrintln")
   public boolean check() {
     boolean matchFound = true;
-    LinkedListStack theStack = new LinkedListStack();
+    IStack theStack = new LinkedListStack();
     for (int j = 0; j < input.length() && matchFound; j++) {
       char ch = input.charAt(j);
       switch (ch) {
@@ -37,7 +35,7 @@ public class BracketChecker {
         case '}':
         case ']':
         case ')':
-          matchFound = handleClosingBracket(theStack, ch, j);
+          matchFound = handleClosingBracket(theStack, ch);
           break;
 
         default:

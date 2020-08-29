@@ -272,16 +272,6 @@ class SelectionSortTest implements SortProvider {
     assertEquals(1, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
   }
 
-  @Test
-  @DisplayName("SelectionSortTest.testNegativeLengthArraySort")
-  void testNegativeLengthArraySort() {
-    SelectionSub sorter = new SelectionSub();
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> sorter.sortNegativeLengthArray(),
-        "Invalid length expected.");
-  }
-
   static class SelectionSub extends SelectionSort {
 
     void sortFullArray() {
@@ -302,11 +292,6 @@ class SelectionSortTest implements SortProvider {
     void sortSingleElementArray() {
       long[] a = {0};
       sort(a, 0);
-    }
-
-    void sortNegativeLengthArray() {
-      long[] a = {};
-      sort(a, -2);
     }
 
     void sortTwoElementArraySorted() {
