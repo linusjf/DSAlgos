@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ExecutorUtils.assertServiceTerminated;
+import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
 import static java.lang.Math.abs;
@@ -17,8 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Not thread-safe with state variables. */
-public class BrickSortParallel extends AbstractBrickSort {
+public class BrickSortParallel extends BrickSort {
 
+  private static final int THRESHOLD = 40;
   private final AtomicBoolean sorted = new AtomicBoolean();
   private final AtomicInteger swapCount = new AtomicInteger();
 
@@ -29,11 +30,21 @@ public class BrickSortParallel extends AbstractBrickSort {
     swapCount.set(0);
   }
 
+  private void sequentialSort(long[] a, int length) {
+    super.sort(a, length);
+    sorted.getAndSet(super.sorted);
+    swapCount.set(super.swapCount);
+  }
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
     if (!shouldSort(length)) {
       sorted.getAndSet(true);
+      return;
+    }
+    if (length <= THRESHOLD) {
+      sequentialSort(a, length);
       return;
     }
     ExecutorService service =
@@ -43,8 +54,7 @@ public class BrickSortParallel extends AbstractBrickSort {
     } catch (ExecutionException | InterruptedException ee) {
       throw new CompletionException(ee);
     } finally {
-      long timeToWait = length < 100L ? 100L : length;
-      terminateExecutor(service, timeToWait, TimeUnit.MILLISECONDS);
+      terminateExecutor(service, length, TimeUnit.MILLISECONDS);
     }
     assertServiceTerminated(service);
   }
@@ -65,11 +75,6 @@ public class BrickSortParallel extends AbstractBrickSort {
       evenSort(a, length, service, evenTaskCount);
       if (swapCount.intValue() == maxComparisons) sorted.set(true);
     }
-  }
-
-  @Generated
-  private void assertEquality(int size, int count) {
-    if (size != count) throw new AssertionError("Size is not the same as count.");
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})

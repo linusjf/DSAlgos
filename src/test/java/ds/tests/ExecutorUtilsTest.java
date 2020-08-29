@@ -97,7 +97,6 @@ class ExecutorUtilsTest {
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), "Executor is shutdown!");
     assertTrue(Thread.interrupted(), "Thread interrupted!");
-    assertFalse(es.isTerminated(), "All tasks not complete!");
   }
 
   @Test

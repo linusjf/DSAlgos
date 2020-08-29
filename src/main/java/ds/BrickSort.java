@@ -2,7 +2,7 @@ package ds;
 
 public class BrickSort extends AbstractBrickSort {
 
-  private boolean sorted;
+  protected boolean sorted;
 
   @Override
   public boolean isSorted() {
