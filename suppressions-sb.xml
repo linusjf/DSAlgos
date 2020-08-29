@@ -31,23 +31,31 @@
     <Bug pattern="CLI_CONSTANT_LIST_INDEX"/>
   </Match>
   <Match>
+    <Bug pattern="DMI_RANDOM_USED_ONLY_ONCE"/>
+  </Match>
+  <Match>
     <Class name="ds.tests.LinkedListStackTest"/>
-    <Method name="testPeekEmpty"/>
+    <Method name="~.*testPeekEmpty.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
   </Match>
   <Match>
     <Class name="ds.tests.LinkedListStackTest"/>
-    <Method name="testPeekEmptyOne"/>
+    <Method name="~.*testPeekEmptyOne.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
   </Match>
   <Match>
     <Class name="ds.tests.SimpleStackTest"/>
-    <Method name="testPeekEmpty"/>
+    <Method name="~.*testPeekEmpty.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
   </Match>
   <Match>
     <Class name="ds.tests.SimpleStackTest"/>
-    <Method name="testPeekEmptyOne"/>
+    <Method name="~.*testPeekEmptyOne.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
+    <Class name="~ds[.]tests[.].*UtilsTest"/>
+    <Method name="lambda$testPrivateConstructor$0"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_INFERRED"/>
   </Match>
 </FindBugsFilter>

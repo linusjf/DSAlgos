@@ -22,6 +22,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @SuppressWarnings("PMD.LawOfDemeter")
 class ExecutorUtilsTest {
 
+  private static final String EXECUTOR_SHUTDOWN = "Executor is shutdown!";
+
   @Test
   @DisplayName("ExecutorUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
@@ -63,10 +65,11 @@ class ExecutorUtilsTest {
           }
         });
     terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertFalse(es.isTerminated(), "Not all tasks complete expected!");
   }
 
+  @SuppressWarnings("PMD.SystemPrintln")
   @Test
   @DisplayName("ExecutorUtilsTest.testForceShutdownNormal")
   void testForceShutdownNormal() {
@@ -76,7 +79,7 @@ class ExecutorUtilsTest {
           System.out.println("Executed task.");
         });
     terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(es.isTerminated(), "All tasks complete expected!");
   }
 
@@ -95,7 +98,7 @@ class ExecutorUtilsTest {
     es.submit(new InterruptThread(Thread.currentThread()));
     es.submit(new InterruptThread(Thread.currentThread()));
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
 
@@ -105,7 +108,7 @@ class ExecutorUtilsTest {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new InterruptThread(Thread.currentThread()));
     terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
 
@@ -115,7 +118,7 @@ class ExecutorUtilsTest {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new LongThread());
     terminateExecutor(es, 100L, TimeUnit.NANOSECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
   }
 
   @Test
@@ -124,7 +127,7 @@ class ExecutorUtilsTest {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new LongThread());
     terminateExecutor(es, 0L, TimeUnit.NANOSECONDS);
-    assertTrue(es.isShutdown(), "Executor is shutdown!");
+    assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertFalse(es.isTerminated(), "Executor is not terminated!");
   }
 

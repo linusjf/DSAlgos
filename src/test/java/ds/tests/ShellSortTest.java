@@ -10,8 +10,8 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
+import ds.RandomUtils;
 import ds.ShellSort;
-import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +29,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("ShellSortTest")
 class ShellSortTest implements SortProvider {
 
+  private static final String COPY_COUNT_ZERO = "Copy count must be zero.";
+
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   @DisplayName("ShellSortTest.testSort")
@@ -45,7 +47,7 @@ class ShellSortTest implements SortProvider {
   void testSortRandom() {
     HighArray arr = new HighArray(MYRIAD);
     OrdArray ord = new OrdArray(MYRIAD);
-    LongStream stream = new Random().longs().limit(MYRIAD);
+    LongStream stream = RandomUtils.longStream().limit(MYRIAD);
     stream.forEach(
         i -> {
           arr.insert(i);
@@ -164,7 +166,7 @@ class ShellSortTest implements SortProvider {
             });
     ISort sorter = new ShellSort();
     sorter.sort(high);
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
   }
 
   @Test
@@ -205,7 +207,7 @@ class ShellSortTest implements SortProvider {
     ISort sorter = new ShellSort();
     sorter.sort(high);
     assertTrue(isSorted(high), "Array is sorted.");
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
@@ -217,7 +219,7 @@ class ShellSortTest implements SortProvider {
     ShellSortSub sorter = new ShellSortSub();
     sorter.sortArray(a, 0);
     assertTrue(isSorted(a), "Array is sorted.");
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
     assertEquals(0, sorter.getComparisonCount(), "Comparison count must be zero.");
   }
@@ -267,7 +269,7 @@ class ShellSortTest implements SortProvider {
     ShellSortSub sorter = new ShellSortSub();
     sorter.sortTwoElementArraySorted();
     assertEquals(1, sorter.getComparisonCount(), "Comparison count must be 2.");
-    assertEquals(0, sorter.getCopyCount(), "Copy count must be zero.");
+    assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
     assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be one.");
   }
 

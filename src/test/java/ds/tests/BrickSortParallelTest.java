@@ -3,7 +3,6 @@ package ds.tests;
 import static ds.ArrayUtils.*;
 import static ds.BrickSortParallel.*;
 import static ds.tests.TestConstants.*;
-import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AbstractSort;
@@ -12,7 +11,7 @@ import ds.HighArray;
 import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
-import java.util.Random;
+import ds.RandomUtils;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -41,7 +40,7 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testSortRandom")
   void testSortRandom() {
     HighArray arr = new HighArray(MYRIAD);
-    LongStream stream = new Random().longs().limit(MYRIAD);
+    LongStream stream = RandomUtils.longStream().limit(MYRIAD);
     stream.forEach(i -> arr.insert(i));
     BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(arr);

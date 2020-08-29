@@ -177,7 +177,7 @@
                 <excludedMethod>canEqual</excludedMethod>
               </excludedMethods>
               <avoidCallsTo>
-              <avoidCallsTo>ds.AssertionUtils</avoidCallsTo>
+                <avoidCallsTo>ds.AssertionUtils</avoidCallsTo>
               </avoidCallsTo>
               <exportLineCoverage>true</exportLineCoverage>
               <timeStampedReports>false</timeStampedReports>
@@ -354,6 +354,15 @@
     <defaultGoal>clean install</defaultGoal>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven.surefire.plugin.version}</version>
@@ -809,6 +818,14 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.0.0-M1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>

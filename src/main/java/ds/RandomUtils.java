@@ -1,15 +1,21 @@
 package ds;
 
 import java.util.Random;
+import java.util.stream.LongStream;
 
 public final class RandomUtils {
+
+  private static final Random RANDOM = new Random();
 
   private RandomUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor invoked for class: " + RandomUtils.class);
   }
 
   public static int randomInRange(int low, int high) {
-    Random rand = new Random();
-    return rand.nextInt(high - low) + low;
+    return RANDOM.nextInt(high - low) + low;
+  }
+
+  public static LongStream longStream() {
+    return RANDOM.longs();
   }
 }
