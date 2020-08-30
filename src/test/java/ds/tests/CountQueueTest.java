@@ -43,6 +43,29 @@ class CountQueueTest {
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
     assertEquals(0, queue.size(), "Size must be zero.");
   }
+  
+  @DisplayName("CountQueueTest.testCircularInsert")
+  @Test
+  void testCircularInsert() {
+    IQueue queue = new CountQueue(1);
+    long val = VAL;
+    queue.insert(val);
+    queue.remove();
+    queue.insert(val);
+    assertEquals(1, queue.size(), "Size must be one.");
+  }
+  
+  @DisplayName("CountQueueTest.testCircularRemove")
+  @Test
+  void testCircularRemove() {
+    IQueue queue = new CountQueue(1);
+    long val = VAL;
+    queue.insert(val);
+    queue.remove();
+    queue.insert(val);
+    queue.remove();
+    assertEquals(0, queue.size(), "Size must be zero.");
+  }
 
   @DisplayName("CountQueueTest.testInsert")
   @Test
