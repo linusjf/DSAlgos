@@ -51,26 +51,23 @@ public class NoCountQueue implements IQueue {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     String lineSeparator = System.lineSeparator();
     sb.append(getClass().getName())
-      .append(lineSeparator)
-      .append("maxSize = ")
-      .append(maxSize)
-      .append(lineSeparator)
-      .append("front = ")
-      .append(front)
-      .append(lineSeparator)
-      .append("rear = ")
-      .append(rear)
-      .append(lineSeparator);
-  for (int i = 0; i < maxSize; i++)
-  {
-    sb.append(queArray[i])
-      .append(" ");
-      if ((i + 1) % 10 == 0)
-        sb.append(lineSeparator);
-  }
-  return sb.toString();
+        .append(lineSeparator)
+        .append("maxSize = ")
+        .append(maxSize)
+        .append(lineSeparator)
+        .append("front = ")
+        .append(front)
+        .append(lineSeparator)
+        .append("rear = ")
+        .append(rear)
+        .append(lineSeparator);
+    for (int i = 0; i < maxSize; i++) {
+      sb.append(queArray[i]).append(" ");
+      if ((i + 1) % 10 == 0) sb.append(lineSeparator);
+    }
+    return sb.toString();
   }
 }
