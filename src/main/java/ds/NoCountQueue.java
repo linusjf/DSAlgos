@@ -15,12 +15,14 @@ public class NoCountQueue implements IQueue {
 
   @Override
   public void insert(long j) {
+    if (isFull()) throw new IllegalStateException("Queue is full.");
     if (rear == maxSize - 1) rear = -1;
     queArray[++rear] = j;
   }
 
   @Override
   public long remove() {
+    if (isEmpty()) throw new IllegalStateException("Queue is empty.");
     long temp = queArray[front++];
     if (front == maxSize) front = 0;
     return temp;
@@ -28,6 +30,7 @@ public class NoCountQueue implements IQueue {
 
   @Override
   public long peek() {
+    if (isEmpty()) throw new IllegalStateException("Empty queue!");
     return queArray[front];
   }
 

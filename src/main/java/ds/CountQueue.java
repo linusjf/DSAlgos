@@ -1,7 +1,7 @@
 package ds;
 
 public class CountQueue implements IQueue {
-  private int maxSize;
+  private final int maxSize;
   private long[] queArray;
   private int front;
   private int rear;
@@ -17,6 +17,7 @@ public class CountQueue implements IQueue {
 
   @Override
   public void insert(long j) {
+    if (isFull()) throw new IllegalStateException("Queue is full.");
     if (rear == maxSize - 1) rear = -1;
     queArray[++rear] = j;
     nItems++;
@@ -24,6 +25,7 @@ public class CountQueue implements IQueue {
 
   @Override
   public long remove() {
+    if (isEmpty()) throw new IllegalStateException("Queue is empty.");
     long temp = queArray[front++];
     if (front == maxSize) front = 0;
     nItems--;
@@ -32,17 +34,18 @@ public class CountQueue implements IQueue {
 
   @Override
   public long peek() {
+    if (isEmpty()) throw new IllegalStateException("Empty queue!");
     return queArray[front];
   }
 
   @Override
   public boolean isEmpty() {
-    return (nItems == 0);
+    return nItems == 0;
   }
 
   @Override
   public boolean isFull() {
-    return (nItems == maxSize);
+    return nItems == maxSize;
   }
 
   @Override
