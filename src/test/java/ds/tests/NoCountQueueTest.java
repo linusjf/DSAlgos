@@ -19,6 +19,15 @@ class NoCountQueueTest {
   private static final long VAL = 20;
 
   @Test
+  @DisplayName("NoCountQueueTest.testConstructorException")
+  void testConstructorException() {
+    assertThrows(
+        IllegalArgumentException.class, 
+        () -> new NoCountQueue(-1), 
+        "Constructor throws exception.");
+  }
+  
+  @Test
   @DisplayName("NoCountQueueTest.testRemoveEmpty")
   void testRemoveEmpty() {
     IQueue queue = new NoCountQueue(0);
@@ -163,5 +172,39 @@ class NoCountQueueTest {
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
     assertEquals(1, queue.size(), "Size must be one.");
+  }
+
+  @DisplayName("NoCountQueueTest.testTwoElementQueueInsert")
+  @Test
+  void testTwoElementQueueInsert() {
+    IQueue queue = new NoCountQueue(2);
+    long val = VAL;
+    queue.insert(val);
+    queue.insert(val + 1);
+    assertEquals(val, queue.peek(), "Peek returns first value inserted.");
+    assertEquals(2, queue.size(), "Size must be two.");
+  }
+
+  @DisplayName("NoCountQueueTest.testTwoElementQueueRemove")
+  @Test
+  void testTwoElementQueueRemove() {
+    IQueue queue = new NoCountQueue(2);
+    long val = VAL;
+    queue.insert(val);
+    queue.insert(val + 1);
+    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(1, queue.size(), "Size must be one.");
+  }
+
+  @DisplayName("NoCountQueueTest.testTwoElementQueueRemoveTwice")
+  @Test
+  void testTwoElementQueueRemoveTwice() {
+    IQueue queue = new NoCountQueue(2);
+    long val = VAL;
+    queue.insert(val);
+    queue.insert(val + 1);
+    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(val + 1, queue.remove(), "Remove returns second value inserted.");
+    assertEquals(0, queue.size(), "Size must be one.");
   }
 }

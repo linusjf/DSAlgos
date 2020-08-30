@@ -19,6 +19,13 @@ class CountQueueTest {
   private static final long VAL = 20;
 
   @Test
+  @DisplayName("CountQueueTest.testConstructorException")
+  void testConstructorException() {
+    assertThrows(
+        IllegalArgumentException.class, () -> new CountQueue(-1), "Constructor throws exception.");
+  }
+  
+  @Test
   @DisplayName("CountQueueTest.testRemoveEmpty")
   void testRemoveEmpty() {
     IQueue queue = new CountQueue(0);
@@ -41,6 +48,18 @@ class CountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(0, queue.size(), "Size must be zero.");
+  }
+  
+  @DisplayName("CountQueueTest.testTwoElementQueueRemove")
+  @Test
+  void testTwoElementQueueRemove() {
+    IQueue queue = new CountQueue(2);
+    long val = VAL;
+    queue.insert(val);
+    queue.insert(val + 1);
+    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(val + 1, queue.remove(), "Remove returns second value inserted.");
     assertEquals(0, queue.size(), "Size must be zero.");
   }
 

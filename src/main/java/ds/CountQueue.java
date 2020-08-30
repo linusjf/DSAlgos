@@ -8,8 +8,7 @@ public class CountQueue implements IQueue {
   private int nItems;
 
   public CountQueue(int s) {
-    if (s < 0)
-      throw new IllegalArgumentException("Queue size cannot be negative.");
+    if (s < 0) throw new IllegalArgumentException("Queue size cannot be negative.");
     maxSize = s;
     queArray = new long[maxSize];
     front = 0;
@@ -54,5 +53,4 @@ public class CountQueue implements IQueue {
   public int size() {
     return nItems;
   }
-
 }
