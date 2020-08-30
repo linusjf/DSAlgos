@@ -41,6 +41,7 @@ class CountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(0, queue.size(), "Size must be zero.");
   }
 
   @DisplayName("CountQueueTest.testInsert")
@@ -50,6 +51,7 @@ class CountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
+    assertEquals(1, queue.size(), "Size must be one.");
   }
 
   @DisplayName("CountQueueTest.testInsertException")
@@ -66,8 +68,7 @@ class CountQueueTest {
   void testInsertZeroSizeException() {
     IQueue queue = new CountQueue(0);
     long val = VAL;
-    assertThrows(
-        IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
+    assertThrows(IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
   @DisplayName("CountQueueTest.testIsEmpty")
@@ -75,6 +76,7 @@ class CountQueueTest {
   void testIsEmpty() {
     IQueue queue = new CountQueue(0);
     assertTrue(queue.isEmpty(), "Queue must be empty.");
+    assertEquals(0, queue.size(), "Size must be zero.");
   }
 
   @DisplayName("CountQueueTest.testIsNotEmpty")
@@ -84,6 +86,7 @@ class CountQueueTest {
     queue.insert(VAL);
     assertFalse(queue.isEmpty(), "Queue must not be empty.");
     assertTrue(queue.isFull(), "Queue must be full.");
+    assertEquals(1, queue.size(), "Size must be one.");
   }
 
   @DisplayName("CountQueueTest.testIsEmptySizeOne")
@@ -92,6 +95,7 @@ class CountQueueTest {
     IQueue queue = new CountQueue(1);
     assertTrue(queue.isEmpty(), "Queue must be empty.");
     assertFalse(queue.isFull(), "Queue must be empty.");
+    assertEquals(0, queue.size(), "Size must be zero.");
   }
 
   @DisplayName("CountQueueTest.testIsFull")
@@ -100,6 +104,7 @@ class CountQueueTest {
     IQueue queue = new CountQueue(0);
     assertTrue(queue.isFull(), "Queue must be full.");
     assertTrue(queue.isEmpty(), "Queue must be empty.");
+    assertEquals(0, queue.size(), "Size must be zero.");
   }
 
   @DisplayName("CountQueueTest.testIsFullSizeOne")
@@ -108,6 +113,7 @@ class CountQueueTest {
     IQueue queue = new CountQueue(1);
     assertFalse(queue.isFull(), "Queue must be empty.");
     assertTrue(queue.isEmpty(), "Queue must be empty.");
+    assertEquals(0, queue.size(), "Size must be zero.");
   }
 
   @Test
@@ -133,5 +139,6 @@ class CountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
+    assertEquals(1, queue.size(), "Size must be one.");
   }
 }
