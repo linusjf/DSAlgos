@@ -52,4 +52,32 @@ public class CountQueue implements IQueue {
   public int size() {
     return nItems;
   }
+  
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuffer();
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+      .append(lineSeparator)
+      .append("maxSize = ")
+      .append(maxSize)
+      .append(lineSeparator)
+      .append("nItems = ")
+      .append(nItems)
+      .append(lineSeparator)
+      .append("front = ")
+      .append(front)
+      .append(lineSeparator)
+      .append("rear = ")
+      .append(rear)
+      .append(lineSeparator);
+  for (int i = 0; i < maxSize; i++)
+  {
+    sb.append(queArray[i])
+      .append(" ");
+      if ((i + 1) % 10 == 0)
+        sb.append(lineSeparator);
+  }
+  return sb.toString();
+  }
 }

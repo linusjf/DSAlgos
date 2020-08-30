@@ -48,4 +48,29 @@ public class NoCountQueue implements IQueue {
   public int size() {
     return rear >= front ? rear - front + 1 : maxSize + rear - front + 1;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuffer();
+    String lineSeparator = System.lineSeparator();
+    sb.append(getClass().getName())
+      .append(lineSeparator)
+      .append("maxSize = ")
+      .append(maxSize)
+      .append(lineSeparator)
+      .append("front = ")
+      .append(front)
+      .append(lineSeparator)
+      .append("rear = ")
+      .append(rear)
+      .append(lineSeparator);
+  for (int i = 0; i < maxSize; i++)
+  {
+    sb.append(queArray[i])
+      .append(" ");
+      if ((i + 1) % 10 == 0)
+        sb.append(lineSeparator);
+  }
+  return sb.toString();
+  }
 }
