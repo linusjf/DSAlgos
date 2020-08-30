@@ -7,8 +7,14 @@ public class NoCountQueue implements IQueue {
   private int rear;
 
   public NoCountQueue(int s) {
+    if (s < 0)
+      throw new IllegalArgumentException("Queue size cannot be negative.");
     maxSize = s + 1;
     queArray = new long[maxSize];
+    initialisePointers();
+  }
+
+  private void initialisePointers() {
     front = 0;
     rear = -1;
   }
@@ -16,15 +22,21 @@ public class NoCountQueue implements IQueue {
   @Override
   public void insert(long j) {
     if (isFull()) throw new IllegalStateException("Queue is full.");
-    if (rear == maxSize - 1) rear = -1;
     queArray[++rear] = j;
+  }
+
+  private boolean isSingleElementQueue() {
+    return front == rear;
   }
 
   @Override
   public long remove() {
     if (isEmpty()) throw new IllegalStateException("Queue is empty.");
-    long temp = queArray[front++];
-    if (front == maxSize) front = 0;
+    long temp = queArray[front];
+    if (isSingleElementQueue())  
+      initialisePointers();
+    else 
+      ++front;
     return temp;
   }
 
@@ -46,28 +58,6 @@ public class NoCountQueue implements IQueue {
 
   @Override
   public int size() {
-    return rear >= front ? rear - front + 1 : maxSize + rear - front + 1;
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    String lineSeparator = System.lineSeparator();
-    sb.append(getClass().getName())
-        .append(lineSeparator)
-        .append("maxSize = ")
-        .append(maxSize)
-        .append(lineSeparator)
-        .append("front = ")
-        .append(front)
-        .append(lineSeparator)
-        .append("rear = ")
-        .append(rear)
-        .append(lineSeparator);
-    for (int i = 0; i < maxSize; i++) {
-      sb.append(queArray[i]).append(" ");
-      if ((i + 1) % 10 == 0) sb.append(lineSeparator);
-    }
-    return sb.toString();
+        return rear - front + 1;
   }
 }
