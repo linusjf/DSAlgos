@@ -67,7 +67,7 @@ class CountQueueTest {
     IQueue queue = new CountQueue(0);
     long val = VAL;
     assertThrows(
-        ArrayIndexOutOfBoundsException.class, () -> queue.insert(val), "Insert throws exception.");
+        IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
   @DisplayName("CountQueueTest.testIsEmpty")
