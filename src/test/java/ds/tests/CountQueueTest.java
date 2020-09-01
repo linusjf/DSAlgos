@@ -24,7 +24,7 @@ class CountQueueTest {
     assertThrows(
         IllegalArgumentException.class, () -> new CountQueue(-1), "Constructor throws exception.");
   }
-  
+
   @Test
   @DisplayName("CountQueueTest.testRemoveEmpty")
   void testRemoveEmpty() {
@@ -50,7 +50,7 @@ class CountQueueTest {
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
     assertEquals(0, queue.size(), "Size must be zero.");
   }
-  
+
   @DisplayName("CountQueueTest.testTwoElementQueueRemove")
   @Test
   void testTwoElementQueueRemove() {

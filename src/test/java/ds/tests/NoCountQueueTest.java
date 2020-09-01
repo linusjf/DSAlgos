@@ -22,11 +22,11 @@ class NoCountQueueTest {
   @DisplayName("NoCountQueueTest.testConstructorException")
   void testConstructorException() {
     assertThrows(
-        IllegalArgumentException.class, 
-        () -> new NoCountQueue(-1), 
+        IllegalArgumentException.class,
+        () -> new NoCountQueue(-1),
         "Constructor throws exception.");
   }
-  
+
   @Test
   @DisplayName("NoCountQueueTest.testRemoveEmpty")
   void testRemoveEmpty() {

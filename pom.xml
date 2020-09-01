@@ -243,7 +243,7 @@
     <checkstyle.version>8.36</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
-    <pmd.version>6.26.0</pmd.version>
+    <pmd.version>6.27.0</pmd.version>
     <spotbugs.version>4.1.2</spotbugs.version>
     <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
