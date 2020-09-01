@@ -16,6 +16,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class NoCountQueueTest {
 
+  private static final String SIZE_ZERO = "Size must be zero.";
+  private static final String SIZE_ONE = "Size must be one.";
+  private static final String QUEUE_EMPTY = "Queue must be empty.";
   private static final long VAL = 20;
 
   @Test
@@ -50,7 +53,7 @@ class NoCountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @DisplayName("NoCountQueueTest.testCircularInsert")
@@ -61,7 +64,7 @@ class NoCountQueueTest {
     queue.insert(val);
     queue.remove();
     queue.insert(val);
-    assertEquals(1, queue.size(), "Size must be one.");
+    assertEquals(1, queue.size(), SIZE_ONE);
   }
 
   @DisplayName("NoCountQueueTest.testCircularRemove")
@@ -73,7 +76,7 @@ class NoCountQueueTest {
     queue.remove();
     queue.insert(val);
     queue.remove();
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @DisplayName("NoCountQueueTest.testInsert")
@@ -83,7 +86,7 @@ class NoCountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
-    assertEquals(1, queue.size(), "Size must be one.");
+    assertEquals(1, queue.size(), SIZE_ONE);
   }
 
   @DisplayName("NoCountQueueTest.testInsertException")
@@ -107,8 +110,8 @@ class NoCountQueueTest {
   @Test
   void testIsEmpty() {
     IQueue queue = new NoCountQueue(0);
-    assertTrue(queue.isEmpty(), "Queue must be empty.");
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertTrue(queue.isEmpty(), QUEUE_EMPTY);
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @DisplayName("NoCountQueueTest.testIsNotEmpty")
@@ -118,16 +121,16 @@ class NoCountQueueTest {
     queue.insert(VAL);
     assertFalse(queue.isEmpty(), "Queue must not be empty.");
     assertTrue(queue.isFull(), "Queue must be full.");
-    assertEquals(1, queue.size(), "Size must be one.");
+    assertEquals(1, queue.size(), SIZE_ONE);
   }
 
   @DisplayName("NoCountQueueTest.testIsEmptySizeOne")
   @Test
   void testIsEmptySizeOne() {
     IQueue queue = new NoCountQueue(1);
-    assertTrue(queue.isEmpty(), "Queue must be empty.");
-    assertFalse(queue.isFull(), "Queue must be empty.");
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertTrue(queue.isEmpty(), QUEUE_EMPTY);
+    assertFalse(queue.isFull(), QUEUE_EMPTY);
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @DisplayName("NoCountQueueTest.testIsFull")
@@ -135,17 +138,17 @@ class NoCountQueueTest {
   void testIsFull() {
     IQueue queue = new NoCountQueue(0);
     assertTrue(queue.isFull(), "Queue must be full.");
-    assertTrue(queue.isEmpty(), "Queue must be empty.");
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertTrue(queue.isEmpty(), QUEUE_EMPTY);
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @DisplayName("NoCountQueueTest.testIsFullSizeOne")
   @Test
   void testIsFullSizeOne() {
     IQueue queue = new NoCountQueue(1);
-    assertFalse(queue.isFull(), "Queue must be empty.");
-    assertTrue(queue.isEmpty(), "Queue must be empty.");
-    assertEquals(0, queue.size(), "Size must be zero.");
+    assertFalse(queue.isFull(), QUEUE_EMPTY);
+    assertTrue(queue.isEmpty(), QUEUE_EMPTY);
+    assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @Test
@@ -171,7 +174,7 @@ class NoCountQueueTest {
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
-    assertEquals(1, queue.size(), "Size must be one.");
+    assertEquals(1, queue.size(), SIZE_ONE);
   }
 
   @DisplayName("NoCountQueueTest.testTwoElementQueueInsert")
@@ -193,7 +196,7 @@ class NoCountQueueTest {
     queue.insert(val);
     queue.insert(val + 1);
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
-    assertEquals(1, queue.size(), "Size must be one.");
+    assertEquals(1, queue.size(), SIZE_ONE);
   }
 
   @DisplayName("NoCountQueueTest.testTwoElementQueueRemoveTwice")
@@ -205,6 +208,6 @@ class NoCountQueueTest {
     queue.insert(val + 1);
     assertEquals(val, queue.remove(), "Remove returns first value inserted.");
     assertEquals(val + 1, queue.remove(), "Remove returns second value inserted.");
-    assertEquals(0, queue.size(), "Size must be one.");
+    assertEquals(0, queue.size(), SIZE_ONE);
   }
 }

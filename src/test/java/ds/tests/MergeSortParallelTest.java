@@ -36,6 +36,7 @@ class MergeSortParallelTest implements SortProvider {
     HighArray high = new HighArray(10_000);
     LongStream stream = random.longs(10_000);
     stream.forEach(i -> high.insert(i));
+    stream.close();
     ISort sorter = new MergeSortParallel();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");
@@ -92,6 +93,7 @@ class MergeSortParallelTest implements SortProvider {
             });
     stream = stream.limit(10_000);
     stream.forEach(i -> arr.insert(i));
+    stream.close();
     long[] a = arr.getExtentArray();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();

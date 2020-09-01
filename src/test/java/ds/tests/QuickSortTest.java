@@ -47,6 +47,7 @@ class QuickSortTest implements SortProvider {
     Random random = new Random();
     LongStream stream = random.longs().limit(MYRIAD);
     stream.forEach(i -> high.insert(i));
+    stream.close();
     ISort sorter = new QuickSort();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Elements are sorted.");

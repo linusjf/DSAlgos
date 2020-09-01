@@ -50,6 +50,7 @@ class QuickSortParallelTest implements SortProvider {
     stream = stream.limit(10_000);
     HighArray high = new HighArray(10_000);
     stream.forEach(i -> high.insert(i));
+    stream.close();
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");
@@ -63,6 +64,7 @@ class QuickSortParallelTest implements SortProvider {
     stream = stream.limit(40);
     HighArray high = new HighArray(40);
     stream.forEach(i -> high.insert(i));
+    stream.close();
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");
@@ -107,6 +109,7 @@ class QuickSortParallelTest implements SortProvider {
             });
     stream = stream.limit(10_000);
     stream.forEach(i -> arr.insert(i));
+    stream.close();
     long[] a = arr.getExtentArray();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();

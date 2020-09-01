@@ -143,6 +143,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     IArray ordArray = new OrdArray(size, true);
     LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
     nos.forEach(i -> ordArray.insert(i));
+    nos.close();
     LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
     ExecutorService service = Executors.newFixedThreadPool(10);
     nosParallel.forEach(
@@ -162,6 +163,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                     done.countDown();
                   }
                 }));
+    nosParallel.close();
     try {
       cdl.countDown();
       done.await();
@@ -185,6 +187,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
           ordArray.insert(i);
           ordArray.delete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
   }
 
@@ -198,6 +201,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
           ordArray.insert(i);
           ordArray.syncDelete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
   }
 
@@ -211,6 +215,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
           ordArray.syncInsert(i);
           ordArray.syncDelete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 }

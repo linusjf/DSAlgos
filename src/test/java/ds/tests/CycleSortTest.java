@@ -50,6 +50,7 @@ class CycleSortTest implements SortProvider {
     stream = stream.limit(10_000);
     HighArray high = new HighArray(10_000);
     stream.forEach(i -> high.insert(i));
+    stream.close();
     ISort sorter = new CycleSort();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");

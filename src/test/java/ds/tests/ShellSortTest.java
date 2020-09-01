@@ -53,6 +53,7 @@ class ShellSortTest implements SortProvider {
           arr.insert(i);
           ord.insert(i);
         });
+    stream.close();
     ISort sorter = new ShellSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();

@@ -26,6 +26,7 @@ class OrdArrayRepeatTest {
     array = new OrdArray(1000, true);
     LongStream nos = LongStream.rangeClosed(1L, 1000L).unordered();
     nos.forEach(i -> array.insert(i));
+    nos.close();
   }
 
   @RepeatedTest(1000)

@@ -39,6 +39,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
           ordArray.insert(i);
           ordArray.delete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
   }
 
@@ -52,6 +53,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
           ordArray.insert(i);
           ordArray.syncDelete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
   }
 
@@ -65,6 +67,7 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
           ordArray.syncInsert(i);
           ordArray.syncDelete(i);
         });
+    nos.close();
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 }
