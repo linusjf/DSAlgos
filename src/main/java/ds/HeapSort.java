@@ -11,7 +11,7 @@ public class HeapSort extends AbstractSort {
 
   void heapSort(long[] a, int length) {
     // Build heap (rearrange array)
-    for (int i = (length >> 1) - 1; i >= 0; i--) {
+    for (int i = (length >> 1) - 1; i >= 0; --i) {
       ++outerLoopCount;
       heapify(a, length, i);
     }
