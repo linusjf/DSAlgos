@@ -10,7 +10,8 @@ public class NoCountQueue implements IQueue {
     if (s < 0) throw new IllegalArgumentException("Queue size cannot be negative.");
     maxSize = s + 1;
     queArray = new long[maxSize];
-    initialisePointers();
+    front = 0;
+    rear = -1;
   }
 
   private void initialisePointers() {
@@ -29,7 +30,7 @@ public class NoCountQueue implements IQueue {
   }
 
   @Override
-  public long remove() {
+  public long poll() {
     if (isEmpty()) throw new IllegalStateException("Queue is empty.");
     long temp = queArray[front];
     if (isSingleElementQueue()) initialisePointers();

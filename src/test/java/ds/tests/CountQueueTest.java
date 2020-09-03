@@ -29,40 +29,40 @@ class CountQueueTest {
   }
 
   @Test
-  @DisplayName("CountQueueTest.testRemoveEmpty")
-  void testRemoveEmpty() {
+  @DisplayName("CountQueueTest.testPollEmpty")
+  void testPollEmpty() {
     IQueue queue = new CountQueue(0);
     assertThrows(
-        IllegalStateException.class, () -> queue.remove(), "Empty queue remove throws exception.");
+        IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("CountQueueTest.testRemoveEmptyOne")
+  @DisplayName("CountQueueTest.testPollEmptyOne")
   @Test
-  void testRemoveEmptyOne() {
+  void testPollEmptyOne() {
     IQueue queue = new CountQueue(1);
     assertThrows(
-        IllegalStateException.class, () -> queue.remove(), "Empty queue remove throws exception.");
+        IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("CountQueueTest.testRemove")
+  @DisplayName("CountQueueTest.testPoll")
   @Test
-  void testRemove() {
+  void testPoll() {
     IQueue queue = new CountQueue(1);
     long val = VAL;
     queue.insert(val);
-    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(val, queue.poll(), "Poll returns first value inserted.");
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("CountQueueTest.testTwoElementQueueRemove")
+  @DisplayName("CountQueueTest.testTwoElementQueuePoll")
   @Test
-  void testTwoElementQueueRemove() {
+  void testTwoElementQueuePoll() {
     IQueue queue = new CountQueue(2);
     long val = VAL;
     queue.insert(val);
     queue.insert(val + 1);
-    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
-    assertEquals(val + 1, queue.remove(), "Remove returns second value inserted.");
+    assertEquals(val, queue.poll(), "Poll returns first value inserted.");
+    assertEquals(val + 1, queue.poll(), "Poll returns second value inserted.");
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
@@ -72,20 +72,20 @@ class CountQueueTest {
     IQueue queue = new CountQueue(1);
     long val = VAL;
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     queue.insert(val);
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("CountQueueTest.testCircularRemove")
+  @DisplayName("CountQueueTest.testCircularPoll")
   @Test
-  void testCircularRemove() {
+  void testCircularPoll() {
     IQueue queue = new CountQueue(1);
     long val = VAL;
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 

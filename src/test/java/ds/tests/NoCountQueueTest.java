@@ -31,28 +31,28 @@ class NoCountQueueTest {
   }
 
   @Test
-  @DisplayName("NoCountQueueTest.testRemoveEmpty")
-  void testRemoveEmpty() {
+  @DisplayName("NoCountQueueTest.testPollEmpty")
+  void testPollEmpty() {
     IQueue queue = new NoCountQueue(0);
     assertThrows(
-        IllegalStateException.class, () -> queue.remove(), "Empty queue remove throws exception.");
+        IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("NoCountQueueTest.testRemoveEmptyOne")
+  @DisplayName("NoCountQueueTest.testPollEmptyOne")
   @Test
-  void testRemoveEmptyOne() {
+  void testPollEmptyOne() {
     IQueue queue = new NoCountQueue(1);
     assertThrows(
-        IllegalStateException.class, () -> queue.remove(), "Empty queue remove throws exception.");
+        IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("NoCountQueueTest.testRemove")
+  @DisplayName("NoCountQueueTest.testPoll")
   @Test
-  void testRemove() {
+  void testPoll() {
     IQueue queue = new NoCountQueue(1);
     long val = VAL;
     queue.insert(val);
-    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(val, queue.poll(), "Poll returns first value inserted.");
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
@@ -62,20 +62,20 @@ class NoCountQueueTest {
     IQueue queue = new NoCountQueue(1);
     long val = VAL;
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     queue.insert(val);
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("NoCountQueueTest.testCircularRemove")
+  @DisplayName("NoCountQueueTest.testCircularPoll")
   @Test
-  void testCircularRemove() {
+  void testCircularPoll() {
     IQueue queue = new NoCountQueue(1);
     long val = VAL;
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     queue.insert(val);
-    queue.remove();
+    queue.poll();
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
@@ -188,26 +188,26 @@ class NoCountQueueTest {
     assertEquals(2, queue.size(), "Size must be two.");
   }
 
-  @DisplayName("NoCountQueueTest.testTwoElementQueueRemove")
+  @DisplayName("NoCountQueueTest.testTwoElementQueuePoll")
   @Test
-  void testTwoElementQueueRemove() {
+  void testTwoElementQueuePoll() {
     IQueue queue = new NoCountQueue(2);
     long val = VAL;
     queue.insert(val);
     queue.insert(val + 1);
-    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
+    assertEquals(val, queue.poll(), "Poll returns first value inserted.");
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("NoCountQueueTest.testTwoElementQueueRemoveTwice")
+  @DisplayName("NoCountQueueTest.testTwoElementQueuePollTwice")
   @Test
-  void testTwoElementQueueRemoveTwice() {
+  void testTwoElementQueuePollTwice() {
     IQueue queue = new NoCountQueue(2);
     long val = VAL;
     queue.insert(val);
     queue.insert(val + 1);
-    assertEquals(val, queue.remove(), "Remove returns first value inserted.");
-    assertEquals(val + 1, queue.remove(), "Remove returns second value inserted.");
+    assertEquals(val, queue.poll(), "Poll returns first value inserted.");
+    assertEquals(val + 1, queue.poll(), "Poll returns second value inserted.");
     assertEquals(0, queue.size(), SIZE_ONE);
   }
 }

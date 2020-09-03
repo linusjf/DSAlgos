@@ -3,7 +3,7 @@ package ds;
 public interface IQueue {
   void insert(long j);
 
-  long remove();
+  long poll();
 
   long peek();
 

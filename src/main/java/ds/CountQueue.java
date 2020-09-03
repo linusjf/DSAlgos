@@ -25,7 +25,7 @@ public class CountQueue implements IQueue {
   }
 
   @Override
-  public long remove() {
+  public long poll() {
     if (isEmpty()) throw new IllegalStateException("Queue is empty.");
     long temp = queArray[front++];
     if (front == maxSize) front = 0;
