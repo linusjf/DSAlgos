@@ -2,13 +2,9 @@ package ds;
 
 import static ds.ArrayUtils.swap;
 
-public class MinHeap extends AbstractHeap {
+public class MaxHeap extends AbstractHeap {
 
-  private long[] a;
-
-  private int nElems;
-
-  public MinHeap(int maxSize) {
+  public MaxHeap(int maxSize) {
     super(maxSize);
   }
 
