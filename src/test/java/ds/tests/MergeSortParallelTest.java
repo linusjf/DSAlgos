@@ -86,10 +86,11 @@ class MergeSortParallelTest implements SortProvider {
     HighArray arr = new HighArray(10_000);
     try (LongStream stream =
         LongStream.iterate(
-            43L,
-            val -> {
-              return val;
-            }).limit(10_000)) {
+                43L,
+                val -> {
+                  return val;
+                })
+            .limit(10_000)) {
       stream.forEach(i -> arr.insert(i));
     }
     long[] a = arr.getExtentArray();
