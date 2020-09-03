@@ -47,13 +47,13 @@ class ShellSortTest implements SortProvider {
   void testSortRandom() {
     HighArray arr = new HighArray(MYRIAD);
     OrdArray ord = new OrdArray(MYRIAD);
-    LongStream stream = RandomUtils.longStream().limit(MYRIAD);
+    try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
     stream.forEach(
         i -> {
           arr.insert(i);
           ord.insert(i);
         });
-    stream.close();
+    }
     ISort sorter = new ShellSort();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();

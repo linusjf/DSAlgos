@@ -26,7 +26,7 @@ public final class ArrayUtils {
     return isSorted(arr.get(), arr.count());
   }
 
-  public static final void swap(long[] a, int first, int second) {
+  public static void swap(long[] a, int first, int second) {
     if (first < 0 || second < 0)
       throw new IllegalArgumentException("Invalid range specified: " + first + " - " + second);
     if (first > a.length - 1 || second > a.length - 1)

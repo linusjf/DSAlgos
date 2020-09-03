@@ -85,11 +85,11 @@ class QuickSortParallelTest implements SortProvider {
   @CsvSource(INIT_INSERTION_SORT_DATA)
   @DisplayName("QuickSortParallelTest.testSortSmallData")
   void testSortSmallData(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-    ISort sorter = new QuickSortParallel();
     OrdArray ord = new OrdArray();
     long[] a = arr.getExtentArray();
     for (int i = 0; i < arr.count(); i++) ord.insert(a[i]);
     a = ord.getExtentArray();
+    ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(arr);
     long[] internal = sorted.getExtentArray();
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
@@ -99,7 +99,6 @@ class QuickSortParallelTest implements SortProvider {
   @Test
   @DisplayName("QuickSortParallelTest.testSortAllSameBigData")
   void testSortAllSameBigData() {
-    ISort sorter = new QuickSortParallel();
     HighArray arr = new HighArray(10_000);
     LongStream stream =
         LongStream.iterate(
@@ -108,9 +107,11 @@ class QuickSortParallelTest implements SortProvider {
               return val;
             });
     stream = stream.limit(10_000);
+    try (stream;) {
     stream.forEach(i -> arr.insert(i));
-    stream.close();
+    }
     long[] a = arr.getExtentArray();
+    ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(arr);
     long[] extent = sorted.getExtentArray();
     assertArrayEquals(a, extent, ELEMENTS_SORTED_EQUAL);

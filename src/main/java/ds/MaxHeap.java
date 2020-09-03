@@ -15,7 +15,6 @@ public class MaxHeap extends AbstractHeap {
     if (a[parent] < a[i]) {
       swap(i, parent);
       heapifyUp(parent);
-      parent = parent(i);
     }
   }
 

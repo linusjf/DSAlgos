@@ -45,11 +45,11 @@ class HeapSortTest implements SortProvider {
   @DisplayName("HeapSortTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
-    LongStream stream = random.longs();
-    stream = stream.limit(10_000);
+    LongStream stream = random.longs().limit(10_000);
     HighArray high = new HighArray(10_000);
+    try (stream;) {
     stream.forEach(i -> high.insert(i));
-    stream.close();
+    }
     ISort sorter = new HeapSort();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");

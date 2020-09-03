@@ -40,9 +40,9 @@ class BrickSortParallelTest implements SortProvider {
   @DisplayName("BrickSortParallelTest.testSortRandom")
   void testSortRandom() {
     HighArray arr = new HighArray(MYRIAD);
-    LongStream stream = RandomUtils.longStream().limit(MYRIAD);
-    stream.forEach(i -> arr.insert(i));
-    stream.close();
+    try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
+      stream.forEach(i -> arr.insert(i));
+    }
     BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(arr);
     assertTrue(isSorted(sorted), "Array must be sorted.");
