@@ -141,29 +141,29 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
     CountDownLatch done = new CountDownLatch(size);
     AtomicInteger excCount = new AtomicInteger();
     IArray ordArray = new OrdArray(size, true);
-    LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered();
-    nos.forEach(i -> ordArray.insert(i));
-    nos.close();
-    LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel();
+    try (LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered()) {
+      nos.forEach(i -> ordArray.insert(i));
+    }
     ExecutorService service = Executors.newFixedThreadPool(10);
-    nosParallel.forEach(
-        i ->
-            service.execute(
-                () -> {
-                  try {
-                    cdl.await();
-                    ordArray.delete(i);
-                    done.countDown();
-                  } catch (ConcurrentModificationException cme) {
-                    LOGGER.fine(() -> "Error deleting " + i);
-                    excCount.incrementAndGet();
-                    done.countDown();
-                  } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    done.countDown();
-                  }
-                }));
-    nosParallel.close();
+    try (LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel()) {
+      nosParallel.forEach(
+          i ->
+              service.execute(
+                  () -> {
+                    try {
+                      cdl.await();
+                      ordArray.delete(i);
+                      done.countDown();
+                    } catch (ConcurrentModificationException cme) {
+                      LOGGER.fine(() -> "Error deleting " + i);
+                      excCount.incrementAndGet();
+                      done.countDown();
+                    } catch (InterruptedException ie) {
+                      Thread.currentThread().interrupt();
+                      done.countDown();
+                    }
+                  }));
+    }
     try {
       cdl.countDown();
       done.await();
@@ -181,13 +181,13 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray ordArray = new OrdArray(10_000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(
-        i -> {
-          ordArray.insert(i);
-          ordArray.delete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
+      nos.forEach(
+          i -> {
+            ordArray.insert(i);
+            ordArray.delete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
   }
 
@@ -195,13 +195,13 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray ordArray = new OrdArray(100);
-    LongStream nos = LongStream.rangeClosed(1L, 10_000L);
-    nos.forEach(
-        i -> {
-          ordArray.insert(i);
-          ordArray.syncDelete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
+      nos.forEach(
+          i -> {
+            ordArray.insert(i);
+            ordArray.syncDelete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
   }
 
@@ -209,13 +209,13 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayConcurrencyTest.testConcurrentSyncInsertsDeletes")
   void testConcurrentSyncInsertsDeletes() {
     IArray ordArray = new OrdArray(100);
-    LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();
-    nos.forEach(
-        i -> {
-          ordArray.syncInsert(i);
-          ordArray.syncDelete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel()) {
+      nos.forEach(
+          i -> {
+            ordArray.syncInsert(i);
+            ordArray.syncDelete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 }

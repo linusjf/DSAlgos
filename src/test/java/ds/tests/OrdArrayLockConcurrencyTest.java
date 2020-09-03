@@ -33,13 +33,13 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayLockConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
     IArray ordArray = new OrdArrayLock(1000, true);
-    LongStream nos = LongStream.rangeClosed(1L, 1000L);
-    nos.forEach(
-        i -> {
-          ordArray.insert(i);
-          ordArray.delete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
+      nos.forEach(
+          i -> {
+            ordArray.insert(i);
+            ordArray.delete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
   }
 
@@ -47,13 +47,13 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
     IArray ordArray = new OrdArrayLock(100);
-    LongStream nos = LongStream.rangeClosed(1L, 1000L);
-    nos.forEach(
-        i -> {
-          ordArray.insert(i);
-          ordArray.syncDelete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
+      nos.forEach(
+          i -> {
+            ordArray.insert(i);
+            ordArray.syncDelete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
   }
 
@@ -61,13 +61,13 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncInsertsDeletes")
   void testConcurrentSyncInsertsDeletes() {
     IArray ordArray = new OrdArrayLock(100);
-    LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel();
-    nos.forEach(
-        i -> {
-          ordArray.syncInsert(i);
-          ordArray.syncDelete(i);
-        });
-    nos.close();
+    try (LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel()) {
+      nos.forEach(
+          i -> {
+            ordArray.syncInsert(i);
+            ordArray.syncDelete(i);
+          });
+    }
     assertEquals(0, ordArray.count(), () -> "Elements not cleared");
   }
 }

@@ -46,11 +46,10 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
-    LongStream stream = random.longs();
-    stream = stream.limit(10_000);
     HighArray high = new HighArray(10_000);
-    stream.forEach(i -> high.insert(i));
-    stream.close();
+    try (LongStream stream = random.longs().limit(10_000)) {
+      stream.forEach(i -> high.insert(i));
+    }
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");
@@ -60,11 +59,10 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testSortRandomMedium")
   void testSortRandomMedium() {
     Random random = new Random();
-    LongStream stream = random.longs();
-    stream = stream.limit(40);
     HighArray high = new HighArray(40);
-    stream.forEach(i -> high.insert(i));
-    stream.close();
+    try (LongStream stream = random.longs().limit(40)) {
+      stream.forEach(i -> high.insert(i));
+    }
     ISort sorter = new QuickSortParallel();
     IArray sorted = sorter.sort(high);
     assertTrue(isSorted(sorted), "Array must be sorted.");
