@@ -4,10 +4,6 @@ import static ds.ArrayUtils.swap;
 
 public class MinHeap extends AbstractHeap {
 
-  private long[] a;
-
-  private int nElems;
-
   public MinHeap(int maxSize) {
     super(maxSize);
   }
