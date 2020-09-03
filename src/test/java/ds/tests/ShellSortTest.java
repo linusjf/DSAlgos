@@ -48,11 +48,11 @@ class ShellSortTest implements SortProvider {
     HighArray arr = new HighArray(MYRIAD);
     OrdArray ord = new OrdArray(MYRIAD);
     try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
-    stream.forEach(
-        i -> {
-          arr.insert(i);
-          ord.insert(i);
-        });
+      stream.forEach(
+          i -> {
+            arr.insert(i);
+            ord.insert(i);
+          });
     }
     ISort sorter = new ShellSort();
     IArray sorted = sorter.sort(arr);

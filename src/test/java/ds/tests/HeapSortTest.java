@@ -47,8 +47,8 @@ class HeapSortTest implements SortProvider {
     Random random = new Random();
     LongStream stream = random.longs().limit(10_000);
     HighArray high = new HighArray(10_000);
-    try (stream;) {
-    stream.forEach(i -> high.insert(i));
+    try (stream; ) {
+      stream.forEach(i -> high.insert(i));
     }
     ISort sorter = new HeapSort();
     IArray sorted = sorter.sort(high);

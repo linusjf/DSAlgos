@@ -25,9 +25,9 @@ class HighArrayRepeatTest {
   HighArrayRepeatTest() {
     array = new HighArray(1000, true);
     try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
-    nos.forEach(i -> array.insert(i));
+      nos.forEach(i -> array.insert(i));
     }
-    }
+  }
 
   @RepeatedTest(1000)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)

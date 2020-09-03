@@ -35,7 +35,7 @@ class MergeSortParallelTest implements SortProvider {
     Random random = new Random();
     HighArray high = new HighArray(10_000);
     try (LongStream stream = random.longs(10_000)) {
-    stream.forEach(i -> high.insert(i));
+      stream.forEach(i -> high.insert(i));
     }
     ISort sorter = new MergeSortParallel();
     IArray sorted = sorter.sort(high);
@@ -84,15 +84,13 @@ class MergeSortParallelTest implements SortProvider {
   @DisplayName("MergeSortParallelTest.testSortAllSameBigData")
   void testSortAllSameBigData() {
     HighArray arr = new HighArray(10_000);
-    LongStream stream =
+    try (LongStream stream =
         LongStream.iterate(
             43L,
             val -> {
               return val;
-            });
-    stream = stream.limit(10_000);
-    try (stream;) {
-    stream.forEach(i -> arr.insert(i));
+            }).limit(10_000)) {
+      stream.forEach(i -> arr.insert(i));
     }
     long[] a = arr.getExtentArray();
     ISort sorter = new MergeSortParallel();

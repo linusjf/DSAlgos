@@ -100,15 +100,13 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testSortAllSameBigData")
   void testSortAllSameBigData() {
     HighArray arr = new HighArray(10_000);
-    LongStream stream =
+    try (LongStream stream =
         LongStream.iterate(
             43L,
             val -> {
               return val;
-            });
-    stream = stream.limit(10_000);
-    try (stream;) {
-    stream.forEach(i -> arr.insert(i));
+            }).limit(10_000)) {
+      stream.forEach(i -> arr.insert(i));
     }
     long[] a = arr.getExtentArray();
     ISort sorter = new QuickSortParallel();

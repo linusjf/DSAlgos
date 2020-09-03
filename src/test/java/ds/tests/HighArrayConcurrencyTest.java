@@ -47,27 +47,27 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
     AtomicInteger excCount = new AtomicInteger();
     IArray highArray = new HighArray(size, true);
     try (LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered()) {
-    nos.forEach(i -> highArray.insert(i));
+      nos.forEach(i -> highArray.insert(i));
     }
     ExecutorService service = Executors.newFixedThreadPool(10);
     try (LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel()) {
-    nosParallel.forEach(
-        i ->
-            service.execute(
-                () -> {
-                  try {
-                    cdl.await();
-                    highArray.delete(i);
-                    done.countDown();
-                  } catch (ConcurrentModificationException cme) {
-                    LOGGER.fine(() -> "Error deleting " + i);
-                    excCount.incrementAndGet();
-                    done.countDown();
-                  } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    done.countDown();
-                  }
-                }));
+      nosParallel.forEach(
+          i ->
+              service.execute(
+                  () -> {
+                    try {
+                      cdl.await();
+                      highArray.delete(i);
+                      done.countDown();
+                    } catch (ConcurrentModificationException cme) {
+                      LOGGER.fine(() -> "Error deleting " + i);
+                      excCount.incrementAndGet();
+                      done.countDown();
+                    } catch (InterruptedException ie) {
+                      Thread.currentThread().interrupt();
+                      done.countDown();
+                    }
+                  }));
     }
     try {
       cdl.countDown();
@@ -85,11 +85,11 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   void testSequentialDeletes() {
     IArray highArray = new HighArray(10_000, true);
     try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
-    nos.forEach(
-        i -> {
-          highArray.insert(i);
-          highArray.delete(i);
-        });
+      nos.forEach(
+          i -> {
+            highArray.insert(i);
+            highArray.delete(i);
+          });
     }
     assertEquals(
         0, highArray.count(), () -> "10,000 elements not deleted: " + highArray.toString());
@@ -100,11 +100,11 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   void testConcurrentSyncDeletes() {
     IArray highArray = new HighArray(100);
     try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
-    nos.forEach(
-        i -> {
-          highArray.insert(i);
-          highArray.syncDelete(i);
-        });
+      nos.forEach(
+          i -> {
+            highArray.insert(i);
+            highArray.syncDelete(i);
+          });
     }
     assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
   }
