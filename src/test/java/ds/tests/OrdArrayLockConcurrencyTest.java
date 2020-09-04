@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
+import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.IArray;
@@ -23,51 +24,54 @@ class OrdArrayLockConcurrencyTest implements ConcurrencyProvider {
   @Test
   @DisplayName("OrdArrayLockConcurrencyTest.testSyncInserts")
   void testSyncInserts() {
-    IArray ordArray = new OrdArrayLock(1000, true);
-    LongStream.rangeClosed(1L, 1000L).unordered().parallel().forEach(i -> ordArray.syncInsert(i));
-    assertTrue(isSorted(ordArray), "Array is unsorted!");
-    assertEquals(1000, ordArray.count(), "1000 elements not inserted.");
+    IArray ordArray = new OrdArrayLock(THOUSAND, true);
+    LongStream.rangeClosed(1L, THOUSAND)
+        .unordered()
+        .parallel()
+        .forEach(i -> ordArray.syncInsert(i));
+    assertTrue(isSorted(ordArray), "Array is sorted!");
+    assertEquals(THOUSAND, ordArray.count(), THOUSAND + " elements  inserted.");
   }
 
   @Test
   @DisplayName("OrdArrayLockConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
-    IArray ordArray = new OrdArrayLock(1000, true);
-    try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
+    IArray ordArray = new OrdArrayLock(THOUSAND, true);
+    try (LongStream nos = LongStream.rangeClosed(1L, THOUSAND)) {
       nos.forEach(
           i -> {
             ordArray.insert(i);
             ordArray.delete(i);
           });
     }
-    assertEquals(0, ordArray.count(), () -> "10,000 elements not deleted: " + ordArray.toString());
+    assertEquals(0, ordArray.count(), () -> "All elements deleted: " + ordArray.toString());
   }
 
   @Test
   @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
-    IArray ordArray = new OrdArrayLock(100);
-    try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
+    IArray ordArray = new OrdArrayLock(HUNDRED);
+    try (LongStream nos = LongStream.rangeClosed(1L, THOUSAND)) {
       nos.forEach(
           i -> {
             ordArray.insert(i);
             ordArray.syncDelete(i);
           });
     }
-    assertEquals(0, ordArray.count(), () -> "100 elements not deleted: " + ordArray.toString());
+    assertEquals(0, ordArray.count(), () -> "All elements deleted: " + ordArray.toString());
   }
 
   @Test
   @DisplayName("OrdArrayLockConcurrencyTest.testConcurrentSyncInsertsDeletes")
   void testConcurrentSyncInsertsDeletes() {
-    IArray ordArray = new OrdArrayLock(100);
-    try (LongStream nos = LongStream.rangeClosed(1L, 100L).unordered().parallel()) {
+    IArray ordArray = new OrdArrayLock(HUNDRED);
+    try (LongStream nos = LongStream.rangeClosed(1L, HUNDRED).unordered().parallel()) {
       nos.forEach(
           i -> {
             ordArray.syncInsert(i);
             ordArray.syncDelete(i);
           });
     }
-    assertEquals(0, ordArray.count(), () -> "Elements not cleared");
+    assertEquals(0, ordArray.count(), () -> "Elements cleared.");
   }
 }
