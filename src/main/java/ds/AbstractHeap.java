@@ -18,7 +18,7 @@ public abstract class AbstractHeap implements IQueue {
 
   /** Function to return the position of the parent for the node currently at pos. */
   protected int parent(int pos) {
-    return (pos == 0) ? 0 : (pos - 1) >> 1;
+    return (pos - 1) >> 1;
   }
 
   /** Return position of left child for node currently at pos. */

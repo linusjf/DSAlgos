@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.InsertionSort;
 import ds.OrdArray;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,7 @@ class InsertionSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -92,7 +93,8 @@ class InsertionSortTest implements SortProvider {
     ISort sorter = new InsertionSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(
+        SCORE - 1, sorter.getComparisonCount(), "Comparison count must be " + (SCORE - 1) + ".");
   }
 
   @Test
@@ -100,7 +102,7 @@ class InsertionSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,7 +121,7 @@ class InsertionSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -137,7 +139,7 @@ class InsertionSortTest implements SortProvider {
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -152,27 +154,28 @@ class InsertionSortTest implements SortProvider {
   @DisplayName("InsertionSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
   @Test
   @DisplayName("InsertionSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
     sorter.sort(high);
-    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(
+        (SCORE * (SCORE - 1)) >> 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
   @Test
   @DisplayName("InsertionSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new InsertionSort();
     sorter.sort(high);
     assertEquals(
@@ -205,7 +208,7 @@ class InsertionSortTest implements SortProvider {
   void testFullArraySort() {
     InsertionSub sorter = new InsertionSub();
     sorter.sortFullArray();
-    assertEquals(10, sorter.getComparisonCount(), "Comparison count must be 10.");
+    assertEquals(TEN, sorter.getComparisonCount(), "Comparison count must be " + TEN + ".");
     assertEquals(7, sorter.getCopyCount(), "Copy count must be 7.");
     assertEquals(7, sorter.getTimeComplexity(), "Time complexity must be 7.");
   }
@@ -251,15 +254,16 @@ class InsertionSortTest implements SortProvider {
   }
 
   static class InsertionSub extends InsertionSort {
+    Random random = new Random();
 
     void sortFullArray() {
-      long[] a = {12, 23, 12, 5, 6};
-      sort(a, 5);
+      long[] a = random.longs().limit(TEN).toArray();
+      sort(a, TEN);
     }
 
     void sortNotFullArray() {
-      long[] a = {12, 23, 12, 5, 0};
-      sort(a, 4);
+      long[] a = random.longs().limit(TEN).toArray();
+      sort(a, TEN - 1);
     }
 
     void sortEmptyArray() {
@@ -274,7 +278,7 @@ class InsertionSortTest implements SortProvider {
 
     void sortNegativeLengthArray() {
       long[] a = {};
-      sort(a, -2);
+      sort(a, -1 * TEN);
     }
   }
 }

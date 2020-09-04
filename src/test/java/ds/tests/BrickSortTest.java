@@ -88,7 +88,7 @@ class BrickSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -109,7 +109,7 @@ class BrickSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -129,7 +129,7 @@ class BrickSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -138,7 +138,7 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(SCORE - 1, sorter.getComparisonCount(), "Comparison count must be n -1.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -146,11 +146,11 @@ class BrickSortTest implements SortProvider {
   @DisplayName("BrickSortTest.testComparisonCountSorted")
   void testComparisonCountSorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
-    assertEquals(19, compCount, "Comparison count must be 19.");
+    assertEquals(SCORE - 1, compCount, "Comparison count must be 19.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -158,12 +158,13 @@ class BrickSortTest implements SortProvider {
   @DisplayName("BrickSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
-        19 <= compCount && compCount <= 400, "Comparison count must be in range 19 and 400.");
+        SCORE - 1 <= compCount && compCount <= 400,
+        "Comparison count must be in range 19 and 400.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -172,7 +173,7 @@ class BrickSortTest implements SortProvider {
   @Test
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
@@ -203,7 +204,7 @@ class BrickSortTest implements SortProvider {
   @DisplayName("BrickSortTest.testSwapCount")
   void testSwapCount() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
@@ -214,10 +215,10 @@ class BrickSortTest implements SortProvider {
   @DisplayName("BrickSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -361,6 +362,7 @@ class BrickSortTest implements SortProvider {
   }
 
   static class BrickSortComplex extends BrickSort {
+
     void sortZeroLengthArray() {
       long[] a = {2, 5, 6, 8, 0};
       sort(a, 0);
