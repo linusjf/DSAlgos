@@ -58,7 +58,9 @@ class HighArrayTest {
     void testEmptyConstructor() {
       IArray arr = new HighArray();
       boolean strict = (boolean) on(arr).get(STRICT);
-      assertTrue(arr.get().length == HUNDRED && !strict, "Length " + HUNDRED + " and strict false expected.");
+      assertTrue(
+          arr.get().length == HUNDRED && !strict,
+          "Length " + HUNDRED + " and strict false expected.");
     }
 
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -85,9 +87,8 @@ class HighArrayTest {
     void testException(@AggregateWith(HighArrayArgumentsAggregator.class) IArray highArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
-          () -> 
-            highArray.insert(SCORE),
-            "Index out of bounds exception expected.");
+          () -> highArray.insert(SCORE),
+          "Index out of bounds exception expected.");
     }
 
     @ParameterizedTest
@@ -97,8 +98,7 @@ class HighArrayTest {
     void testInsertAggregate(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long[] a = {77, 99, 44, 55, 22, 88, 11, 00, 66, 33};
       long[] extent = arr.getExtentArray();
-      assertEquals(TEN, arr.count(),
-        TEN + " elements inserted.");
+      assertEquals(TEN, arr.count(), TEN + " elements inserted.");
       assertArrayEquals(a, extent, "Elements must be equal.");
     }
 
@@ -238,7 +238,8 @@ class HighArrayTest {
       long searchKey = 0L;
       arr.delete(searchKey);
       assertFalse(
-          arr.delete(searchKey) && arr.count() != count - 1, () -> searchKey + " must not be available.");
+          arr.delete(searchKey) && arr.count() != count - 1,
+          () -> searchKey + " must not be available.");
     }
 
     @ParameterizedTest
@@ -288,7 +289,8 @@ class HighArrayTest {
     void testSyncDeleteFalseIndividual(
         @AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      assertFalse(arr.syncDelete(12L) && arr.count() == count, "Element 12 must not be found or deleted.");
+      assertFalse(
+          arr.syncDelete(12L) && arr.count() == count, "Element 12 must not be found or deleted.");
     }
 
     @ParameterizedTest
@@ -441,8 +443,7 @@ class HighArrayTest {
     @CsvSource(INIT_DATA)
     @DisplayName("HighArrayTest.MiscTests.testCountPositive")
     void testCountPositive(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-      assertEquals(TEN, arr.count(), "Count must be "
-          + TEN + "!");
+      assertEquals(TEN, arr.count(), "Count must be " + TEN + "!");
     }
 
     @ParameterizedTest
@@ -453,7 +454,8 @@ class HighArrayTest {
       arr.clear();
       long[] copy = new long[origCount];
       long[] origTrunc = Arrays.copyOf(arr.get(), origCount);
-      assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array must be cleared.");
+      assertTrue(
+          0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array must be cleared.");
     }
 
     @Test

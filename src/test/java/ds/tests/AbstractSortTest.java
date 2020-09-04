@@ -219,7 +219,8 @@ class AbstractSortTest {
     }
 
     void setAndResetCounts() {
-      innerLoopCount = outerLoopCount = comparisonCount = copyCount = swapCount = (SCORE * (SCORE - 1)) >> 1;
+      innerLoopCount =
+          outerLoopCount = comparisonCount = copyCount = swapCount = (SCORE * (SCORE - 1)) >> 1;
       reset();
     }
   }
