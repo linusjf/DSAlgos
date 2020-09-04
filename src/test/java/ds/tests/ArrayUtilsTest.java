@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.ArrayUtils;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.joor.ReflectException;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,8 @@ class ArrayUtilsTest {
   @DisplayName("ArrayUtilsTest.testUnSorted")
   @Test
   void testUnSorted() {
-    long[] arr = LongStream.rangeClosed(1, HUNDRED).unordered().toArray();
+    Random random = new Random();
+    long[] arr = random.longs().limit(HUNDRED).toArray();
     assertFalse(isSorted(arr, HUNDRED), "Array is unsorted!");
   }
 
@@ -62,7 +64,8 @@ class ArrayUtilsTest {
   @DisplayName("ArrayUtilsTest.testFullArrayUnsorted")
   @Test
   void testFullArrayUnsorted() {
-    long[] arr = LongStream.rangeClosed(1, HUNDRED).unordered().toArray();
+    Random random = new Random();
+    long[] arr = random.longs().limit(HUNDRED).toArray();
     assertFalse(isSorted(arr), "Full array is unsorted!");
   }
 

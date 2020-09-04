@@ -225,7 +225,7 @@
     <maven.spotbugs.plugin.version>4.0.4</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.13.0</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
-    <maven.project.info.reports.plugin.version>3.1.0</maven.project.info.reports.plugin.version>
+    <maven.project.info.reports.plugin.version>3.1.1</maven.project.info.reports.plugin.version>
     <maven.enforcer.plugin.version>3.0.0-M3</maven.enforcer.plugin.version>
     <xml.format.maven.plugin.version>3.1.2</xml.format.maven.plugin.version>
     <fmt.maven.plugin.version>2.10</fmt.maven.plugin.version>
@@ -290,7 +290,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.9</version>
+        <version>3.5.10</version>
         <scope>test</scope>
       </dependency>
       <dependency>
