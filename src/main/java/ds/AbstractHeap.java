@@ -6,8 +6,9 @@ public abstract class AbstractHeap implements IQueue {
 
   protected int nElems;
 
-  public AbstractHeap(int maxsize) {
-    a = new long[maxsize];
+  public AbstractHeap(int maxSize) {
+    if (maxSize < 0) throw new IllegalArgumentException("Invalid parameter: " + maxSize);
+    a = new long[maxSize];
     nElems = 0;
   }
 
