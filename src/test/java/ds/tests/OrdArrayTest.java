@@ -31,8 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("OrdArrayTest")
 class OrdArrayTest {
 
-  private static final String MUST_NOT_BE_AVAILABLE =
-    " must not be available.";
+  private static final String MUST_NOT_BE_AVAILABLE = " must not be available.";
 
   @Nested
   class InsertTests {
@@ -205,8 +204,7 @@ class OrdArrayTest {
       arr.delete(searchKey);
       int count = arr.count();
       assertFalse(
-          arr.delete(searchKey) && arr.count() != count,
-          () -> searchKey + MUST_NOT_BE_AVAILABLE);
+          arr.delete(searchKey) && arr.count() != count, () -> searchKey + MUST_NOT_BE_AVAILABLE);
     }
 
     @ParameterizedTest

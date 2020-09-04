@@ -1,11 +1,13 @@
 package ds.tests;
 
 import static ds.ArrayUtils.isSorted;
+import static ds.tests.TestConstants.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.ArrayUtils;
 import java.util.Optional;
+import java.util.stream.LongStream;
 import org.joor.ReflectException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,17 +34,15 @@ class ArrayUtilsTest {
   @Test
   @DisplayName("ArrayUtilsTest.testSorted")
   void testSorted() {
-    long[] arr = {1L, 2L, 5L, 7L, 8L, 0L, 0L, 0L, 0L, 0L};
-    int length = 5;
-    assertTrue(isSorted(arr, length), "Array is sorted!");
+    long[] arr = LongStream.rangeClosed(1, HUNDRED).toArray();
+    assertTrue(isSorted(arr, HUNDRED >> 1), "Array is sorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testUnSorted")
   @Test
   void testUnSorted() {
-    long[] arr = {1L, 2L, 5L, 7L, 6L, 0L, 0L, 0L, 0L, 0L};
-    int length = 7;
-    assertFalse(isSorted(arr, length), "Array is unsorted!");
+    long[] arr = LongStream.rangeClosed(1, HUNDRED).unordered().toArray();
+    assertFalse(isSorted(arr, HUNDRED), "Array is unsorted!");
   }
 
   @Test
@@ -55,29 +55,29 @@ class ArrayUtilsTest {
   @DisplayName("ArrayUtilsTest.testFullArray")
   @Test
   void testFullArray() {
-    long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 20L};
+    long[] arr = LongStream.rangeClosed(1, HUNDRED).toArray();
     assertTrue(isSorted(arr), "Full array is sorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testFullArrayUnsorted")
   @Test
   void testFullArrayUnsorted() {
-    long[] arr = {1L, 2L, 0L, -7L, 8L, 5L, 8L, 2L, 0L, 200L};
+    long[] arr = LongStream.rangeClosed(1, HUNDRED).unordered().toArray();
     assertFalse(isSorted(arr), "Full array is unsorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testLessThanFullArray")
   @Test
   void testLessThanFullArray() {
-    long[] arr = {1L, 2L, 5L, 7L, 8L, 15L, 18L, 20L, 20L, 0L};
-    int length = 9;
+    long[] arr = LongStream.rangeClosed(1, HUNDRED).toArray();
+    int length = HUNDRED >> 1;
     assertTrue(isSorted(arr, length), "Less than full array is sorted!");
   }
 
   @DisplayName("ArrayUtilsTest.testLengthZero")
   @Test
   void testLengthZero() {
-    long[] arr = new long[10];
+    long[] arr = new long[TEN];
     int length = 0;
     assertTrue(isSorted(arr, length), "Length zero array is sorted!");
   }
@@ -85,7 +85,7 @@ class ArrayUtilsTest {
   @DisplayName("ArrayUtilsTest.testLengthOne")
   @Test
   void testLengthOne() {
-    long[] arr = new long[10];
+    long[] arr = new long[TEN];
     arr[0] = 1;
     int length = 1;
     assertTrue(isSorted(arr, length), "One element array is sorted!");
@@ -104,7 +104,7 @@ class ArrayUtilsTest {
   @Test
   @DisplayName("ArrayUtilsTest.testNegativeLength")
   void testNegativeLength() {
-    long[] arr = new long[10];
+    long[] arr = new long[TEN];
     int length = -1;
     IllegalArgumentException iae =
         assertThrows(
@@ -119,14 +119,14 @@ class ArrayUtilsTest {
   @Test
   @DisplayName("ArrayUtilsTest.testExcessiveLength")
   void testExcessiveLength() {
-    long[] arr = new long[10];
-    int length = 11;
+    long[] arr = new long[TEN];
+    int length = TEN + 1;
     IllegalArgumentException iae =
         assertThrows(
             IllegalArgumentException.class, () -> isSorted(arr, length), "Exception expected!");
     Optional<String> msg = Optional.ofNullable(iae.getMessage());
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[\\D]", ""));
-    assertTrue(val < 0 || val > arr.length, " 11 expected.");
+    assertTrue(val < 0 || val > arr.length, (TEN + 1) + " expected.");
   }
 }
