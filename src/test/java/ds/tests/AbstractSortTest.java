@@ -28,7 +28,7 @@ class AbstractSortTest {
   @DisplayName("AbstractSortTest.testConcreteSort")
   void testConcreteSort() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).parallel().unordered().forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).parallel().unordered().forEach(i -> high.insert(i));
     long[] arr = high.get();
     ISort sorter = new ConcreteSort();
     IArray sorted = sorter.sort(high);
@@ -44,7 +44,7 @@ class AbstractSortTest {
 
     SwapTests() {
       IArray high = new HighArray();
-      LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+      LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
       arr = high.get();
       sorter = new ConcreteSort();
     }
@@ -54,7 +54,7 @@ class AbstractSortTest {
     void testSwapZeroIndex() {
       long[] a = arr.clone();
       sorter.swapZerothIndex(a);
-      assertTrue(a[0] == 20 && a[19] == 1, SWAP_MUST_SUCCEED);
+      assertTrue(a[0] == SCORE && a[SCORE - 1] == 1, SWAP_MUST_SUCCEED);
     }
 
     @Test
@@ -62,7 +62,7 @@ class AbstractSortTest {
     void testSwapIndexOne() {
       long[] a = arr.clone();
       sorter.swapIndexOne(a);
-      assertTrue(a[1] == 19 && a[18] == 2, SWAP_MUST_SUCCEED);
+      assertTrue(a[1] == SCORE - 1 && a[SCORE - 2] == 2, SWAP_MUST_SUCCEED);
     }
 
     @Test
@@ -70,7 +70,7 @@ class AbstractSortTest {
     void testSwapNthIndex() {
       long[] a = arr.clone();
       sorter.swapNthIndex(a);
-      assertTrue(a[0] == 20 && a[19] == 1, SWAP_MUST_SUCCEED);
+      assertTrue(a[0] == SCORE && a[SCORE - 1] == 1, SWAP_MUST_SUCCEED);
     }
 
     @Test
@@ -78,7 +78,7 @@ class AbstractSortTest {
     void testSwapNMinusOneIndex() {
       long[] a = arr.clone();
       sorter.swapNthMinusOne(a);
-      assertTrue(a[1] == 19 && a[18] == 2, SWAP_MUST_SUCCEED);
+      assertTrue(a[1] == SCORE - 1 && a[SCORE - 2] == 2, SWAP_MUST_SUCCEED);
     }
 
     @Test
@@ -171,19 +171,19 @@ class AbstractSortTest {
     }
 
     void swapZerothIndex(long... a) {
-      swap(a, 0, 19);
+      swap(a, 0, SCORE - 1);
     }
 
     void swapIndexOne(long... a) {
-      swap(a, 1, 18);
+      swap(a, 1, SCORE - 2);
     }
 
     void swapNthIndex(long... a) {
-      swap(a, 19, 0);
+      swap(a, SCORE - 1, 0);
     }
 
     void swapNthMinusOne(long... a) {
-      swap(a, 18, 1);
+      swap(a, SCORE - 2, 1);
     }
 
     void swapNegativeLeft(long... a) {
@@ -219,7 +219,7 @@ class AbstractSortTest {
     }
 
     void setAndResetCounts() {
-      innerLoopCount = outerLoopCount = comparisonCount = copyCount = swapCount = 190;
+      innerLoopCount = outerLoopCount = comparisonCount = copyCount = swapCount = (SCORE * (SCORE - 1)) >> 1;
       reset();
     }
   }
