@@ -26,6 +26,7 @@ public final class TestConstants {
   static final int TEN = 10;
   static final int THREE = 3;
   static final int ZERO = 0;
+  static final int THOUSAND = 1000;
 
   private TestConstants() {
     // empty constructor

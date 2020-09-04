@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ds.tests.TestConstants.*;
 
 import ds.HighArray;
 import ds.IArray;
@@ -23,13 +24,13 @@ class HighArrayRepeatTest {
   IArray array;
 
   HighArrayRepeatTest() {
-    array = new HighArray(1000, true);
-    try (LongStream nos = LongStream.rangeClosed(1L, 1000L)) {
+    array = new HighArray(THOUSAND, true);
+    try (LongStream nos = LongStream.rangeClosed(1L, THOUSAND)) {
       nos.forEach(i -> array.insert(i));
     }
   }
 
-  @RepeatedTest(1000)
+  @RepeatedTest(THOUSAND)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   @DisplayName("HighArrayRepeatTest.repeatedTestWithRepetitionInfo")
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {

@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ds.tests.TestConstants.*;
 
 import ds.HighArray;
 import ds.IArray;
@@ -31,10 +32,10 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   @Test
   @DisplayName("HighArrayConcurrencyTest.testConcurrentInserts")
   void testConcurrentInserts() {
-    IArray highArray = new HighArray(10_000);
-    LongStream.rangeClosed(1L, 10_000L).parallel().forEach(i -> highArray.insert(i));
+    IArray highArray = new HighArray(MYRIAD);
+    LongStream.rangeClosed(1L, MYRIAD).parallel().forEach(i -> highArray.insert(i));
     assertEquals(
-        10_000, highArray.count(), () -> "10,000 elements not filled: " + highArray.toString());
+        MYRIAD, highArray.count(), () -> MYRIAD + " elements filled: " + highArray.toString());
   }
 
   @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
@@ -49,7 +50,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
     try (LongStream nos = LongStream.rangeClosed(1L, (long) size).unordered()) {
       nos.forEach(i -> highArray.insert(i));
     }
-    ExecutorService service = Executors.newFixedThreadPool(10);
+    ExecutorService service = Executors.newFixedThreadPool(TEN);
     try (LongStream nosParallel = LongStream.rangeClosed(1L, (long) size).unordered().parallel()) {
       nosParallel.forEach(
           i ->
@@ -83,8 +84,8 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
   @Test
   @DisplayName("HighArrayConcurrencyTest.testSequentialDeletes")
   void testSequentialDeletes() {
-    IArray highArray = new HighArray(10_000, true);
-    try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
+    IArray highArray = new HighArray(MYRIAD, true);
+    try (LongStream nos = LongStream.rangeClosed(1L, MYRIAD)) {
       nos.forEach(
           i -> {
             highArray.insert(i);
@@ -92,20 +93,20 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
           });
     }
     assertEquals(
-        0, highArray.count(), () -> "10,000 elements not deleted: " + highArray.toString());
+        0, highArray.count(), () -> MYRIAD + " elements deleted: " + highArray.toString());
   }
 
   @Test
   @DisplayName("HighArrayConcurrencyTest.testConcurrentSyncDeletes")
   void testConcurrentSyncDeletes() {
-    IArray highArray = new HighArray(100);
-    try (LongStream nos = LongStream.rangeClosed(1L, 10_000L)) {
+    IArray highArray = new HighArray(HUNDRED);
+    try (LongStream nos = LongStream.rangeClosed(1L, MYRIAD)) {
       nos.forEach(
           i -> {
             highArray.insert(i);
             highArray.syncDelete(i);
           });
     }
-    assertEquals(0, highArray.count(), () -> "100 elements not deleted: " + highArray.toString());
+    assertEquals(0, highArray.count(), () -> HUNDRED + " elements  deleted: " + highArray.toString());
   }
 }

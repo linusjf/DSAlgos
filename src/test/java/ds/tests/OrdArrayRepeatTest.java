@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ds.tests.TestConstants.*;
 
 import ds.IArray;
 import ds.OrdArray;
@@ -23,13 +24,13 @@ class OrdArrayRepeatTest {
   IArray array;
 
   OrdArrayRepeatTest() {
-    array = new OrdArray(1000, true);
-    try (LongStream nos = LongStream.rangeClosed(1L, 1000L).unordered()) {
+    array = new OrdArray(THOUSAND, true);
+    try (LongStream nos = LongStream.rangeClosed(1L, THOUSAND).unordered()) {
       nos.forEach(i -> array.insert(i));
     }
   }
 
-  @RepeatedTest(1000)
+  @RepeatedTest(THOUSAND)
   @ResourceLock(value = "hello", mode = ResourceAccessMode.READ_WRITE)
   @DisplayName("OrdArrayRepeatTest.repeatedTestWithRepetitionInfo")
   void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
