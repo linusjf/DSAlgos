@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static ds.tests.TestConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ds.HighArray;
 import ds.IArray;
@@ -92,8 +92,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
             highArray.delete(i);
           });
     }
-    assertEquals(
-        0, highArray.count(), () -> MYRIAD + " elements deleted: " + highArray.toString());
+    assertEquals(0, highArray.count(), () -> MYRIAD + " elements deleted: " + highArray.toString());
   }
 
   @Test
@@ -107,6 +106,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
             highArray.syncDelete(i);
           });
     }
-    assertEquals(0, highArray.count(), () -> HUNDRED + " elements  deleted: " + highArray.toString());
+    assertEquals(
+        0, highArray.count(), () -> HUNDRED + " elements  deleted: " + highArray.toString());
   }
 }

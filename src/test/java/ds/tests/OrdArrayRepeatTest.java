@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static ds.tests.TestConstants.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ds.IArray;
 import ds.OrdArray;

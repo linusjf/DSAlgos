@@ -139,9 +139,8 @@ class OrdArrayTest {
     void testException(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray ordArray) {
       assertThrows(
           ArrayIndexOutOfBoundsException.class,
-          () -> 
-            ordArray.insert(SCORE),
-            "Array index out of bounds exception expected.");
+          () -> ordArray.insert(SCORE),
+          "Array index out of bounds exception expected.");
     }
   }
 
@@ -203,7 +202,8 @@ class OrdArrayTest {
       arr.delete(searchKey);
       int count = arr.count();
       assertFalse(
-          arr.delete(searchKey) && arr.count() != count, () -> searchKey + " must not be available.");
+          arr.delete(searchKey) && arr.count() != count,
+          () -> searchKey + " must not be available.");
     }
 
     @ParameterizedTest
@@ -304,7 +304,9 @@ class OrdArrayTest {
     void testEmptyConstructor() {
       IArray arr = new OrdArray();
       boolean strict = (boolean) on(arr).get(STRICT);
-      assertTrue(arr.get().length == HUNDRED && !strict, "Length " + HUNDRED + " and strict false expected.");
+      assertTrue(
+          arr.get().length == HUNDRED && !strict,
+          "Length " + HUNDRED + " and strict false expected.");
     }
 
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -401,7 +403,8 @@ class OrdArrayTest {
       arr.clear();
       long[] copy = new long[origCount];
       long[] origTrunc = Arrays.copyOf(arr.get(), origCount);
-      assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array must be cleared.");
+      assertTrue(
+          0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array must be cleared.");
     }
 
     @Test
@@ -418,7 +421,8 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.MiscTests.testGet")
     void testGet(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.get();
-      assertTrue(vals != null && vals.length == HUNDRED, "Non-Null array and length " + HUNDRED + ".");
+      assertTrue(
+          vals != null && vals.length == HUNDRED, "Non-Null array and length " + HUNDRED + ".");
     }
 
     @ParameterizedTest
