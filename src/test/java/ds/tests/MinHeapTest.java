@@ -4,7 +4,7 @@ import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.IQueue;
-import ds.MaxHeap;
+import ds.MinHeap;
 import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,54 +13,54 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@DisplayName("MaxHeapTest")
+@DisplayName("MinHeapTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class MaxHeapTest {
+class MinHeapTest {
 
   private static final String SIZE_ZERO = "Size must be zero.";
   private static final String SIZE_ONE = "Size must be one.";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
-  private static final String POLL_MAX_VALUE = "Poll returns max value present.";
+  private static final String POLL_MIN_VALUE = "Poll returns min value present.";
   private static final long VAL = 20;
 
   @Test
-  @DisplayName("MaxHeapTest.testConstructorException")
+  @DisplayName("MinHeapTest.testConstructorException")
   void testConstructorException() {
     assertThrows(
-        IllegalArgumentException.class, () -> new MaxHeap(-1), "Constructor throws exception.");
+        IllegalArgumentException.class, () -> new MinHeap(-1), "Constructor throws exception.");
   }
 
   @Test
-  @DisplayName("MaxHeapTest.testPollEmpty")
+  @DisplayName("MinHeapTest.testPollEmpty")
   void testPollEmpty() {
-    IQueue queue = new MaxHeap(0);
+    IQueue queue = new MinHeap(0);
     assertThrows(
         IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPollEmptyOne")
+  @DisplayName("MinHeapTest.testPollEmptyOne")
   @Test
   void testPollEmptyOne() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     assertThrows(
         IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPoll")
+  @DisplayName("MinHeapTest.testPoll")
   @Test
   void testPoll() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.poll(), "Poll returns first value inserted.");
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testInsertPollInsert")
+  @DisplayName("MinHeapTest.testInsertPollInsert")
   @Test
   void testInsertPollInsert() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
     queue.poll();
@@ -69,10 +69,10 @@ class MaxHeapTest {
     assertEquals(val, queue.peek(), "Value must be " + val);
   }
 
-  @DisplayName("MaxHeapTest.testInsertPollTwice")
+  @DisplayName("MinHeapTest.testInsertPollTwice")
   @Test
   void testInsertPollTwice() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
     queue.poll();
@@ -81,149 +81,149 @@ class MaxHeapTest {
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testInsert")
+  @DisplayName("MinHeapTest.testInsert")
   @Test
   void testInsertSizeOne() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
     assertEquals(val, queue.peek(), "Peek returns first value inserted.");
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testInsertException")
+  @DisplayName("MinHeapTest.testInsertException")
   @Test
   void testInsertException() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
     assertThrows(IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testInsertZeroSizeException")
+  @DisplayName("MinHeapTest.testInsertZeroSizeException")
   @Test
   void testInsertZeroSizeException() {
-    IQueue queue = new MaxHeap(0);
+    IQueue queue = new MinHeap(0);
     long val = VAL;
     assertThrows(IllegalStateException.class, () -> queue.insert(val), "Insert throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testIsEmpty")
+  @DisplayName("MinHeapTest.testIsEmpty")
   @Test
   void testIsEmpty() {
-    IQueue queue = new MaxHeap(0);
+    IQueue queue = new MinHeap(0);
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsNotEmpty")
+  @DisplayName("MinHeapTest.testIsNotEmpty")
   @Test
   void testIsNotEmpty() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     queue.insert(VAL);
     assertFalse(queue.isEmpty(), "Queue must not be empty.");
     assertTrue(queue.isFull(), "Queue must be full.");
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testIsEmptySizeOne")
+  @DisplayName("MinHeapTest.testIsEmptySizeOne")
   @Test
   void testIsEmptySizeOne() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
     assertFalse(queue.isFull(), QUEUE_EMPTY);
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsFull")
+  @DisplayName("MinHeapTest.testIsFull")
   @Test
   void testIsFull() {
-    IQueue queue = new MaxHeap(0);
+    IQueue queue = new MinHeap(0);
     assertTrue(queue.isFull(), "Queue must be full.");
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
-  @DisplayName("MaxHeapTest.testIsFullSizeOne")
+  @DisplayName("MinHeapTest.testIsFullSizeOne")
   @Test
   void testIsFullSizeOne() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     assertFalse(queue.isFull(), QUEUE_EMPTY);
     assertTrue(queue.isEmpty(), QUEUE_EMPTY);
     assertEquals(0, queue.size(), SIZE_ZERO);
   }
 
   @Test
-  @DisplayName("MaxHeapTest.testPeekEmpty")
+  @DisplayName("MinHeapTest.testPeekEmpty")
   void testPeekEmpty() {
-    IQueue queue = new MaxHeap(0);
+    IQueue queue = new MinHeap(0);
     assertThrows(
         IllegalStateException.class, () -> queue.peek(), "Empty queue peep throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPeekEmptyOne")
+  @DisplayName("MinHeapTest.testPeekEmptyOne")
   @Test
   void testPeekEmptyOne() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     assertThrows(
         IllegalStateException.class, () -> queue.peek(), "Empty queue peek throws exception.");
   }
 
-  @DisplayName("MaxHeapTest.testPeek")
+  @DisplayName("MinHeapTest.testPeek")
   @Test
   void testPeek() {
-    IQueue queue = new MaxHeap(1);
+    IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
-    assertEquals(val, queue.peek(), "Peek returns max value present.");
+    assertEquals(val, queue.peek(), "Peek returns min value present.");
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueueInsert")
+  @DisplayName("MinHeapTest.testTwoElementQueueInsert")
   @Test
   void testTwoElementQueueInsert() {
-    IQueue queue = new MaxHeap(2);
+    IQueue queue = new MinHeap(2);
     long val = VAL;
     queue.insert(val);
-    queue.insert(val + 1);
-    assertEquals(val + 1, queue.peek(), "Peek returns max value present.");
+    queue.insert(val - 1);
+    assertEquals(val - 1, queue.peek(), "Peek returns min value present.");
     assertEquals(2, queue.size(), "Size must be two.");
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueuePoll")
+  @DisplayName("MinHeapTest.testTwoElementQueuePoll")
   @Test
   void testTwoElementQueuePoll() {
-    IQueue queue = new MaxHeap(2);
+    IQueue queue = new MinHeap(2);
     long val = VAL;
     queue.insert(val);
-    queue.insert(val + 1);
-    assertEquals(val + 1, queue.poll(), POLL_MAX_VALUE);
+    queue.insert(val - 1);
+    assertEquals(val - 1, queue.poll(), POLL_MIN_VALUE);
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
-  @DisplayName("MaxHeapTest.testTwoElementQueuePollTwice")
+  @DisplayName("MinHeapTest.testTwoElementQueuePollTwice")
   @Test
   void testTwoElementQueuePollTwice() {
-    IQueue queue = new MaxHeap(2);
+    IQueue queue = new MinHeap(2);
     long val = VAL;
     queue.insert(val);
-    queue.insert(val + 1);
-    assertEquals(val + 1, queue.poll(), POLL_MAX_VALUE);
-    assertEquals(val, queue.poll(), POLL_MAX_VALUE);
+    queue.insert(val - 1);
+    assertEquals(val - 1, queue.poll(), POLL_MIN_VALUE);
+    assertEquals(val, queue.poll(), POLL_MIN_VALUE);
     assertEquals(0, queue.size(), SIZE_ONE);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  @DisplayName("MaxHeapTest.testRandomInsertsMaximum")
+  @DisplayName("MinHeapTest.testRandomInsertsMinimum")
   @Test
-  void testRandomInsertsMaximum() {
-    IQueue queue = new MaxHeap(MYRIAD);
-    long val = Long.MAX_VALUE;
+  void testRandomInsertsMinimum() {
+    IQueue queue = new MinHeap(MYRIAD);
+    long val = Long.MIN_VALUE;
     queue.insert(val);
     Random random = new Random();
     random.longs().limit(MYRIAD - 1).forEach(i -> queue.insert(i));
-    assertEquals(val, queue.peek(), "Peek returns max value present.");
-    assertEquals(val, queue.poll(), POLL_MAX_VALUE);
+    assertEquals(val, queue.peek(), "Peek returns min value present.");
+    assertEquals(val, queue.poll(), POLL_MIN_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
 }
