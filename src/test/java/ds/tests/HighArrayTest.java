@@ -190,10 +190,10 @@ class HighArrayTest {
     void testDeleteTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          arr.delete(ZERO) && arr.delete(55L) && arr.delete(99L),
           "Elements 0, 55 and 99 must be deleted.");
       assertFalse(
-          arr.find(00L) || arr.find(55L) || arr.find(99L),
+          arr.find(ZERO) || arr.find(55L) || arr.find(99L),
           "Elements 0, 55 and 99 must not be found.");
       assertEquals(count - THREE, arr.count(), "Three elements should have been deleted.");
     }
@@ -238,7 +238,7 @@ class HighArrayTest {
       long searchKey = 0L;
       arr.delete(searchKey);
       assertFalse(
-          arr.delete(searchKey) && arr.count() != count - 1, () -> searchKey + " still available");
+          arr.delete(searchKey) && arr.count() != count - 1, () -> searchKey + " must not be available.");
     }
 
     @ParameterizedTest
@@ -263,10 +263,10 @@ class HighArrayTest {
     void testSyncDeleteTrue(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+          arr.syncDelete(ZERO) && arr.syncDelete(55L) && arr.syncDelete(99L),
           "Elements 0, 55 and 99 must be deleted.");
       assertFalse(
-          arr.find(00L) || arr.find(55L) || arr.find(99L),
+          arr.find(ZERO) || arr.find(55L) || arr.find(99L),
           "Elements 0, 55 and 99 must not be found.");
       assertEquals(count - THREE, arr.count(), "Three elements should have been deleted.");
     }
@@ -278,7 +278,7 @@ class HighArrayTest {
     void testSyncDeleteTrueIndividual(
         @AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      assertTrue(arr.syncDelete(00L) && arr.count() == count - 1, "Element 0 not found.");
+      assertTrue(arr.syncDelete(ZERO) && arr.count() == count - 1, "Element 0 deleted.");
     }
 
     @ParameterizedTest
@@ -288,7 +288,7 @@ class HighArrayTest {
     void testSyncDeleteFalseIndividual(
         @AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      assertFalse(arr.syncDelete(12L) && arr.count() == count, "Elements 12 found and deleted");
+      assertFalse(arr.syncDelete(12L) && arr.count() == count, "Element 12 must not be found or deleted.");
     }
 
     @ParameterizedTest
@@ -310,7 +310,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.FindTests.testFindIndexFalse")
     void testFindIndexFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 35L;
-      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
+      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " must not be available.");
     }
 
     @ParameterizedTest
@@ -318,7 +318,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.FindTests.testFindFalse")
     void testFindFalse(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 35L;
-      assertFalse(arr.find(searchKey), () -> searchKey + " available");
+      assertFalse(arr.find(searchKey), () -> searchKey + " must not be available");
     }
 
     @ParameterizedTest
@@ -381,7 +381,7 @@ class HighArrayTest {
     void testFindIndexOverflow(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 0L;
       arr.delete(0L);
-      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
+      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " must not be available");
     }
 
     @Test
@@ -389,7 +389,7 @@ class HighArrayTest {
     void testFindEmpty() {
       IArray arr = new HighArray(TEN);
       long searchKey = 0L;
-      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
+      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " must not be available.");
     }
 
     @ParameterizedTest
@@ -411,7 +411,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.MiscTests.testGet")
     void testGet(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.get();
-      assertTrue(vals != null && vals.length == HUNDRED, "Null array or length incorrect");
+      assertTrue(vals != null && vals.length == HUNDRED, "Non-null array and length " + HUNDRED);
     }
 
     @ParameterizedTest
@@ -419,7 +419,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.MiscTests.testExtentArray")
     void testExtentArray(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.getExtentArray();
-      assertTrue(vals != null && vals.length == TEN, "Null array or length incorrect");
+      assertTrue(vals != null && vals.length == TEN, "Non-Null array and length " + TEN);
     }
 
     @Test
@@ -427,7 +427,7 @@ class HighArrayTest {
     void testExtentArrayEmpty() {
       IArray arr = new HighArray();
       long[] vals = arr.getExtentArray();
-      assertTrue(vals != null && vals.length == 0, "Null array or length incorrect");
+      assertTrue(vals != null && vals.length == 0, "Non-Null array and length zero.");
     }
 
     @Test
@@ -453,7 +453,7 @@ class HighArrayTest {
       arr.clear();
       long[] copy = new long[origCount];
       long[] origTrunc = Arrays.copyOf(arr.get(), origCount);
-      assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array not cleared");
+      assertTrue(0 == arr.count() && Arrays.equals(copy, origTrunc), () -> "Array must be cleared.");
     }
 
     @Test
@@ -481,7 +481,7 @@ class HighArrayTest {
           .append(THREE)
           .append(lineSeparator)
           .append("77 99 44 ");
-      assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
+      assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
     }
 
     @ParameterizedTest
@@ -497,7 +497,7 @@ class HighArrayTest {
           .append(lineSeparator)
           .append("77 99 44 55 22 88 11 0 66 33 ")
           .append(lineSeparator);
-      assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
+      assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
     }
 
     @ParameterizedTest
@@ -510,7 +510,7 @@ class HighArrayTest {
       sb.append(HighArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
-          .append(0)
+          .append(ZERO)
           .append(System.lineSeparator());
       assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
     }
