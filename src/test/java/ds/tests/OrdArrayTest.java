@@ -44,14 +44,14 @@ class OrdArrayTest {
     @CsvSource(INIT_DUPLICATE_DATA)
     @DisplayName("OrdArrayTest.insertDuplicateElements")
     void insertDuplicateElements(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      assertTrue(21 == arr.count() && isSorted(arr), "21 elements expected");
+      assertTrue(21 == arr.count() && isSorted(arr), "21 sorted elements expected");
     }
 
     @ParameterizedTest
     @CsvSource(INIT_DATA)
     @DisplayName("OrdArrayTest.testInsert")
     void testInsert(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      assertTrue(10 == arr.count() && isSorted(arr), "10 elements not inserted.");
+      assertTrue(TEN == arr.count() && isSorted(arr), TEN + " elements inserted and sorted.");
     }
 
     @ParameterizedTest
@@ -59,7 +59,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.testInsertAtStartExists")
     void testInsertAtStartExists(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      long val = 0L;
+      long val = ZERO;
       int index = arr.findIndex(val);
       int insertIndex = arr.insert(val);
       assertTrue(
@@ -91,7 +91,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.testInsertAtEnd")
     void testInsertAtEnd(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      long val = 100L;
+      long val = HUNDRED;
       int insertIndex = arr.insert(val);
       assertTrue(
           insertIndex == count && arr.count() == count + 1 && isSorted(arr),
@@ -130,7 +130,7 @@ class OrdArrayTest {
       int count = arr.count();
       int res = arr.insert(99L);
       boolean sorted = isSorted(arr);
-      assertTrue(res == 10 && sorted && arr.count() == count + 1, "Insert must succeed.");
+      assertTrue(res == TEN && sorted && arr.count() == count + 1, "Insert must succeed.");
     }
 
     @ParameterizedTest
@@ -156,9 +156,9 @@ class OrdArrayTest {
     void testDeleteTrue(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.delete(00L) && arr.delete(55L) && arr.delete(99L),
+          arr.delete(ZERO) && arr.delete(55L) && arr.delete(99L),
           "Elements 0, 55 and 99 must be deleted");
-      assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
+      assertEquals(count - THREE, arr.count(), "Count must be " + (count - THREE));
       assertTrue(isSorted(arr), "Array must be sorted");
     }
 
@@ -178,7 +178,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.DeleteTests.testDeleteStart")
     void testDeleteStart(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
-      long searchKey = 00L;
+      long searchKey = ZERO;
       assertTrue(
           arr.delete(searchKey) && arr.count() == count - 1 && isSorted(arr),
           () -> String.format(NOT_AVAILABLE, searchKey));
@@ -199,7 +199,7 @@ class OrdArrayTest {
     @CsvSource(INIT_DATA)
     @DisplayName("OrdArrayTest.DeleteTests.testDeleteOverflow")
     void testDeleteOverflow(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      long searchKey = 0L;
+      long searchKey = ZERO;
       arr.delete(searchKey);
       int count = arr.count();
       assertFalse(
@@ -228,9 +228,9 @@ class OrdArrayTest {
     void testSyncDeleteTrue(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.syncDelete(00L) && arr.syncDelete(55L) && arr.syncDelete(99L),
+          arr.syncDelete(ZERO) && arr.syncDelete(55L) && arr.syncDelete(99L),
           "Elements 0, 55 and 99 must be deleted");
-      assertEquals(count - 3, arr.count(), "Count must be " + (count - 3));
+      assertEquals(count - THREE, arr.count(), "Count must be " + (count - THREE));
       assertTrue(isSorted(arr), "Array must be sorted");
     }
 
@@ -242,7 +242,7 @@ class OrdArrayTest {
         @AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       int count = arr.count();
       assertTrue(
-          arr.syncDelete(00L) && arr.count() == count - 1 && isSorted(arr), "Element 0 not found.");
+          arr.syncDelete(ZERO) && arr.count() == count - 1 && isSorted(arr), "Element 0 not found.");
     }
 
     @ParameterizedTest
@@ -294,8 +294,8 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ConstructorTests.testConstructorParameterOK")
     void testConstructorParameterOK() {
-      IArray arr = new OrdArray(10);
-      assertEquals(10, arr.get().length, "Length 10 expected");
+      IArray arr = new OrdArray(TEN);
+      assertEquals(TEN, arr.get().length, "Length 10 expected");
     }
 
     @Test
@@ -303,7 +303,7 @@ class OrdArrayTest {
     void testEmptyConstructor() {
       IArray arr = new OrdArray();
       boolean strict = (boolean) on(arr).get(STRICT);
-      assertTrue(arr.get().length == 100 && !strict, "Length 100 and strict false expected");
+      assertTrue(arr.get().length == HUNDRED && !strict, "Length 100 and strict false expected");
     }
 
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -327,10 +327,10 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ModCountTests.testInsertModCount")
     void testInsertModCount() {
-      IArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(HUNDRED);
       int count = arr.count();
       int modCount = getModCount(arr);
-      arr.insert(10L);
+      arr.insert(TEN);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount < newModCount && newModCount == 1 && arr.count() == count + 1,
@@ -340,8 +340,8 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ModCountTests.testClearModCount")
     void testClearModCount() {
-      IArray arr = new OrdArray(100);
-      arr.insert(10L);
+      IArray arr = new OrdArray(HUNDRED);
+      arr.insert(TEN);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -353,7 +353,7 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ModCountTests.testClearEmptyModCount")
     void testClearEmptyModCount() {
-      IArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(HUNDRED);
       int modCount = getModCount(arr);
       arr.clear();
       int newModCount = getModCount(arr);
@@ -365,10 +365,10 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ModCountTests.testDeleteModCount")
     void testDeleteModCount() {
-      IArray arr = new OrdArray(100);
-      arr.insert(10L);
+      IArray arr = new OrdArray(HUNDRED);
+      arr.insert(TEN);
       int modCount = getModCount(arr);
-      arr.delete(10L);
+      arr.delete(TEN);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount < newModCount && newModCount == 2 && arr.count() == 0,
@@ -378,10 +378,10 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ModCountTests.testDeleteNotFoundModCount")
     void testDeleteNotFoundModCount() {
-      IArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(HUNDRED);
       int count = arr.count();
       int modCount = getModCount(arr);
-      arr.delete(10L);
+      arr.delete(TEN);
       int newModCount = getModCount(arr);
       assertTrue(
           modCount == newModCount && modCount == 0 && arr.count() == count,
@@ -406,9 +406,9 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.MiscTests.testClearEmpty")
     void testClearEmpty() {
-      IArray arr = new OrdArray(100);
+      IArray arr = new OrdArray(HUNDRED);
       arr.clear();
-      long[] copy = new long[100];
+      long[] copy = new long[HUNDRED];
       assertTrue(0 == arr.count() && Arrays.equals(arr.get(), copy), () -> "Array not cleared");
     }
 
@@ -417,7 +417,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.MiscTests.testGet")
     void testGet(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.get();
-      assertTrue(vals != null && vals.length == 100, "Null array or length incorrect");
+      assertTrue(vals != null && vals.length == HUNDRED, "Null array or length incorrect");
     }
 
     @ParameterizedTest
@@ -425,7 +425,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.MiscTests.testExtentArray")
     void testExtentArray(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long[] vals = arr.getExtentArray();
-      assertTrue(vals != null && vals.length == 10, "Null array or length incorrect");
+      assertTrue(vals != null && vals.length == TEN, "Null array or length incorrect");
     }
 
     @Test
@@ -448,7 +448,7 @@ class OrdArrayTest {
     @CsvSource(INIT_DATA)
     @DisplayName("OrdArrayTest.MiscTests.testCountPositive")
     void testCountPositive(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      assertEquals(10, arr.count(), "Count must be 10!");
+      assertEquals(TEN, arr.count(), "Count must be 10!");
     }
   }
 
@@ -484,7 +484,7 @@ class OrdArrayTest {
     @CsvSource(INIT_DATA)
     @DisplayName("OrdArrayTest.FindTests.testFindIndexStart")
     void testFindIndexStart(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      long searchKey = 0L;
+      long searchKey = ZERO;
       assertEquals(0, arr.findIndex(searchKey), () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
@@ -492,7 +492,7 @@ class OrdArrayTest {
     @CsvSource(INIT_DATA)
     @DisplayName("OrdArrayTest.FindTests.testFindIndexStartTrue")
     void testFindIndexStartTrue(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      long searchKey = 0L;
+      long searchKey = ZERO;
       assertTrue(
           arr.find(searchKey) && arr.findIndex(searchKey) == 0,
           () -> String.format(NOT_AVAILABLE, searchKey));
@@ -530,7 +530,7 @@ class OrdArrayTest {
     void testFindSeqBefore(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 14L;
       assertTrue(
-          arr.find(searchKey) && arr.findIndex(searchKey) == 3,
+          arr.find(searchKey) && arr.findIndex(searchKey) == THREE,
           () -> String.format(NOT_AVAILABLE, searchKey));
     }
 
@@ -548,7 +548,7 @@ class OrdArrayTest {
     @CsvSource(INIT_SEQ_DATA)
     @DisplayName("OrdArrayTest.FindTests.testFindIndexOverflow")
     void testFindIndexOverflow(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      long searchKey = 0L;
+      long searchKey = ZERO;
       arr.delete(searchKey);
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " still available");
     }
@@ -556,8 +556,8 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.FindTests.testFindEmpty")
     void testFindEmpty() {
-      IArray arr = new OrdArray(10);
-      long searchKey = 0L;
+      IArray arr = new OrdArray(TEN);
+      long searchKey = ZERO;
       assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " available");
     }
   }
@@ -574,7 +574,7 @@ class OrdArrayTest {
       sb.append(OrdArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
-          .append(3)
+          .append(THREE)
           .append(lineSeparator)
           .append("44 77 99 ");
       assertEquals(sb.toString(), arr.toString(), "Strings not equal.");
@@ -589,7 +589,7 @@ class OrdArrayTest {
       sb.append(OrdArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
-          .append(10)
+          .append(TEN)
           .append(lineSeparator)
           .append("0 11 22 33 44 55 66 77 88 99 ")
           .append(lineSeparator);
@@ -599,7 +599,7 @@ class OrdArrayTest {
     @Test
     @DisplayName("OrdArrayTest.ToStringTests.testToStringEmpty")
     void testToStringEmpty() {
-      IArray arr = new OrdArray(10);
+      IArray arr = new OrdArray(TEN);
       String lineSeparator = System.lineSeparator();
       StringBuilder sb = new StringBuilder();
       sb.append(OrdArray.class.getName())
