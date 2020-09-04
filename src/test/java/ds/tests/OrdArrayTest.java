@@ -31,6 +31,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("OrdArrayTest")
 class OrdArrayTest {
 
+  private static final String MUST_NOT_BE_AVAILABLE =
+    " must not be available.";
+
   @Nested
   class InsertTests {
     @ParameterizedTest
@@ -203,7 +206,7 @@ class OrdArrayTest {
       int count = arr.count();
       assertFalse(
           arr.delete(searchKey) && arr.count() != count,
-          () -> searchKey + " must not be available.");
+          () -> searchKey + MUST_NOT_BE_AVAILABLE);
     }
 
     @ParameterizedTest
@@ -474,7 +477,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.FindTests.testFindFalse")
     void testFindFalse(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = 35L;
-      assertFalse(arr.find(searchKey), () -> searchKey + " must not be available.");
+      assertFalse(arr.find(searchKey), () -> searchKey + MUST_NOT_BE_AVAILABLE);
     }
 
     @ParameterizedTest
@@ -555,7 +558,7 @@ class OrdArrayTest {
     void testFindIndexOverflow(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       long searchKey = ZERO;
       arr.delete(searchKey);
-      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " must not be available.");
+      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + MUST_NOT_BE_AVAILABLE);
     }
 
     @Test
@@ -563,7 +566,7 @@ class OrdArrayTest {
     void testFindEmpty() {
       IArray arr = new OrdArray(TEN);
       long searchKey = ZERO;
-      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + " must not be available.");
+      assertEquals(-1, arr.findIndex(searchKey), () -> searchKey + MUST_NOT_BE_AVAILABLE);
     }
   }
 
