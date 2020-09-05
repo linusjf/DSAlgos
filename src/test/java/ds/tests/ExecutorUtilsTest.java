@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static ds.tests.TestConstants.*;
 import static ds.ExecutorUtils.terminateExecutor;
+import static ds.tests.TestConstants.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,7 +75,7 @@ class ExecutorUtilsTest {
   @DisplayName("ExecutorUtilsTest.testForceShutdownNormal")
   void testForceShutdownNormal() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    es.execute(
+    es.submit(
         () -> {
           System.out.println("Executed task.");
         });

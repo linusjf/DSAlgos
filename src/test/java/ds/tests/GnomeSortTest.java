@@ -165,7 +165,10 @@ class GnomeSortTest implements SortProvider {
     revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new GnomeSort();
     sorter.sort(high);
-    assertEquals((SCORE * (SCORE - 1)) >> 1, sorter.getTimeComplexity(), "Time complexity must be n * n - 1 / 2.");
+    assertEquals(
+        (SCORE * (SCORE - 1)) >> 1,
+        sorter.getTimeComplexity(),
+        "Time complexity must be n * n - 1 / 2.");
   }
 
   @Test

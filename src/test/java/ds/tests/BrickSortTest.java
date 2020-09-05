@@ -163,6 +163,7 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
+    System.out.println("Comparison count : " + compCount);
     assertTrue(
         SCORE - 1 <= compCount && compCount <= ((SCORE * (SCORE - 1)) >> 1),
         "Comparison count must be in range "
@@ -325,12 +326,9 @@ class BrickSortTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortOdd();
     final int oldInnerLoopCount = bsc.getInnerLoopCount();
-    final int oldOuterLoopCount = bsc.getOuterLoopCount();
     bsc.sortEven();
     final int innerLoopCount = bsc.getInnerLoopCount();
-    final int outerLoopCount = bsc.getOuterLoopCount();
     assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
-    assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
   @Test
