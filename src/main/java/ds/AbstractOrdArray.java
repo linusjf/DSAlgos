@@ -5,8 +5,7 @@ import java.util.ConcurrentModificationException;
 /** Demonstrates array class with high-level interface. */
 public abstract class AbstractOrdArray extends AbstractArray {
 
-  public AbstractOrdArray() {
-  }
+  public AbstractOrdArray() {}
 
   public AbstractOrdArray(int max, boolean strict) {
     super(max, strict);
