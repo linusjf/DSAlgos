@@ -100,7 +100,7 @@ class CycleSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -117,7 +117,7 @@ class CycleSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -136,7 +136,7 @@ class CycleSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -154,7 +154,7 @@ class CycleSortTest implements SortProvider {
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -169,17 +169,17 @@ class CycleSortTest implements SortProvider {
   @DisplayName("CycleSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
-    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be n * n - 1.");
+    assertEquals((SCORE * (SCORE - 1)) >> 1, sorter.getTimeComplexity(), "Time complexity must be n * n - 1 / 2.");
   }
 
   @Test
   @DisplayName("CycleSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
     assertEquals(335, sorter.getTimeComplexity(), "Time complexity must be 335.");
@@ -189,11 +189,11 @@ class CycleSortTest implements SortProvider {
   @DisplayName("CycleSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new CycleSort();
     sorter.sort(high);
     assertEquals(
-        20, sorter.getCopyCount(), "Copy count must be same as n - 1 in reverse ordered array.");
+        SCORE, sorter.getCopyCount(), "Copy count must be same as n in reverse ordered array.");
   }
 
   @Test
@@ -214,13 +214,13 @@ class CycleSortTest implements SortProvider {
   void testTwoElementArray() {
     IArray high = new HighArray(2);
     high.insert(1L);
-    high.insert(10L);
+    high.insert(TEN);
     ISort sorter = new CycleSort();
     sorter.sort(high);
     assertTrue(isSorted(high), "Array is sorted.");
     assertEquals(0, sorter.getCopyCount(), COPY_COUNT_ZERO);
-    assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be zero.");
-    assertEquals(1, sorter.getComparisonCount(), "Comparison count must be zero.");
+    assertEquals(1, sorter.getTimeComplexity(), "Time complexity must be one.");
+    assertEquals(1, sorter.getComparisonCount(), "Comparison count must be one.");
   }
 
   @Test

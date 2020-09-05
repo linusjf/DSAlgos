@@ -83,7 +83,7 @@ class GnomeSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -92,7 +92,7 @@ class GnomeSortTest implements SortProvider {
     ISort sorter = new GnomeSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(19, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(SCORE - 1, sorter.getComparisonCount(), "Comparison count must be n -1.");
   }
 
   @Test
@@ -100,7 +100,7 @@ class GnomeSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,7 +119,7 @@ class GnomeSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -137,7 +137,7 @@ class GnomeSortTest implements SortProvider {
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -152,33 +152,33 @@ class GnomeSortTest implements SortProvider {
   @DisplayName("GnomeSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new GnomeSort();
     sorter.sort(high);
-    assertEquals(19, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
   }
 
   @Test
   @DisplayName("GnomeSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new GnomeSort();
     sorter.sort(high);
-    assertEquals(190, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals((SCORE * (SCORE - 1)) >> 1, sorter.getTimeComplexity(), "Time complexity must be n * n - 1 / 2.");
   }
 
   @Test
   @DisplayName("GnomeSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new GnomeSort();
     sorter.sort(high);
     assertEquals(
-        190,
+        (SCORE * (SCORE - 1)) >> 1,
         sorter.getSwapCount(),
-        "Swap count must be same as n * (n - 1) in reverse ordered array.");
+        "Swap count must be same as n * (n - 1) / 2 in reverse ordered array.");
   }
 
   @Test

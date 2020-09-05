@@ -106,7 +106,7 @@ class QuickSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -117,7 +117,7 @@ class QuickSortTest implements SortProvider {
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
     assertTrue(
-        20 * Math.log(20) < comparisonCount && comparisonCount <= 20 * 19,
+        SCORE * Math.log(SCORE) < comparisonCount && comparisonCount <= SCORE * (SCORE - 1),
         "Comparison count must be in range nlogn to n(n-1)");
   }
 
@@ -126,7 +126,7 @@ class QuickSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -145,7 +145,7 @@ class QuickSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -164,7 +164,7 @@ class QuickSortTest implements SortProvider {
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -179,7 +179,7 @@ class QuickSortTest implements SortProvider {
   @DisplayName("QuickSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -189,7 +189,7 @@ class QuickSortTest implements SortProvider {
   @DisplayName("QuickSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -199,7 +199,7 @@ class QuickSortTest implements SortProvider {
   @DisplayName("QuickSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");

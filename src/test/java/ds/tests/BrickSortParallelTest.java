@@ -427,7 +427,7 @@ class BrickSortParallelTest implements SortProvider {
     @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
       assertEquals(
-          Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+          Integer.MAX_VALUE / 2 , computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
       assertEquals(
           Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }

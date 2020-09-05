@@ -46,8 +46,8 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
-    HighArray high = new HighArray(10_000);
-    try (LongStream stream = random.longs().limit(10_000)) {
+    HighArray high = new HighArray(MYRIAD);
+    try (LongStream stream = random.longs().limit(MYRIAD)) {
       stream.forEach(i -> high.insert(i));
     }
     ISort sorter = new QuickSortParallel();
@@ -59,8 +59,8 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testSortRandomMedium")
   void testSortRandomMedium() {
     Random random = new Random();
-    HighArray high = new HighArray(40);
-    try (LongStream stream = random.longs().limit(40)) {
+    HighArray high = new HighArray(TWO_SCORE);
+    try (LongStream stream = random.longs().limit(TWO_SCORE)) {
       stream.forEach(i -> high.insert(i));
     }
     ISort sorter = new QuickSortParallel();
@@ -97,14 +97,14 @@ class QuickSortParallelTest implements SortProvider {
   @Test
   @DisplayName("QuickSortParallelTest.testSortAllSameBigData")
   void testSortAllSameBigData() {
-    HighArray arr = new HighArray(10_000);
+    HighArray arr = new HighArray(MYRIAD);
     try (LongStream stream =
         LongStream.iterate(
-                43L,
+                HUNDRED,
                 val -> {
                   return val;
                 })
-            .limit(10_000)) {
+            .limit(MYRIAD)) {
       stream.forEach(i -> arr.insert(i));
     }
     long[] a = arr.getExtentArray();
@@ -132,7 +132,7 @@ class QuickSortParallelTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -143,7 +143,7 @@ class QuickSortParallelTest implements SortProvider {
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
     assertTrue(
-        20 * Math.log(20) < comparisonCount && comparisonCount <= 20 * 19,
+        SCORE * Math.log(SCORE) < comparisonCount && comparisonCount <= SCORE * (SCORE - 1),
         "Comparison count must be in range nlogn to n(n-1)");
   }
 
@@ -152,7 +152,7 @@ class QuickSortParallelTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -171,7 +171,7 @@ class QuickSortParallelTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -190,7 +190,7 @@ class QuickSortParallelTest implements SortProvider {
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -205,7 +205,7 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -215,7 +215,7 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -224,8 +224,8 @@ class QuickSortParallelTest implements SortProvider {
   @Test
   @DisplayName("QuickSortParallelTest.testReverseSorted")
   void testReverseSorted() {
-    IArray high = new HighArray(10_000);
-    revRange(1, 10_000).forEach(i -> high.insert(i));
+    IArray high = new HighArray(MYRIAD);
+    revRange(1, MYRIAD).forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
     assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
@@ -235,7 +235,7 @@ class QuickSortParallelTest implements SortProvider {
   @DisplayName("QuickSortParallelTest.testReverseSortedMedium")
   void testReverseSortedMedium() {
     IArray high = new HighArray();
-    revRange(1, 40).forEach(i -> high.insert(i));
+    revRange(1, TWO_SCORE).forEach(i -> high.insert(i));
     ISort sorter = new QuickSortParallel();
     sorter.sort(high);
     assertNotEquals(0, sorter.getSwapCount(), "Swap count must not be zero.");
