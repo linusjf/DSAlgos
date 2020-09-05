@@ -11,7 +11,6 @@ import ds.IArray;
 import ds.ISort;
 import ds.InsertionSort;
 import ds.OrdArray;
-import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -204,26 +203,6 @@ class InsertionSortTest implements SortProvider {
   }
 
   @Test
-  @DisplayName("InsertionSortTest.testFullArraySort")
-  void testFullArraySort() {
-    InsertionSub sorter = new InsertionSub();
-    sorter.sortFullArray();
-    assertEquals(TEN, sorter.getComparisonCount(), "Comparison count must be " + TEN + ".");
-    assertEquals(7, sorter.getCopyCount(), "Copy count must be 7.");
-    assertEquals(7, sorter.getTimeComplexity(), "Time complexity must be 7.");
-  }
-
-  @Test
-  @DisplayName("InsertionSortTest.testNotFullArraySort")
-  void testNotFullArraySort() {
-    InsertionSub sorter = new InsertionSub();
-    sorter.sortNotFullArray();
-    assertEquals(6, sorter.getComparisonCount(), "Comparison count must be 6.");
-    assertEquals(4, sorter.getCopyCount(), "Copy count must be 4.");
-    assertEquals(4, sorter.getTimeComplexity(), "Time complexity must be 4.");
-  }
-
-  @Test
   @DisplayName("InsertionSortTest.testEmptyArraySort")
   void testEmptyArraySort() {
     InsertionSub sorter = new InsertionSub();
@@ -254,17 +233,6 @@ class InsertionSortTest implements SortProvider {
   }
 
   static class InsertionSub extends InsertionSort {
-    Random random = new Random();
-
-    void sortFullArray() {
-      long[] a = random.longs().limit(TEN).toArray();
-      sort(a, TEN);
-    }
-
-    void sortNotFullArray() {
-      long[] a = random.longs().limit(TEN).toArray();
-      sort(a, TEN - 1);
-    }
 
     void sortEmptyArray() {
       long[] a = {};

@@ -45,8 +45,8 @@ class HeapSortTest implements SortProvider {
   @DisplayName("HeapSortTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
-    LongStream stream = random.longs().limit(10_000);
-    HighArray high = new HighArray(10_000);
+    LongStream stream = random.longs().limit(MYRIAD);
+    HighArray high = new HighArray(MYRIAD);
     try (stream; ) {
       stream.forEach(i -> high.insert(i));
     }
@@ -98,7 +98,7 @@ class HeapSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -108,7 +108,7 @@ class HeapSortTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
-    int lowerBound = (int) (20.0 * log(20.0) / log(2.0));
+    int lowerBound = (int) (SCORE * log(SCORE) / log(2));
     int upperBound = 1 << lowerBound;
     assertTrue(
         lowerBound <= comparisonCount && comparisonCount <= upperBound,
@@ -120,7 +120,7 @@ class HeapSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -139,7 +139,7 @@ class HeapSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -151,7 +151,7 @@ class HeapSortTest implements SortProvider {
     long[] extent = ord.getExtentArray();
     int swapCount = sorter.getSwapCount();
     assertTrue(
-        swapCount <= (20 * log(20) / log(2)),
+        swapCount <= (SCORE * log(SCORE) / log(2)),
         "Swap count must be less than or equal to n * log n.");
     assertArrayEquals(extentSorted, extent, ELEMENTS_SORTED_EQUAL);
   }
@@ -161,7 +161,7 @@ class HeapSortTest implements SortProvider {
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -171,7 +171,7 @@ class HeapSortTest implements SortProvider {
     sorter.sort(high);
     int swapCount = sorter.getSwapCount();
     assertTrue(
-        swapCount <= (20 * log(20) / log(2)),
+        swapCount <= (SCORE * log(SCORE) / log(2)),
         "Swap count must be less than or equal to n * log n.");
   }
 
@@ -179,7 +179,7 @@ class HeapSortTest implements SortProvider {
   @DisplayName("HeapSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new HeapSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
@@ -189,7 +189,7 @@ class HeapSortTest implements SortProvider {
   @DisplayName("HeapSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new HeapSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -199,12 +199,12 @@ class HeapSortTest implements SortProvider {
   @DisplayName("HeapSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new HeapSort();
     sorter.sort(high);
     int swapCount = sorter.getSwapCount();
     assertTrue(
-        swapCount <= (20 * log(20) / log(2)),
+        swapCount <= (SCORE * log(SCORE) / log(2)),
         "Swap count must be less than or equal to n * log n.");
   }
 
@@ -250,7 +250,8 @@ class HeapSortTest implements SortProvider {
     AbstractSort sorter = new HeapSort();
     String className = HeapSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+        sorter.toString().startsWith(className),
+        () -> "ToString must start with " + className + ".");
   }
 
   @Test

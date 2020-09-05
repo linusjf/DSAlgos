@@ -154,7 +154,8 @@ class CombSortTest {
     AbstractSort sorter = new CombSort();
     String className = CombSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className + ".");
+        sorter.toString().startsWith(className),
+        () -> "ToString must start with " + className + ".");
   }
 
   @Test

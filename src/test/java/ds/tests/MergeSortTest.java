@@ -82,7 +82,7 @@ class MergeSortTest implements SortProvider {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -92,7 +92,7 @@ class MergeSortTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     int comparisonCount = sorter.getComparisonCount();
-    assertEquals(19, comparisonCount, "Comparison count must be in n-1.");
+    assertEquals(SCORE - 1, comparisonCount, "Comparison count must be n-1.");
   }
 
   @Test
@@ -100,7 +100,7 @@ class MergeSortTest implements SortProvider {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,7 +119,7 @@ class MergeSortTest implements SortProvider {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -138,7 +138,7 @@ class MergeSortTest implements SortProvider {
   void testCopyCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -153,7 +153,7 @@ class MergeSortTest implements SortProvider {
   @DisplayName("MergeSortTest.testTimeComplexity")
   void testTimeComplexity() {
     IArray high = new HighArray();
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new MergeSort();
     sorter.sort(high);
     assertEquals(0, sorter.getTimeComplexity(), "Time complexity must be zero.");
@@ -163,7 +163,7 @@ class MergeSortTest implements SortProvider {
   @DisplayName("MergeSortTest.testTimeComplexityReverseSorted")
   void testTimeComplexityReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new MergeSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getTimeComplexity(), "Time complexity must not be zero.");
@@ -173,7 +173,7 @@ class MergeSortTest implements SortProvider {
   @DisplayName("MergeSortTest.testReverseSorted")
   void testReverseSorted() {
     IArray high = new HighArray();
-    revRange(1, 20).forEach(i -> high.insert(i));
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new MergeSort();
     sorter.sort(high);
     assertNotEquals(0, sorter.getCopyCount(), "Swap count must not be zero.");
