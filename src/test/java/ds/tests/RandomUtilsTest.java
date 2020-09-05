@@ -1,7 +1,7 @@
 package ds.tests;
 
 import static ds.RandomUtils.randomInRange;
-import static ds.tests.TestConstants.SCORE;
+import static ds.tests.TestConstants.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 

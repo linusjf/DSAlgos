@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.tests.TestConstants.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,7 @@ class ExecutorUtilsTest {
   @DisplayName("ExecutorUtilsTest.testNormalTerminate")
   void testNormalTerminate() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    terminateExecutor(es, 1000, TimeUnit.MILLISECONDS);
+    terminateExecutor(es, THOUSAND, TimeUnit.MILLISECONDS);
     assertTrue(es.isTerminated(), "All tasks completed!");
   }
 
@@ -58,13 +59,13 @@ class ExecutorUtilsTest {
         () -> {
           while (true) {
             try {
-              Thread.sleep(1000);
+              Thread.sleep(THOUSAND);
             } catch (InterruptedException ie) {
               Thread.currentThread().interrupt();
             }
           }
         });
-    terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
+    terminateExecutor(es, TEN, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertFalse(es.isTerminated(), "Not all tasks complete expected!");
   }
@@ -78,7 +79,7 @@ class ExecutorUtilsTest {
         () -> {
           System.out.println("Executed task.");
         });
-    terminateExecutor(es, 10, TimeUnit.MILLISECONDS);
+    terminateExecutor(es, TEN, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(es.isTerminated(), "All tasks complete expected!");
   }
@@ -97,7 +98,7 @@ class ExecutorUtilsTest {
     es.submit(new InterruptThread(Thread.currentThread()));
     es.submit(new InterruptThread(Thread.currentThread()));
     es.submit(new InterruptThread(Thread.currentThread()));
-    terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
+    terminateExecutor(es, THOUSAND >> 1, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
@@ -107,7 +108,7 @@ class ExecutorUtilsTest {
   void testAwaitTerminationTrue() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new InterruptThread(Thread.currentThread()));
-    terminateExecutor(es, 500, TimeUnit.MILLISECONDS);
+    terminateExecutor(es, THOUSAND >> 1, TimeUnit.MILLISECONDS);
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
     assertTrue(Thread.interrupted(), "Thread interrupted!");
   }
@@ -117,7 +118,7 @@ class ExecutorUtilsTest {
   void testAwaitTerminatedLong() {
     ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     es.submit(new LongThread());
-    terminateExecutor(es, 100L, TimeUnit.NANOSECONDS);
+    terminateExecutor(es, HUNDRED, TimeUnit.NANOSECONDS);
     assertTrue(es.isShutdown(), EXECUTOR_SHUTDOWN);
   }
 
@@ -141,7 +142,7 @@ class ExecutorUtilsTest {
     @Override
     public void run() {
       try {
-        TimeUnit.MILLISECONDS.sleep(100L);
+        TimeUnit.MILLISECONDS.sleep(HUNDRED);
         parentThread.interrupt();
       } catch (InterruptedException ie) {
         Thread.currentThread().interrupt();
