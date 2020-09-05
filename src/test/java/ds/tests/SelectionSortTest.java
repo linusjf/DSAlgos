@@ -11,6 +11,7 @@ import ds.IArray;
 import ds.ISort;
 import ds.OrdArray;
 import ds.SelectionSort;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -83,9 +84,9 @@ class SelectionSortTest implements SortProvider {
   @Test
   @DisplayName("SelectionSortTest.testReset")
   void testReset() {
-    IArray high = new HighArray(20);
+    IArray high = new HighArray(SCORE);
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -94,16 +95,16 @@ class SelectionSortTest implements SortProvider {
     ISort sorter = new SelectionSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(190, sorter.getComparisonCount(), "Comparison count must be (n * n -1) / 2.");
+    assertEquals(((SCORE * (SCORE - 1)) >> 1), sorter.getComparisonCount(), "Comparison count must be " + ((SCORE * (SCORE - 1)) >> 1) + ".");
     assertEquals(0, sorter.getSwapCount(), "Swap count must be 0.");
   }
 
   @Test
   @DisplayName("SelectionSortTest.testStreamUnSorted")
   void testStreamUnSorted() {
-    IArray high = new HighArray(20);
+    IArray high = new HighArray(SCORE);
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .parallel()
         .unordered()
         .forEach(
@@ -121,9 +122,9 @@ class SelectionSortTest implements SortProvider {
   @Test
   @DisplayName("SelectionSortTest.testStreamSorted")
   void testStreamSorted() {
-    IArray high = new HighArray(20);
+    IArray high = new HighArray(SCORE);
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -139,55 +140,55 @@ class SelectionSortTest implements SortProvider {
   @Test
   @DisplayName("SelectionSortTest.testReverseSorted")
   void testReverseSorted() {
-    IArray high = new HighArray(20);
-    revRange(1, 20).forEach(i -> high.insert(i));
+    IArray high = new HighArray(SCORE);
+    revRange(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(high);
     long[] a = sorted.get();
     assertEquals(
-        (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
-    assertTrue(a[0] == 1 && a[19] == 20, "First element must be 1 and last element must be 20.");
+        ((SCORE * (SCORE - 1)) >> 1), sorter.getTimeComplexity(), "Time complexity must be same as n * (n - 1) / 2.");
+    assertTrue(a[0] == 1 && a[SCORE - 1] == SCORE, "First element must be 1 and last element must be 20.");
   }
 
   @Test
   @DisplayName("SelectionSortTest.testSortedTimeComplexity")
   void testSortedTimeComplexity() {
-    IArray high = new HighArray(20);
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    IArray high = new HighArray(SCORE);
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
     assertEquals(
-        (20 * 19) / 2, sorter.getTimeComplexity(), "Time complexity must be same as n squared.");
+        (SCORE * (SCORE - 1)) >> 1, sorter.getTimeComplexity(), "Time complexity must be same as n(n-1)/2.");
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
   }
 
   @Test
   @DisplayName("SelectionSortTest.testComparisonCountUnsorted")
   void testComparisonCountUnsorted() {
-    IArray high = new HighArray(20);
-    LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
+    IArray high = new HighArray(SCORE);
+    LongStream.rangeClosed(1, SCORE).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     IArray sorted = sorter.sort(high);
     long[] a = sorted.get();
-    assertEquals(190, sorter.getComparisonCount(), "Comparison count must be 190.");
-    assertTrue(a[0] == 1 && a[19] == 20, "First element must be 1 and last element must be 20.");
+    assertEquals(((SCORE * (SCORE - 1 )) >> 1), sorter.getComparisonCount(), "Comparison count must be " + ((SCORE * (SCORE - 1 )) >> 1) + " .");
+    assertTrue(a[0] == 1 && a[SCORE - 1] == SCORE, "First element must be 1 and last element must be 20.");
   }
 
   @Test
   @DisplayName("SelectionSortTest.testSwapCountUnsorted")
   void testSwapCountUnsorted() {
-    IArray high = new HighArray(20);
-    LongStream.rangeClosed(1, 20).unordered().parallel().forEach(i -> high.insert(i));
+    IArray high = new HighArray(SCORE);
+    LongStream.rangeClosed(1, SCORE).unordered().parallel().forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
-    assertTrue(sorter.getSwapCount() < 20, "Swap count must be less than array length.");
+    assertTrue(sorter.getSwapCount() < SCORE, "Swap count must be less than array length.");
   }
 
   @Test
   @DisplayName("SelectionSortTest.testSwapCountSorted")
   void testSwapCountSorted() {
-    IArray high = new HighArray(20);
-    LongStream.rangeClosed(1, 20).forEach(i -> high.insert(i));
+    IArray high = new HighArray(SCORE);
+    LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     ISort sorter = new SelectionSort();
     sorter.sort(high);
     assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
@@ -199,7 +200,7 @@ class SelectionSortTest implements SortProvider {
     AbstractSort sorter = new SelectionSort();
     String className = SelectionSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className + ".");
   }
 
   @Test
@@ -217,9 +218,9 @@ class SelectionSortTest implements SortProvider {
   void testFullArraySort() {
     SelectionSub sorter = new SelectionSub();
     sorter.sortFullArray();
-    assertEquals(10, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
+    assertEquals(TEN, sorter.getComparisonCount(), INITIAL_VALUE_ZERO);
     assertEquals(2, sorter.getSwapCount(), INITIAL_VALUE_ZERO);
-    assertEquals(10, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
+    assertEquals(TEN, sorter.getTimeComplexity(), INITIAL_VALUE_ZERO);
   }
 
   @Test
@@ -273,15 +274,16 @@ class SelectionSortTest implements SortProvider {
   }
 
   static class SelectionSub extends SelectionSort {
+Random random = new Random();
 
     void sortFullArray() {
-      long[] a = {12, 23, 12, 5, 6};
-      sort(a, 5);
+long[] a = random.longs().limit(TEN).toArray();
+      sort(a, TEN);
     }
 
     void sortNotFullArray() {
-      long[] a = {12, 23, 12, 5, 0};
-      sort(a, 4);
+long[] a = random.longs().limit(TEN).toArray();
+      sort(a, TEN - 1);
     }
 
     void sortEmptyArray() {

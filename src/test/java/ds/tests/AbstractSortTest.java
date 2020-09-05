@@ -187,15 +187,15 @@ class AbstractSortTest {
     }
 
     void swapNegativeLeft(long... a) {
-      swap(a, -10, 0);
+      swap(a, -1 * TEN, 0);
     }
 
     void swapNegativeRight(long... a) {
-      swap(a, 0, -10);
+      swap(a, 0, -1 * TEN);
     }
 
     void swapNegatives(long... a) {
-      swap(a, -5, -10);
+      swap(a, -5, -1 * TEN);
     }
 
     void swapBeyondRightLength(long... a) {

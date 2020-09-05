@@ -10,6 +10,7 @@ import ds.BrickSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.OrdArray;
+import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -150,7 +151,7 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
-    assertEquals(SCORE - 1, compCount, "Comparison count must be 19.");
+    assertEquals(SCORE - 1, compCount, "Comparison count must be " + SCORE - 1 + ".");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -163,8 +164,9 @@ class BrickSortTest implements SortProvider {
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
-        SCORE - 1 <= compCount && compCount <= 400,
-        "Comparison count must be in range 19 and 400.");
+        SCORE - 1 <= compCount && compCount <= ((SCORE * (SCORE - 1)) >> 1),
+        "Comparison count must be in range " + (SCORE - 1) + " and "
+        + ((SCORE * (SCORE - 1)) >> 1) + ".");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -180,7 +182,7 @@ class BrickSortTest implements SortProvider {
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -189,14 +191,14 @@ class BrickSortTest implements SortProvider {
   @DisplayName("BrickSortTest.testReverseSortedOdd")
   void testReverseSortedOdd() {
     IArray high = new HighArray();
-    revRange(1, 21).forEach(i -> high.insert(i));
+    revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(isSorted(sorted), "Array must be sorted.");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -218,7 +220,7 @@ class BrickSortTest implements SortProvider {
     LongStream.rangeClosed(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
-    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+    assertEquals(SCORE - 1, sorter.getTimeComplexity(), "Time complexity must be " + (SCORE - 1) + ".");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -228,7 +230,7 @@ class BrickSortTest implements SortProvider {
     AbstractSort sorter = new BrickSort();
     String className = BrickSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className + ".");
   }
 
   @Test
@@ -362,20 +364,20 @@ class BrickSortTest implements SortProvider {
   }
 
   static class BrickSortComplex extends BrickSort {
-
+     Random random = new Random();
     void sortZeroLengthArray() {
-      long[] a = {2, 5, 6, 8, 0};
+      long[] a = random.longs().limit(TEN).toArray();
       sort(a, 0);
     }
 
     void sortOneLengthArray() {
-      long[] a = {2, 5, 6, 8, 0};
+      long[] a = random.longs().limit(TEN).toArray();
       sort(a, 1);
     }
 
     void sortNMinusOneLengthArray() {
-      long[] a = {2, 5, 6, 8, 0};
-      sort(a, 4);
+      long[] a = random.longs().limit(TEN).toArray();
+      sort(a, TEN - 1);
     }
 
     void sortEmptyArray() {
@@ -384,7 +386,7 @@ class BrickSortTest implements SortProvider {
     }
 
     void sortSingleElementArray() {
-      long[] a = {10};
+      long[] a = {TEN};
       sort(a, 1);
     }
 
@@ -393,7 +395,7 @@ class BrickSortTest implements SortProvider {
     }
 
     void sortAndSetInternals() {
-      long[] a = {12, 9, 7, 22, 25};
+      long[] a = random.longs().limit(TEN).toArray();
       sort(a, a.length);
     }
 
@@ -403,12 +405,12 @@ class BrickSortTest implements SortProvider {
     }
 
     void sortOdd() {
-      long[] a = {12, 9, 7, 22, 25};
+      long[] a = random.longs().limit(TEN - 1).toArray();
       sort(a, a.length);
     }
 
     void sortEven() {
-      long[] a = {12, 9, 7, 22, 25, 19};
+      long[] a = random.longs().limit(TEN).toArray();
       sort(a, a.length);
     }
 

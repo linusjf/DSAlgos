@@ -83,7 +83,7 @@ class CombSortTest {
   void testReset() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -92,7 +92,7 @@ class CombSortTest {
     ISort sorter = new CombSort();
     sorter.sort(high);
     sorter.sort(ord);
-    assertEquals(110, sorter.getComparisonCount(), "Comparison count must be n -1.");
+    assertEquals(110, sorter.getComparisonCount(), "Comparison count must be " + 110 + ".");
   }
 
   @Test
@@ -100,7 +100,7 @@ class CombSortTest {
   void testStreamUnSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .unordered()
         .forEach(
             i -> {
@@ -119,7 +119,7 @@ class CombSortTest {
   void testStreamSorted() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -137,7 +137,7 @@ class CombSortTest {
   void testSwapCount() {
     IArray high = new HighArray();
     IArray ord = new OrdArray();
-    LongStream.rangeClosed(1, 20)
+    LongStream.rangeClosed(1, SCORE)
         .forEach(
             i -> {
               high.insert(i);
@@ -154,7 +154,7 @@ class CombSortTest {
     AbstractSort sorter = new CombSort();
     String className = CombSort.class.getName();
     assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className + ".");
   }
 
   @Test
