@@ -133,35 +133,31 @@ public class QuickSortParallel extends AbstractSort {
       }
     }
 
-    private int partition(long[] a, int lo, int hi) {
+    private int partition(long[] array, int lo, int hi) {
       int i = lo;
       int j = hi + 1;
-      long v = a[lo];
+      long v = array[lo];
       while (true) {
         outerLoopCount.incrementAndGet();
         // find item on lo to swap
-        while (less(a[++i], v)) {
+        while (less(array[++i], v)) {
           innerLoopCount.incrementAndGet();
           comparisonCount.incrementAndGet();
-          //    if (i == hi) break;
-          //    shouldn't happen because of median swap
         }
         comparisonCount.incrementAndGet();
         // find item on hi to swap
-        while (less(v, a[--j])) {
+        while (less(v, array[--j])) {
           innerLoopCount.incrementAndGet();
           comparisonCount.incrementAndGet();
-          //  if (j == lo) break;
-          // redundant since a[lo] acts as sentinel
         }
         comparisonCount.incrementAndGet();
         // check if pointers cross
-        if (i >= j || a[i] == a[j]) break;
-        swap(a, i, j);
+        if (i >= j || array[i] == array[j]) break;
+        swap(array, i, j);
         swapCount.incrementAndGet();
       }
-      if (lo != j && a[lo] != a[j]) {
-        swap(a, lo, j);
+      if (lo != j && array[lo] != array[j]) {
+        swap(array, lo, j);
         swapCount.incrementAndGet();
       }
       return j;

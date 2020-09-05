@@ -4,7 +4,6 @@ package ds;
 public class OrdArray extends AbstractOrdArray {
 
   public OrdArray() {
-    this(100);
   }
 
   public OrdArray(int max) {

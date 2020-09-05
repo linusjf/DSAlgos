@@ -18,6 +18,11 @@ public abstract class AbstractArray implements IArray {
     this.strict = strict;
   }
 
+  /*** Constructs an array of default size 100. */
+  public AbstractArray() {
+    this(100, false);
+  }
+
   public AbstractArray(AbstractArray arr) {
     this.a = arr.a.clone();
     this.nElems = new AtomicInteger(arr.nElems.intValue());

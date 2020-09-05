@@ -2,9 +2,11 @@ package ds;
 
 public class CombSort extends AbstractSort {
 
+  private static final double SHRINK_FACTOR = 1.3;
+
   private int getNextGap(int gap) {
     // Shrink gap by Shrink factor
-    int newGap = (gap * 10) / 13;
+    int newGap = (int)Math.floor(gap / SHRINK_FACTOR);
     return newGap <= 1 ? 1 : newGap;
   }
 

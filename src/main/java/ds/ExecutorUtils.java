@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("PMD.LawOfDemeter")
 public final class ExecutorUtils {
 
+  private static final double FRACTION = 0.2;
+
   private ExecutorUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor for: " + ExecutorUtils.class.getName());
   }
@@ -14,7 +16,7 @@ public final class ExecutorUtils {
     service.shutdown();
     try {
       if (!service.awaitTermination(timeUnits, unit)) service.shutdownNow();
-      if (!service.awaitTermination((long) (timeUnits * 0.2), unit)) service.shutdownNow();
+      if (!service.awaitTermination((long) (timeUnits * FRACTION), unit)) service.shutdownNow();
     } catch (InterruptedException ie) {
       service.shutdownNow();
       Thread.currentThread().interrupt();
