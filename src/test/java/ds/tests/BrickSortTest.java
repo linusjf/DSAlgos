@@ -28,7 +28,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
 
-
   @ParameterizedTest
   @CsvSource(INIT_DATA)
   @DisplayName("BrickSortTest.testSort")
@@ -163,12 +162,8 @@ class BrickSortTest implements SortProvider {
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
     assertTrue(
-        SCORE - 1 <= compCount && compCount <= ((SCORE * (SCORE - 1)) >> 1),
-        "Comparison count must be in range "
-            + (SCORE - 1)
-            + " and "
-            + ((SCORE * (SCORE - 1)) >> 1)
-            + ".");
+        SCORE - 1 <= compCount && compCount <= SCORE * (SCORE - 1),
+        "Comparison count must be in range " + (SCORE - 1) + " and " + (SCORE * (SCORE - 1)) + ".");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 

@@ -14,7 +14,7 @@ public class HighArray extends AbstractArray {
       java.util.logging.Logger.getLogger(HighArray.class.getName());
 
   public HighArray() {
-  // empty constructor
+    // empty constructor
   }
 
   public HighArray(int max) {

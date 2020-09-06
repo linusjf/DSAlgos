@@ -22,6 +22,7 @@ class MaxHeapTest {
   private static final String SIZE_ONE = "Size must be one.";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
   private static final String POLL_MAX_VALUE = "Poll returns max value present.";
+  private static final String PEEK_MAX_VALUE = "Peek returns max value present.";
   private static final long VAL = 20;
 
   @Test
@@ -175,7 +176,7 @@ class MaxHeapTest {
     IQueue queue = new MaxHeap(1);
     long val = VAL;
     queue.insert(val);
-    assertEquals(val, queue.peek(), "Peek returns max value present.");
+    assertEquals(val, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
@@ -186,7 +187,7 @@ class MaxHeapTest {
     long val = VAL;
     queue.insert(val);
     queue.insert(val + 1);
-    assertEquals(val + 1, queue.peek(), "Peek returns max value present.");
+    assertEquals(val + 1, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(2, queue.size(), "Size must be two.");
   }
 
@@ -222,8 +223,19 @@ class MaxHeapTest {
     queue.insert(val);
     Random random = new Random();
     random.longs().limit(MYRIAD - 1).forEach(i -> queue.insert(i));
-    assertEquals(val, queue.peek(), "Peek returns max value present.");
+    assertEquals(val, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(val, queue.poll(), POLL_MAX_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+  
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MaxHeapTest.testReverse")
+  @Test
+  void testReverse() {
+    IQueue queue = new MaxHeap(MYRIAD);
+    revRange(1, MYRIAD).forEach(i -> queue.insert(i));
+    assertEquals(MYRIAD, queue.peek(), PEEK_MAX_VALUE);
+    assertEquals(MYRIAD, queue.poll(), POLL_MAX_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
 }

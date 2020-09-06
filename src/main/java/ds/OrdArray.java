@@ -4,7 +4,7 @@ package ds;
 public class OrdArray extends AbstractOrdArray {
 
   public OrdArray() {
-  // empty constructor
+    // empty constructor
   }
 
   public OrdArray(int max) {

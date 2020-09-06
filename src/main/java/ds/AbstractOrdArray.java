@@ -6,7 +6,7 @@ import java.util.ConcurrentModificationException;
 public abstract class AbstractOrdArray extends AbstractArray {
 
   public AbstractOrdArray() {
-  // empty constructor
+    // empty constructor
   }
 
   public AbstractOrdArray(int max, boolean strict) {

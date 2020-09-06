@@ -16,12 +16,13 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("MinHeapTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class MinHeapTest {
+class MinHeapTest implements SortProvider {
 
   private static final String SIZE_ZERO = "Size must be zero.";
   private static final String SIZE_ONE = "Size must be one.";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
   private static final String POLL_MIN_VALUE = "Poll returns min value present.";
+  private static final String PEEK_MIN_VALUE = "Peek returns min value present.";
   private static final long VAL = 20;
 
   @Test
@@ -175,7 +176,7 @@ class MinHeapTest {
     IQueue queue = new MinHeap(1);
     long val = VAL;
     queue.insert(val);
-    assertEquals(val, queue.peek(), "Peek returns min value present.");
+    assertEquals(val, queue.peek(), PEEK_MIN_VALUE);
     assertEquals(1, queue.size(), SIZE_ONE);
   }
 
@@ -186,7 +187,7 @@ class MinHeapTest {
     long val = VAL;
     queue.insert(val);
     queue.insert(val - 1);
-    assertEquals(val - 1, queue.peek(), "Peek returns min value present.");
+    assertEquals(val - 1, queue.peek(), PEEK_MIN_VALUE);
     assertEquals(2, queue.size(), "Size must be two.");
   }
 
@@ -222,8 +223,19 @@ class MinHeapTest {
     queue.insert(val);
     Random random = new Random();
     random.longs().limit(MYRIAD - 1).forEach(i -> queue.insert(i));
-    assertEquals(val, queue.peek(), "Peek returns min value present.");
+    assertEquals(val, queue.peek(), PEEK_MIN_VALUE);
     assertEquals(val, queue.poll(), POLL_MIN_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MinHeapTest.testReverse")
+  @Test
+  void testReverse() {
+    IQueue queue = new MinHeap(MYRIAD);
+    revRange(1, MYRIAD).forEach(i -> queue.insert(i));
+    assertEquals(1, queue.peek(), PEEK_MIN_VALUE);
+    assertEquals(1, queue.poll(), POLL_MIN_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
 }
