@@ -95,7 +95,7 @@ class SelectionSortTest implements SortProvider {
     sorter.sort(high);
     sorter.sort(ord);
     assertEquals(
-        ((SCORE * (SCORE - 1)) >> 1),
+        (SCORE * (SCORE - 1)) >> 1,
         sorter.getComparisonCount(),
         "Comparison count must be " + ((SCORE * (SCORE - 1)) >> 1) + ".");
     assertEquals(0, sorter.getSwapCount(), "Swap count must be 0.");
@@ -148,7 +148,7 @@ class SelectionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] a = sorted.get();
     assertEquals(
-        ((SCORE * (SCORE - 1)) >> 1),
+        (SCORE * (SCORE - 1)) >> 1,
         sorter.getTimeComplexity(),
         "Time complexity must be same as n * (n - 1) / 2.");
     assertTrue(
@@ -178,7 +178,7 @@ class SelectionSortTest implements SortProvider {
     IArray sorted = sorter.sort(high);
     long[] a = sorted.get();
     assertEquals(
-        ((SCORE * (SCORE - 1)) >> 1),
+        (SCORE * (SCORE - 1)) >> 1,
         sorter.getComparisonCount(),
         "Comparison count must be " + ((SCORE * (SCORE - 1)) >> 1) + " .");
     assertTrue(

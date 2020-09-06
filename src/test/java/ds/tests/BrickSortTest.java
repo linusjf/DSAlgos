@@ -28,7 +28,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
 
-  private static final String INNER_LOOP_COUNT_4 = "Inner loop count must be 4.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -163,7 +162,6 @@ class BrickSortTest implements SortProvider {
     BrickSort sorter = new BrickSort();
     sorter.sort(high);
     int compCount = sorter.getComparisonCount();
-    System.out.println("Comparison count : " + compCount);
     assertTrue(
         SCORE - 1 <= compCount && compCount <= ((SCORE * (SCORE - 1)) >> 1),
         "Comparison count must be in range "

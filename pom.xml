@@ -212,6 +212,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.release>11</maven.compiler.release>
     <maven.minimal.version>3.5.4</maven.minimal.version>
     <java.version>11</java.version>
     <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>

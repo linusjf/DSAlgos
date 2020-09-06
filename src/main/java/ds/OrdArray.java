@@ -3,7 +3,9 @@ package ds;
 /** Demonstrates array class with high-level interface. */
 public class OrdArray extends AbstractOrdArray {
 
-  public OrdArray() {}
+  public OrdArray() {
+  // empty constructor
+  }
 
   public OrdArray(int max) {
     this(max, false);
