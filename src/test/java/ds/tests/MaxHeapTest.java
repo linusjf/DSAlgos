@@ -21,6 +21,7 @@ class MaxHeapTest implements SortProvider {
 
   private static final String SIZE_ZERO = "Size must be zero.";
   private static final String SIZE_ONE = "Size must be one.";
+  private static final String SIZE_MUST_BE = "Size must be ";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
   private static final String POLL_MAX_VALUE = "Poll returns max value present.";
   private static final String PEEK_MAX_VALUE = "Peek returns max value present.";
@@ -226,7 +227,7 @@ class MaxHeapTest implements SortProvider {
     random.longs().limit(MYRIAD - 1).forEach(i -> queue.insert(i));
     assertEquals(val, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(val, queue.poll(), POLL_MAX_VALUE);
-    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+    assertEquals(MYRIAD - 1, queue.size(), SIZE_MUST_BE + (MYRIAD - 1));
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -237,7 +238,7 @@ class MaxHeapTest implements SortProvider {
     revRange(1, MYRIAD).forEach(i -> queue.insert(i));
     assertEquals(MYRIAD, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(MYRIAD, queue.poll(), POLL_MAX_VALUE);
-    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+    assertEquals(MYRIAD - 1, queue.size(), SIZE_MUST_BE + (MYRIAD - 1));
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -249,7 +250,7 @@ class MaxHeapTest implements SortProvider {
     revRange(1, MYRIAD).forEach(i -> queue.insert(i & maxVal));
     assertEquals(maxVal, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(maxVal, queue.poll(), POLL_MAX_VALUE);
-    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+    assertEquals(MYRIAD - 1, queue.size(), SIZE_MUST_BE + (MYRIAD - 1));
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -267,6 +268,6 @@ class MaxHeapTest implements SortProvider {
         .forEach(i -> queue.insert(i));
     assertEquals(maxVal, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(maxVal, queue.poll(), POLL_MAX_VALUE);
-    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+    assertEquals(MYRIAD - 1, queue.size(), SIZE_MUST_BE + (MYRIAD - 1));
   }
 }

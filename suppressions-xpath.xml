@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionXpathFilter Experimental Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2_xpath_experimental.dtd">
 
 <suppressions>
-  <suppress-xpath files="HighArray.java" id="RightCurlyAlone" query="/CLASS_DEF[./IDENT[@text='HighArray']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HighArray']]/SLIST/RCURLY"/>
-  <suppress-xpath files="OrdArray.java" id="RightCurlyAlone" query="/CLASS_DEF[./IDENT[@text='OrdArray']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='OrdArray']]/SLIST/RCURLY"/>
   <suppress-xpath files="AbstractArray.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AbstractArray']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='AbstractArray']]/SLIST/CTOR_CALL/ELIST/EXPR/NUM_INT[@text='100']"/>
   <suppress-xpath files="AbstractArray.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AbstractArray']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='toString']]/SLIST/LITERAL_FOR/SLIST/LITERAL_IF/EXPR/EQUAL[./NUM_INT[@text='0']]/MOD/NUM_INT[@text='10']"/>
   <suppress-xpath files="OrdArrayLock.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='OrdArrayLock']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='OrdArrayLock']]/SLIST/CTOR_CALL/ELIST/EXPR/NUM_INT[@text='100']"/>
@@ -301,9 +299,6 @@
   <suppress-xpath files="SelectionSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortAllSame']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='43']"/>
   <suppress-xpath files="SelectionSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortAllSame']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='43']"/>
   <suppress-xpath files="SelectionSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortSmallData']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='5']"/>
-  <suppress-xpath files="SelectionSortTest.java" checks="UnnecessaryParenthesesCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testReset']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR[./SR/NUM_INT[@text='1']]"/>
-  <suppress-xpath files="SelectionSortTest.java" checks="UnnecessaryParenthesesCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testReverseSorted']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR[./SR/NUM_INT[@text='1']]"/>
-  <suppress-xpath files="SelectionSortTest.java" checks="UnnecessaryParenthesesCheck" query="/CLASS_DEF[./IDENT[@text='SelectionSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testComparisonCountUnsorted']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR[./SR/NUM_INT[@text='1']]"/>
   <suppress-xpath files="CocktailShakerSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='CocktailShakerSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSort']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='11']"/>
   <suppress-xpath files="CocktailShakerSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='CocktailShakerSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSort']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='22']"/>
   <suppress-xpath files="CocktailShakerSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='CocktailShakerSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSort']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='33']"/>
@@ -668,4 +663,6 @@
   <suppress-xpath files="HeapSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HeapSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortAllSame']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='43']"/>
   <suppress-xpath files="HeapSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HeapSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortAllSame']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='43']"/>
   <suppress-xpath files="HeapSortTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HeapSortTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testSortAllSame']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='43']"/>
+  <suppress-xpath files="MaxHeapTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='MaxHeapTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDuplicates']]/SLIST/VARIABLE_DEF[./IDENT[@text='maxVal']]/ASSIGN/EXPR/NUM_LONG[@text='1023L']"/>
+  <suppress-xpath files="MinHeapTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='MinHeapTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDuplicates']]/SLIST/VARIABLE_DEF[./IDENT[@text='maxVal']]/ASSIGN/EXPR/NUM_LONG[@text='1023L']"/>
 </suppressions>
