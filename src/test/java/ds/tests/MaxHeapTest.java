@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.IQueue;
 import ds.MaxHeap;
 import java.util.Random;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("MaxHeapTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class MaxHeapTest {
+class MaxHeapTest implements SortProvider {
 
   private static final String SIZE_ZERO = "Size must be zero.";
   private static final String SIZE_ONE = "Size must be one.";
@@ -227,7 +228,7 @@ class MaxHeapTest {
     assertEquals(val, queue.poll(), POLL_MAX_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @DisplayName("MaxHeapTest.testReverse")
   @Test
@@ -236,6 +237,36 @@ class MaxHeapTest {
     revRange(1, MYRIAD).forEach(i -> queue.insert(i));
     assertEquals(MYRIAD, queue.peek(), PEEK_MAX_VALUE);
     assertEquals(MYRIAD, queue.poll(), POLL_MAX_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MaxHeapTest.testDuplicates")
+  @Test
+  void testDuplicates() {
+    long maxVal = 1023L;
+    IQueue queue = new MaxHeap(MYRIAD);
+    revRange(1, MYRIAD).forEach(i -> queue.insert(i & maxVal));
+    assertEquals(maxVal, queue.peek(), PEEK_MAX_VALUE);
+    assertEquals(maxVal, queue.poll(), POLL_MAX_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MaxHeapTest.testSingleValue")
+  @Test
+  void testSingleValue() {
+    final long maxVal = 1023L;
+    IQueue queue = new MaxHeap(MYRIAD);
+    LongStream.iterate(
+            maxVal,
+            i -> {
+              return i;
+            })
+        .limit(MYRIAD)
+        .forEach(i -> queue.insert(i));
+    assertEquals(maxVal, queue.peek(), PEEK_MAX_VALUE);
+    assertEquals(maxVal, queue.poll(), POLL_MAX_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.IQueue;
 import ds.MinHeap;
 import java.util.Random;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -236,6 +237,36 @@ class MinHeapTest implements SortProvider {
     revRange(1, MYRIAD).forEach(i -> queue.insert(i));
     assertEquals(1, queue.peek(), PEEK_MIN_VALUE);
     assertEquals(1, queue.poll(), POLL_MIN_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MinHeapTest.testDuplicates")
+  @Test
+  void testDuplicates() {
+    long maxVal = 1023L;
+    IQueue queue = new MinHeap(MYRIAD);
+    LongStream.rangeClosed(1, MYRIAD).forEach(i -> queue.insert(i & maxVal));
+    assertEquals(0, queue.peek(), PEEK_MIN_VALUE);
+    assertEquals(0, queue.poll(), POLL_MIN_VALUE);
+    assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @DisplayName("MinHeapTest.testSingleValue")
+  @Test
+  void testSingleValue() {
+    final long maxVal = 1023L;
+    IQueue queue = new MinHeap(MYRIAD);
+    LongStream.iterate(
+            maxVal,
+            i -> {
+              return i;
+            })
+        .limit(MYRIAD)
+        .forEach(i -> queue.insert(i));
+    assertEquals(maxVal, queue.peek(), PEEK_MIN_VALUE);
+    assertEquals(maxVal, queue.poll(), POLL_MIN_VALUE);
     assertEquals(MYRIAD - 1, queue.size(), "Size must be " + (MYRIAD - 1));
   }
 }
