@@ -46,9 +46,8 @@ class CycleSortTest implements SortProvider {
   @DisplayName("CycleSortTest.testSortRandom")
   void testSortRandom() {
     Random random = new Random();
-    LongStream stream = random.longs().limit(10_000);
-    HighArray high = new HighArray(10_000);
-    try (stream; ) {
+    HighArray high = new HighArray(MYRIAD);
+    try (LongStream stream = random.longs().limit(MYRIAD)) {
       stream.forEach(i -> high.insert(i));
     }
     ISort sorter = new CycleSort();

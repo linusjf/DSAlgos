@@ -58,4 +58,8 @@
     <Method name="lambda$testPrivateConstructor$0"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_INFERRED"/>
   </Match>
+  <Match>
+    <Class name="~ds[.]tests[.].*Test"/>
+    <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE"/>
+  </Match>
 </FindBugsFilter>
