@@ -20,12 +20,6 @@ public class InToPost {
     theStack = new Stack<>();
   }
 
-  @SuppressWarnings("PMD.SystemPrintln")
-  private void displayStack(String s) {
-    System.out.println(s + " : ");
-    System.out.println(theStack.toString());
-  }
-
   /***
    * <p>Translate to postfix.</p>
    ***/
@@ -34,7 +28,6 @@ public class InToPost {
     StringBuilder output = new StringBuilder(length);
     for (int j = 0; j < length; j++) {
       char ch = input.charAt(j);
-      displayStack("For " + ch + " ");
       switch (ch) {
         case PLUS_OPERATOR:
         case MINUS_OPERATOR:
@@ -55,11 +48,8 @@ public class InToPost {
           break;
       }
     }
-    while (!theStack.isEmpty()) {
-      displayStack("While ");
+    while (!theStack.isEmpty()) 
       output.append(theStack.pop());
-    }
-    displayStack("End ");
     return output.toString();
   }
 
