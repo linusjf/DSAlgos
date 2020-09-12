@@ -20,14 +20,14 @@ public class PostfixParser {
     theStack = new Stack<>();
     char ch;
     int j;
-    int num1, num2, interAns;
+    int interAns;
     for (j = 0; j < input.length(); j++) {
       ch = input.charAt(j);
       displayStack("" + ch + " ");
       if (ch >= '0' && ch <= '9') theStack.push((int) (ch - '0'));
       else {
-        num2 = theStack.pop();
-        num1 = theStack.pop();
+        int num2 = theStack.pop();
+        int num1 = theStack.pop();
         switch (ch) {
           case '+':
             interAns = num1 + num2;
