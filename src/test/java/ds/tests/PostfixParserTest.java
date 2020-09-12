@@ -31,11 +31,11 @@ class PostfixParserTest {
     assertEquals(Integer.valueOf(digit), r.parse(), "Digit value expected.");
   }
 
-  @DisplayName("PostfixParserTest.testSingleNumber")
+  @DisplayName("PostfixParserTest.testPostfix")
   @Test
-  void testSingleNumber() {
-    String number = "888";
+  void testPostfix() {
+    String number = "345+*612+/-";
     PostfixParser r = new PostfixParser(number);
-    assertEquals(Integer.valueOf(number), r.parse(), "Number value expected.");
+    assertEquals(25, r.parse(), "Number value expected.");
   }
 }

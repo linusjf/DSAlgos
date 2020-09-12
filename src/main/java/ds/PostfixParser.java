@@ -9,6 +9,7 @@ public class PostfixParser {
 
   public PostfixParser(String s) {
     input = s;
+    theStack = new Stack<>();
   }
 
   @SuppressWarnings("PMD.SystemPrintln")
@@ -18,10 +19,9 @@ public class PostfixParser {
   }
 
   public int parse() {
-    theStack = new Stack<>();
     char ch;
     int j;
-    int interAns;
+    int interAns = 0;
     for (j = 0; j < input.length(); j++) {
       ch = input.charAt(j);
       displayStack(ch + " ");
@@ -49,7 +49,7 @@ public class PostfixParser {
         theStack.push(interAns);
       }
     }
-    interAns = theStack.pop();
+    if (!theStack.isEmpty()) interAns = theStack.pop();
     return interAns;
   }
 }
