@@ -62,7 +62,7 @@ class InToPostTest {
   void testOnlyParentheses() {
     String infix = "()";
     InToPost r = new InToPost(infix);
-    assertEquals("", r.translate(), "Empty string expected");
+    assertEquals("", r.translate(), "Empty string expected.");
   }
 
   @DisplayName("InToPostTest.testOnlyOperators")
@@ -70,7 +70,7 @@ class InToPostTest {
   void testOnlyOperators() {
     String infix = "*+-/";
     InToPost r = new InToPost(infix);
-    assertEquals("*+/-", r.translate(), "Empty string expected");
+    assertEquals("*+/-", r.translate(), POSTFIX_NOTATION_EXPECTED);
   }
 
   @DisplayName("InToPostTest.testOnlyOperatorsAgain")
@@ -78,6 +78,14 @@ class InToPostTest {
   void testOnlyOperatorsAgain() {
     String infix = "+-*/";
     InToPost r = new InToPost(infix);
-    assertEquals("+*/-", r.translate(), "Empty string expected");
+    assertEquals("+*/-", r.translate(), POSTFIX_NOTATION_EXPECTED);
+  }
+  
+  @DisplayName("InToPostTest.testOnlyRightParenthesis")
+  @Test
+  void testOnlyRightParenthesis() {
+    String infix = ")";
+    InToPost r = new InToPost(infix);
+    assertEquals("", r.translate(), "Empty string expected.");
   }
 }

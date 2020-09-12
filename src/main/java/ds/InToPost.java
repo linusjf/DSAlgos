@@ -48,8 +48,7 @@ public class InToPost {
           break;
       }
     }
-    while (!theStack.isEmpty()) 
-      output.append(theStack.pop());
+    while (!theStack.isEmpty()) output.append(theStack.pop());
     return output.toString();
   }
 
