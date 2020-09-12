@@ -80,7 +80,7 @@ class InToPostTest {
     InToPost r = new InToPost(infix);
     assertEquals("+*/-", r.translate(), POSTFIX_NOTATION_EXPECTED);
   }
-  
+
   @DisplayName("InToPostTest.testOnlyRightParenthesis")
   @Test
   void testOnlyRightParenthesis() {
