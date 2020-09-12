@@ -5,12 +5,13 @@ import java.util.Stack;
 public class PostfixParser {
 
   private Stack<Integer> theStack;
-  private String input;
+  private final String input;
 
   public PostfixParser(String s) {
     input = s;
   }
 
+  @SuppressWarnings("PMD.SystemPrintln")
   private void displayStack(String s) {
     System.out.println(s + " : ");
     System.out.println(theStack);
@@ -23,7 +24,7 @@ public class PostfixParser {
     int interAns;
     for (j = 0; j < input.length(); j++) {
       ch = input.charAt(j);
-      displayStack("" + ch + " ");
+      displayStack(ch + " ");
       if (ch >= '0' && ch <= '9') theStack.push((int) (ch - '0'));
       else {
         int num2 = theStack.pop();
@@ -43,6 +44,7 @@ public class PostfixParser {
             break;
           default:
             interAns = 0;
+            break;
         }
         theStack.push(interAns);
       }
