@@ -1,0 +1,41 @@
+package ds.tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import ds.PostfixParser;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+
+@DisplayName("PostfixParserTest")
+@TestInstance(Lifecycle.PER_CLASS)
+@Execution(ExecutionMode.SAME_THREAD)
+class PostfixParserTest {
+
+  @Test
+  @DisplayName("PostfixParserTest.testEmptyString")
+  void testEmptyString() {
+    String empty = "";
+    PostfixParser r = new PostfixParser(empty);
+    assertEquals(0, r.parse(), "Zero value expected.");
+  }
+
+  @DisplayName("PostfixParserTest.testSingleDigit")
+  @Test
+  void testSingleDigit() {
+    String digit = "8";
+    PostfixParser r = new PostfixParser(digit);
+    assertEquals(Integer.valueOf(digit), r.parse(), "Digit value expected.");
+  }
+
+  @DisplayName("PostfixParserTest.testSingleNumber")
+  @Test
+  void testSingleNumber() {
+    String number = "888";
+    PostfixParser r = new PostfixParser(number);
+    assertEquals(Integer.valueOf(number), r.parse(), "Number value expected.");
+  }
+}
