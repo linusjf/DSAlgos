@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class PostfixParser {
 
-  private Stack<Integer> theStack;
+  private final Stack<Integer> theStack;
   private final String input;
 
   public PostfixParser(String s) {

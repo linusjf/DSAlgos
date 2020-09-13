@@ -38,4 +38,12 @@ class PostfixParserTest {
     PostfixParser r = new PostfixParser(number);
     assertEquals(25, r.parse(), "Number value expected.");
   }
+  
+  @DisplayName("PostfixParserTest.testOperatorsOnly")
+  @Test
+  void testOperatorsOnly() {
+    String expr = "+*+/-";
+    PostfixParser r = new PostfixParser(expr);
+    assertEquals(0, r.parse(), "Zero expected.");
+  }
 }
