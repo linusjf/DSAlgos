@@ -664,4 +664,5 @@
   <suppress-xpath files="MaxHeapTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='MaxHeapTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDuplicates']]/SLIST/VARIABLE_DEF[./IDENT[@text='maxVal']]/ASSIGN/EXPR/NUM_LONG[@text='1023L']"/>
   <suppress-xpath files="MinHeapTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='MinHeapTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testDuplicates']]/SLIST/VARIABLE_DEF[./IDENT[@text='maxVal']]/ASSIGN/EXPR/NUM_LONG[@text='1023L']"/>
   <suppress-xpath files="PostfixParserTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='PostfixParserTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testPostfix']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/NUM_INT[@text='25']"/>
+  <suppress-xpath files="PostfixParserTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='PostfixParserTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testUndefinedOperator']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertEquals']]/ELIST/EXPR/UNARY_MINUS[./NUM_INT[@text='2']]"/>
 </suppressions>

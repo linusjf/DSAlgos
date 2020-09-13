@@ -3,6 +3,7 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.PostfixParser;
+import java.util.EmptyStackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -38,12 +39,28 @@ class PostfixParserTest {
     PostfixParser r = new PostfixParser(number);
     assertEquals(25, r.parse(), "Number value expected.");
   }
-  
+
   @DisplayName("PostfixParserTest.testOperatorsOnly")
   @Test
   void testOperatorsOnly() {
     String expr = "+*+/-";
     PostfixParser r = new PostfixParser(expr);
     assertEquals(0, r.parse(), "Zero expected.");
+  }
+
+  @DisplayName("PostfixParserTest.testUndefinedOperator")
+  @Test
+  void testUndefinedOperator() {
+    String expr = "345+%612+/-";
+    PostfixParser r = new PostfixParser(expr);
+    assertEquals(-2, r.parse(), "Zero expected.");
+  }
+
+  @DisplayName("PostfixParserTest.testEmptyStackException")
+  @Test
+  void testEmptyStackException() {
+    String expr = "345+*%612+/-";
+    PostfixParser r = new PostfixParser(expr);
+    assertThrows(EmptyStackException.class, () -> r.parse(), "Empty stack expected.");
   }
 }

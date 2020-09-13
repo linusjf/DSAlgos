@@ -1,5 +1,6 @@
 package ds;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class PostfixParser {
@@ -26,6 +27,7 @@ public class PostfixParser {
       ch = input.charAt(j);
       displayStack(ch + " ");
       if (ch >= '0' && ch <= '9') theStack.push((int) (ch - '0'));
+      else if (theStack.isEmpty()) continue;
       else {
         int num2 = theStack.pop();
         int num1 = theStack.pop();
