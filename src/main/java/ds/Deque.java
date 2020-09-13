@@ -19,8 +19,7 @@ public class Deque {
   }
 
   public boolean isFull() {
-    return front == 0 && rear == size - 1 
-      || front == rear + 1;
+    return front == 0 && rear == size - 1 || front == rear + 1;
   }
 
   public boolean isEmpty() {
