@@ -5,17 +5,14 @@ package ds;
  ***/
 @SuppressWarnings("PMD.SystemPrintln")
 public class Deque {
-  static final int MAX = 100;
   long[] arr;
   int front;
   int rear;
-  int size;
 
   public Deque(int size) {
-    arr = new long[MAX];
+    arr = new long[size];
     front = -1;
     rear = 0;
-    this.size = size;
   }
 
   public boolean isFull() {
