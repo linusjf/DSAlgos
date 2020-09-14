@@ -1,117 +1,128 @@
 package ds;
 
+import static ds.ArrayUtils.*;
+
 /***
  * <p>Deque implementation in Java.</p>
  ***/
 @SuppressWarnings("PMD.SystemPrintln")
-public class Deque implements IQueue {
+public class Deque implements IQueue, IStack {
+  private static final String QUEUE_UNDERFLOW = "Queue underflow.";
   long[] arr;
-  int front;
-  int rear;
+  int first;
+  int last;
 
   public Deque(int size) {
     arr = new long[size];
-    front = -1;
-    rear = 0;
+    first = -1;
+    last = 0;
+  }
+
+  @Override
+  public void push(long j) {
+    addFirst(j);
+  }
+
+  @Override
+  public long pop() {
+    return poll();
   }
 
   @Override
   public void insert(long j) {
-    insertRear(j);
+    addLast(j);
   }
 
   @Override
   public long poll() {
     long val = peek();
-    deleteFront();
+    removeFirst();
     return val;
   }
 
   @Override
   public long peek() {
-    return getFront();
+    return peekFirst();
   }
 
   @Override
   public boolean isFull() {
-    return front == 0 && rear == arr.length - 1 || front == rear + 1;
+    return arr.length == 0 ? true : first == 0 && last == arr.length - 1 ? true : first == last + 1;
   }
 
   @Override
   public int size() {
-    return rear - front + 1;
+    return arr.length == 0 ? 0 : last >= first ? last - first + 1 : arr.length - first + last + 1;
   }
 
   @Override
   public boolean isEmpty() {
-    return front == -1;
+    return first == -1;
   }
 
-  public void insertFront(long key) {
-    if (isFull()) {
-      System.out.println("Overflow");
-      return;
-    }
-    if (front == -1) {
-      front = 0;
-      rear = 0;
-    } else if (front == 0) front = arr.length - 1;
-    else front = front - 1;
-    arr[front] = key;
+  public void addFirst(long key) {
+    if (isFull()) doubleCapacity();
+    if (first == -1) {
+      first = 0;
+      last = 0;
+    } else if (first == 0) first = arr.length - 1;
+    else first = first - 1;
+    arr[first] = key;
   }
 
-  public void insertRear(long key) {
-    if (isFull()) {
-      System.out.println(" Overflow ");
-      return;
-    }
-    if (front == -1) {
-      front = 0;
-      rear = 0;
-    } else if (rear == arr.length - 1) rear = 0;
-    else rear = rear + 1;
-
-    arr[rear] = key;
+  public void addLast(long key) {
+    if (isFull()) doubleCapacity();
+    if (first == -1) {
+      first = 0;
+      last = 0;
+    } else if (last == arr.length - 1) last = 0;
+    else last = last + 1;
+    arr[last] = key;
   }
 
-  public void deleteFront() {
-    if (isEmpty()) {
-      System.out.println("Queue Underflow\n");
-      return;
-    }
-    // Deque has only one element
-    if (front == rear) {
-      front = -1;
-      rear = -1;
-    } else if (front == arr.length - 1) front = 0;
-    else front = front + 1;
+  public void removeFirst() {
+    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (first == last) {
+      first = -1;
+      last = -1;
+    } else if (first == arr.length - 1) first = 0;
+    else first = first + 1;
   }
 
-  public void deleteRear() {
-    if (isEmpty()) {
-      System.out.println(" Underflow");
-      return;
-    }
-    if (front == rear) {
-      front = -1;
-      rear = -1;
-    } else if (rear == 0) rear = arr.length - 1;
-    else rear = rear - 1;
+  public void removeLast() {
+    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (first == last) {
+      first = -1;
+      last = -1;
+    } else if (last == 0) last = arr.length - 1;
+    else last = last - 1;
   }
 
-  public long getFront() {
-    if (isEmpty()) {
-      System.out.println(" Underflow");
-      return -1;
-    }
-    return arr[front];
+  public long peekFirst() {
+    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    return arr[first];
   }
 
-  public long getRear() {
-    if (isEmpty() || rear < 0) {
-      System.out.println(" Underflow\n");
-      return -1;
-    }
-    return arr[rear];
+  public long peekLast() {
+    if (isEmpty() || last < 0) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    return arr[last];
+  }
+
+  /***
+   * <p> Double the capacity of this deque.
+   * Call only when full, i.e.,
+   * when head and tail have wrapped around to touch each other. </p>
+   ***/
+  private void doubleCapacity() {
+    int n = arr.length;
+    if (n == 0) throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
+    int p = first;
+    int r = n - p;
+    long[] a = getDoubleCapacity(n);
+    System.arraycopy(arr, p, a, 0, r);
+    System.arraycopy(arr, 0, a, r, p);
+    arr = a;
+    first = 0;
+    last = n - 1;
   }
 }

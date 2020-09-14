@@ -118,7 +118,6 @@ class ArrayUtilsTest {
     assertTrue(val < 0 || val > arr.length, " -1 expected.");
   }
 
-  @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
   @Test
   @DisplayName("ArrayUtilsTest.testExcessiveLength")
   void testExcessiveLength() {
@@ -131,5 +130,40 @@ class ArrayUtilsTest {
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[\\D]", ""));
     assertTrue(val < 0 || val > arr.length, (TEN + 1) + " expected.");
+  }
+
+  @Test
+  @DisplayName("ArrayUtilsTest.testDoubleCapacity")
+  void testDoubleCapacity() {
+    long[] arr = ArrayUtils.getDoubleCapacity(TEN);
+    assertEquals(SCORE, arr.length, "Double the value expected.");
+  }
+
+  @DisplayName("ArrayUtilsTest.testDoubleCapacityOdd")
+  void testDoubleCapacityOdd() {
+    long[] arr = ArrayUtils.getDoubleCapacity(TEN + 1);
+    assertEquals(SCORE + 2, arr.length, "Double the value expected.");
+  }
+
+  @DisplayName("ArrayUtilsTest.testDoubleCapacityZero")
+  void testDoubleCapacityZero() {
+    long[] arr = ArrayUtils.getDoubleCapacity(0);
+    assertEquals(0, arr.length, "Zero value expected.");
+  }
+
+  @DisplayName("ArrayUtilsTest.testMaxInt")
+  void testMaxInt() {
+    assertThrows(
+        IllegalStateException.class,
+        () -> ArrayUtils.getDoubleCapacity(Integer.MAX_VALUE),
+        "Exception expected.");
+  }
+
+  @DisplayName("ArrayUtilsTest.testNegativeSize")
+  void testNegativeSize() {
+    assertThrows(
+        ArrayIndexOutOfBoundsException.class,
+        () -> ArrayUtils.getDoubleCapacity(Integer.MIN_VALUE),
+        "Exception expected.");
   }
 }

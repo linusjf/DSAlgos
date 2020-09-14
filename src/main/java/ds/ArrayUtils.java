@@ -7,6 +7,12 @@ public final class ArrayUtils {
     throw new InstantiationException("Private constructor for: " + ArrayUtils.class.getName());
   }
 
+  public static long[] getDoubleCapacity(int n) {
+    int newCapacity = n << 1;
+    if (newCapacity < 0) throw new IllegalStateException("Sorry, deque too big");
+    return new long[newCapacity];
+  }
+
   public static boolean isSorted(long... a) {
     return isSorted(a, a.length);
   }
