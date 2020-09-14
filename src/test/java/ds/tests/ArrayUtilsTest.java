@@ -22,7 +22,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 class ArrayUtilsTest {
-private static final String EXCEPTION_EXPECTED = "Exception expected.";
+  private static final String EXCEPTION_EXPECTED = "Exception expected.";
 
   @Test
   @DisplayName("ArrayUtilsTest.testPrivateConstructor")
