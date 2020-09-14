@@ -47,9 +47,7 @@ public class Deque implements IQueue, IStack {
 
   @Override
   public boolean isFull() {
-    return arr.length == 0 
-      || first == 0 && last == arr.length - 1 
-      || first == last + 1;
+    return arr.length == 0 || first == 0 && last == arr.length - 1 || first == last + 1;
   }
 
   @Override

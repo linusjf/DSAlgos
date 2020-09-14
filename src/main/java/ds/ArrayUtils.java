@@ -8,8 +8,9 @@ public final class ArrayUtils {
   }
 
   public static long[] getDoubleCapacity(int n) {
+    if (n < 0) throw new IllegalStateException("Sorry, negative size not possible.");
     int newCapacity = n << 1;
-    if (newCapacity < 0) throw new IllegalStateException("Sorry, deque too big");
+    if (newCapacity < 0) throw new IllegalStateException("Sorry, deque too big.");
     return new long[newCapacity];
   }
 

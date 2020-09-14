@@ -22,6 +22,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 class ArrayUtilsTest {
+private static final String EXCEPTION_EXPECTED = "Exception expected.";
 
   @Test
   @DisplayName("ArrayUtilsTest.testPrivateConstructor")
@@ -111,7 +112,7 @@ class ArrayUtilsTest {
     int length = -1;
     IllegalArgumentException iae =
         assertThrows(
-            IllegalArgumentException.class, () -> isSorted(arr, length), "Exception expected!");
+            IllegalArgumentException.class, () -> isSorted(arr, length), EXCEPTION_EXPECTED);
     Optional<String> msg = Optional.ofNullable(iae.getMessage());
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[A-Za-z. ]", ""));
@@ -125,7 +126,7 @@ class ArrayUtilsTest {
     int length = TEN + 1;
     IllegalArgumentException iae =
         assertThrows(
-            IllegalArgumentException.class, () -> isSorted(arr, length), "Exception expected!");
+            IllegalArgumentException.class, () -> isSorted(arr, length), EXCEPTION_EXPECTED);
     Optional<String> msg = Optional.ofNullable(iae.getMessage());
     String errMsg = msg.orElse("");
     int val = Integer.parseInt(errMsg.replaceAll("[\\D]", ""));
@@ -139,31 +140,44 @@ class ArrayUtilsTest {
     assertEquals(SCORE, arr.length, "Double the value expected.");
   }
 
+  @Test
   @DisplayName("ArrayUtilsTest.testDoubleCapacityOdd")
   void testDoubleCapacityOdd() {
     long[] arr = ArrayUtils.getDoubleCapacity(TEN + 1);
     assertEquals(SCORE + 2, arr.length, "Double the value expected.");
   }
 
+  @Test
   @DisplayName("ArrayUtilsTest.testDoubleCapacityZero")
   void testDoubleCapacityZero() {
     long[] arr = ArrayUtils.getDoubleCapacity(0);
     assertEquals(0, arr.length, "Zero value expected.");
   }
 
+  @Test
   @DisplayName("ArrayUtilsTest.testMaxInt")
   void testMaxInt() {
     assertThrows(
         IllegalStateException.class,
         () -> ArrayUtils.getDoubleCapacity(Integer.MAX_VALUE),
-        "Exception expected.");
+        EXCEPTION_EXPECTED);
   }
 
+  @Test
   @DisplayName("ArrayUtilsTest.testNegativeSize")
   void testNegativeSize() {
     assertThrows(
-        ArrayIndexOutOfBoundsException.class,
+        IllegalStateException.class,
         () -> ArrayUtils.getDoubleCapacity(Integer.MIN_VALUE),
-        "Exception expected.");
+        EXCEPTION_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("ArrayUtilsTest.testNegativeSize")
+  void testNegativeSizeScore() {
+    assertThrows(
+        IllegalStateException.class,
+        () -> ArrayUtils.getDoubleCapacity(-1 * SCORE),
+        EXCEPTION_EXPECTED);
   }
 }
