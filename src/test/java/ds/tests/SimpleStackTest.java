@@ -47,6 +47,22 @@ class SimpleStackTest {
     assertEquals(val, stack.pop(), "Pop returns last value pushed.");
   }
 
+  @DisplayName("SimpleStackTest.testSize")
+  @Test
+  void testSize() {
+    IStack stack = new SimpleStack(1);
+    long val = VAL;
+    stack.push(val);
+    assertEquals(1, stack.size(), "Size is one.");
+  }
+
+  @DisplayName("SimpleStackTest.testSizeEmpty")
+  @Test
+  void testSizeEmpty() {
+    IStack stack = new SimpleStack(1);
+    assertEquals(0, stack.size(), "Size is zero.");
+  }
+
   @DisplayName("SimpleStackTest.testPush")
   @Test
   void testPushSizeOne() {

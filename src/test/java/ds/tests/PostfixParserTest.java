@@ -24,51 +24,59 @@ class PostfixParserTest {
     assertEquals(0, r.parse(), "Zero value expected.");
   }
 
-  @DisplayName("PostfixParserTest.testSingleDigit")
   @Test
+  @DisplayName("PostfixParserTest.testSingleDigit")
   void testSingleDigit() {
     String digit = "8";
     PostfixParser r = new PostfixParser(digit);
     assertEquals(Integer.valueOf(digit), r.parse(), "Digit value expected.");
   }
 
-  @DisplayName("PostfixParserTest.testPostfix")
   @Test
+  @DisplayName("PostfixParserTest.testPostfix")
   void testPostfix() {
     String number = "345+*612+/-";
     PostfixParser r = new PostfixParser(number);
     assertEquals(25, r.parse(), "Number value expected.");
   }
 
-  @DisplayName("PostfixParserTest.testOperatorsOnly")
   @Test
+  @DisplayName("PostfixParserTest.testOperatorsOnly")
   void testOperatorsOnly() {
     String expr = "+*+/-";
     PostfixParser r = new PostfixParser(expr);
     assertThrows(EmptyStackException.class, () -> r.parse(), "Exception expected.");
   }
 
-  @DisplayName("PostfixParserTest.testModuloOperator")
   @Test
+  @DisplayName("PostfixParserTest.testModuloOperator")
   void testModuloOperator() {
     String expr = "345+%612+/-";
     PostfixParser r = new PostfixParser(expr);
     assertEquals(1, r.parse(), "One expected.");
   }
 
-  @DisplayName("PostfixParserTest.testUndefinedOperator")
   @Test
+  @DisplayName("PostfixParserTest.testUndefinedOperator")
   void testUndefinedOperator() {
     String expr = "3456+%!612+/-";
     PostfixParser r = new PostfixParser(expr);
     assertEquals(-2, r.parse(), "Minus two expected.");
   }
 
-  @DisplayName("PostfixParserTest.testEmptyStackException")
   @Test
+  @DisplayName("PostfixParserTest.testEmptyStackException")
   void testEmptyStackException() {
     String expr = "345+*%612+/-";
     PostfixParser r = new PostfixParser(expr);
     assertThrows(EmptyStackException.class, () -> r.parse(), "Empty stack expected.");
+  }
+  
+  @Test
+  @DisplayName("PostfixParserTest.testEdgeValues")
+  void testEdgeValues() {
+    String expr = "905+*%618+/";
+    PostfixParser r = new PostfixParser(expr);
+    assertThrows(ArithmeticException.class, () -> r.parse(), "Arithmetic exception expected.");
   }
 }

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 @DisplayName("DequeTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -50,6 +51,15 @@ class DequeTest {
   void testSizeEmptyNonZero() {
     IQueue queue = new Deque(1);
     assertEquals(0, queue.size(), "Size must be zero.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testPollLastSizeOne")
+  void testPollLastSizeOne() {
+    Deque deque = new Deque(1);
+    deque.insert(VAL);
+    assertEquals(1, deque.size(), "Size must be one.");
+    assertEquals(VAL, deque.pollLast(), "Value must be " + VAL + ".");
   }
 
   @Test
@@ -329,10 +339,17 @@ class DequeTest {
     IDeque deque = new Deque(3);
     deque.addFirst(VAL - 1);
     deque.addFirst(VAL);
-    deque.addFirst(VAL + 1);
     deque.pollFirst();
     deque.addFirst(VAL + 1);
-    assertEquals(3, deque.size(), "Size must be 3.");
+    assertEquals(2, deque.size(), "Size must be 3.");
     assertEquals(VAL + 1, deque.peekFirst(), "Value must be " + (VAL + 1) + ".");
+  }
+
+  @DisplayName("DequeTest.testPollLastOneElement")
+  @Test
+  void testPollLastOneElement() {
+    IDeque deque = new Deque(3);
+    deque.addFirst(VAL - 1);
+    assertEquals(VAL - 1, deque.pollLast(), "Value must be " + (VAL - 1) + ".");
   }
 }

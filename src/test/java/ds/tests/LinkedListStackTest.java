@@ -130,4 +130,20 @@ class LinkedListStackTest {
     stack.push(val);
     assertEquals(val, stack.peek(), "Peek returns last value pushed.");
   }
+
+  @DisplayName("LinkedListStackTest.testSize")
+  @Test
+  void testSize() {
+    IStack stack = new LinkedListStack();
+    long val = VAL;
+    stack.push(val);
+    assertEquals(1, stack.size(), "Size is one.");
+  }
+
+  @DisplayName("LinkedListStackTest.testSizeEmpty")
+  @Test
+  void testSizeEmpty() {
+    IStack stack = new LinkedListStack();
+    assertEquals(0, stack.size(), "Size is zero.");
+  }
 }
