@@ -71,7 +71,7 @@ class PostfixParserTest {
     PostfixParser r = new PostfixParser(expr);
     assertThrows(EmptyStackException.class, () -> r.parse(), "Empty stack expected.");
   }
-  
+
   @Test
   @DisplayName("PostfixParserTest.testEdgeValues")
   void testEdgeValues() {
