@@ -47,6 +47,14 @@ class PostfixParserTest {
     PostfixParser r = new PostfixParser(expr);
     assertThrows(EmptyStackException.class, () -> r.parse(), "Exception expected.");
   }
+  
+  @Test
+  @DisplayName("PostfixParserTest.testPostAsciiNine")
+  void testPostAsciiNine() {
+    String expr = ":;<=>";
+    PostfixParser r = new PostfixParser(expr);
+    assertThrows(EmptyStackException.class, () -> r.parse(), "Exception expected.");
+  }
 
   @Test
   @DisplayName("PostfixParserTest.testModuloOperator")
@@ -75,7 +83,7 @@ class PostfixParserTest {
   @Test
   @DisplayName("PostfixParserTest.testEdgeValues")
   void testEdgeValues() {
-    String expr = "905+*%618+/";
+    String expr = "905+*618+/%";
     PostfixParser r = new PostfixParser(expr);
     assertThrows(ArithmeticException.class, () -> r.parse(), "Arithmetic exception expected.");
   }
