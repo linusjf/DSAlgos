@@ -45,15 +45,23 @@ class PostfixParserTest {
   void testOperatorsOnly() {
     String expr = "+*+/-";
     PostfixParser r = new PostfixParser(expr);
-    assertEquals(0, r.parse(), "Zero expected.");
+    assertThrows(EmptyStackException.class, () -> r.parse(), "Exception expected.");
+  }
+
+  @DisplayName("PostfixParserTest.testModuloOperator")
+  @Test
+  void testModuloOperator() {
+    String expr = "345+%612+/-";
+    PostfixParser r = new PostfixParser(expr);
+    assertEquals(1, r.parse(), "One expected.");
   }
 
   @DisplayName("PostfixParserTest.testUndefinedOperator")
   @Test
   void testUndefinedOperator() {
-    String expr = "345+%612+/-";
+    String expr = "3456+%!612+/-";
     PostfixParser r = new PostfixParser(expr);
-    assertEquals(-2, r.parse(), "Zero expected.");
+    assertEquals(-2, r.parse(), "Minus two expected.");
   }
 
   @DisplayName("PostfixParserTest.testEmptyStackException")

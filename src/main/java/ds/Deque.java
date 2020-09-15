@@ -2,11 +2,13 @@ package ds;
 
 import static ds.ArrayUtils.*;
 
+import java.util.Arrays;
+
 /***
  * <p>Deque implementation in Java.</p>
  ***/
 @SuppressWarnings("PMD.SystemPrintln")
-public class Deque implements IQueue, IStack {
+public class Deque implements IQueue, IStack, IDeque {
   private static final String QUEUE_UNDERFLOW = "Queue underflow.";
   long[] arr;
   int first;
@@ -15,7 +17,7 @@ public class Deque implements IQueue, IStack {
   public Deque(int size) {
     arr = new long[size];
     first = -1;
-    last = 0;
+    last = -1;
   }
 
   @Override
@@ -52,7 +54,9 @@ public class Deque implements IQueue, IStack {
 
   @Override
   public int size() {
-    return arr.length == 0 ? 0 : last >= first ? last - first + 1 : arr.length - first + last + 1;
+    if (arr.length == 0) return 0;
+    if (first == -1 && last == -1) return 0;
+    return last >= first ? last - first + 1 : arr.length - first + last + 1;
   }
 
   @Override
@@ -60,6 +64,7 @@ public class Deque implements IQueue, IStack {
     return first == -1;
   }
 
+  @Override
   public void addFirst(long key) {
     if (isFull()) doubleCapacity();
     if (first == -1) {
@@ -70,6 +75,7 @@ public class Deque implements IQueue, IStack {
     arr[first] = key;
   }
 
+  @Override
   public void addLast(long key) {
     if (isFull()) doubleCapacity();
     if (first == -1) {
@@ -80,6 +86,7 @@ public class Deque implements IQueue, IStack {
     arr[last] = key;
   }
 
+  @Override
   public void removeFirst() {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     if (first == last) {
@@ -89,6 +96,7 @@ public class Deque implements IQueue, IStack {
     else first = first + 1;
   }
 
+  @Override
   public void removeLast() {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     if (first == last) {
@@ -98,11 +106,13 @@ public class Deque implements IQueue, IStack {
     else last = last - 1;
   }
 
+  @Override
   public long peekFirst() {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     return arr[first];
   }
 
+  @Override
   public long peekLast() {
     if (isEmpty() || last < 0) throw new IllegalStateException(QUEUE_UNDERFLOW);
     return arr[last];
@@ -124,5 +134,19 @@ public class Deque implements IQueue, IStack {
     arr = a;
     first = 0;
     last = n - 1;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
+    sb.append("First = ")
+        .append(first)
+        .append(lineSeparator)
+        .append("Last = ")
+        .append(last)
+        .append(lineSeparator)
+        .append(Arrays.toString(arr));
+    return sb.toString();
   }
 }
