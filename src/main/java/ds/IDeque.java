@@ -6,9 +6,9 @@ public interface IDeque {
 
   void addLast(long key);
 
-  void removeFirst();
+  long pollFirst();
 
-  void removeLast();
+  long pollLast();
 
   long peekFirst();
 

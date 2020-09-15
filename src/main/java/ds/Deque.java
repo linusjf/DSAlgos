@@ -7,7 +7,6 @@ import java.util.Arrays;
 /***
  * <p>Deque implementation in Java.</p>
  ***/
-@SuppressWarnings("PMD.SystemPrintln")
 public class Deque implements IQueue, IStack, IDeque {
   private static final String QUEUE_UNDERFLOW = "Queue underflow.";
   long[] arr;
@@ -37,9 +36,7 @@ public class Deque implements IQueue, IStack, IDeque {
 
   @Override
   public long poll() {
-    long val = peek();
-    removeFirst();
-    return val;
+    return pollFirst();
   }
 
   @Override
@@ -49,7 +46,7 @@ public class Deque implements IQueue, IStack, IDeque {
 
   @Override
   public boolean isFull() {
-    return arr.length == 0 || first == 0 && last == arr.length - 1 || first == last + 1;
+    return size() == arr.length;
   }
 
   @Override
@@ -61,7 +58,7 @@ public class Deque implements IQueue, IStack, IDeque {
 
   @Override
   public boolean isEmpty() {
-    return first == -1;
+    return size() == 0;
   }
 
   @Override
@@ -87,23 +84,27 @@ public class Deque implements IQueue, IStack, IDeque {
   }
 
   @Override
-  public void removeFirst() {
+  public long pollFirst() {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    long val = arr[first];
     if (first == last) {
       first = -1;
       last = -1;
     } else if (first == arr.length - 1) first = 0;
     else first = first + 1;
+    return val;
   }
 
   @Override
-  public void removeLast() {
+  public long pollLast() {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    long val = arr[last];
     if (first == last) {
       first = -1;
       last = -1;
     } else if (last == 0) last = arr.length - 1;
     else last = last - 1;
+    return val;
   }
 
   @Override
@@ -114,7 +115,7 @@ public class Deque implements IQueue, IStack, IDeque {
 
   @Override
   public long peekLast() {
-    if (isEmpty() || last < 0) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     return arr[last];
   }
 
@@ -136,6 +137,7 @@ public class Deque implements IQueue, IStack, IDeque {
     last = n - 1;
   }
 
+  @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

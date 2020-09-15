@@ -3,6 +3,7 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.Deque;
+import ds.IDeque;
 import ds.IQueue;
 import ds.IStack;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +36,41 @@ class DequeTest {
     IQueue queue = new Deque(0);
     assertThrows(
         IllegalStateException.class, () -> queue.poll(), "Empty queue poll throws exception.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testSizeEmpty")
+  void testSizeEmpty() {
+    IQueue queue = new Deque(0);
+    assertEquals(0, queue.size(), "Size must be zero.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testSizeEmptyNonZero")
+  void testSizeEmptyNonZero() {
+    IQueue queue = new Deque(1);
+    assertEquals(0, queue.size(), "Size must be zero.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testPollFirstEmpty")
+  void testPollFirstEmpty() {
+    IDeque deque = new Deque(0);
+    assertThrows(IllegalStateException.class, () -> deque.pollFirst(), "Exception expected.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testPollLastEmpty")
+  void testPollLastEmpty() {
+    IDeque deque = new Deque(0);
+    assertThrows(IllegalStateException.class, () -> deque.pollLast(), "Exception expected.");
+  }
+
+  @Test
+  @DisplayName("DequeTest.testPeekLastEmpty")
+  void testPeekLastEmpty() {
+    IDeque deque = new Deque(0);
+    assertThrows(IllegalStateException.class, () -> deque.peekLast(), "Exception expected.");
   }
 
   @DisplayName("DequeTest.testPollEmptyOne")
@@ -239,5 +275,64 @@ class DequeTest {
     IStack stack = new Deque(0);
     long val = VAL;
     assertThrows(IllegalStateException.class, () -> stack.push(val), "Push throws exception.");
+  }
+
+  @DisplayName("DequeTest.testAddFirstThrice")
+  @Test
+  void testAddFirstThrice() {
+    IDeque deque = new Deque(3);
+    deque.addFirst(VAL - 1);
+    deque.addFirst(VAL);
+    deque.addFirst(VAL + 1);
+    assertEquals(3, deque.size(), "Size must be 3.");
+  }
+
+  @DisplayName("DequeTest.testAddLastThrice")
+  @Test
+  void testAddLastThrice() {
+    IDeque deque = new Deque(3);
+    deque.addLast(VAL - 1);
+    deque.addLast(VAL);
+    deque.addLast(VAL + 1);
+    assertEquals(3, deque.size(), "Size must be 3.");
+  }
+
+  @DisplayName("DequeTest.testLastIndexWrapAround")
+  @Test
+  void testAddLastIndexWrapAround() {
+    IDeque deque = new Deque(3);
+    deque.addLast(VAL - 1);
+    deque.addLast(VAL);
+    deque.addLast(VAL + 1);
+    deque.pollFirst();
+    deque.addLast(VAL - 1);
+    assertEquals(3, deque.size(), "Size must be 3.");
+    assertEquals(VAL, deque.peekFirst(), "Value must be " + VAL + ".");
+  }
+
+  @DisplayName("DequeTest.testPollLastIndexWrapAround")
+  @Test
+  void testPollLastIndexWrapAround() {
+    IDeque deque = new Deque(3);
+    deque.addLast(VAL - 1);
+    deque.addLast(VAL);
+    deque.addLast(VAL + 1);
+    deque.pollLast();
+    deque.addLast(VAL + 1);
+    assertEquals(3, deque.size(), "Size must be 3.");
+    assertEquals(VAL + 1, deque.peekLast(), "Value must be " + (VAL + 1) + ".");
+  }
+
+  @DisplayName("DequeTest.testPollFirstIndexWrapAround")
+  @Test
+  void testPollLastIndexWrapAround() {
+    IDeque deque = new Deque(3);
+    deque.addFirst(VAL - 1);
+    deque.addFirst(VAL);
+    deque.addFirst(VAL + 1);
+    deque.pollFirst();
+    deque.addFirst(VAL + 1);
+    assertEquals(3, deque.size(), "Size must be 3.");
+    assertEquals(VAL + 1, deque.peekFirst(), "Value must be " + (VAL + 1) + ".");
   }
 }
