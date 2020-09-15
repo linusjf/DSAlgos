@@ -325,7 +325,7 @@ class DequeTest {
 
   @DisplayName("DequeTest.testPollFirstIndexWrapAround")
   @Test
-  void testPollLastIndexWrapAround() {
+  void testPollFirstIndexWrapAround() {
     IDeque deque = new Deque(3);
     deque.addFirst(VAL - 1);
     deque.addFirst(VAL);
