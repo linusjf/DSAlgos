@@ -51,14 +51,17 @@ public class Deque implements IQueue, IStack, IDeque {
 
   @Override
   public int size() {
-    if (arr.length == 0) return 0;
-    if (first == -1 && last == -1) return 0;
+    if (arr.length == 0 || first < 0) return 0;
     return last >= first ? last - first + 1 : arr.length - first + last + 1;
   }
 
   @Override
   public boolean isEmpty() {
     return size() == 0;
+  }
+
+  private void reinitializePointers() {
+    first = last = -1;
   }
 
   @Override
@@ -88,10 +91,14 @@ public class Deque implements IQueue, IStack, IDeque {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     long val = arr[first];
     if (first == last) {
-      first = -1;
-      last = -1;
-    } else if (first == arr.length - 1) first = 0;
-    else first = first + 1;
+      reinitializePointers();
+      return val;
+    }
+    if (first == arr.length - 1) {
+      first = 0;
+      return val;
+    }
+    ++first;
     return val;
   }
 
@@ -100,10 +107,14 @@ public class Deque implements IQueue, IStack, IDeque {
     if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
     long val = arr[last];
     if (first == last) {
-      first = -1;
-      last = -1;
-    } else if (last == 0) last = arr.length - 1;
-    else last = last - 1;
+      reinitializePointers();
+      return val;
+    }
+    if (last == 0) {
+      last = arr.length - 1;
+      return val;
+    }
+    --last;
     return val;
   }
 

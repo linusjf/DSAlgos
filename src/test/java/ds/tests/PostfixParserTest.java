@@ -47,7 +47,7 @@ class PostfixParserTest {
     PostfixParser r = new PostfixParser(expr);
     assertThrows(EmptyStackException.class, () -> r.parse(), "Exception expected.");
   }
-  
+
   @Test
   @DisplayName("PostfixParserTest.testPostAsciiNine")
   void testPostAsciiNine() {
