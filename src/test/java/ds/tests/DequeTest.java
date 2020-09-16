@@ -51,7 +51,6 @@ class DequeTest {
     @DisplayName("DequeTest.QueueTests.testSizeEmpty")
     void testSizeEmpty() {
       IQueue queue = new Deque(0);
-      System.out.println(queue);
       assertEquals(0, queue.size(), "Size must be zero.");
     }
 
@@ -60,7 +59,6 @@ class DequeTest {
     void testSizeOne() {
       IQueue queue = new Deque(TEN);
       queue.insert(SCORE);
-      System.out.println(queue);
       assertEquals(1, queue.size(), "Size must be one.");
     }
 
@@ -70,7 +68,6 @@ class DequeTest {
       IQueue queue = new Deque(TEN);
       queue.insert(SCORE);
       queue.insert(SCORE + 1);
-      System.out.println(queue);
       assertEquals(2, queue.size(), "Size must be two.");
     }
 
