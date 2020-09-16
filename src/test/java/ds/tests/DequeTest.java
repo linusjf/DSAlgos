@@ -7,6 +7,7 @@ import ds.Deque;
 import ds.IDeque;
 import ds.IQueue;
 import ds.IStack;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -406,6 +407,24 @@ class DequeTest {
     void testPeekLastEmpty() {
       IDeque deque = new Deque(0);
       assertThrows(IllegalStateException.class, () -> deque.peekLast(), "Exception expected.");
+    }
+
+    @Test
+    @DisplayName("DequeTest.DequeTests.testInsertFirstDoubling")
+    void testInsertFirstDoubling() {
+      IDeque deque = new Deque(TEN);
+      LongStream.rangeClosed(1, SCORE).forEach(i -> deque.addFirst(i));
+      assertEquals(SCORE, deque.peekFirst(), VALUE_MUST_BE + "twenty.");
+      assertEquals(1, deque.peekLast(), VALUE_MUST_BE + "one.");
+    }
+
+    @Test
+    @DisplayName("DequeTest.DequeTests.testInsertLastDoubling")
+    void testInsertLastDoubling() {
+      IDeque deque = new Deque(TEN);
+      LongStream.rangeClosed(1, SCORE).forEach(i -> deque.addLast(i));
+      assertEquals(SCORE, deque.peekLast(), VALUE_MUST_BE + "twenty.");
+      assertEquals(1, deque.peekFirst(), VALUE_MUST_BE + "one.");
     }
   }
 }
