@@ -55,7 +55,7 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   }
 
   private boolean isRightFull() {
-    if (arr.length == 0) return true;
+    if (arr.length == 1 || arr.length == 0) return true;
     return last == arr.length - 1;
   }
 
@@ -136,13 +136,28 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public long peekFirst() {
-    if (first == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (first == -1) {
+      if (last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+      else {
+        System.arraycopy(
+            arr, getRightBoundary(arr.length), arr, getLeftBoundary(arr.length), getLeftLength());
+        first = getLeftBoundary(arr.length);
+        --last;
+      }
+    }
     return arr[first];
   }
 
   @Override
   public long peekLast() {
-    if (last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (last == -1) {
+      if (first == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+      else {
+        int leftLength = getLeftLength();
+        System.arraycopy(arr, first++, arr, first, leftLength);
+        last = getRightBoundary(arr.length);
+      }
+    }
     return arr[last];
   }
 

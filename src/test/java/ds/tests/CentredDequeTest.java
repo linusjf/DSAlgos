@@ -111,29 +111,6 @@ class CentredDequeTest {
       assertEquals(0, queue.size(), SIZE_ZERO);
     }
 
-    @DisplayName("CentredDequeTest.QueueTests.testCircularInsert")
-    @Test
-    void testCircularInsert() {
-      IQueue queue = new CentredDeque(1);
-      long val = VAL;
-      queue.insert(val);
-      queue.poll();
-      queue.insert(val);
-      assertEquals(1, queue.size(), SIZE_ONE);
-    }
-
-    @DisplayName("CentredDequeTest.QueueTests.testCircularPoll")
-    @Test
-    void testCircularPoll() {
-      IQueue queue = new CentredDeque(1);
-      long val = VAL;
-      queue.insert(val);
-      queue.poll();
-      queue.insert(val);
-      queue.poll();
-      assertEquals(0, queue.size(), SIZE_ZERO);
-    }
-
     @DisplayName("CentredDequeTest.QueueTests.testInsert")
     @Test
     void testInsertSizeOne() {
@@ -177,7 +154,7 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       queue.insert(VAL);
       assertFalse(queue.isEmpty(), "Queue must not be empty.");
-      assertTrue(queue.isFull(), "Queue must be full.");
+      assertFalse(queue.isFull(), "Queue must not be full.");
       assertEquals(1, queue.size(), SIZE_ONE);
     }
 
@@ -350,12 +327,12 @@ class CentredDequeTest {
       assertEquals(VAL + 1, deque.peekFirst(), VALUE_MUST_BE + (VAL + 1) + ".");
     }
 
-    @DisplayName("CentredDequeTest.CentredDequeTests.testPollLastOneElement")
+    @DisplayName("CentredDequeTest.CentredDequeTests.testPollFirstOneElement")
     @Test
-    void testPollLastOneElement() {
+    void testPollFirstOneElement() {
       IDeque deque = new CentredDeque(3);
       deque.addFirst(VAL - 1);
-      assertEquals(VAL - 1, deque.pollLast(), VALUE_MUST_BE + (VAL - 1) + ".");
+      assertEquals(VAL - 1, deque.pollFirst(), VALUE_MUST_BE + (VAL - 1) + ".");
     }
 
     @Test
