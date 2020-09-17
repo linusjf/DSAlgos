@@ -95,6 +95,7 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
+      System.out.println(queue);
       assertEquals(val, queue.poll(), "Poll returns first value inserted.");
       assertEquals(0, queue.size(), SIZE_ZERO);
     }
@@ -105,7 +106,9 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(2);
       long val = VAL;
       queue.insert(val);
+      System.out.println(queue);
       queue.insert(val + 1);
+      System.out.println(queue);
       assertEquals(val, queue.poll(), "Poll returns first value inserted.");
       assertEquals(val + 1, queue.poll(), "Poll returns second value inserted.");
       assertEquals(0, queue.size(), SIZE_ZERO);
@@ -117,6 +120,7 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
+      System.out.println(queue);
       assertEquals(val, queue.peek(), "Peek returns first value inserted.");
       assertEquals(1, queue.size(), SIZE_ONE);
     }
@@ -207,6 +211,7 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
+      System.out.println(queue);
       assertEquals(val, queue.peek(), "Peek returns first value inserted.");
       assertEquals(1, queue.size(), SIZE_ONE);
     }
@@ -254,6 +259,7 @@ class CentredDequeTest {
       IStack stack = new CentredDeque(1);
       long val = VAL;
       stack.push(val);
+      System.out.println(stack);
       stack.push(val);
       assertEquals(2, stack.size(), "Stack is of size two.");
     }
@@ -300,7 +306,7 @@ class CentredDequeTest {
       deque.addFirst(VAL + 1);
       deque.pollLast();
       assertEquals(1, deque.size(), SIZE_THREE);
-      assertThrows(IllegalStateException.class, () -> deque.peekLast(), "Exception expected.");
+      assertEquals(VAL + 1, deque.peekLast(), () -> VALUE_MUST_BE + (VAL + 1) + ".");
     }
 
     @DisplayName("CentredDequeTest.CentredDequeTests.testPollLastReverse")

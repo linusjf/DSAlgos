@@ -139,10 +139,12 @@ public class CentredDeque implements IQueue, IStack, IDeque {
     if (first == -1) {
       if (last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
       else {
-        System.arraycopy(
-            arr, getRightBoundary(arr.length), arr, getLeftBoundary(arr.length), getLeftLength());
-        first = getLeftBoundary(arr.length);
+        int leftBoundary = getLeftBoundary(arr.length);
+        int rightBoundary = getRightBoundary(arr.length);
+        System.arraycopy(arr, rightBoundary, arr, leftBoundary, getRightLength());
+        first = leftBoundary;
         --last;
+        if (last < rightBoundary) last = -1;
       }
     }
     return arr[first];
@@ -156,6 +158,7 @@ public class CentredDeque implements IQueue, IStack, IDeque {
         int leftLength = getLeftLength();
         System.arraycopy(arr, first++, arr, first, leftLength);
         last = getRightBoundary(arr.length);
+        if (first > getLeftBoundary(arr.length)) first = -1;
       }
     }
     return arr[last];
@@ -169,7 +172,9 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   private void doubleCapacity() {
     int n = arr.length;
     if (n == 0) throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
-    long[] a = getDoubleCapacity(n);
+    long[] a;
+    if (n == 1) a = getDoubleCapacity(n * 2);
+    else a = getDoubleCapacity(n);
     if (first >= 0) {
       int startIndex = getLeftBoundary(a.length) - getLeftLength() + 1;
       System.arraycopy(arr, first, a, startIndex, getLeftLength());
