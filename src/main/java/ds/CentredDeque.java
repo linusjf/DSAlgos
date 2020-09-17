@@ -46,25 +46,35 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public boolean isFull() {
-    return first == 0 || last == arr.length - 1;
+    return isLeftFull() && isRightFull();
   }
 
-  private int getLeftBoundary() {
-    if (isOdd(arr.length)) return ((arr.length + 1) >> 1) - 1;
-    else return (arr.length >> 1) - 1;
+  private boolean isLeftFull() {
+    if (arr.length == 0) return true;
+    return first == 0;
   }
 
-  private int getRightBoundary() {
-    if (isOdd(arr.length)) return (arr.length + 1) >> 1;
-    else return arr.length >> 1;
+  private boolean isRightFull() {
+    if (arr.length == 0) return true;
+    return last == arr.length - 1;
+  }
+
+  private int getLeftBoundary(int length) {
+    if (isOdd(length)) return ((length + 1) >> 1) - 1;
+    else return (length >> 1) - 1;
+  }
+
+  private int getRightBoundary(int length) {
+    if (isOdd(length)) return (length + 1) >> 1;
+    else return length >> 1;
   }
 
   private int getLeftLength() {
-    return first == -1 ? 0 : getLeftBoundary() - first + 1;
+    return first == -1 ? 0 : getLeftBoundary(arr.length) - first + 1;
   }
 
   private int getRightLength() {
-    return last == -1 ? 0 : arr.length - last;
+    return last == -1 ? 0 : last - getRightBoundary(arr.length) + 1;
   }
 
   @Override
@@ -88,25 +98,24 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public void addFirst(long key) {
-    if (isFull()) doubleCapacity();
-    if (first == -1) first = getLeftBoundary();
+    if (isLeftFull()) doubleCapacity();
+    if (first == -1) first = getLeftBoundary(arr.length);
     else --first;
     arr[first] = key;
   }
 
   @Override
   public void addLast(long key) {
-    if (isFull()) doubleCapacity();
-    if (last == -1) last = getRightBoundary();
+    if (isRightFull()) doubleCapacity();
+    if (last == -1) last = getRightBoundary(arr.length);
     else ++last;
     arr[last] = key;
   }
 
   @Override
   public long pollFirst() {
-    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
-    long val = arr[first];
-    if (first == getLeftBoundary()) {
+    long val = peekFirst();
+    if (first == getLeftBoundary(arr.length)) {
       reinitializeLeftPointer();
       return val;
     }
@@ -116,9 +125,8 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public long pollLast() {
-    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
-    long val = arr[last];
-    if (last == getRightBoundary()) {
+    long val = peekLast();
+    if (last == getRightBoundary(arr.length)) {
       reinitializeRightPointer();
       return val;
     }
@@ -128,13 +136,13 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public long peekFirst() {
-    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (first == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
     return arr[first];
   }
 
   @Override
   public long peekLast() {
-    if (isEmpty()) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
     return arr[last];
   }
 
@@ -147,12 +155,13 @@ public class CentredDeque implements IQueue, IStack, IDeque {
     int n = arr.length;
     if (n == 0) throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
     long[] a = getDoubleCapacity(n);
-    if (first > 0) {
-      System.arraycopy(arr, first, a, (a.length >> 1) - getLeftLength() - 1, getLeftLength());
-      first = (a.length >> 1) - 1 - getLeftLength();
+    if (first >= 0) {
+      int startIndex = getLeftBoundary(a.length) - getLeftLength() + 1;
+      System.arraycopy(arr, first, a, startIndex, getLeftLength());
+      first = startIndex;
     }
     if (last > 0) {
-      System.arraycopy(arr, getRightBoundary(), a, (a.length >> 1), getRightLength());
+      System.arraycopy(arr, getRightBoundary(arr.length), a, (a.length >> 1), getRightLength());
       last = (a.length >> 1) + getRightLength() - 1;
     }
     arr = a;
