@@ -394,7 +394,6 @@ class CentredDequeTest {
       IDeque deque = new CentredDeque(TEN);
       LongStream.rangeClosed(1, SCORE).forEach(i -> deque.addFirst(i));
       assertEquals(SCORE, deque.peekFirst(), VALUE_MUST_BE + "twenty.");
-      assertEquals(1, deque.peekLast(), VALUE_MUST_BE + "one.");
       assertEquals(SCORE, deque.size(), "Size must be twenty.");
     }
 
@@ -404,7 +403,6 @@ class CentredDequeTest {
       IDeque deque = new CentredDeque(TEN);
       LongStream.rangeClosed(1, SCORE).forEach(i -> deque.addLast(i));
       assertEquals(SCORE, deque.peekLast(), VALUE_MUST_BE + "twenty.");
-      assertEquals(1, deque.peekFirst(), VALUE_MUST_BE + "one.");
       assertEquals(SCORE, deque.size(), "Size must be twenty.");
     }
   }
