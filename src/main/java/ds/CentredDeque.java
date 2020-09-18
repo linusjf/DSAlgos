@@ -122,7 +122,6 @@ public class CentredDeque implements IQueue, IStack, IDeque {
       first = leftBoundary;
       --last;
       if (last < rightBoundary) last = -1;
-      return val;
     }
     if (first == getLeftBoundary(arr.length)) {
       reinitializeLeftPointer();
@@ -140,7 +139,6 @@ public class CentredDeque implements IQueue, IStack, IDeque {
       System.arraycopy(arr, first++, arr, first, leftLength);
       last = getRightBoundary(arr.length);
       if (first > getLeftBoundary(arr.length)) first = -1;
-      return val;
     }
     if (last == getRightBoundary(arr.length)) {
       reinitializeRightPointer();

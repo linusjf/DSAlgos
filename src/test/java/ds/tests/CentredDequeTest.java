@@ -440,5 +440,16 @@ class CentredDequeTest {
       assertFalse(deque.isFull(), QUEUE_NOT_FULL);
       assertEquals(2, deque.size(), SIZE_ZERO);
     }
+
+    @DisplayName("CentredDequeTest.CentredDequeTests.testAddFirstPollLast")
+    @Test
+    void testAddFirstPollLast() {
+      CentredDeque deque = new CentredDeque(4);
+      deque.addFirst(VAL);
+      deque.addFirst(VAL);
+      deque.pollLast();
+      deque.pollLast();
+      assertEquals(0, deque.size(), SIZE_ZERO);
+    }
   }
 }
