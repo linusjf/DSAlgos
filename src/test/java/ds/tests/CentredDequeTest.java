@@ -95,7 +95,6 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
-      System.out.println(queue);
       assertEquals(val, queue.poll(), "Poll returns first value inserted.");
       assertEquals(0, queue.size(), SIZE_ZERO);
     }
@@ -106,9 +105,7 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(2);
       long val = VAL;
       queue.insert(val);
-      System.out.println(queue);
       queue.insert(val + 1);
-      System.out.println(queue);
       assertEquals(val, queue.poll(), "Poll returns first value inserted.");
       assertEquals(val + 1, queue.poll(), "Poll returns second value inserted.");
       assertEquals(0, queue.size(), SIZE_ZERO);
@@ -120,7 +117,6 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
-      System.out.println(queue);
       assertEquals(val, queue.peek(), "Peek returns first value inserted.");
       assertEquals(1, queue.size(), SIZE_ONE);
     }
@@ -211,7 +207,6 @@ class CentredDequeTest {
       IQueue queue = new CentredDeque(1);
       long val = VAL;
       queue.insert(val);
-      System.out.println(queue);
       assertEquals(val, queue.peek(), "Peek returns first value inserted.");
       assertEquals(1, queue.size(), SIZE_ONE);
     }
@@ -259,7 +254,6 @@ class CentredDequeTest {
       IStack stack = new CentredDeque(1);
       long val = VAL;
       stack.push(val);
-      System.out.println(stack);
       stack.push(val);
       assertEquals(2, stack.size(), "Stack is of size two.");
     }
@@ -290,11 +284,8 @@ class CentredDequeTest {
     void testAddLastThrice() {
       IDeque deque = new CentredDeque(3);
       deque.addLast(VAL - 1);
-      System.out.println(deque);
       deque.addLast(VAL);
-      System.out.println(deque);
       deque.addLast(VAL + 1);
-      System.out.println(deque);
       assertEquals(3, deque.size(), SIZE_THREE);
     }
 
