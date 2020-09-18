@@ -24,8 +24,10 @@ class CentredDequeTest {
   private static final String SIZE_ONE = "Size must be one.";
   private static final String SIZE_THREE = "Size must be three.";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
-  private static final String QUEUE_NOT_EMPTY = "Queue must not be empty.";
+  private static final String LEFT_FULL = "Left must be full.";
+  private static final String RIGHT_FULL = "Right must be full.";
   private static final String QUEUE_FULL = "Queue must be full.";
+  private static final String QUEUE_NOT_FULL = "Queue must not be full.";
   private static final String VALUE_MUST_BE = "Value must be ";
 
   private static final long VAL = 20;
@@ -415,6 +417,28 @@ class CentredDequeTest {
       assertTrue(deque.isFull(), QUEUE_FULL);
       assertFalse(deque.isEmpty(), QUEUE_FULL);
       assertEquals(4, deque.size(), SIZE_ZERO);
+    }
+
+    @DisplayName("CentredDequeTest.CentredDequeTests.testIsLeftFull")
+    @Test
+    void testIsLeftFull() {
+      CentredDeque deque = new CentredDeque(4);
+      deque.addFirst(VAL);
+      deque.addFirst(VAL);
+      assertTrue(deque.isLeftFull(), LEFT_FULL);
+      assertFalse(deque.isFull(), QUEUE_NOT_FULL);
+      assertEquals(2, deque.size(), SIZE_ZERO);
+    }
+
+    @DisplayName("CentredDequeTest.CentredDequeTests.testIsRightFull")
+    @Test
+    void testIsRightFull() {
+      CentredDeque deque = new CentredDeque(4);
+      deque.addLast(VAL);
+      deque.addLast(VAL);
+      assertTrue(deque.isRightFull(), RIGHT_FULL);
+      assertFalse(deque.isFull(), QUEUE_NOT_FULL);
+      assertEquals(2, deque.size(), SIZE_ZERO);
     }
   }
 }

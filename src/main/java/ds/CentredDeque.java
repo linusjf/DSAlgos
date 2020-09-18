@@ -49,12 +49,12 @@ public class CentredDeque implements IQueue, IStack, IDeque {
     return isLeftFull() && isRightFull();
   }
 
-  private boolean isLeftFull() {
+  public boolean isLeftFull() {
     if (arr.length == 0) return true;
     return first == 0;
   }
 
-  private boolean isRightFull() {
+  public boolean isRightFull() {
     if (arr.length == 1 || arr.length == 0) return true;
     return last == arr.length - 1;
   }
@@ -115,6 +115,15 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   @Override
   public long pollFirst() {
     long val = peekFirst();
+    if (first == -1) {
+      int leftBoundary = getLeftBoundary(arr.length);
+      int rightBoundary = getRightBoundary(arr.length);
+      System.arraycopy(arr, rightBoundary, arr, leftBoundary, getRightLength());
+      first = leftBoundary;
+      --last;
+      if (last < rightBoundary) last = -1;
+      return val;
+    }
     if (first == getLeftBoundary(arr.length)) {
       reinitializeLeftPointer();
       return val;
@@ -126,6 +135,13 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   @Override
   public long pollLast() {
     long val = peekLast();
+    if (last == -1) {
+      int leftLength = getLeftLength();
+      System.arraycopy(arr, first++, arr, first, leftLength);
+      last = getRightBoundary(arr.length);
+      if (first > getLeftBoundary(arr.length)) first = -1;
+      return val;
+    }
     if (last == getRightBoundary(arr.length)) {
       reinitializeRightPointer();
       return val;
@@ -136,31 +152,15 @@ public class CentredDeque implements IQueue, IStack, IDeque {
 
   @Override
   public long peekFirst() {
-    if (first == -1) {
-      if (last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
-      else {
-        int leftBoundary = getLeftBoundary(arr.length);
-        int rightBoundary = getRightBoundary(arr.length);
-        System.arraycopy(arr, rightBoundary, arr, leftBoundary, getRightLength());
-        first = leftBoundary;
-        --last;
-        if (last < rightBoundary) last = -1;
-      }
-    }
+    if (first == -1 && last == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (first == -1) return arr[getRightBoundary(arr.length)];
     return arr[first];
   }
 
   @Override
   public long peekLast() {
-    if (last == -1) {
-      if (first == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
-      else {
-        int leftLength = getLeftLength();
-        System.arraycopy(arr, first++, arr, first, leftLength);
-        last = getRightBoundary(arr.length);
-        if (first > getLeftBoundary(arr.length)) first = -1;
-      }
-    }
+    if (last == -1 && first == -1) throw new IllegalStateException(QUEUE_UNDERFLOW);
+    if (last == -1) return arr[getLeftBoundary(arr.length)];
     return arr[last];
   }
 
