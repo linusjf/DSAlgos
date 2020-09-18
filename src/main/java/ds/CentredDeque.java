@@ -165,9 +165,7 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   }
 
   /***
-   * <p> Double the capacity of this deque.
-   * Call only when full, i.e.,
-   * when head and tail have wrapped around to touch each other. </p>
+   * <p> Double the capacity of this deque. </p>
    ***/
   private void doubleCapacity() {
     int n = arr.length;
@@ -181,7 +179,7 @@ public class CentredDeque implements IQueue, IStack, IDeque {
       first = startIndex;
     }
     if (last > 0) {
-      System.arraycopy(arr, getRightBoundary(arr.length), a, (a.length >> 1), getRightLength());
+      System.arraycopy(arr, getRightBoundary(arr.length), a, a.length >> 1, getRightLength());
       last = (a.length >> 1) + getRightLength() - 1;
     }
     arr = a;

@@ -24,6 +24,8 @@ class CentredDequeTest {
   private static final String SIZE_ONE = "Size must be one.";
   private static final String SIZE_THREE = "Size must be three.";
   private static final String QUEUE_EMPTY = "Queue must be empty.";
+  private static final String QUEUE_NOT_EMPTY = "Queue must not be empty.";
+  private static final String QUEUE_FULL = "Queue must be full.";
   private static final String VALUE_MUST_BE = "Value must be ";
 
   private static final long VAL = 20;
@@ -171,7 +173,7 @@ class CentredDequeTest {
     @Test
     void testIsFull() {
       IQueue queue = new CentredDeque(0);
-      assertTrue(queue.isFull(), "Queue must be full.");
+      assertTrue(queue.isFull(), QUEUE_FULL);
       assertTrue(queue.isEmpty(), QUEUE_EMPTY);
       assertEquals(0, queue.size(), SIZE_ZERO);
     }
@@ -362,6 +364,7 @@ class CentredDequeTest {
       assertThrows(IllegalStateException.class, () -> deque.peekLast(), "Exception expected.");
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Test
     @DisplayName("CentredDequeTest.CentredDequeTests.testInsertFirstDoubling")
     void testInsertFirstDoubling() {
@@ -371,6 +374,7 @@ class CentredDequeTest {
       assertEquals(SCORE, deque.size(), "Size must be twenty.");
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Test
     @DisplayName("CentredDequeTest.CentredDequeTests.testInsertLastDoubling")
     void testInsertLastDoubling() {
@@ -378,6 +382,39 @@ class CentredDequeTest {
       LongStream.rangeClosed(1, SCORE).forEach(i -> deque.addLast(i));
       assertEquals(SCORE, deque.peekLast(), VALUE_MUST_BE + "twenty.");
       assertEquals(SCORE, deque.size(), "Size must be twenty.");
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter")
+    @Test
+    @DisplayName("CentredDequeTest.CentredDequeTests.testDoublingRemoval")
+    void testDoublingRemoval() {
+      IDeque deque = new CentredDeque(SCORE);
+      LongStream.rangeClosed(1, TEN)
+          .forEach(
+              i -> {
+                deque.addLast(i);
+                deque.addFirst(i);
+              });
+      LongStream.rangeClosed(1, TEN)
+          .forEach(
+              i -> {
+                deque.pollLast();
+                deque.pollFirst();
+              });
+      assertEquals(0, deque.size(), SIZE_ZERO);
+    }
+
+    @DisplayName("CentredDequeTest.CentredDequeTests.testIsFullSizeOne")
+    @Test
+    void testIsFull() {
+      IDeque deque = new CentredDeque(4);
+      deque.addFirst(VAL);
+      deque.addFirst(VAL);
+      deque.addLast(VAL);
+      deque.addLast(VAL);
+      assertTrue(deque.isFull(), QUEUE_FULL);
+      assertFalse(deque.isEmpty(), QUEUE_FULL);
+      assertEquals(4, deque.size(), SIZE_ZERO);
     }
   }
 }

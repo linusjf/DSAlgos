@@ -409,6 +409,7 @@ class DequeTest {
       assertThrows(IllegalStateException.class, () -> deque.peekLast(), "Exception expected.");
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Test
     @DisplayName("DequeTest.DequeTests.testInsertFirstDoubling")
     void testInsertFirstDoubling() {
@@ -419,6 +420,7 @@ class DequeTest {
       assertEquals(SCORE, deque.size(), "Size must be twenty.");
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Test
     @DisplayName("DequeTest.DequeTests.testInsertLastDoubling")
     void testInsertLastDoubling() {
