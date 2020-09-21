@@ -1,60 +1,122 @@
 package ds;
 
-public class SinglyLinkedList {
+public class SinglyLinkedList<T extends Object> {
 
-  class Node<T> {
+  private int size;
+  private SingleNode<T> head;
 
-    private T data;
+  @SuppressWarnings("nullness")
+  public SinglyLinkedList() {
+    size = 0;
+    head = null;
+  }
 
-    private Node<T> node;
-
-    Node(T data) {
-      this.data = data;
+  /**
+   * Add element at end.
+   *
+   * @param data - data to be added to list.
+   */
+  public void add(T data) {
+    if (data == null) return;
+    if (head == null) head = new SingleNode<T>(data);
+    else {
+      SingleNode<T> newNode = new SingleNode<T>(data);
+      SingleNode<T> lastNode = getLastNode(head);
+      lastNode.setNext(newNode);
     }
+    ++size;
+  }
 
-    Node<T> getNode() {
-      return node;
+  /**
+   * Add the element at specified index. Index start from 0 to n-1 where n=size of linked list. If
+   * index is negative value, nothing will be added to linked list.
+   *
+   * <p>if index =0 , element will be added at head and element become the first node.
+   *
+   * @param data - data to be added at index.
+   * @param index - index at which element to be added.
+   */
+  public void add(T data, int index) throws IndexOutOfBoundsException {
+    if (data == null) return;
+    // If index=0 , we should add the data at head
+    if (index == 0) {
+      addAtFirst(data);
+      return;
     }
+    // If index= size, we should add the data at last
+    if (index == this.size) add(data);
+    else if (index < this.size) {
+      SingleNode<T> newNode = new SingleNode<T>(data);
+      // get the node at (index) from linked list and mark as rightNode.
+      // get the node at (index-1) from linked list and mark as leftNode.
+      // set node of newly created node as right node.
+      // set node of left node as newly created Node.
+      SingleNode<T> leftNode = getNext(index - 1);
+      SingleNode<T> rightNode = getNext(index);
+      newNode.setNext(rightNode);
+      leftNode.setNext(newNode);
+      size++;
+    } else throw new IndexOutOfBoundsException("Index not available.");
+  }
 
-    void setNode(Node<T> node) {
-      this.node = node;
-    }
+  /**
+   * Add element at first node. Set the newly created node as root node.
+   *
+   * @param data Add data node at beginning.
+   */
+  public void addAtFirst(T data) {
+    if (data == null) return;
+    SingleNode<T> newNode = new SingleNode<T>(data);
+    if (this.head != null) {
+      newNode.setNext(this.head);
+      this.head = newNode;
+    } else this.head = newNode;
+    ++size;
+  }
 
-    T getData() {
-      return data;
+  private SingleNode<T> getNext(int index) {
+    if (index < 0 || index > this.size - 1)
+      throw new IndexOutOfBoundsException("Index not available: " + index);
+    if (index == 0) return this.head;
+    if (index == this.size - 1) return getLastNode(this.head);
+    int pointer = 0;
+    SingleNode<T> pointerNode = this.head;
+    while (pointer <= index) {
+      if (pointer == index) break;
+      else {
+        pointerNode = next(pointerNode);
+        pointer++;
+      }
     }
+    return pointerNode;
+  }
 
-    void setData(T data) {
-      this.data = data;
-    }
+  private SingleNode<T> getLastNode(SingleNode<T> node) {
+    SingleNode<T> lastNode = node;
+    if (lastNode.getNext() != null) return getLastNode(lastNode.getNext());
+    else return lastNode;
+  }
 
-    @Override
-    public String toString() {
-      return data.toString();
-    }
+  private SingleNode<T> next(SingleNode<T> node) {
+    return node.getNext();
+  }
 
-    @Override
-    public int hashCode() {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + ((data == null) ? 0 : data.hashCode());
-      result = prime * result + ((node == null) ? 0 : node.hashCode());
-      return result;
-    }
+  public int size() {
+    return this.size;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (!(obj instanceof Node)) return false;
-      Node other = (Node) obj;
-      if (data == null) {
-        if (other.data != null) return false;
-      } else if (!data.equals(other.data)) return false;
-      if (node == null) {
-        if (other.node != null) return false;
-      } else if (!node.equals(other.node)) return false;
-      return true;
+  @Override
+  public String toString() {
+    String represent = "[";
+    SingleNode<T> nextNode = this.head;
+    while (nextNode != null) {
+      represent = represent + nextNode.toString();
+      nextNode = next(nextNode);
+      if (nextNode != null) {
+        represent = represent + ",";
+      }
     }
+    represent = represent + "]";
+    return represent;
   }
 }
