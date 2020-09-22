@@ -576,7 +576,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.ToStringTests.testToString")
     void testToString(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(34);
       sb.append(OrdArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
@@ -591,7 +591,7 @@ class OrdArrayTest {
     @DisplayName("OrdArrayTest.ToStringTests.testToStringSpan")
     void testToStringSpan(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(57);
       sb.append(OrdArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
@@ -607,11 +607,10 @@ class OrdArrayTest {
     void testToStringEmpty() {
       IArray arr = new OrdArray(TEN);
       String lineSeparator = System.lineSeparator();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(25);
       sb.append(OrdArray.class.getName())
           .append(lineSeparator)
-          .append("nElems = ")
-          .append(0)
+          .append("nElems = 0")
           .append(lineSeparator);
       assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
     }

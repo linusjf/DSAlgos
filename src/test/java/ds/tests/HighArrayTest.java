@@ -476,7 +476,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.ToStringTests.testToString")
     void testToString(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(34);
       sb.append(HighArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")
@@ -491,7 +491,7 @@ class HighArrayTest {
     @DisplayName("HighArrayTest.ToStringTests.testToStringSpan")
     void testToStringSpan(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
       String lineSeparator = System.lineSeparator();
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(38);
       sb.append(HighArray.class.getName())
           .append(lineSeparator)
           .append("nElems = ")

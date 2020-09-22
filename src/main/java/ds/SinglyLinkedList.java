@@ -2,7 +2,7 @@ package ds;
 
 public class SinglyLinkedList<T extends Object> {
 
-  private int size;
+  private int length;
   @SuppressWarnings("initialization.fields.uninitialized")
   private SingleNode<T> head;
 
@@ -11,37 +11,40 @@ public class SinglyLinkedList<T extends Object> {
    *
    * @param data - data to be added to list.
    */
+  @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data) {
     if (data == null) return;
-    if (head == null) head = new SingleNode<T>(data);
+    if (head == null) head = new SingleNode<>(data);
     else {
-      SingleNode<T> newNode = new SingleNode<T>(data);
+      SingleNode<T> newNode = new SingleNode<>(data);
       SingleNode<T> lastNode = getLastNode(head);
       lastNode.setNext(newNode);
     }
-    ++size;
+    ++length;
   }
 
   /**
-   * Add the element at specified index. Index start from 0 to n-1 where n=size of linked list. If
-   * index is negative value, nothing will be added to linked list.
-   *
-   * <p>if index =0 , element will be added at head and element become the first node.
+   * <p>Add the element at specified index. 
+   * Index start from 0 to n-1 where n = length of linked list. 
+   * If index is negative, nothing will be added to linked list.
+   * if index = 0, element will be added at head and 
+   * element become the first node.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  public void add(T data, int index) throws IndexOutOfBoundsException {
+  @SuppressWarnings("PMD.LawOfDemeter")
+  public void add(T data, int index) {
     if (data == null) return;
     // If index=0 , we should add the data at head
     if (index == 0) {
       addAtFirst(data);
       return;
     }
-    // If index= size, we should add the data at last
-    if (index == this.size) add(data);
-    else if (index < this.size) {
-      SingleNode<T> newNode = new SingleNode<T>(data);
+    // If index= length, we should add the data at last
+    if (index == this.length) add(data);
+    else if (index < this.length) {
+      SingleNode<T> newNode = new SingleNode<>(data);
       // get the node at (index) from linked list and mark as rightNode.
       // get the node at (index-1) from linked list and mark as leftNode.
       // set node of newly created node as right node.
@@ -50,7 +53,7 @@ public class SinglyLinkedList<T extends Object> {
       SingleNode<T> rightNode = getNode(index);
       newNode.setNext(rightNode);
       leftNode.setNext(newNode);
-      ++size;
+      ++length;
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -61,19 +64,21 @@ public class SinglyLinkedList<T extends Object> {
    */
   public void addAtFirst(T data) {
     if (data == null) return;
-    SingleNode<T> newNode = new SingleNode<T>(data);
-    if (this.head != null) {
+    SingleNode<T> newNode = new SingleNode<>(data);
+    if (this.head == null) 
+    this.head = newNode;
+    else {
       newNode.setNext(this.head);
       this.head = newNode;
-    } else this.head = newNode;
-    ++size;
+    }
+    ++length;
   }
 
   private SingleNode<T> getNode(int index) {
-    if (index < 0 || index > this.size - 1)
+    if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
-    if (index == this.size - 1) return getLastNode(this.head);
+    if (index == this.length - 1) return getLastNode(this.head);
     int pointer = 0;
     SingleNode<T> pointerNode = this.head;
     while (pointer <= index) {
@@ -86,10 +91,12 @@ public class SinglyLinkedList<T extends Object> {
     return pointerNode;
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   private SingleNode<T> getLastNode(SingleNode<T> node) {
     SingleNode<T> lastNode = node;
-    if (lastNode.getNext() != null) return getLastNode(lastNode.getNext());
-    else return lastNode;
+    if (lastNode.getNext() == null)
+    return lastNode;
+    return getLastNode(lastNode.getNext());
   }
 
   private SingleNode<T> next(SingleNode<T> node) {
@@ -97,7 +104,7 @@ public class SinglyLinkedList<T extends Object> {
   }
 
   public int size() {
-    return this.size;
+    return this.length;
   }
 
   @Override
