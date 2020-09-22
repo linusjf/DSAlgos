@@ -3,6 +3,7 @@ package ds;
 public class SinglyLinkedList<T extends Object> {
 
   private int length;
+
   @SuppressWarnings("initialization.fields.uninitialized")
   private SingleNode<T> head;
 
@@ -24,11 +25,9 @@ public class SinglyLinkedList<T extends Object> {
   }
 
   /**
-   * <p>Add the element at specified index. 
-   * Index start from 0 to n-1 where n = length of linked list. 
-   * If index is negative, nothing will be added to linked list.
-   * if index = 0, element will be added at head and 
-   * element become the first node.
+   * Add the element at specified index. Index start from 0 to n-1 where n = length of linked list.
+   * If index is negative, nothing will be added to linked list. if index = 0, element will be added
+   * at head and element become the first node.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
@@ -65,8 +64,7 @@ public class SinglyLinkedList<T extends Object> {
   public void addAtFirst(T data) {
     if (data == null) return;
     SingleNode<T> newNode = new SingleNode<>(data);
-    if (this.head == null) 
-    this.head = newNode;
+    if (this.head == null) this.head = newNode;
     else {
       newNode.setNext(this.head);
       this.head = newNode;
@@ -94,8 +92,7 @@ public class SinglyLinkedList<T extends Object> {
   @SuppressWarnings("PMD.LawOfDemeter")
   private SingleNode<T> getLastNode(SingleNode<T> node) {
     SingleNode<T> lastNode = node;
-    if (lastNode.getNext() == null)
-    return lastNode;
+    if (lastNode.getNext() == null) return lastNode;
     return getLastNode(lastNode.getNext());
   }
 

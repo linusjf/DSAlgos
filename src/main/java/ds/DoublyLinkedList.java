@@ -30,10 +30,9 @@ public class DoublyLinkedList<T extends Object> {
   }
 
   /**
-   * <p> Add the element at specified index. 
-   * Index starts from 0 to n-1 where n = length of linked list. 
-   * If index is negative, nothing will be added to linked list.
-   * if index = 0, element will be added at head and element becomes the first node.
+   * Add the element at specified index. Index starts from 0 to n-1 where n = length of linked list.
+   * If index is negative, nothing will be added to linked list. if index = 0, element will be added
+   * at head and element becomes the first node.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
@@ -66,8 +65,7 @@ public class DoublyLinkedList<T extends Object> {
   public void addAtFirst(T data) {
     if (data == null) return;
     DoubleNode<T> newNode = new DoubleNode<>(data);
-    if (this.head == null)  
-    this.head = this.tail = newNode;
+    if (this.head == null) this.head = this.tail = newNode;
     else {
       this.head.setPrev(newNode);
       newNode.setNext(this.head);
