@@ -36,6 +36,28 @@ public class SinglyLinkedList<T> {
     return startNode;
   }
 
+  public boolean delete(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
+    SingleNode<T> node = new SingleNode<>(data);
+    if (head == null) return false;
+    if (head.equals(node)) {
+      head = head.getNext();
+      --length;
+      return true;
+    }
+    SingleNode<T> prevNode = head;
+    SingleNode<T> currNode = head.getNext();
+    while (currNode != null) {
+      if (currNode.equals(node)) {
+        prevNode.setNext(currNode.getNext());
+        --length;
+        return true;
+      }
+      currNode = currNode.getNext();
+    }
+    return false;
+  }
+
   /**
    * Add the element at specified index. Index start from 0 to n-1 where n = length of linked list.
    * If index is negative, nothing will be added to linked list. if index = 0, element will be added
