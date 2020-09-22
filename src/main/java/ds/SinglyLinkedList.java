@@ -1,6 +1,6 @@
 package ds;
 
-public class SinglyLinkedList<T extends Object> {
+public class SinglyLinkedList<T> {
 
   private int length;
 
@@ -14,7 +14,7 @@ public class SinglyLinkedList<T extends Object> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data) {
-    if (data == null) return;
+    if (data == null) throw new NullPointerException("Data cannot be null.");
     if (head == null) head = new SingleNode<>(data);
     else {
       SingleNode<T> newNode = new SingleNode<>(data);
@@ -22,6 +22,18 @@ public class SinglyLinkedList<T extends Object> {
       lastNode.setNext(newNode);
     }
     ++length;
+  }
+
+  public SingleNode<T> findNode(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
+    SingleNode<T> node = new SingleNode<T>(data);
+    if (head.equals(node)) return head;
+    SingleNode<T> startNode = head.getNext();
+    while (startNode != null) {
+      if (startNode.equals(node)) return startNode;
+      startNode = startNode.getNext();
+    }
+    return startNode;
   }
 
   /**
@@ -34,20 +46,14 @@ public class SinglyLinkedList<T extends Object> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data, int index) {
-    if (data == null) return;
-    // If index=0 , we should add the data at head
+    if (data == null) throw new NullPointerException("Data cannot be null.");
     if (index == 0) {
       addAtFirst(data);
       return;
     }
-    // If index= length, we should add the data at last
     if (index == this.length) add(data);
     else if (index < this.length) {
       SingleNode<T> newNode = new SingleNode<>(data);
-      // get the node at (index) from linked list and mark as rightNode.
-      // get the node at (index-1) from linked list and mark as leftNode.
-      // set node of newly created node as right node.
-      // set node of left node as newly created Node.
       SingleNode<T> leftNode = getNode(index - 1);
       SingleNode<T> rightNode = getNode(index);
       newNode.setNext(rightNode);
@@ -62,7 +68,7 @@ public class SinglyLinkedList<T extends Object> {
    * @param data Add data node at beginning.
    */
   public void addAtFirst(T data) {
-    if (data == null) return;
+    if (data == null) throw new NullPointerException("Data cannot be null.");
     SingleNode<T> newNode = new SingleNode<>(data);
     if (this.head == null) this.head = newNode;
     else {

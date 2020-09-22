@@ -2,15 +2,15 @@ package ds;
 
 import java.util.Objects;
 
-class SingleNode<T extends Object> {
+class SingleNode<T> implements INode<T> {
 
-  private static final String NULL_STRING = "NULL";
   private T data;
 
+  @SuppressWarnings("initialization.fields.uninitialized")
   private SingleNode<T> next;
 
-  @SuppressWarnings("nullness")
   SingleNode(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
     this.data = data;
   }
 
@@ -22,16 +22,19 @@ class SingleNode<T extends Object> {
     this.next = node;
   }
 
-  T getData() {
+  @Override
+  public T getData() {
     return data;
   }
 
-  void setData(T data) {
+  @Override
+  public void setData(T data) {
     this.data = data;
   }
 
   @Override
+  @SuppressWarnings("fenum:argument.type.incompatible")
   public String toString() {
-    return data == null ? NULL_STRING : Objects.toString(data);
+    return Objects.toString(data);
   }
 }
