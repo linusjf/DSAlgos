@@ -2,72 +2,59 @@ package ds;
 
 public class DoublyLinkedList<T extends Object> {
 
-  private int size;
-  private DoubleNode<T> head;
-  private DoubleNode<T> tail;
+  private int length;
 
-  @SuppressWarnings("nullness")
-  public DoublyLinkedList() {
-    size = 0;
-    head = null;
-    tail = null;
-  }
+  @SuppressWarnings("initialization.fields.uninitialized")
+  private DoubleNode<T> head;
+
+  @SuppressWarnings("initialization.fields.uninitialized")
+  private DoubleNode<T> tail;
 
   /**
    * Add element at end.
    *
    * @param data - data to be added to list.
    */
-  @SuppressWarnings("nullness")
   public void add(T data) {
     if (data == null) return;
     if (head == null) {
-      head = new DoubleNode<T>(data);
+      head = new DoubleNode<>(data);
       tail = head;
-      head.setNext(null);
-      head.setPrev(null);
     } else {
-      DoubleNode<T> newNode = new DoubleNode<T>(data);
-      DoubleNode<T> lastNode = tail;
-      lastNode.setNext(newNode);
-      newNode.setPrev(lastNode);
-      newNode.setNext(null);
+      DoubleNode<T> newNode = new DoubleNode<>(data);
+      tail.setNext(newNode);
+      newNode.setPrev(tail);
       tail = newNode;
     }
-    ++size;
+    ++length;
   }
 
   /**
-   * Add the element at specified index. Index start from 0 to n-1 where n=size of linked list. If
-   * index is negative value, nothing will be added to linked list.
-   *
-   * <p>if index =0 , element will be added at head and element become the first node.
+   * <p> Add the element at specified index. 
+   * Index starts from 0 to n-1 where n = length of linked list. 
+   * If index is negative, nothing will be added to linked list.
+   * if index = 0, element will be added at head and element becomes the first node.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  public void add(T data, int index) throws IndexOutOfBoundsException {
+  @SuppressWarnings("PMD.LawOfDemeter")
+  public void add(T data, int index) {
     if (data == null) return;
-    // If index=0 , we should add the data at head
     if (index == 0) {
       addAtFirst(data);
       return;
     }
-    // If index= size, we should add the data at last
-    if (index == this.size) add(data);
-    else if (index < this.size) {
-      DoubleNode<T> newNode = new DoubleNode<T>(data);
-      // get the node at (index) from linked list and mark as rightNode.
-      // get the node at (index-1) from linked list and mark as leftNode.
-      // set node of newly created node as right node.
-      // set node of left node as newly created Node.
+    if (index == this.length) add(data);
+    else if (index < this.length) {
+      DoubleNode<T> newNode = new DoubleNode<>(data);
       DoubleNode<T> leftNode = getNode(index - 1);
       DoubleNode<T> rightNode = getNode(index);
       newNode.setNext(rightNode);
       newNode.setPrev(leftNode);
       leftNode.setNext(newNode);
       rightNode.setPrev(newNode);
-      ++size;
+      ++length;
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -78,21 +65,23 @@ public class DoublyLinkedList<T extends Object> {
    */
   public void addAtFirst(T data) {
     if (data == null) return;
-    DoubleNode<T> newNode = new DoubleNode<T>(data);
-    if (this.head != null) {
-      newNode.setNext(this.head);
+    DoubleNode<T> newNode = new DoubleNode<>(data);
+    if (this.head == null)  
+    this.head = this.tail = newNode;
+    else {
       this.head.setPrev(newNode);
+      newNode.setNext(this.head);
       this.head = newNode;
-    } else this.head = newNode;
-    ++size;
+    }
+    ++length;
   }
 
   private DoubleNode<T> getNode(int index) {
-    if (index < 0 || index > this.size - 1)
+    if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
-    if (index == this.size - 1) return this.tail;
-    int midPoint = this.size >> 1;
+    if (index == this.length - 1) return this.tail;
+    int midPoint = this.length >> 1;
     if (index < midPoint) return getNodeFromHead(index);
     else return getNodeFromTail(index);
   }
@@ -111,7 +100,7 @@ public class DoublyLinkedList<T extends Object> {
   }
 
   private DoubleNode<T> getNodeFromTail(int index) {
-    int pointer = size - 1;
+    int pointer = length - 1;
     DoubleNode<T> pointerNode = this.tail;
     while (pointer >= 0) {
       if (pointer == index) break;
@@ -132,7 +121,7 @@ public class DoublyLinkedList<T extends Object> {
   }
 
   public int size() {
-    return this.size;
+    return this.length;
   }
 
   @Override
@@ -141,7 +130,7 @@ public class DoublyLinkedList<T extends Object> {
     sb.append('[');
     DoubleNode<T> nextNode = this.head;
     while (nextNode != null) {
-      represent = represent + nextNode.toString();
+      sb.append(nextNode);
       nextNode = next(nextNode);
       if (nextNode != null) sb.append(',');
     }

@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Objects;
+
 class SingleNode<T extends Object> {
 
   private static final String NULL_STRING = "NULL";
@@ -10,7 +12,6 @@ class SingleNode<T extends Object> {
   @SuppressWarnings("nullness")
   SingleNode(T data) {
     this.data = data;
-    this.next = null;
   }
 
   SingleNode<T> getNext() {
@@ -31,6 +32,6 @@ class SingleNode<T extends Object> {
 
   @Override
   public String toString() {
-    return data == null ? NULL_STRING : data + "";
+    return data == null ? NULL_STRING : Objects.toString(data);
   }
 }

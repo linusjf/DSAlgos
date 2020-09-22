@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Objects;
+
 class DoubleNode<T extends Object> {
 
   private static final String NULL_STRING = "NULL";
@@ -11,8 +13,6 @@ class DoubleNode<T extends Object> {
   @SuppressWarnings("nullness")
   DoubleNode(T data) {
     this.data = data;
-    this.next = null;
-    this.prev = null;
   }
 
   DoubleNode<T> getPrev() {
@@ -41,6 +41,6 @@ class DoubleNode<T extends Object> {
 
   @Override
   public String toString() {
-    return data == null ? NULL_STRING : data + "";
+    return data == null ? NULL_STRING : Objects.toString(data);
   }
 }

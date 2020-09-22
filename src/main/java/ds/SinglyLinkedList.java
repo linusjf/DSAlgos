@@ -3,13 +3,8 @@ package ds;
 public class SinglyLinkedList<T extends Object> {
 
   private int size;
+  @SuppressWarnings("initialization.fields.uninitialized")
   private SingleNode<T> head;
-
-  @SuppressWarnings("nullness")
-  public SinglyLinkedList() {
-    size = 0;
-    head = null;
-  }
 
   /**
    * Add element at end.
@@ -85,7 +80,7 @@ public class SinglyLinkedList<T extends Object> {
       if (pointer == index) break;
       else {
         pointerNode = next(pointerNode);
-        pointer++;
+        ++pointer;
       }
     }
     return pointerNode;
@@ -113,8 +108,7 @@ public class SinglyLinkedList<T extends Object> {
     while (nextNode != null) {
       sb.append(nextNode);
       nextNode = next(nextNode);
-      if (nextNode != null) 
-        sb.append(',');
+      if (nextNode != null) sb.append(',');
     }
     sb.append(']');
     return sb.toString();
