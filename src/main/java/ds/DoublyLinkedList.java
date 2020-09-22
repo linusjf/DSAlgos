@@ -137,14 +137,15 @@ public class DoublyLinkedList<T extends Object> {
 
   @Override
   public String toString() {
-    String represent = "[";
+    StringBuilder sb = new StringBuilder(2);
+    sb.append('[');
     DoubleNode<T> nextNode = this.head;
     while (nextNode != null) {
       represent = represent + nextNode.toString();
       nextNode = next(nextNode);
-      if (nextNode != null) represent = represent + ",";
+      if (nextNode != null) sb.append(',');
     }
-    represent = represent + "]";
-    return represent;
+    sb.append(']');
+    return sb.toString();
   }
 }

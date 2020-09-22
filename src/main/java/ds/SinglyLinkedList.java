@@ -51,11 +51,11 @@ public class SinglyLinkedList<T extends Object> {
       // get the node at (index-1) from linked list and mark as leftNode.
       // set node of newly created node as right node.
       // set node of left node as newly created Node.
-      SingleNode<T> leftNode = getNext(index - 1);
-      SingleNode<T> rightNode = getNext(index);
+      SingleNode<T> leftNode = getNode(index - 1);
+      SingleNode<T> rightNode = getNode(index);
       newNode.setNext(rightNode);
       leftNode.setNext(newNode);
-      size++;
+      ++size;
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -74,7 +74,7 @@ public class SinglyLinkedList<T extends Object> {
     ++size;
   }
 
-  private SingleNode<T> getNext(int index) {
+  private SingleNode<T> getNode(int index) {
     if (index < 0 || index > this.size - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
@@ -107,16 +107,16 @@ public class SinglyLinkedList<T extends Object> {
 
   @Override
   public String toString() {
-    String represent = "[";
+    StringBuilder sb = new StringBuilder(2);
+    sb.append('[');
     SingleNode<T> nextNode = this.head;
     while (nextNode != null) {
-      represent = represent + nextNode.toString();
+      sb.append(nextNode);
       nextNode = next(nextNode);
-      if (nextNode != null) {
-        represent = represent + ",";
-      }
+      if (nextNode != null) 
+        sb.append(',');
     }
-    represent = represent + "]";
-    return represent;
+    sb.append(']');
+    return sb.toString();
   }
 }
