@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-class DoubleNode<T extends Object> {
+class DoubleNode<T> implements INode<T> {
 
   private static final String NULL_STRING = "NULL";
 
@@ -12,6 +12,7 @@ class DoubleNode<T extends Object> {
 
   @SuppressWarnings("nullness")
   DoubleNode(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
     this.data = data;
   }
 
@@ -31,16 +32,19 @@ class DoubleNode<T extends Object> {
     this.prev = node;
   }
 
-  T getData() {
+  @Override
+  public T getData() {
     return data;
   }
 
-  void setData(T data) {
+  @Override
+  public void setData(T data) {
     this.data = data;
   }
 
   @Override
+  @SuppressWarnings("fenum:argument.type.incompatible")
   public String toString() {
-    return data == null ? NULL_STRING : Objects.toString(data);
+    return Objects.toString(data);
   }
 }
