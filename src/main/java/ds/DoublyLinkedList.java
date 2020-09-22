@@ -10,6 +10,42 @@ public class DoublyLinkedList<T extends Object> {
   @SuppressWarnings("initialization.fields.uninitialized")
   private DoubleNode<T> tail;
 
+  public DoubleNode<T> findNode(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
+    DoubleNode<T> node = new DoubleNode<T>(data);
+    if (head.equals(node)) return head;
+    DoubleNode<T> startNode = head.getNext();
+    while (startNode != null) {
+      if (startNode.equals(node)) return startNode;
+      startNode = startNode.getNext();
+    }
+    return startNode;
+  }
+
+  public boolean delete(T data) {
+    if (data == null) throw new NullPointerException("Data cannot be null.");
+    DoubleNode<T> node = new DoubleNode<>(data);
+    if (head == null) return false;
+    if (head.equals(node)) {
+      head = head.getNext();
+      --length;
+      return true;
+    }
+    DoubleNode<T> prevNode = head;
+    DoubleNode<T> currNode = head.getNext();
+    while (currNode != null) {
+      if (currNode.equals(node)) {
+        DoubleNode<T> nextNode = currNode.getNext();
+        prevNode.setNext(nextNode);
+        if (nextNode != null) nextNode.setPrev(prevNode);
+        --length;
+        return true;
+      }
+      currNode = currNode.getNext();
+    }
+    return false;
+  }
+
   /**
    * Add element at end.
    *
