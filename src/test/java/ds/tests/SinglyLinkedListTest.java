@@ -36,4 +36,28 @@ class SinglyLinkedListTest {
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddIndex")
+  void testAddIndex() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    list.add(SCORE, 0);
+    SingleNode<Integer> head = list.getHead();
+    assertEquals(1, list.size(), "Size must be zero.");
+    assertNotNull(head, "List head must not be null.");
+    assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
+  @DisplayName("SinglyLinkedListTest.testFind")
+  void testFind() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    list.add(SCORE, 0);
+    SingleNode<Integer> node = list.find(Integer.valueOf(SCORE));
+    assertEquals(1, list.size(), "Size must be zero.");
+    assertNotNull(node, "Node must not be null.");
+    assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
+  }
 }
