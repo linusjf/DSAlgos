@@ -16,12 +16,14 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 class SinglyLinkedListTest {
+  private static final String SIZE_ZERO = "Size must be zero.";
+  private static final String SIZE_ONE = "Size must be one.";
 
   @Test
   @DisplayName("SinglyLinkedListTest.testConstructor")
   void testConstructor() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertEquals(0, list.size(), "Size must be zero.");
+    assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
   }
 
@@ -32,7 +34,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE);
     SingleNode<Integer> head = list.getHead();
-    assertEquals(1, list.size(), "Size must be zero.");
+    assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
@@ -44,7 +46,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     SingleNode<Integer> head = list.getHead();
-    assertEquals(1, list.size(), "Size must be zero.");
+    assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
@@ -56,7 +58,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     SingleNode<Integer> node = list.find(Integer.valueOf(SCORE));
-    assertEquals(1, list.size(), "Size must be zero.");
+    assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(node, "Node must not be null.");
     assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
   }

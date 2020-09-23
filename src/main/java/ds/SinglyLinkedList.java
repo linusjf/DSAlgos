@@ -104,7 +104,7 @@ public class SinglyLinkedList<T> {
     ++length;
   }
 
-  private SingleNode<T> get(int index) {
+  public SingleNode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;

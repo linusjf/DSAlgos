@@ -13,14 +13,14 @@ public class DoublyLinkedList<T extends Object> {
   @SuppressWarnings("initialization.fields.uninitialized")
   private DoubleNode<T> tail;
 
-  public DoubleNode<T> findNode(T data) {
+  public DoubleNode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     DoubleNode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) return head;
-    DoubleNode<T> startNode = head.getNext();
+    DoubleNode<T> startNode = next(head);
     while (startNode != null) {
       if (startNode.equals(node)) return startNode;
-      startNode = startNode.getNext();
+      startNode = next(startNode);
     }
     return startNode;
   }
@@ -31,21 +31,21 @@ public class DoublyLinkedList<T extends Object> {
     if (head == null) return false;
     DoubleNode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
-      head = head.getNext();
+      head = next(head);
       --length;
       return true;
     }
     DoubleNode<T> prevNode = head;
-    DoubleNode<T> currNode = head.getNext();
+    DoubleNode<T> currNode = next(head);
     while (currNode != null) {
       if (currNode.equals(node)) {
-        DoubleNode<T> nextNode = currNode.getNext();
+        DoubleNode<T> nextNode = next(currNode);
         prevNode.setNext(nextNode);
         if (nextNode != null) nextNode.setPrev(prevNode);
         --length;
         return true;
       }
-      currNode = currNode.getNext();
+      currNode = next(currNode);
     }
     return false;
   }
@@ -85,8 +85,8 @@ public class DoublyLinkedList<T extends Object> {
     if (index == this.length) add(data);
     else if (index < this.length) {
       DoubleNode<T> newNode = new DoubleNode<>(data);
-      DoubleNode<T> leftNode = getNode(index - 1);
-      DoubleNode<T> rightNode = getNode(index);
+      DoubleNode<T> leftNode = get(index - 1);
+      DoubleNode<T> rightNode = get(index);
       newNode.setNext(rightNode);
       newNode.setPrev(leftNode);
       leftNode.setNext(newNode);
@@ -112,17 +112,17 @@ public class DoublyLinkedList<T extends Object> {
     ++length;
   }
 
-  private DoubleNode<T> getNode(int index) {
+  public DoubleNode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
     if (index == this.length - 1) return this.tail;
     int midPoint = this.length >> 1;
-    if (index < midPoint) return getNodeFromHead(index);
-    else return getNodeFromTail(index);
+    if (index < midPoint) return getFromHead(index);
+    else return getFromTail(index);
   }
 
-  private DoubleNode<T> getNodeFromHead(int index) {
+  private DoubleNode<T> getFromHead(int index) {
     int pointer = 0;
     DoubleNode<T> pointerNode = this.head;
     while (pointer <= index) {
@@ -135,7 +135,7 @@ public class DoublyLinkedList<T extends Object> {
     return pointerNode;
   }
 
-  private DoubleNode<T> getNodeFromTail(int index) {
+  private DoubleNode<T> getFromTail(int index) {
     int pointer = length - 1;
     DoubleNode<T> pointerNode = this.tail;
     while (pointer >= 0) {
@@ -172,5 +172,13 @@ public class DoublyLinkedList<T extends Object> {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  public DoubleNode<T> getHead() {
+    return head;
+  }
+
+  public DoubleNode<T> getTail() {
+    return tail;
   }
 }
