@@ -11,9 +11,11 @@ public class SinglyLinkedList<T> {
   private SingleNode<T> head;
 
   /**
-   * Add the element at specified index. Index start from 0 to n-1 where n = length of linked list.
-   * If index is negative, nothing will be added to linked list. If index = 0, element will be added
-   * at head and element become the first node.
+   * <p>Add the element at specified index. 
+   * Index start from 0 to n-1 where n = length of linked list.
+   * If index is negative, nothing will be added to linked list. 
+   * If index = 0, element will be added
+   * at head and element become the first node.</p>
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
