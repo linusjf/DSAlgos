@@ -70,11 +70,7 @@ public class DoublyLinkedList<T extends Object> {
   }
 
   /**
-   * <p>Add the element at specified index. 
-   * Index starts from 0 to n-1 where n = length of linked list.
-   * If index is negative, nothing will be added to linked list.
-   * If index = 0, element will be added
-   * at head and element becomes the first node.</p>
+   * Add element at specified index.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.

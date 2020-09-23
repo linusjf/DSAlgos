@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-class SingleNode<T> implements INode<T> {
+public class SingleNode<T> implements INode<T> {
   private T data;
 
   @SuppressWarnings("initialization.fields.uninitialized")

@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-class DoubleNode<T> implements INode<T> {
+public class DoubleNode<T> implements INode<T> {
   private T data;
   private DoubleNode<T> prev;
   private DoubleNode<T> next;

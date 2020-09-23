@@ -11,16 +11,12 @@ public class SinglyLinkedList<T> {
   private SingleNode<T> head;
 
   /**
-   * <p>Add the element at specified index. 
-   * Index start from 0 to n-1 where n = length of linked list.
-   * If index is negative, nothing will be added to linked list. 
-   * If index = 0, element will be added
-   * at head and element become the first node.</p>
+   * Add element at specified index.
    *
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
@@ -43,7 +39,7 @@ public class SinglyLinkedList<T> {
    *
    * @param data - data to be added to list.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
@@ -55,6 +51,7 @@ public class SinglyLinkedList<T> {
     ++length;
   }
 
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public SingleNode<T> findNode(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     SingleNode<T> node = new SingleNode<>(data);
@@ -67,6 +64,7 @@ public class SinglyLinkedList<T> {
     return startNode;
   }
 
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
@@ -94,6 +92,7 @@ public class SinglyLinkedList<T> {
    *
    * @param data Add data node at beginning.
    */
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     SingleNode<T> newNode = new SingleNode<>(data);
