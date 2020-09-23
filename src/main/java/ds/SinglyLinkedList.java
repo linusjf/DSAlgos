@@ -26,8 +26,8 @@ public class SinglyLinkedList<T> {
     if (index == this.length) add(data);
     else if (index < this.length) {
       SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> leftNode = getNode(index - 1);
-      SingleNode<T> rightNode = getNode(index);
+      SingleNode<T> leftNode = get(index - 1);
+      SingleNode<T> rightNode = get(index);
       newNode.setNext(rightNode);
       leftNode.setNext(newNode);
       ++length;
@@ -45,14 +45,14 @@ public class SinglyLinkedList<T> {
     if (head == null) head = new SingleNode<>(data);
     else {
       SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> lastNode = getLastNode(head);
+      SingleNode<T> lastNode = getLast(head);
       lastNode.setNext(newNode);
     }
     ++length;
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
-  public SingleNode<T> findNode(T data) {
+  public SingleNode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     SingleNode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
@@ -104,11 +104,11 @@ public class SinglyLinkedList<T> {
     ++length;
   }
 
-  private SingleNode<T> getNode(int index) {
+  private SingleNode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
-    if (index == this.length - 1) return getLastNode(this.head);
+    if (index == this.length - 1) return getLast(this.head);
     int pointer = 0;
     SingleNode<T> pointerNode = this.head;
     while (pointer <= index) {
@@ -122,10 +122,10 @@ public class SinglyLinkedList<T> {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  private SingleNode<T> getLastNode(SingleNode<T> node) {
+  private SingleNode<T> getLast(SingleNode<T> node) {
     SingleNode<T> lastNode = node;
     if (lastNode.getNext() == null) return lastNode;
-    return getLastNode(lastNode.getNext());
+    return getLast(lastNode.getNext());
   }
 
   private SingleNode<T> next(SingleNode<T> node) {
