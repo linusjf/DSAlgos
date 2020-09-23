@@ -25,6 +25,7 @@ class SinglyLinkedListTest {
     assertNull(list.getHead(), "List head must be null.");
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testAdd")
   void testAdd() {
