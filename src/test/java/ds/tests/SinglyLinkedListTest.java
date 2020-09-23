@@ -129,4 +129,16 @@ class SinglyLinkedListTest {
     assertEquals("[]", list.toString(),
         "Empty array string expected.");
   }
+
+  @Test
+  @DisplayName("SinglyLinkedListTest.testGetMultiple")
+  void testGetMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+  LongStream.rangeClosed(1,TEN)
+      .forEach(i -> list.add(i));
+    LongStream.rangeClosed(0,TEN - 1)
+      .forEach(i -> assertEquals(list.get(i).getData(), 
+            i, 
+            "Values must equal index."));
+  }
 }
