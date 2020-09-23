@@ -39,15 +39,14 @@ class SinglyLinkedListTest {
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testAddNull")
   void testAddNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(NullPointerException.class,
-        () -> list.add(null),
-        "NullPointerException expected.");
+    assertThrows(
+        NullPointerException.class, () -> list.add(null), "NullPointerException expected.");
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -61,15 +60,14 @@ class SinglyLinkedListTest {
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndexNull")
   void testAddIndexNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(NullPointerException.class,
-        () -> list.add(null, 0),
-        "NullPointerException expected.");
+    assertThrows(
+        NullPointerException.class, () -> list.add(null, 0), "NullPointerException expected.");
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -100,46 +98,40 @@ class SinglyLinkedListTest {
     assertNotNull(node, "Node must not be null.");
     assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testFindNull")
   void testFindNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
-    assertThrows(NullPointerException.class,
-        () -> list.find(null),
-        "NullPointerException expected.");
+    assertThrows(
+        NullPointerException.class, () -> list.find(null), "NullPointerException expected.");
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNull")
   void testDeleteNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(NullPointerException.class,
-        () -> list.delete(null),
-        "NullPointerException expected.");
+    assertThrows(
+        NullPointerException.class, () -> list.delete(null), "NullPointerException expected.");
   }
-  
+
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testEmptyToString")
   void testEmptyToString() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertEquals("[]", list.toString(),
-        "Empty array string expected.");
+    assertEquals("[]", list.toString(), "Empty array string expected.");
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-  LongStream.rangeClosed(1,TEN)
-      .forEach(i -> list.add(i));
-    LongStream.rangeClosed(0,TEN - 1)
-      .forEach(i -> assertEquals(list.get(i).getData(), 
-            i, 
-            "Values must equal index."));
+    LongStream.rangeClosed(1, TEN).forEach(i -> list.add(i));
+    LongStream.rangeClosed(0, TEN - 1)
+        .forEach(i -> assertEquals(list.get(i).getData(), i, "Values must equal index."));
   }
 }
