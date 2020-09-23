@@ -15,7 +15,7 @@ public class CircularSinglyLinkedList<T> {
    *
    * @param data - data to be added to list.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
@@ -34,7 +34,7 @@ public class CircularSinglyLinkedList<T> {
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
@@ -57,7 +57,7 @@ public class CircularSinglyLinkedList<T> {
    *
    * @param data Add data node at beginning.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new SingleNode<>(data);
@@ -71,7 +71,7 @@ public class CircularSinglyLinkedList<T> {
     ++length;
   }
 
-  @SuppressWarnings("nullness:return.type.incompatible")
+  @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
   public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new SingleNode<>(data);
@@ -84,7 +84,11 @@ public class CircularSinglyLinkedList<T> {
     return null;
   }
 
-  @SuppressWarnings({"nullness:assignment.type.incompatible", "PMD.NullAssignment"})
+  @SuppressWarnings({
+    "nullness:assignment.type.incompatible",
+    "PMD.NullAssignment",
+    "nullness:argument.type.incompatible"
+  })
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;

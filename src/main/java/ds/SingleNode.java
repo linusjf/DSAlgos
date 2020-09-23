@@ -8,6 +8,7 @@ public class SingleNode<T> implements INode<T> {
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> next;
 
+  @SuppressWarnings("nullness:argument.type.incompatible")
   SingleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
