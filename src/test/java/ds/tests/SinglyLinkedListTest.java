@@ -53,6 +53,14 @@ class SinglyLinkedListTest {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
+  @DisplayName("SinglyLinkedListTest.testAddIndexException")
+  void testAddIndexException() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), "Exception expected.");
+  }
+
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
   @DisplayName("SinglyLinkedListTest.testFind")
   void testFind() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
