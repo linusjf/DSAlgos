@@ -38,6 +38,16 @@ class SinglyLinkedListTest {
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
+  
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddNull")
+  void testAddNull() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertThrows(NullPointerException.class,
+        () -> list.add(null),
+        "NullPointerException expected.");
+  }
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Test
@@ -49,6 +59,16 @@ class SinglyLinkedListTest {
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+  }
+  
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddIndexNull")
+  void testAddIndexNull() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertThrows(NullPointerException.class,
+        () -> list.add(null, 0),
+        "NullPointerException expected.");
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -64,7 +84,8 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testAddIndexExcessException")
   void testAddIndexExcessException() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), "Exception expected.");
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), "Exception expected.");
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
