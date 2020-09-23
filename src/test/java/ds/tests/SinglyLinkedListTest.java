@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.INode;
 import ds.SinglyLinkedList;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -130,8 +130,10 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    LongStream.rangeClosed(1, TEN).forEach(i -> list.add(i));
-    LongStream.rangeClosed(0, TEN - 1)
-        .forEach(i -> assertEquals(list.get(i).getData(), i, "Values must equal index."));
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(i -> assertEquals(i,
+              list.get(i).getData(), 
+              "Values must equal index."));
   }
 }
