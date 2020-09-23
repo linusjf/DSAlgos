@@ -3,14 +3,13 @@ package ds;
 import java.util.Objects;
 
 class DoubleNode<T> implements INode<T> {
-  private static final String NULL_STRING = "NULL";
   private T data;
   private DoubleNode<T> prev;
   private DoubleNode<T> next;
 
   @SuppressWarnings("nullness")
   DoubleNode(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
   }
 

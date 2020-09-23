@@ -1,7 +1,10 @@
 package ds;
 
+import java.util.Objects;
+
 public class DoublyLinkedList<T extends Object> {
 
+  private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
 
   @SuppressWarnings("initialization.fields.uninitialized")
@@ -11,8 +14,8 @@ public class DoublyLinkedList<T extends Object> {
   private DoubleNode<T> tail;
 
   public DoubleNode<T> findNode(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    DoubleNode<T> node = new DoubleNode<T>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
+    DoubleNode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) return head;
     DoubleNode<T> startNode = head.getNext();
     while (startNode != null) {
@@ -22,10 +25,11 @@ public class DoublyLinkedList<T extends Object> {
     return startNode;
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   public boolean delete(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    DoubleNode<T> node = new DoubleNode<>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
+    DoubleNode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
       head = head.getNext();
       --length;
@@ -52,7 +56,7 @@ public class DoublyLinkedList<T extends Object> {
    * @param data - data to be added to list.
    */
   public void add(T data) {
-    if (data == null) return;
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) {
       head = new DoubleNode<>(data);
       tail = head;
@@ -67,7 +71,7 @@ public class DoublyLinkedList<T extends Object> {
 
   /**
    * Add the element at specified index. Index starts from 0 to n-1 where n = length of linked list.
-   * If index is negative, nothing will be added to linked list. if index = 0, element will be added
+   * If index is negative, nothing will be added to linked list. If index = 0, element will be added
    * at head and element becomes the first node.
    *
    * @param data - data to be added at index.
@@ -75,7 +79,7 @@ public class DoublyLinkedList<T extends Object> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data, int index) {
-    if (data == null) return;
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
       addAtFirst(data);
       return;
@@ -99,7 +103,7 @@ public class DoublyLinkedList<T extends Object> {
    * @param data Add data node at beginning.
    */
   public void addAtFirst(T data) {
-    if (data == null) return;
+    Objects.requireNonNull(data, DATA_NON_NULL);
     DoubleNode<T> newNode = new DoubleNode<>(data);
     if (this.head == null) this.head = this.tail = newNode;
     else {

@@ -1,11 +1,40 @@
 package ds;
 
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
 
+  private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
 
   @SuppressWarnings("initialization.fields.uninitialized")
   private SingleNode<T> head;
+
+  /**
+   * Add the element at specified index. Index start from 0 to n-1 where n = length of linked list.
+   * If index is negative, nothing will be added to linked list. If index = 0, element will be added
+   * at head and element become the first node.
+   *
+   * @param data - data to be added at index.
+   * @param index - index at which element to be added.
+   */
+  @SuppressWarnings("PMD.LawOfDemeter")
+  public void add(T data, int index) {
+    Objects.requireNonNull(data, DATA_NON_NULL);
+    if (index == 0) {
+      addAtFirst(data);
+      return;
+    }
+    if (index == this.length) add(data);
+    else if (index < this.length) {
+      SingleNode<T> newNode = new SingleNode<>(data);
+      SingleNode<T> leftNode = getNode(index - 1);
+      SingleNode<T> rightNode = getNode(index);
+      newNode.setNext(rightNode);
+      leftNode.setNext(newNode);
+      ++length;
+    } else throw new IndexOutOfBoundsException("Index not available.");
+  }
 
   /**
    * Add element at end.
@@ -14,7 +43,7 @@ public class SinglyLinkedList<T> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
     else {
       SingleNode<T> newNode = new SingleNode<>(data);
@@ -25,8 +54,8 @@ public class SinglyLinkedList<T> {
   }
 
   public SingleNode<T> findNode(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    SingleNode<T> node = new SingleNode<T>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
+    SingleNode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
     SingleNode<T> startNode = head.getNext();
     while (startNode != null) {
@@ -37,9 +66,9 @@ public class SinglyLinkedList<T> {
   }
 
   public boolean delete(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    SingleNode<T> node = new SingleNode<>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
+    SingleNode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
       head = head.getNext();
       --length;
@@ -59,38 +88,12 @@ public class SinglyLinkedList<T> {
   }
 
   /**
-   * Add the element at specified index. Index start from 0 to n-1 where n = length of linked list.
-   * If index is negative, nothing will be added to linked list. if index = 0, element will be added
-   * at head and element become the first node.
-   *
-   * @param data - data to be added at index.
-   * @param index - index at which element to be added.
-   */
-  @SuppressWarnings("PMD.LawOfDemeter")
-  public void add(T data, int index) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    if (index == 0) {
-      addAtFirst(data);
-      return;
-    }
-    if (index == this.length) add(data);
-    else if (index < this.length) {
-      SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> leftNode = getNode(index - 1);
-      SingleNode<T> rightNode = getNode(index);
-      newNode.setNext(rightNode);
-      leftNode.setNext(newNode);
-      ++length;
-    } else throw new IndexOutOfBoundsException("Index not available.");
-  }
-
-  /**
    * Add element at first node. Set the newly created node as root node.
    *
    * @param data Add data node at beginning.
    */
   public void addAtFirst(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, DATA_NON_NULL);
     SingleNode<T> newNode = new SingleNode<>(data);
     if (this.head == null) this.head = newNode;
     else {
@@ -130,6 +133,10 @@ public class SinglyLinkedList<T> {
 
   public int size() {
     return this.length;
+  }
+
+  public SingleNode<T> getHead() {
+    return head;
   }
 
   @Override

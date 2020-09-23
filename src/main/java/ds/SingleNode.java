@@ -9,7 +9,7 @@ class SingleNode<T> implements INode<T> {
   private SingleNode<T> next;
 
   SingleNode(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
   }
 

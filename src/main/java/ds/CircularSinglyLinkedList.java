@@ -1,7 +1,10 @@
 package ds;
 
+import java.util.Objects;
+
 public class CircularSinglyLinkedList<T> {
 
+  private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
 
   @SuppressWarnings("initialization.fields.uninitialized")
@@ -14,7 +17,7 @@ public class CircularSinglyLinkedList<T> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
     else {
       SingleNode<T> newNode = new SingleNode<>(data);
@@ -35,7 +38,7 @@ public class CircularSinglyLinkedList<T> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public void add(T data, int index) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
       addAtFirst(data);
       return;
@@ -56,8 +59,9 @@ public class CircularSinglyLinkedList<T> {
    *
    * @param data Add data node at beginning.
    */
+  @SuppressWarnings("PMD.LawOfDemeter")
   public void addAtFirst(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
+    Objects.requireNonNull(data, DATA_NON_NULL);
     SingleNode<T> newNode = new SingleNode<>(data);
     if (this.head == null) this.head = newNode;
     else {
@@ -71,8 +75,8 @@ public class CircularSinglyLinkedList<T> {
 
   @SuppressWarnings("nullness:return.type.incompatible")
   public SingleNode<T> findNode(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    SingleNode<T> node = new SingleNode<T>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
+    SingleNode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
     SingleNode<T> startNode = head.getNext();
     while (!head.distinctCompare(startNode)) {
@@ -82,11 +86,11 @@ public class CircularSinglyLinkedList<T> {
     return null;
   }
 
-  @SuppressWarnings("nullness:assignment.type.incompatible")
+  @SuppressWarnings({"nullness:assignment.type.incompatible", "PMD.NullAssignment"})
   public boolean delete(T data) {
-    if (data == null) throw new NullPointerException("Data cannot be null.");
-    SingleNode<T> node = new SingleNode<>(data);
+    Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
+    SingleNode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
       if (head.distinctCompare(head.getNext())) head = null;
       else head = head.getNext();
