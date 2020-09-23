@@ -6,19 +6,31 @@ public class SingleNode<T> implements INode<T> {
   private T data;
 
   @SuppressWarnings("initialization.fields.uninitialized")
-  private SingleNode<T> next;
+  private INode<T> next;
 
   SingleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
   }
 
-  SingleNode<T> getNext() {
+  @Override
+  public INode<T> getNext() {
     return next;
   }
 
-  void setNext(SingleNode<T> node) {
+  @Override
+  public void setNext(INode<T> node) {
     this.next = node;
+  }
+
+  @Override
+  public INode<T> getPrev() {
+    throw new UnsupportedOperationException("Operation invalid.");
+  }
+
+  @Override
+  public void setPrev(INode<T> node) {
+    throw new UnsupportedOperationException("Operation invalid.");
   }
 
   @Override

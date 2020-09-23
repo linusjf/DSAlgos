@@ -3,7 +3,7 @@ package ds.tests;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.SingleNode;
+import ds.INode;
 import ds.SinglyLinkedList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class SinglyLinkedListTest {
   void testAdd() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE);
-    SingleNode<Integer> head = list.getHead();
+    INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
@@ -45,7 +45,7 @@ class SinglyLinkedListTest {
   void testAddIndex() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
-    SingleNode<Integer> head = list.getHead();
+    INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
@@ -57,7 +57,7 @@ class SinglyLinkedListTest {
   void testFind() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
-    SingleNode<Integer> node = list.find(Integer.valueOf(SCORE));
+    INode<Integer> node = list.find(Integer.valueOf(SCORE));
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(node, "Node must not be null.");
     assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");

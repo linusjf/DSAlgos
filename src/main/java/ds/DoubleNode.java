@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class DoubleNode<T> implements INode<T> {
   private T data;
-  private DoubleNode<T> prev;
-  private DoubleNode<T> next;
+  private INode<T> prev;
+  private INode<T> next;
 
   @SuppressWarnings("nullness")
   DoubleNode(T data) {
@@ -13,19 +13,23 @@ public class DoubleNode<T> implements INode<T> {
     this.data = data;
   }
 
-  DoubleNode<T> getPrev() {
+  @Override
+  public INode<T> getPrev() {
     return prev;
   }
 
-  DoubleNode<T> getNext() {
+  @Override
+  public INode<T> getNext() {
     return next;
   }
 
-  void setNext(DoubleNode<T> node) {
+  @Override
+  public void setNext(INode<T> node) {
     this.next = node;
   }
 
-  void setPrev(DoubleNode<T> node) {
+  @Override
+  public void setPrev(INode<T> node) {
     this.prev = node;
   }
 

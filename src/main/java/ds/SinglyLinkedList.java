@@ -8,7 +8,7 @@ public class SinglyLinkedList<T> {
   private int length;
 
   @SuppressWarnings("initialization.fields.uninitialized")
-  private SingleNode<T> head;
+  private INode<T> head;
 
   /**
    * Add element at specified index.
@@ -25,9 +25,9 @@ public class SinglyLinkedList<T> {
     }
     if (index == this.length) add(data);
     else if (index < this.length) {
-      SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> leftNode = get(index - 1);
-      SingleNode<T> rightNode = get(index);
+      INode<T> newNode = new SingleNode<>(data);
+      INode<T> leftNode = get(index - 1);
+      INode<T> rightNode = get(index);
       newNode.setNext(rightNode);
       leftNode.setNext(newNode);
       ++length;
@@ -44,22 +44,22 @@ public class SinglyLinkedList<T> {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
     else {
-      SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> lastNode = getLast(head);
+      INode<T> newNode = new SingleNode<>(data);
+      INode<T> lastNode = getLast(head);
       lastNode.setNext(newNode);
     }
     ++length;
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
-  public SingleNode<T> find(T data) {
+  public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    SingleNode<T> node = new SingleNode<>(data);
+    INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
-    SingleNode<T> startNode = head.getNext();
+    INode<T> startNode = next(head);
     while (startNode != null) {
       if (startNode.equals(node)) return startNode;
-      startNode = startNode.getNext();
+      startNode = next(startNode);
     }
     return startNode;
   }
@@ -68,21 +68,21 @@ public class SinglyLinkedList<T> {
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
-    SingleNode<T> node = new SingleNode<>(data);
+    INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
-      head = head.getNext();
+      head = next(head);
       --length;
       return true;
     }
-    SingleNode<T> prevNode = head;
-    SingleNode<T> currNode = head.getNext();
+    INode<T> prevNode = head;
+    INode<T> currNode = next(head);
     while (currNode != null) {
       if (currNode.equals(node)) {
-        prevNode.setNext(currNode.getNext());
+        prevNode.setNext(next(currNode));
         --length;
         return true;
       }
-      currNode = currNode.getNext();
+      currNode = next(currNode);
     }
     return false;
   }
@@ -95,7 +95,7 @@ public class SinglyLinkedList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    SingleNode<T> newNode = new SingleNode<>(data);
+    INode<T> newNode = new SingleNode<>(data);
     if (this.head == null) this.head = newNode;
     else {
       newNode.setNext(this.head);
@@ -104,13 +104,13 @@ public class SinglyLinkedList<T> {
     ++length;
   }
 
-  public SingleNode<T> get(int index) {
+  public INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
     if (index == this.length - 1) return getLast(this.head);
     int pointer = 0;
-    SingleNode<T> pointerNode = this.head;
+    INode<T> pointerNode = this.head;
     while (pointer <= index) {
       if (pointer == index) break;
       else {
@@ -122,13 +122,13 @@ public class SinglyLinkedList<T> {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  private SingleNode<T> getLast(SingleNode<T> node) {
-    SingleNode<T> lastNode = node;
+  private INode<T> getLast(INode<T> node) {
+    INode<T> lastNode = node;
     if (lastNode.getNext() == null) return lastNode;
-    return getLast(lastNode.getNext());
+    return getLast(next(lastNode));
   }
 
-  private SingleNode<T> next(SingleNode<T> node) {
+  private INode<T> next(INode<T> node) {
     return node.getNext();
   }
 
@@ -136,7 +136,7 @@ public class SinglyLinkedList<T> {
     return this.length;
   }
 
-  public SingleNode<T> getHead() {
+  public INode<T> getHead() {
     return head;
   }
 
@@ -144,7 +144,7 @@ public class SinglyLinkedList<T> {
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
-    SingleNode<T> nextNode = this.head;
+    INode<T> nextNode = this.head;
     while (nextNode != null) {
       sb.append(nextNode);
       nextNode = next(nextNode);

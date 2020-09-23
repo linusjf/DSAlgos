@@ -8,7 +8,7 @@ public class CircularSinglyLinkedList<T> {
   private int length;
 
   @SuppressWarnings("initialization.fields.uninitialized")
-  private SingleNode<T> head;
+  private INode<T> head;
 
   /**
    * Add element at end.
@@ -20,8 +20,8 @@ public class CircularSinglyLinkedList<T> {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
     else {
-      SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> lastNode = getLastNode(head);
+      INode<T> newNode = new SingleNode<>(data);
+      INode<T> lastNode = getLast(head);
       lastNode.setNext(newNode);
       newNode.setNext(head);
     }
@@ -43,9 +43,9 @@ public class CircularSinglyLinkedList<T> {
     }
     if (index == this.length) add(data);
     else if (index < this.length) {
-      SingleNode<T> newNode = new SingleNode<>(data);
-      SingleNode<T> leftNode = getNode(index - 1);
-      SingleNode<T> rightNode = getNode(index);
+      INode<T> newNode = new SingleNode<>(data);
+      INode<T> leftNode = get(index - 1);
+      INode<T> rightNode = get(index);
       newNode.setNext(rightNode);
       leftNode.setNext(newNode);
       ++length;
@@ -60,11 +60,11 @@ public class CircularSinglyLinkedList<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    SingleNode<T> newNode = new SingleNode<>(data);
+    INode<T> newNode = new SingleNode<>(data);
     if (this.head == null) this.head = newNode;
     else {
       newNode.setNext(this.head);
-      SingleNode<T> last = getLastNode(head);
+      INode<T> last = getLast(head);
       this.head = newNode;
       last.setNext(head);
     }
@@ -72,11 +72,11 @@ public class CircularSinglyLinkedList<T> {
   }
 
   @SuppressWarnings("nullness:return.type.incompatible")
-  public SingleNode<T> findNode(T data) {
+  public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    SingleNode<T> node = new SingleNode<>(data);
+    INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
-    SingleNode<T> startNode = head.getNext();
+    INode<T> startNode = head.getNext();
     while (!head.distinctCompare(startNode)) {
       if (startNode.equals(node)) return startNode;
       startNode = next(startNode);
@@ -88,15 +88,15 @@ public class CircularSinglyLinkedList<T> {
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
-    SingleNode<T> node = new SingleNode<>(data);
+    INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
       if (head.distinctCompare(head.getNext())) head = null;
       else head = head.getNext();
       --length;
       return true;
     }
-    SingleNode<T> prevNode = head;
-    SingleNode<T> currNode = head.getNext();
+    INode<T> prevNode = head;
+    INode<T> currNode = head.getNext();
     while (!head.distinctCompare(currNode)) {
       if (currNode.equals(node)) {
         prevNode.setNext(currNode.getNext());
@@ -108,13 +108,13 @@ public class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  private SingleNode<T> getNode(int index) {
+  private INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
-    if (index == this.length - 1) return getLastNode(this.head);
+    if (index == this.length - 1) return getLast(this.head);
     int pointer = 0;
-    SingleNode<T> pointerNode = this.head;
+    INode<T> pointerNode = this.head;
     while (pointer <= index) {
       if (pointer == index) break;
       else {
@@ -126,13 +126,13 @@ public class CircularSinglyLinkedList<T> {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  private SingleNode<T> getLastNode(SingleNode<T> node) {
-    SingleNode<T> lastNode = node;
+  private INode<T> getLast(INode<T> node) {
+    INode<T> lastNode = node;
     if (head.distinctCompare(lastNode.getNext())) return lastNode;
-    return getLastNode(lastNode.getNext());
+    return getLast(lastNode.getNext());
   }
 
-  private SingleNode<T> next(SingleNode<T> node) {
+  private INode<T> next(INode<T> node) {
     return node.getNext();
   }
 
@@ -144,7 +144,7 @@ public class CircularSinglyLinkedList<T> {
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
-    SingleNode<T> nextNode = this.head;
+    INode<T> nextNode = this.head;
     while (nextNode != null) {
       sb.append(nextNode);
       nextNode = next(nextNode);
