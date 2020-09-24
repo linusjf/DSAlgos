@@ -8,7 +8,7 @@ public class DoubleNode<T> implements INode<T> {
   private INode<T> next;
 
   @SuppressWarnings("nullness")
-  DoubleNode(T data) {
+  public DoubleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
   }

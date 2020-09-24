@@ -9,7 +9,7 @@ public class SingleNode<T> implements INode<T> {
   private INode<T> next;
 
   @SuppressWarnings("nullness:argument.type.incompatible")
-  SingleNode(T data) {
+  public SingleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
   }
