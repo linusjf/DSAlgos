@@ -150,6 +150,14 @@ class SinglyLinkedListTest {
   }
 
   @Test
+  @DisplayName("SinglyLinkedListTest.testFindNotFound")
+  void testFindNotFound() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertNull(list.find(SCORE), "Not found expected.");
+  }
+
+  @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNotFoundEmpty")
   void testDeleteNotFoundEmpty() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
@@ -189,6 +197,17 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
     IntStream.range(0, TEN).forEach(i -> list.add(i, TEN));
+    assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
+  }
+
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddEndMultiple")
+  void testAddEndMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.range(0, SCORE).forEach(i -> list.add(i));
+    IntStream.range(SCORE, SCORE + TEN).forEach(i -> list.add(i, i));
+    IntStream.range(0, SCORE + TEN)
+        .forEach(i -> assertEquals(i, list.get(i).getData(), "Value must match index."));
     assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
   }
 

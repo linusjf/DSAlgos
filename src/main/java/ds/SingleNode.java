@@ -1,5 +1,6 @@
 package ds;
 
+import ds.Generated;
 import java.util.Objects;
 
 public class SingleNode<T> implements INode<T> {
@@ -44,12 +45,14 @@ public class SingleNode<T> implements INode<T> {
     this.data = data;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("fenum:argument.type.incompatible")
   public String toString() {
     return Objects.toString(data);
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
@@ -63,11 +66,13 @@ public class SingleNode<T> implements INode<T> {
     return true;
   }
 
+  @Generated
   @SuppressWarnings("all")
   protected boolean canEqual(final Object other) {
     return other instanceof SingleNode;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public int hashCode() {
