@@ -2,6 +2,7 @@ package ds;
 
 import java.util.Objects;
 
+@SuppressWarnings("PMD.DataClass")
 public class DoubleNode<T> implements INode<T> {
   private T data;
   private INode<T> prev;

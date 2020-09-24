@@ -373,6 +373,7 @@
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
             <includes>
               <include>**/*LinkedListTest.java</include>
+              <include>**/*NodeTest.java</include>
             </includes>
           </configuration>
         </plugin>
