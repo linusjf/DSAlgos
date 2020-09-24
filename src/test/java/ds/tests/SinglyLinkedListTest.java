@@ -19,6 +19,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class SinglyLinkedListTest {
   private static final String SIZE_ZERO = "Size must be zero.";
   private static final String SIZE_ONE = "Size must be one.";
+  private static final String NULL_POINTER = "NullPointerException expected.";
+  private static final String EXCEPTION = "Exception expected.";
 
   @Test
   @DisplayName("SinglyLinkedListTest.testConstructor")
@@ -46,7 +48,7 @@ class SinglyLinkedListTest {
   void testAddNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertThrows(
-        NullPointerException.class, () -> list.add(null), "NullPointerException expected.");
+        NullPointerException.class, () -> list.add(null), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -67,7 +69,7 @@ class SinglyLinkedListTest {
   void testAddIndexNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertThrows(
-        NullPointerException.class, () -> list.add(null, 0), "NullPointerException expected.");
+        NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -75,7 +77,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testAddIndexException")
   void testAddIndexException() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), "Exception expected.");
+    assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), EXCEPTION);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -84,7 +86,7 @@ class SinglyLinkedListTest {
   void testAddIndexExcessException() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertThrows(
-        IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), "Exception expected.");
+        IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -106,7 +108,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     assertThrows(
-        NullPointerException.class, () -> list.find(null), "NullPointerException expected.");
+        NullPointerException.class, () -> list.find(null), NULL_POINTER);
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -115,7 +117,7 @@ class SinglyLinkedListTest {
   void testDeleteNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertThrows(
-        NullPointerException.class, () -> list.delete(null), "NullPointerException expected.");
+        NullPointerException.class, () -> list.delete(null), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -125,7 +127,9 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertEquals("[]", list.toString(), "Empty array string expected.");
   }
-
+  
+  @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert",
+  "PMD.LawOfDemeter"})
   @Test
   @DisplayName("SinglyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
@@ -135,6 +139,7 @@ class SinglyLinkedListTest {
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Test
   @DisplayName("SinglyLinkedListTest.testToStringMultiple")
   void testToStringMultiple() {
@@ -143,6 +148,8 @@ class SinglyLinkedListTest {
     assertEquals("[0,1,2,3,4,5,6,7,8,9,10]", list.toString(), "Strings must be equal.");
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
+  @Test
   @DisplayName("SinglyLinkedListTest.testToStringSingle")
   void testToStringSingle() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
@@ -154,13 +161,13 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testGetNegativeIndex")
   void testGetNegativeIndex() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1), "Exception expected.");
+    assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1), EXCEPTION);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testGetExcessIndex")
   void testGetExcessIndex() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), "Exception expected.");
+    assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
   }
 }
