@@ -1,6 +1,5 @@
 package ds;
 
-import ds.Generated;
 import java.util.Objects;
 
 public class DoubleNode<T> implements INode<T> {
@@ -80,11 +79,5 @@ public class DoubleNode<T> implements INode<T> {
     final Object $data = this.getData();
     result = result * PRIME + ($data == null ? 43 : $data.hashCode());
     return result;
-  }
-
-  @Override
-  @SuppressWarnings("not.interned")
-  public boolean distinctCompare(INode<T> node) {
-    return this == node;
   }
 }

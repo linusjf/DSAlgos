@@ -6,7 +6,10 @@ public interface INode<T> {
 
   void setData(T data);
 
-  boolean distinctCompare(INode<T> node);
+  @SuppressWarnings("not.interned")
+  default boolean distinctCompare(INode<T> node) {
+    return this == node;
+  }
 
   INode<T> getPrev();
 
