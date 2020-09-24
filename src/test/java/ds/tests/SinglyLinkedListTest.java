@@ -106,7 +106,7 @@ class SinglyLinkedListTest {
     list.add(SCORE, 0);
     assertThrows(NullPointerException.class, () -> list.find(null), NULL_POINTER);
   }
-  
+
   @Test
   @DisplayName("SinglyLinkedListTest.testFindMultiple")
   void testFindMultiple() {
@@ -114,18 +114,29 @@ class SinglyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.find(i).getData(), "Values must equal index."));
-    assertEquals(TEN + 1, list.size(),
-        () -> "Size must be " + (TEN + 1));
+    assertEquals(TEN + 1, list.size(), () -> "Size must be " + (TEN + 1));
   }
-  
+
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteMultiple")
   void testDeleteMultiple() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN).forEach(i -> assertTrue(list.delete(i), "Deleted true."));
+    assertEquals(0, list.size(), SIZE_ZERO);
+  }
+
+  @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteMultipleReverse")
+  void testDeleteMultipleReverse() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
-        .forEach(i -> assertTrue(list.delete(i), "Deleted true."));
-    assertEquals(0, list.size(),SIZE_ZERO;
+        .forEach(
+            i -> 
+              assertTrue(list.delete(TEN - i), "Deleted true for " + (TEN - i) + ".")
+            );
+    assertEquals(0, list.size(), SIZE_ZERO);
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -151,30 +162,26 @@ class SinglyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
-    assertEquals(TEN + 1, list.size(),
-        () -> "Size must be " + (TEN + 1));
+    assertEquals(TEN + 1, list.size(), () -> "Size must be " + (TEN + 1));
   }
-  
+
   @Test
   @DisplayName("SinglyLinkedListTest.testAddAtFirstMultiple")
   void testAddFirstMultiple() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN -i));
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN - i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
-    assertEquals(TEN + 1, list.size(),
-        () -> "Size must be " + (TEN + 1));
+    assertEquals(TEN + 1, list.size(), () -> "Size must be " + (TEN + 1));
   }
-  
+
   @Test
   @DisplayName("SinglyLinkedListTest.testAddMultiple")
   void testAddMultiple() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    IntStream.range(0,SCORE).forEach(i -> list.add(i));
-    IntStream.range(0, TEN)
-        .forEach(i -> list.add(i, TEN));
-    assertEquals(TEN + SCORE, list.size(),
-        () -> "Size must be " + (TEN + SCORE));
+    IntStream.range(0, SCORE).forEach(i -> list.add(i));
+    IntStream.range(0, TEN).forEach(i -> list.add(i, TEN));
+    assertEquals(TEN + SCORE, list.size(), () -> "Size must be " + (TEN + SCORE));
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")

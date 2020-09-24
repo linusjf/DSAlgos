@@ -82,6 +82,7 @@ public class SinglyLinkedList<T> {
         --length;
         return true;
       }
+      prevNode = currNode;
       currNode = next(currNode);
     }
     return false;
