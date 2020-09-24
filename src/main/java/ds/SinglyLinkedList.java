@@ -109,14 +109,11 @@ public class SinglyLinkedList<T> {
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
     if (index == this.length - 1) return getLast(this.head);
-    int pointer = 0;
-    INode<T> pointerNode = this.head;
-    while (pointer <= index) {
-      if (pointer == index) break;
-      else {
-        pointerNode = next(pointerNode);
-        ++pointer;
-      }
+    int pointer = 1;
+    INode<T> pointerNode = next(this.head);
+    while (pointer != index) {
+      pointerNode = next(pointerNode);
+      ++pointer;
     }
     return pointerNode;
   }
@@ -124,8 +121,9 @@ public class SinglyLinkedList<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> getLast(INode<T> node) {
     INode<T> lastNode = node;
-    if (lastNode.getNext() == null) return lastNode;
-    return getLast(next(lastNode));
+    INode<T> nextNode = next(lastNode);
+    if (nextNode == null) return lastNode;
+    return getLast(nextNode);
   }
 
   private INode<T> next(INode<T> node) {

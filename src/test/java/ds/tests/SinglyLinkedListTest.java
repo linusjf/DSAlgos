@@ -47,8 +47,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testAddNull")
   void testAddNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(
-        NullPointerException.class, () -> list.add(null), NULL_POINTER);
+    assertThrows(NullPointerException.class, () -> list.add(null), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -68,8 +67,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testAddIndexNull")
   void testAddIndexNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(
-        NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
+    assertThrows(NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -85,8 +83,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testAddIndexExcessException")
   void testAddIndexExcessException() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(
-        IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
+    assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -107,8 +104,28 @@ class SinglyLinkedListTest {
   void testFindNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
-    assertThrows(
-        NullPointerException.class, () -> list.find(null), NULL_POINTER);
+    assertThrows(NullPointerException.class, () -> list.find(null), NULL_POINTER);
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testFindMultiple")
+  void testFindMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(i -> assertEquals(i, list.find(i).getData(), "Values must equal index."));
+    assertEquals(TEN + 1, list.size(),
+        () -> "Size must be " + (TEN + 1));
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteMultiple")
+  void testDeleteMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(i -> assertTrue(list.delete(i), "Deleted true."));
+    assertEquals(0, list.size(),SIZE_ZERO;
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -116,8 +133,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testDeleteNull")
   void testDeleteNull() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertThrows(
-        NullPointerException.class, () -> list.delete(null), NULL_POINTER);
+    assertThrows(NullPointerException.class, () -> list.delete(null), NULL_POINTER);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -127,9 +143,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertEquals("[]", list.toString(), "Empty array string expected.");
   }
-  
-  @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert",
-  "PMD.LawOfDemeter"})
+
   @Test
   @DisplayName("SinglyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
@@ -137,6 +151,30 @@ class SinglyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
+    assertEquals(TEN + 1, list.size(),
+        () -> "Size must be " + (TEN + 1));
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddAtFirstMultiple")
+  void testAddFirstMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN -i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
+    assertEquals(TEN + 1, list.size(),
+        () -> "Size must be " + (TEN + 1));
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testAddMultiple")
+  void testAddMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.range(0,SCORE).forEach(i -> list.add(i));
+    IntStream.range(0, TEN)
+        .forEach(i -> list.add(i, TEN));
+    assertEquals(TEN + SCORE, list.size(),
+        () -> "Size must be " + (TEN + SCORE));
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
