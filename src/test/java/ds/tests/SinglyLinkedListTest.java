@@ -40,7 +40,7 @@ class SinglyLinkedListTest {
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   @DisplayName("SinglyLinkedListTest.testAddNull")
   void testAddNull() {
@@ -61,7 +61,7 @@ class SinglyLinkedListTest {
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndexNull")
   void testAddIndexNull() {
@@ -99,7 +99,7 @@ class SinglyLinkedListTest {
     assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   @DisplayName("SinglyLinkedListTest.testFindNull")
   void testFindNull() {
@@ -109,7 +109,7 @@ class SinglyLinkedListTest {
         NullPointerException.class, () -> list.find(null), "NullPointerException expected.");
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNull")
   void testDeleteNull() {
@@ -132,8 +132,41 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
-        .forEach(i -> assertEquals(i,
-              list.get(i).getData(), 
-              "Values must equal index."));
+        .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testToStringMultiple")
+  void testToStringMultiple() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertEquals("[0,1,2,3,4,5,6,7,8,9,10]",
+        list.toString(), "Strings must be equal.");
+  }
+  
+  @DisplayName("SinglyLinkedListTest.testToStringSingle")
+  void testToStringSingle() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.range(0, 1).forEach(i -> list.add(i));
+    assertEquals("[0]",
+        list.toString(), "Strings must be equal.");
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testGetNegativeIndex")
+  void testGetNegativeIndex() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertThrows(IndexOutOfBoundsException.class,
+        () -> list.get(-1),
+        "Exception expected.");
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testGetExcessIndex")
+  void testGetExcessIndex() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertThrows(IndexOutOfBoundsException.class,
+        () -> list.get(TEN),
+        "Exception expected.");
   }
 }
