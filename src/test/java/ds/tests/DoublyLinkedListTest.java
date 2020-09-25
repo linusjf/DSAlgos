@@ -30,6 +30,7 @@ class DoublyLinkedListTest {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
+    assertNull(list.getTail(), "List tail must be null.");
   }
 
   @Test
@@ -38,9 +39,13 @@ class DoublyLinkedListTest {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
     list.add(SCORE);
     INode<Integer> head = list.getHead();
+    INode<Integer> tail = list.getTail();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
+    assertNotNull(tail, "List tail must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
+    assertSame(head, tail, "Head and tail must be same.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -57,9 +62,13 @@ class DoublyLinkedListTest {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
     list.add(SCORE, 0);
     INode<Integer> head = list.getHead();
+    INode<Integer> tail = list.getTail();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
+    assertNotNull(tail, "List tail must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
+    assertSame(head, tail, "Head and tail must be the same.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -121,6 +130,15 @@ class DoublyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN).forEach(i -> assertTrue(list.delete(i), "Deleted true."));
     assertEquals(0, list.size(), SIZE_ZERO);
+  }
+
+  @Test
+  @DisplayName("DoublyLinkedListTest.testDeleteMultipleMiddle")
+  void testDeleteMultipleMiddle() {
+    DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+    IntStream.rangeClosed(0, SCORE).forEach(i -> list.add(i));
+    IntStream.rangeClosed(TEN, SCORE).forEach(i -> assertTrue(list.delete(i), "Deleted true."));
+    assertEquals(TEN, list.size(), SIZE_ZERO);
   }
 
   @Test
