@@ -151,6 +151,10 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     return this.length;
   }
 
+  public INode<T> getHead() {
+    return head;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
