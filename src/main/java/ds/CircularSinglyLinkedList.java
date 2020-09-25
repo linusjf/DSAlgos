@@ -9,6 +9,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
 
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> head;
+
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> tail;
 
@@ -109,8 +110,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
       if (head.isSame(head.getNext())) {
         head = null;
         tail = null;
-      }
-      else head = head.getNext();
+      } else head = head.getNext();
       --length;
       return true;
     }
@@ -133,13 +133,13 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
-    if (index == this.length - 1) return getLast(this.head);
+    if (index == this.length - 1) return tail;
     int pointer = 0;
     INode<T> pointerNode = this.head;
     while (pointer != index) {
-        pointerNode = next(pointerNode);
-        ++pointer;
-      }
+      pointerNode = next(pointerNode);
+      ++pointer;
+    }
     return pointerNode;
   }
 
@@ -155,7 +155,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
   public INode<T> getHead() {
     return head;
   }
-  
+
   public INode<T> getTail() {
     return tail;
   }

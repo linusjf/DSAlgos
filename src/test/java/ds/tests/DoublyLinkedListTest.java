@@ -13,8 +13,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings({"PMD.LawOfDemeter",
-"JUnitTestContainsTooManyAsserts"})
+@SuppressWarnings({"PMD.LawOfDemeter", "JUnitTestContainsTooManyAsserts"})
 @DisplayName("DoublyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
