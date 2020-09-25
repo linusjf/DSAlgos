@@ -27,7 +27,7 @@ public class DoublyLinkedList<T> implements IList<T> {
     return startNode;
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter","nullness:argument.type.incompatible"})
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -81,7 +81,7 @@ public class DoublyLinkedList<T> implements IList<T> {
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  @SuppressWarnings({"PMD.LawOfDemeter","nullness:argument.type.incompatible"})
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -135,12 +135,9 @@ public class DoublyLinkedList<T> implements IList<T> {
   private INode<T> getFromHead(int index) {
     int pointer = 0;
     INode<T> pointerNode = this.head;
-    while (pointer <= index) {
-      if (pointer == index) break;
-      else {
-        pointerNode = next(pointerNode);
-        ++pointer;
-      }
+    while (pointer != index) {
+      pointerNode = next(pointerNode);
+      ++pointer;
     }
     return pointerNode;
   }
@@ -148,12 +145,9 @@ public class DoublyLinkedList<T> implements IList<T> {
   private INode<T> getFromTail(int index) {
     int pointer = length - 1;
     INode<T> pointerNode = this.tail;
-    while (pointer >= 0) {
-      if (pointer == index) break;
-      else {
-        pointerNode = prev(pointerNode);
-        --pointer;
-      }
+    while (pointer != index) {
+      pointerNode = prev(pointerNode);
+      --pointer;
     }
     return pointerNode;
   }
