@@ -1,6 +1,5 @@
 package ds;
 
-
 public interface IList<T> {
   void add(T data, int index);
 

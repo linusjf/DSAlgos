@@ -14,6 +14,7 @@ public class DoublyLinkedList<T> implements IList<T> {
   private INode<T> tail;
 
   @Override
+  @SuppressWarnings("nullness:argument.type.incompatible")
   public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new DoubleNode<>(data);
@@ -26,7 +27,7 @@ public class DoublyLinkedList<T> implements IList<T> {
     return startNode;
   }
 
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter","nullness:argument.type.incompatible"})
   @Override
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -59,6 +60,7 @@ public class DoublyLinkedList<T> implements IList<T> {
    * @param data - data to be added to list.
    */
   @Override
+  @SuppressWarnings("nullness:argument.type.incompatible")
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) {
@@ -79,7 +81,7 @@ public class DoublyLinkedList<T> implements IList<T> {
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
-  @SuppressWarnings("PMD.LawOfDemeter")
+  @SuppressWarnings({"PMD.LawOfDemeter","nullness:argument.type.incompatible"})
   @Override
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -106,6 +108,7 @@ public class DoublyLinkedList<T> implements IList<T> {
    * @param data Add data node at beginning.
    */
   @Override
+  @SuppressWarnings("nullness:argument.type.incompatible")
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new DoubleNode<>(data);
