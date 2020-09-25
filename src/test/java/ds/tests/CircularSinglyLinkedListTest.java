@@ -30,6 +30,7 @@ class CircularSinglyLinkedListTest {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
+    assertNull(list.getTail(), "List tail must be null.");
   }
 
   @Test
@@ -38,9 +39,13 @@ class CircularSinglyLinkedListTest {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     list.add(SCORE);
     INode<Integer> head = list.getHead();
+    INode<Integer> tail = list.getTail();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
+    assertNotNull(tail, "List tail must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
+    assertSame(head, tail, "Same object.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -57,9 +62,12 @@ class CircularSinglyLinkedListTest {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     list.add(SCORE, 0);
     INode<Integer> head = list.getHead();
+    INode<Integer> tail = list.getTail();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
+    assertNotNull(tail, "List tail must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")

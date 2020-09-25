@@ -72,12 +72,12 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     INode<T> newNode = new SingleNode<>(data);
     if (this.head == null) {
       this.head = newNode;
+      this.tail = newNode;
       newNode.setNext(head);
     } else {
       newNode.setNext(this.head);
-      INode<T> last = tail;
       this.head = newNode;
-      last.setNext(head);
+      tail.setNext(head);
     }
     ++length;
   }
@@ -165,7 +165,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
     INode<T> nextNode = this.head;
-    while (true) {
+    while (head != null) {
       sb.append(nextNode);
       nextNode = next(nextNode);
       if (head.isSame(nextNode)) break;
