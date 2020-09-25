@@ -66,8 +66,10 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new SingleNode<>(data);
-    if (this.head == null) this.head = newNode;
-    else {
+    if (this.head == null) {
+      this.head = newNode;
+      newNode.setNext(head);
+    } else {
       newNode.setNext(this.head);
       INode<T> last = getLast(head);
       this.head = newNode;
@@ -114,6 +116,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
         --length;
         return true;
       }
+      prevNode = currNode;
       currNode = currNode.getNext();
     }
     return false;
