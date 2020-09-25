@@ -9,6 +9,8 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
 
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> head;
+  @SuppressWarnings("initialization.fields.uninitialized")
+  private INode<T> tail;
 
   /**
    * Add element at end.
@@ -22,11 +24,12 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     if (head == null) {
       head = new SingleNode<>(data);
       head.setNext(head);
+      tail = head;
     } else {
       INode<T> newNode = new SingleNode<>(data);
-      INode<T> lastNode = getLast(head);
-      lastNode.setNext(newNode);
+      tail.setNext(newNode);
       newNode.setNext(head);
+      tail = newNode;
     }
     ++length;
   }
@@ -71,7 +74,7 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
       newNode.setNext(head);
     } else {
       newNode.setNext(this.head);
-      INode<T> last = getLast(head);
+      INode<T> last = tail;
       this.head = newNode;
       last.setNext(head);
     }
@@ -103,7 +106,10 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     if (head == null) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
-      if (head.isSame(head.getNext())) head = null;
+      if (head.isSame(head.getNext())) {
+        head = null;
+        tail = null;
+      }
       else head = head.getNext();
       --length;
       return true;
@@ -130,21 +136,11 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     if (index == this.length - 1) return getLast(this.head);
     int pointer = 0;
     INode<T> pointerNode = this.head;
-    while (pointer <= index) {
-      if (pointer == index) break;
-      else {
+    while (pointer != index) {
         pointerNode = next(pointerNode);
         ++pointer;
       }
-    }
     return pointerNode;
-  }
-
-  @SuppressWarnings("PMD.LawOfDemeter")
-  private INode<T> getLast(INode<T> node) {
-    INode<T> lastNode = node;
-    if (head.isSame(lastNode.getNext())) return lastNode;
-    return getLast(lastNode.getNext());
   }
 
   private INode<T> next(INode<T> node) {
@@ -159,13 +155,17 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
   public INode<T> getHead() {
     return head;
   }
+  
+  public INode<T> getTail() {
+    return tail;
+  }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
     INode<T> nextNode = this.head;
-    while (nextNode != null) {
+    while (true) {
       sb.append(nextNode);
       nextNode = next(nextNode);
       if (head.isSame(nextNode)) break;
