@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-public class CircularSinglyLinkedList<T> {
+public class CircularSinglyLinkedList<T> implements IList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -16,6 +16,7 @@ public class CircularSinglyLinkedList<T> {
    * @param data - data to be added to list.
    */
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) head = new SingleNode<>(data);
@@ -35,6 +36,7 @@ public class CircularSinglyLinkedList<T> {
    * @param index - index at which element to be added.
    */
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
@@ -58,6 +60,7 @@ public class CircularSinglyLinkedList<T> {
    * @param data Add data node at beginning.
    */
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new SingleNode<>(data);
@@ -72,12 +75,13 @@ public class CircularSinglyLinkedList<T> {
   }
 
   @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
+  @Override
   public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
     INode<T> startNode = head.getNext();
-    while (!head.distinctCompare(startNode)) {
+    while (!head.isSame(startNode)) {
       if (startNode.equals(node)) return startNode;
       startNode = next(startNode);
     }
@@ -89,19 +93,20 @@ public class CircularSinglyLinkedList<T> {
     "PMD.NullAssignment",
     "nullness:argument.type.incompatible"
   })
+  @Override
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
-      if (head.distinctCompare(head.getNext())) head = null;
+      if (head.isSame(head.getNext())) head = null;
       else head = head.getNext();
       --length;
       return true;
     }
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
-    while (!head.distinctCompare(currNode)) {
+    while (!head.isSame(currNode)) {
       if (currNode.equals(node)) {
         prevNode.setNext(currNode.getNext());
         --length;
@@ -112,7 +117,8 @@ public class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  private INode<T> get(int index) {
+  @Override
+  public INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
@@ -132,7 +138,7 @@ public class CircularSinglyLinkedList<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> getLast(INode<T> node) {
     INode<T> lastNode = node;
-    if (head.distinctCompare(lastNode.getNext())) return lastNode;
+    if (head.isSame(lastNode.getNext())) return lastNode;
     return getLast(lastNode.getNext());
   }
 
@@ -140,6 +146,7 @@ public class CircularSinglyLinkedList<T> {
     return node.getNext();
   }
 
+  @Override
   public int size() {
     return this.length;
   }
@@ -152,7 +159,7 @@ public class CircularSinglyLinkedList<T> {
     while (nextNode != null) {
       sb.append(nextNode);
       nextNode = next(nextNode);
-      if (head.distinctCompare(nextNode)) break;
+      if (head.isSame(nextNode)) break;
       sb.append(',');
     }
     sb.append(']');

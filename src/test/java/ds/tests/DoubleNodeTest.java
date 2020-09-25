@@ -43,7 +43,7 @@ class DoubleNodeTest {
     DoubleNode<Integer> node = new DoubleNode<>(SCORE);
     DoubleNode<Integer> next = new DoubleNode<>(TEN);
     node.setNext(next);
-    assertSame(next,node.getNext(), "References must be equal.");
+    assertSame(next, node.getNext(), "References must be equal.");
     assertEquals(TEN, node.getNext().getData(), () -> "Value must be " + TEN + ".");
   }
 
@@ -56,17 +56,17 @@ class DoubleNodeTest {
   }
 
   @Test
-  @DisplayName("DoubleNodeTest.testDistinctCompareFalse")
-  void testDistinctCompareFalse() {
+  @DisplayName("DoubleNodeTest.testIsSameFalse")
+  void testIsSameFalse() {
     DoubleNode<Integer> node = new DoubleNode<>(SCORE);
     DoubleNode<Integer> next = new DoubleNode<>(TEN);
-    assertFalse(node.distinctCompare(next), () -> "Two different objects.");
+    assertFalse(node.isSame(next), () -> "Two different objects.");
   }
 
   @Test
-  @DisplayName("DoubleNodeTest.testDistinctCompareTrue")
-  void testDistinctCompareTrue() {
+  @DisplayName("DoubleNodeTest.testIsSameTrue")
+  void testIsSameTrue() {
     DoubleNode<Integer> node = new DoubleNode<>(SCORE);
-    assertTrue(node.distinctCompare(node), () -> "Same object.");
+    assertTrue(node.isSame(node), () -> "Same object.");
   }
 }

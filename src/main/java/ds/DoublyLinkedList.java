@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-public class DoublyLinkedList<T extends Object> {
+public class DoublyLinkedList<T> implements IList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -13,6 +13,7 @@ public class DoublyLinkedList<T extends Object> {
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> tail;
 
+  @Override
   public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new DoubleNode<>(data);
@@ -26,6 +27,7 @@ public class DoublyLinkedList<T extends Object> {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
@@ -45,6 +47,7 @@ public class DoublyLinkedList<T extends Object> {
         --length;
         return true;
       }
+      prevNode = currNode;
       currNode = next(currNode);
     }
     return false;
@@ -55,6 +58,7 @@ public class DoublyLinkedList<T extends Object> {
    *
    * @param data - data to be added to list.
    */
+  @Override
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) {
@@ -76,6 +80,7 @@ public class DoublyLinkedList<T extends Object> {
    * @param index - index at which element to be added.
    */
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
@@ -100,6 +105,7 @@ public class DoublyLinkedList<T extends Object> {
    *
    * @param data Add data node at beginning.
    */
+  @Override
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new DoubleNode<>(data);
@@ -112,6 +118,7 @@ public class DoublyLinkedList<T extends Object> {
     ++length;
   }
 
+  @Override
   public INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
@@ -156,6 +163,7 @@ public class DoublyLinkedList<T extends Object> {
     return node.getPrev();
   }
 
+  @Override
   public int size() {
     return this.length;
   }

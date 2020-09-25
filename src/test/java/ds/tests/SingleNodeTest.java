@@ -53,17 +53,17 @@ class SingleNodeTest {
   }
 
   @Test
-  @DisplayName("SingleNodeTest.testDistinctCompareFalse")
-  void testDistinctCompareFalse() {
+  @DisplayName("SingleNodeTest.testIsSameFalse")
+  void testIsSameFalse() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
     SingleNode<Integer> next = new SingleNode<>(TEN);
-    assertFalse(node.distinctCompare(next), () -> "Two different objects.");
+    assertFalse(node.isSame(next), () -> "Two different objects.");
   }
 
   @Test
-  @DisplayName("SingleNodeTest.testDistinctCompareTrue")
-  void testDistinctCompareTrue() {
+  @DisplayName("SingleNodeTest.testIsSameTrue")
+  void testIsSameTrue() {
     SingleNode<Integer> node = new SingleNode<>(SCORE);
-    assertTrue(node.distinctCompare(node), () -> "Same object.");
+    assertTrue(node.isSame(node), () -> "Same object.");
   }
 }

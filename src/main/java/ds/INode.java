@@ -7,7 +7,7 @@ public interface INode<T> {
   void setData(T data);
 
   @SuppressWarnings("not.interned")
-  default boolean distinctCompare(INode<T> node) {
+  default boolean isSame(INode<T> node) {
     return this == node;
   }
 

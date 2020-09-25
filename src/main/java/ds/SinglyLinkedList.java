@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T> implements IList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -16,6 +16,7 @@ public class SinglyLinkedList<T> {
    * @param data - data to be added at index.
    * @param index - index at which element to be added.
    */
+  @Override
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data, int index) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -39,6 +40,7 @@ public class SinglyLinkedList<T> {
    *
    * @param data - data to be added to list.
    */
+  @Override
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
@@ -52,6 +54,7 @@ public class SinglyLinkedList<T> {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public INode<T> find(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new SingleNode<>(data);
@@ -65,6 +68,7 @@ public class SinglyLinkedList<T> {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public boolean delete(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
@@ -94,6 +98,7 @@ public class SinglyLinkedList<T> {
    * @param data Add data node at beginning.
    */
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
   public void addAtFirst(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new SingleNode<>(data);
@@ -105,6 +110,7 @@ public class SinglyLinkedList<T> {
     ++length;
   }
 
+  @Override
   public INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
@@ -131,6 +137,7 @@ public class SinglyLinkedList<T> {
     return node.getNext();
   }
 
+  @Override
   public int size() {
     return this.length;
   }
