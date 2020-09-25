@@ -19,8 +19,10 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
   @Override
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    if (head == null) head = new SingleNode<>(data);
-    else {
+    if (head == null) {
+      head = new SingleNode<>(data);
+      head.setNext(head);
+    } else {
       INode<T> newNode = new SingleNode<>(data);
       INode<T> lastNode = getLast(head);
       lastNode.setNext(newNode);
