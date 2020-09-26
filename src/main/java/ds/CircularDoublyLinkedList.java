@@ -147,7 +147,7 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
     if (index == this.length - 1) return tail;
-int midPoint = this.length >> 1;
+    int midPoint = this.length >> 1;
     if (index < midPoint) return getFromHead(index);
     else return getFromTail(index);
   }
@@ -175,7 +175,7 @@ int midPoint = this.length >> 1;
   private INode<T> next(INode<T> node) {
     return node.getNext();
   }
-  
+
   private INode<T> prev(INode<T> node) {
     return node.getPrev();
   }
