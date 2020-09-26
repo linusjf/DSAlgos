@@ -147,6 +147,12 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
       throw new IndexOutOfBoundsException("Index not available: " + index);
     if (index == 0) return this.head;
     if (index == this.length - 1) return tail;
+int midPoint = this.length >> 1;
+    if (index < midPoint) return getFromHead(index);
+    else return getFromTail(index);
+  }
+
+  private INode<T> getFromHead(int index) {
     int pointer = 0;
     INode<T> pointerNode = this.head;
     while (pointer != index) {
@@ -156,8 +162,22 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
     return pointerNode;
   }
 
+  private INode<T> getFromTail(int index) {
+    int pointer = length - 1;
+    INode<T> pointerNode = this.tail;
+    while (pointer != index) {
+      pointerNode = prev(pointerNode);
+      --pointer;
+    }
+    return pointerNode;
+  }
+
   private INode<T> next(INode<T> node) {
     return node.getNext();
+  }
+  
+  private INode<T> prev(INode<T> node) {
+    return node.getPrev();
   }
 
   @Override
