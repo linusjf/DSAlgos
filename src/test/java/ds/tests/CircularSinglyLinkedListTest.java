@@ -13,7 +13,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "JUnitTestContainsTooManyAsserts"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts"})
 @DisplayName("CircularSinglyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -23,6 +23,7 @@ class CircularSinglyLinkedListTest {
   private static final String SIZE_ONE = "Size must be one.";
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
+  private static final String VALUES_EQUAL = "Values must be equal.";
 
   @Test
   @DisplayName("CircularSinglyLinkedListTest.testConstructor")
@@ -43,8 +44,8 @@ class CircularSinglyLinkedListTest {
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertNotNull(tail, "List tail must not be null.");
-    assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
-    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), head.toString(), VALUES_EQUAL);
+    assertEquals(String.valueOf(SCORE), tail.toString(), VALUES_EQUAL);
     assertSame(head, tail, "Same object.");
   }
 
@@ -66,8 +67,8 @@ class CircularSinglyLinkedListTest {
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertNotNull(tail, "List tail must not be null.");
-    assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
-    assertEquals(String.valueOf(SCORE), tail.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), head.toString(), VALUES_EQUAL);
+    assertEquals(String.valueOf(SCORE), tail.toString(), VALUES_EQUAL);
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -100,7 +101,7 @@ class CircularSinglyLinkedListTest {
     INode<Integer> node = list.find(Integer.valueOf(SCORE));
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(node, "Node must not be null.");
-    assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), node.toString(), VALUES_EQUAL);
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
