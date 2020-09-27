@@ -4,6 +4,7 @@ import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.INode;
+import ds.Iterator;
 import ds.SinglyLinkedList;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
@@ -251,7 +252,6 @@ class SinglyLinkedListTest {
     @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
     void testEmptyIterator() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-      Iterator<Integer> iter = list.getIterator();
       assertThrows(IllegalStateException.class, () -> list.getIterator(), EXCEPTION);
     }
   }
