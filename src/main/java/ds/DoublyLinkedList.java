@@ -179,6 +179,11 @@ public class DoublyLinkedList<T> implements IList<T> {
     return sb.toString();
   }
 
+  @Override
+  public Iterator<T> getIterator() {
+    return null;
+  }
+
   public INode<T> getHead() {
     return head;
   }

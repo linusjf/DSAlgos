@@ -159,4 +159,38 @@ public class SinglyLinkedList<T> implements IList<T> {
     sb.append(']');
     return sb.toString();
   }
+
+  @Override
+  public Iterator<T> getIterator() {
+    return new ListIterator();
+  }
+
+  final class ListIterator implements Iterator<T> {
+
+    INode<T> currentNode;
+
+    public void reset() {
+      currentNode = getHead();
+    }
+
+    public void next() {
+      currentNode = currentNode.getNext();
+    }
+
+    public boolean atEnd() {
+      return (getHead() == null || currentNode.getNext() == null);
+    }
+
+    public INode<T> current() {
+      return currentNode;
+    }
+
+    public void insertAfter(T data) {}
+
+    public void insertBefore(T data) {}
+
+    public T deleteCurrent() {
+      return null;
+    }
+  }
 }

@@ -174,4 +174,9 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
     sb.append(']');
     return sb.toString();
   }
+
+  @Override
+  public Iterator<T> getIterator() {
+    return null;
+  }
 }

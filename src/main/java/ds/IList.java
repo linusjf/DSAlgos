@@ -14,4 +14,6 @@ public interface IList<T> {
   boolean delete(T data);
 
   int size();
+
+  Iterator<T> getIterator();
 }
