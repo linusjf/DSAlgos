@@ -247,14 +247,12 @@ class SinglyLinkedListTest {
 
   @Nested
   class IteratorTests {
-  @Test
-  @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
-  void testEmptyIterator() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    Iterator<Integer> iter = list.getIterator();
-    assertThrows(IllegalStateException.class, 
-        () -> list.getIterator(), EXCEPTION);
-  }
-
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
+    void testEmptyIterator() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      Iterator<Integer> iter = list.getIterator();
+      assertThrows(IllegalStateException.class, () -> list.getIterator(), EXCEPTION);
+    }
   }
 }
