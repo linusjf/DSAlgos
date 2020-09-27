@@ -15,5 +15,7 @@ public interface IList<T> {
 
   int size();
 
+  boolean isEmpty();
+
   Iterator<T> getIterator();
 }

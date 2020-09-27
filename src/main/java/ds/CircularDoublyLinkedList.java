@@ -185,6 +185,11 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
     return this.length;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return this.length == 0;
+  }
+
   public INode<T> getHead() {
     return head;
   }

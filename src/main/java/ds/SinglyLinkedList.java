@@ -1,5 +1,6 @@
 package ds;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SinglyLinkedList<T> implements IList<T> {
@@ -142,6 +143,11 @@ public class SinglyLinkedList<T> implements IList<T> {
     return this.length;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return this.length == 0;
+  }
+
   public INode<T> getHead() {
     return head;
   }
@@ -162,35 +168,63 @@ public class SinglyLinkedList<T> implements IList<T> {
 
   @Override
   public Iterator<T> getIterator() {
+    if (isEmpty()) throw new IllegalStateException("Empty list. No iterator possible.");
     return new ListIterator();
   }
 
   final class ListIterator implements Iterator<T> {
 
-    INode<T> currentNode;
+    INode<T> current;
+    INode<T> prev;
+
+    ListIterator() {
+      current = head;
+      prev = null;
+    }
 
     public void reset() {
-      currentNode = getHead();
+      current = head;
+      prev = null;
     }
 
-    public void next() {
-      currentNode = currentNode.getNext();
+    public INode<T> next() {
+      INode<T> next = current.getNext();
+      if (next == null) throw new NoSuchElementException("No more elements!");
+      prev = current;
+      current = next;
+      return current;
     }
 
-    public boolean atEnd() {
-      return (getHead() == null || currentNode.getNext() == null);
+    public boolean hasNext() {
+      return current != null && current.getNext() != null;
     }
 
-    public INode<T> current() {
-      return currentNode;
+    public void insertAfter(T data) {
+      INode<T> node = new SingleNode<T>(data);
+      node.setNext(current.getNext());
+      current.setNext(node);
+      current = node;
+      ++length;
     }
 
-    public void insertAfter(T data) {}
+    public void insertBefore(T data) {
+      INode<T> node = new SingleNode<T>(data);
+      prev.setNext(node);
+      node.setNext(current);
+      current = node;
+      ++length;
+    }
 
-    public void insertBefore(T data) {}
-
-    public T deleteCurrent() {
-      return null;
+    public T remove() {
+      if (isEmpty()) throw new IllegalStateException("List is empty");
+      T data = current.getData();
+      INode<T> next = current.getNext();
+      if (prev != null) prev.setNext(next);
+      if (next == null) current = prev = null;
+      else current = current.getNext();
+      --length;
+      if (length == 0) head = null;
+      return data;
     }
   }
 }

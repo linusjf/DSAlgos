@@ -3,15 +3,13 @@ package ds;
 public interface Iterator<T> {
   void reset();
 
-  void next();
+  INode<T> next();
 
-  boolean atEnd();
-
-  INode<T> current();
+  boolean hasNext();
 
   void insertAfter(T data);
 
   void insertBefore(T data);
 
-  T deleteCurrent();
+  T remove();
 }

@@ -166,6 +166,11 @@ public class DoublyLinkedList<T> implements IList<T> {
   }
 
   @Override
+  public boolean isEmpty() {
+    return this.length == 0;
+  }
+
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
