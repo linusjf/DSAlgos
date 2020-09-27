@@ -217,7 +217,7 @@ public class SinglyLinkedList<T> implements IList<T> {
 
     public T remove() {
       if (isEmpty()) throw new IllegalStateException("List is empty");
-      T data = current.getData();
+      final T data = current.getData();
       INode<T> next = current.getNext();
       if (prev != null) prev.setNext(next);
       if (next == null) current = prev = null;
