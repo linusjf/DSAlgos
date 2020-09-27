@@ -179,14 +179,16 @@ public class SinglyLinkedList<T> implements IList<T> {
 
     ListIterator() {
       current = head;
-      prev = null;
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
+    @Override
     public void reset() {
       current = head;
       prev = null;
     }
 
+    @Override
     public INode<T> next() {
       INode<T> next = current.getNext();
       if (next == null) throw new NoSuchElementException("No more elements!");
@@ -195,35 +197,39 @@ public class SinglyLinkedList<T> implements IList<T> {
       return current;
     }
 
+    @Override
     public boolean hasNext() {
       return current != null && current.getNext() != null;
     }
 
+    @Override
     public void insertAfter(T data) {
-      INode<T> node = new SingleNode<T>(data);
+      INode<T> node = new SingleNode<>(data);
       node.setNext(current.getNext());
       current.setNext(node);
       current = node;
       ++length;
     }
 
+    @Override
     public void insertBefore(T data) {
-      INode<T> node = new SingleNode<T>(data);
+      INode<T> node = new SingleNode<>(data);
       prev.setNext(node);
       node.setNext(current);
       current = node;
       ++length;
     }
 
+    @Override
     public T remove() {
       if (isEmpty()) throw new IllegalStateException("List is empty");
       final T data = current.getData();
       INode<T> next = current.getNext();
       if (prev != null) prev.setNext(next);
-      if (next == null) current = prev = null;
-      else current = current.getNext();
+      if (next == null) current = prev = next;
+      else current = next;
       --length;
-      if (length == 0) head = null;
+      if (length == 0) head = next;
       return data;
     }
   }
