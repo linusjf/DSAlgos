@@ -115,9 +115,8 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
     if (head == null) return false;
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
-      if (head.isSame(head.getNext())) 
-        head = tail = null;
-        else {
+      if (head.isSame(head.getNext())) head = tail = null;
+      else {
         head = head.getNext();
         tail.setNext(head);
         head.setPrev(tail);

@@ -7,6 +7,7 @@ import ds.INode;
 import ds.SinglyLinkedList;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -30,6 +31,7 @@ class SinglyLinkedListTest {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
+    assertTrue(list.isEmpty(), "List must be empty.");
   }
 
   @Test
@@ -41,6 +43,7 @@ class SinglyLinkedListTest {
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertFalse(list.isEmpty(), "List must not be empty.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -60,6 +63,7 @@ class SinglyLinkedListTest {
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
     assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertFalse(list.isEmpty(), "List must not be empty.");
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")
@@ -239,5 +243,18 @@ class SinglyLinkedListTest {
   void testGetExcessIndex() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
+  }
+
+  @Nested
+  class IteratorTests {
+  @Test
+  @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
+  void testEmptyIterator() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    Iterator<Integer> iter = list.getIterator();
+    assertThrows(IllegalStateException.class, 
+        () -> list.getIterator(), EXCEPTION);
+  }
+
   }
 }
