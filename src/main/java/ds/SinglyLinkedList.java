@@ -154,7 +154,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     --length;
     return data;
   }
-  
+
   @Override
   protected T unlink(INode<T> node) {
     throw new UnsupportedOperationException("Operation not supported.");
@@ -245,12 +245,15 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T previous() {
-      throw new UnsupportedOperationException("Iterates forward only.");
+      if (!hasPrevious()) throw new NoSuchElementException("No previous element!");
+      lastReturned = next = (next == null) ? get(length - 1) : get(nextIndex - 1);
+      --nextIndex;
+      return lastReturned.getData();
     }
 
     @Override
     public boolean hasPrevious() {
-      throw new UnsupportedOperationException("Iterates forward only.");
+      return nextIndex > 0;
     }
 
     @Override
@@ -265,6 +268,9 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public void set(T data) {}
+    public void set(T data) {
+      if (lastReturned == null) throw new IllegalStateException("Null element cannot be set.");
+      lastReturned.setData(data);
+    }
   }
 }
