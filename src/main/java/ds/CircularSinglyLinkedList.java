@@ -2,7 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-public class CircularSinglyLinkedList<T> extends AbstractList<T> {
+public class CircularSinglyLinkedList<T> implements IList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;

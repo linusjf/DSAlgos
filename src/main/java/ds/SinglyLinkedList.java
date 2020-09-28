@@ -12,6 +12,18 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   private INode<T> head;
 
   /**
+   * Add element at first node. Set the newly created node as root node.
+   *
+   * @param data Add data node at beginning.
+   */
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
+  public void addAtFirst(T data) {
+    Objects.requireNonNull(data, DATA_NON_NULL);
+    linkFirst(data);
+  }
+
+  /**
    * Add element at specified index.
    *
    * @param data - data to be added at index.
@@ -27,12 +39,9 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
     if (index == this.length) add(data);
     else if (index < this.length) {
-      INode<T> newNode = new SingleNode<>(data);
       INode<T> leftNode = get(index - 1);
-      INode<T> rightNode = get(index);
-      newNode.setNext(rightNode);
-      leftNode.setNext(newNode);
-      ++length;
+      INode<T> rightNode = leftNode.getNext();
+      link(leftNode, data, rightNode);
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -45,13 +54,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data) {
     Objects.requireNonNull(data, DATA_NON_NULL);
-    if (head == null) head = new SingleNode<>(data);
-    else {
-      INode<T> newNode = new SingleNode<>(data);
-      INode<T> lastNode = getLast(head);
-      lastNode.setNext(newNode);
-    }
-    ++length;
+    linkLast(data);
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
@@ -75,40 +78,20 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (head == null) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
-      head = next(head);
-      --length;
+      unlinkFirst(head);
       return true;
     }
     INode<T> prevNode = head;
     INode<T> currNode = next(head);
     while (currNode != null) {
       if (currNode.equals(node)) {
-        prevNode.setNext(next(currNode));
-        --length;
+        unlink(prevNode, currNode);
         return true;
       }
       prevNode = currNode;
       currNode = next(currNode);
     }
     return false;
-  }
-
-  /**
-   * Add element at first node. Set the newly created node as root node.
-   *
-   * @param data Add data node at beginning.
-   */
-  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
-  @Override
-  public void addAtFirst(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
-    INode<T> newNode = new SingleNode<>(data);
-    if (this.head == null) this.head = newNode;
-    else {
-      newNode.setNext(this.head);
-      this.head = newNode;
-    }
-    ++length;
   }
 
   @Override
@@ -132,6 +115,63 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> nextNode = next(lastNode);
     if (nextNode == null) return lastNode;
     return getLast(nextNode);
+  }
+
+  @Override
+  protected void linkFirst(T data) {
+    final INode<T> f = head;
+    INode<T> node = new SingleNode<>(data, f);
+    head = node;
+    ++length;
+  }
+
+  @Override
+  protected void linkLast(T data) {
+    INode<T> node = new SingleNode<>(data);
+    final INode<T> f = head;
+    INode<T> last = getLast(head);
+    if (last == null) head = node;
+    else last.setNext(node);
+    ++length;
+  }
+
+  @Override
+  protected void link(INode<T> prev, T data, INode<T> next) {
+    INode<T> node = new SingleNode<>(data, next);
+    prev.setNext(node);
+    ++length;
+  }
+
+  @Override
+  protected T unlinkFirst(INode<T> node) {
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    node.setNext(null);
+    node.setData(null);
+    head = next;
+    --length;
+    return data;
+  }
+
+  @Override
+  protected T unlink(INode<T> prev, INode<T> node) {
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    node.setNext(null);
+    node.setData(null);
+    prev.setNext(next);
+    --length;
+    return data;
+  }
+
+  @Override
+  protected T unlinkLast(INode<T> node) {
+    throw new UnsupportedOperationException("Operation not supported.");
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    throw new UnsupportedOperationException("Operation not supported.");
   }
 
   private INode<T> next(INode<T> node) {
@@ -177,7 +217,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     private int nextIndex;
 
     ListIterator(int index) {
-      next = (index == size) ? null : get(index);
+      next = (index == length) ? null : get(index);
       nextIndex = index;
     }
 
@@ -212,46 +252,17 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public void insertAfter(T data) {
-      INode<T> node = new SingleNode<>(data);
-      if (current == null && prev == null) head = current = node;
-      else if (current == null) {
-        prev.setNext(node);
-        current = node;
-      } else {
-        node.setNext(current.getNext());
-        current.setNext(node);
-        current = node;
-      }
-      ++length;
-    }
+    public void insertAfter(T data) {}
 
     @Override
-    public void insertBefore(T data) {
-      INode<T> node = new SingleNode<>(data);
-      if (current == null && prev == null) head = current = node;
-      else if (prev == null) {
-        node.setNext(current);
-        current = node;
-      } else {
-        prev.setNext(node);
-        node.setNext(current);
-        current = node;
-      }
-      ++length;
-    }
+    public void insertBefore(T data) {}
 
     @Override
     public T remove() {
-      if (current == null) throw new IllegalStateException("List is empty");
-      final T data = current.getData();
-      INode<T> next = current.getNext();
-      if (prev != null) prev.setNext(next);
-      if (next == null) current = prev = next;
-      else current = next;
-      --length;
-      if (length == 0) head = next;
-      return data;
+      return null;
     }
+
+    @Override
+    public void set(T data) {}
   }
 }
