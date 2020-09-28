@@ -3,6 +3,7 @@ package ds;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+@SuppressWarnings("nullness")
 public class SinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -111,6 +112,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> getLast(INode<T> node) {
+    if (node == null) return null;
     INode<T> lastNode = node;
     INode<T> nextNode = next(lastNode);
     if (nextNode == null) return lastNode;
