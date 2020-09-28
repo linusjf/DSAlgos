@@ -154,6 +154,11 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     --length;
     return data;
   }
+  
+  @Override
+  protected T unlink(INode<T> node) {
+    throw new UnsupportedOperationException("Operation not supported.");
+  }
 
   @Override
   protected T unlink(INode<T> prev, INode<T> node) {
@@ -168,11 +173,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlinkLast(INode<T> node) {
-    throw new UnsupportedOperationException("Operation not supported.");
-  }
-
-  @Override
-  protected T unlink(INode<T> node) {
     throw new UnsupportedOperationException("Operation not supported.");
   }
 
