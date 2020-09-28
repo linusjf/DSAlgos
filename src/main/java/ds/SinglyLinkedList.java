@@ -3,7 +3,7 @@ package ds;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class SinglyLinkedList<T> implements IList<T> {
+public class SinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -168,61 +168,82 @@ public class SinglyLinkedList<T> implements IList<T> {
 
   @Override
   public Iterator<T> getIterator() {
-    if (isEmpty()) throw new IllegalStateException("Empty list. No iterator possible.");
-    return new ListIterator();
+    return new ListIterator(0);
   }
 
   final class ListIterator implements Iterator<T> {
+    private INode<T> lastReturned = null;
+    private INode<T> next;
+    private int nextIndex;
 
-    INode<T> current;
-    INode<T> prev;
-
-    ListIterator() {
-      current = head;
+    ListIterator(int index) {
+      next = (index == size) ? null : get(index);
+      nextIndex = index;
     }
 
-    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void reset() {
-      current = head;
-      prev = null;
+      nextIndex = 0;
+      next = get(nextIndex);
     }
 
     @Override
-    public INode<T> next() {
-      INode<T> next = current.getNext();
-      if (next == null) throw new NoSuchElementException("No more elements!");
-      prev = current;
-      current = next;
-      return current;
+    public T next() {
+      if (!hasNext()) throw new NoSuchElementException();
+      lastReturned = next;
+      next = next.getNext();
+      ++nextIndex;
+      return lastReturned.getData();
     }
 
     @Override
     public boolean hasNext() {
-      return current != null && current.getNext() != null;
+      return nextIndex < length;
+    }
+
+    @Override
+    public T previous() {
+      throw new UnsupportedOperationException("Iterates forward only.");
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      throw new UnsupportedOperationException("Iterates forward only.");
     }
 
     @Override
     public void insertAfter(T data) {
       INode<T> node = new SingleNode<>(data);
-      node.setNext(current.getNext());
-      current.setNext(node);
-      current = node;
+      if (current == null && prev == null) head = current = node;
+      else if (current == null) {
+        prev.setNext(node);
+        current = node;
+      } else {
+        node.setNext(current.getNext());
+        current.setNext(node);
+        current = node;
+      }
       ++length;
     }
 
     @Override
     public void insertBefore(T data) {
       INode<T> node = new SingleNode<>(data);
-      prev.setNext(node);
-      node.setNext(current);
-      current = node;
+      if (current == null && prev == null) head = current = node;
+      else if (prev == null) {
+        node.setNext(current);
+        current = node;
+      } else {
+        prev.setNext(node);
+        node.setNext(current);
+        current = node;
+      }
       ++length;
     }
 
     @Override
     public T remove() {
-      if (isEmpty()) throw new IllegalStateException("List is empty");
+      if (current == null) throw new IllegalStateException("List is empty");
       final T data = current.getData();
       INode<T> next = current.getNext();
       if (prev != null) prev.setNext(next);

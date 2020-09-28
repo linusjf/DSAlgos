@@ -4,7 +4,6 @@ import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.INode;
-import ds.Iterator;
 import ds.SinglyLinkedList;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;

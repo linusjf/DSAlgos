@@ -2,16 +2,21 @@ package ds;
 
 import java.util.Objects;
 
+@SuppressWarnings("nullness")
 public class SingleNode<T> implements INode<T> {
   private T data;
 
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> next;
 
-  @SuppressWarnings("nullness:argument.type.incompatible")
   public SingleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
+  }
+
+  public SingleNode(T data, INode<T> next) {
+    this(data);
+    this.next = next;
   }
 
   @Override

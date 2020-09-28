@@ -2,16 +2,31 @@ package ds;
 
 import java.util.Objects;
 
-@SuppressWarnings("PMD.DataClass")
+@SuppressWarnings({"PMD.DataClass", "nullness"})
 public class DoubleNode<T> implements INode<T> {
   private T data;
   private INode<T> prev;
   private INode<T> next;
 
-  @SuppressWarnings("nullness")
   public DoubleNode(T data) {
     Objects.requireNonNull(data, "Data cannot be null.");
     this.data = data;
+  }
+
+  public DoubleNode(INode<T> prev, T data, INode<T> next) {
+    this(data);
+    this.prev = prev;
+    this.next = next;
+  }
+
+  public DoubleNode(T data, INode<T> next) {
+    this(data);
+    this.next = next;
+  }
+
+  public DoubleNode(INode<T> prev, T data) {
+    this(data);
+    this.next = prev;
   }
 
   @Override
