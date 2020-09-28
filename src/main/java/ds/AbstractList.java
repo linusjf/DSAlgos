@@ -35,6 +35,8 @@ public abstract class AbstractList<T> implements IList<T> {
 
   protected abstract void linkLast(T data);
 
+  protected abstract void linkAfter(T data, INode<T> node);
+
   protected abstract T unlink(INode<T> prev, INode<T> node);
 
   protected abstract T unlink(INode<T> node);

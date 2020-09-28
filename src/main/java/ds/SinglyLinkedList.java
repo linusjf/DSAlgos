@@ -140,7 +140,16 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
+    if (prev != null)
     prev.setNext(node);
+    ++length;
+  }
+  
+  @Override
+  protected void linkAfter(T data, INode<T> node) {
+    INode<T> newNode = new SingleNode<>(data);
+    newNode.setNext(node.getNext());
+    node.setNext(newNode);
     ++length;
   }
 
@@ -257,7 +266,13 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public void insertAfter(T data) {}
+    public void insertAfter(T data) {
+      if (next == null) 
+        linkLast(data);
+      else
+        linkAfter(data,next); 
+      ++nextIndex;
+    }
 
     @Override
     public void insertBefore(T data) {}
