@@ -96,6 +96,21 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
+  public T delete(int index) {
+    if (index < 0 || index > this.length - 1)
+      throw new IndexOutOfBoundsException("Index not available: " + index);
+    T data;
+    if (index == 0)
+      data = unlinkFirst(head);
+    else {
+    INode<T> prev = get(index - 1);
+    INode<T> curr = prev.getNext();
+   data = unlink(prev,current);
+    }
+    return data;
+  }
+
+  @Override
   public INode<T> get(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
@@ -152,7 +167,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     node.setNext(newNode);
     ++length;
   }
-
+  
   @Override
   protected T unlinkFirst(INode<T> node) {
     final T data = node.getData();
@@ -166,7 +181,11 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlink(INode<T> node) {
-    throw new UnsupportedOperationException("Operation not supported.");
+    final T data = node.getData();
+    node.setData(null);
+    node.setNext(null);
+    --length;
+    return data;
   }
 
   @Override
@@ -175,6 +194,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
+    if (prev != null)
     prev.setNext(next);
     --length;
     return data;
@@ -182,7 +202,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlinkLast(INode<T> node) {
-    throw new UnsupportedOperationException("Operation not supported.");
+    throw new UnsupportedOperationException("Unsupported!");
   }
 
   private INode<T> next(INode<T> node) {
@@ -223,7 +243,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   final class ListIterator implements Iterator<T> {
-    private INode<T> lastReturned = null;
+    private INode<T> lastReturned;
     private INode<T> next;
     private int nextIndex;
 
@@ -236,6 +256,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public void reset() {
       nextIndex = 0;
       next = get(nextIndex);
+      lastReturned =  null;
     }
 
     @Override
@@ -254,10 +275,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T previous() {
-      if (!hasPrevious()) throw new NoSuchElementException("No previous element!");
-      lastReturned = next = (next == null) ? get(length - 1) : get(nextIndex - 1);
-      --nextIndex;
-      return lastReturned.getData();
+      throw new UnsupportedOperationException("No previous element!");
     }
 
     @Override
@@ -268,18 +286,22 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public void insertAfter(T data) {
       if (next == null) 
-        linkLast(data);
+        link(lastReturned,data);
       else
         linkAfter(data,next); 
       ++nextIndex;
     }
 
     @Override
-    public void insertBefore(T data) {}
+    public void insertBefore(T data) {
+      throw new UnsupportedOperationException("Unsupported!")
+    }
 
     @Override
     public T remove() {
-      return null;
+      T data = delete(index - 1);
+      lastReturned = null;
+      --index;
     }
 
     @Override
