@@ -3,9 +3,7 @@ package ds;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-@SuppressWarnings({"nullness",
-"PMD.GodClass","PMD.LawOfDemeter",
-"PMD.NullAssignment"})
+@SuppressWarnings({"nullness", "PMD.GodClass", "PMD.LawOfDemeter", "PMD.NullAssignment"})
 public class SinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -171,8 +169,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected T unlinkFirst() {
     INode<T> node = head;
-    if (node == null)
-      return node;
+    if (node == null) return null;
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
@@ -282,8 +279,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void insertAfter(T data) {
-      if (nextNode == null) 
-        link(lastReturned, data, nextNode);
+      if (nextNode == null) link(lastReturned, data, nextNode);
       else linkAfter(data, nextNode);
       ++nextIndex;
     }

@@ -2,8 +2,7 @@ package ds;
 
 import java.util.Objects;
 
-@SuppressWarnings({"nullness",
-"PMD.LawOfDemeter"})
+@SuppressWarnings({"nullness", "PMD.LawOfDemeter"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
