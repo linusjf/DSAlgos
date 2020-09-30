@@ -246,7 +246,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T next() {
-      if (!hasNext()) throw new NoSuchElementException();
+      if (nextNode == null)
+        throw new NoSuchElementException("No more elements!");
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
@@ -282,10 +283,13 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T remove() {
+      if (lastReturned != null) {
       T data = deleteAt(nextIndex - 1);
       lastReturned = null;
       --nextIndex;
       return data;
+      }
+      throw new IllegalStateException("Remove already invoked or next not invoked!");
     }
 
     @Override
