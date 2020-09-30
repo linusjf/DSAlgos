@@ -56,10 +56,6 @@ public abstract class AbstractList<T> implements IList<T> {
     throw new UnsupportedOperationException();
   }
 
-  protected T unlinkFirst(INode<T> node) {
-    throw new UnsupportedOperationException();
-  }
-
   protected T unlinkFirst() {
     throw new UnsupportedOperationException();
   }
