@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.INode;
 import ds.Iterator;
 import ds.SinglyLinkedList;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -254,6 +255,13 @@ class SinglyLinkedListTest {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       Iterator<Integer> iter = list.getIterator();
       assertFalse(iter.hasNext(), "No elements expected.");
+      assertFalse(iter.hasPrevious(), "No elements expected.");
+      assertThrows(NoSuchElementException.class,
+          () -> iter.next(), EXCEPTION);
+      assertThrows(IllegalStateException.class,
+          () -> iter.remove(), EXCEPTION);
+      assertThrows(IllegalStateException.class,
+          () -> iter.set(SCORE), EXCEPTION);
     }
   }
 }
