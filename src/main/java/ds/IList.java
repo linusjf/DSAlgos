@@ -11,7 +11,7 @@ public interface IList<T> {
 
   INode<T> get(int index);
 
-  T delete(int index);
+  T deleteAt(int index);
 
   boolean delete(T data);
 

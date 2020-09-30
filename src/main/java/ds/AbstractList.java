@@ -19,6 +19,9 @@ public abstract class AbstractList<T> implements IList<T> {
 
   @Override
   public abstract boolean delete(T data);
+  
+  @Override
+  public abstract T deleteAt(int index);
 
   @Override
   public abstract int size();

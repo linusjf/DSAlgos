@@ -96,7 +96,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  public T delete(int index) {
+  public T deleteAt(int index) {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     T data;
@@ -294,7 +294,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T remove() {
-      T data = delete(nextIndex - 1);
+      T data = deleteAt(nextIndex - 1);
       lastReturned = null;
       --nextIndex;
       return data;

@@ -57,7 +57,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
-  public T delete(int index) {
+  public T deleteAt(int index) {
     Objects.checkIndex(index, length);
     if (isEmpty()) return null;
     if (index == 0) return unlinkFirst();

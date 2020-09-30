@@ -98,7 +98,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  public T delete(int index) {
+  public T deleteAt(int index) {
     return null;
   }
 
