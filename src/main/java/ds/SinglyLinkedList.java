@@ -180,15 +180,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  protected T unlink(INode<T> node) {
-    final T data = node.getData();
-    node.setData(null);
-    node.setNext(null);
-    --length;
-    return data;
-  }
-
-  @Override
   protected T unlink(INode<T> prev, INode<T> node) {
     final T data = node.getData();
     final INode<T> next = node.getNext();
