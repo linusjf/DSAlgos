@@ -154,7 +154,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    if (prev != null) prev.setNext(node);
+    prev.setNext(node);
     ++length;
   }
 
@@ -185,7 +185,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
-    if (prev != null) prev.setNext(next);
+    prev.setNext(next);
     --length;
     return data;
   }
@@ -233,6 +233,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     private int nextIndex;
 
     ListIterator(int index) {
+      Objects.checkIndex(index, length + 1);
       nextNode = (index == length) ? null : get(index);
       nextIndex = index;
     }
@@ -246,8 +247,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T next() {
-      if (nextNode == null)
-        throw new NoSuchElementException("No more elements!");
+      if (nextNode == null) throw new NoSuchElementException("No more elements!");
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
@@ -284,10 +284,10 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T remove() {
       if (lastReturned != null) {
-      T data = deleteAt(nextIndex - 1);
-      lastReturned = null;
-      --nextIndex;
-      return data;
+        T data = deleteAt(nextIndex - 1);
+        lastReturned = null;
+        --nextIndex;
+        return data;
       }
       throw new IllegalStateException("Remove already invoked or next not invoked!");
     }

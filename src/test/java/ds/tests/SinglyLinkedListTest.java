@@ -256,12 +256,9 @@ class SinglyLinkedListTest {
       Iterator<Integer> iter = list.getIterator();
       assertFalse(iter.hasNext(), "No elements expected.");
       assertFalse(iter.hasPrevious(), "No elements expected.");
-      assertThrows(NoSuchElementException.class,
-          () -> iter.next(), EXCEPTION);
-      assertThrows(IllegalStateException.class,
-          () -> iter.remove(), EXCEPTION);
-      assertThrows(IllegalStateException.class,
-          () -> iter.set(SCORE), EXCEPTION);
+      assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
     }
   }
 }
