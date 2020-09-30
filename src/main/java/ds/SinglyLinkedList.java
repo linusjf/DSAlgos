@@ -81,7 +81,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (head == null) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
-      unlinkFirst(head);
+      unlinkFirst();
       return true;
     }
     INode<T> prevNode = head;
@@ -102,7 +102,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     T data;
-    if (index == 0) data = unlinkFirst(head);
+    if (index == 0) data = unlinkFirst();
     else {
       INode<T> prev = get(index - 1);
       INode<T> curr = prev.getNext();
@@ -169,7 +169,10 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  protected T unlinkFirst(INode<T> node) {
+  protected T unlinkFirst() {
+    INode<T> node = head;
+    if (node == null)
+      return node;
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
@@ -197,11 +200,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (prev != null) prev.setNext(next);
     --length;
     return data;
-  }
-
-  @Override
-  protected T unlinkLast(INode<T> node) {
-    throw new UnsupportedOperationException("Unsupported!");
   }
 
   private INode<T> next(INode<T> node) {
