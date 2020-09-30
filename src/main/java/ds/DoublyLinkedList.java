@@ -2,7 +2,8 @@ package ds;
 
 import java.util.Objects;
 
-@SuppressWarnings("nullness")
+@SuppressWarnings({"nullness",
+"PMD.LawOfDemeter"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -65,6 +66,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   }
 
   /** Links e as first element. */
+  @Override
   protected void linkFirst(T e) {
     final INode<T> f = head;
     final INode<T> newNode = new DoubleNode<>(null, e, f);

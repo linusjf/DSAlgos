@@ -3,7 +3,9 @@ package ds;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-@SuppressWarnings("nullness")
+@SuppressWarnings({"nullness",
+"PMD.GodClass","PMD.LawOfDemeter",
+"PMD.NullAssignment"})
 public class SinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -145,7 +147,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   protected void linkLast(T data) {
     INode<T> node = new SingleNode<>(data);
     final INode<T> f = head;
-    INode<T> last = getLast(head);
+    INode<T> last = getLast(f);
     if (last == null) head = node;
     else last.setNext(node);
     ++length;
@@ -241,26 +243,26 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   final class ListIterator implements Iterator<T> {
     private INode<T> lastReturned;
-    private INode<T> next;
+    private INode<T> nextNode;
     private int nextIndex;
 
     ListIterator(int index) {
-      next = (index == length) ? null : get(index);
+      nextNode = (index == length) ? null : get(index);
       nextIndex = index;
     }
 
     @Override
     public void reset() {
       nextIndex = 0;
-      next = get(nextIndex);
+      nextNode = get(nextIndex);
       lastReturned = null;
     }
 
     @Override
     public T next() {
       if (!hasNext()) throw new NoSuchElementException();
-      lastReturned = next;
-      next = next.getNext();
+      lastReturned = nextNode;
+      nextNode = nextNode.getNext();
       ++nextIndex;
       return lastReturned.getData();
     }
@@ -282,8 +284,9 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void insertAfter(T data) {
-      if (next == null) link(lastReturned, data, next);
-      else linkAfter(data, next);
+      if (nextNode == null) 
+        link(lastReturned, data, nextNode);
+      else linkAfter(data, nextNode);
       ++nextIndex;
     }
 
