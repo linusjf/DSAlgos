@@ -3,7 +3,7 @@ package ds;
 import java.util.Objects;
 
 @SuppressWarnings("nullness")
-public class CircularSinglyLinkedList<T> implements IList<T> {
+public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -94,6 +94,11 @@ public class CircularSinglyLinkedList<T> implements IList<T> {
       if (startNode.equals(node)) return startNode;
       startNode = next(startNode);
     }
+    return null;
+  }
+
+  @Override
+  public T delete(int index) {
     return null;
   }
 

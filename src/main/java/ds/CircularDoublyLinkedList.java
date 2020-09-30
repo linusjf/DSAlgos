@@ -3,7 +3,7 @@ package ds;
 import java.util.Objects;
 
 @SuppressWarnings("nullness")
-public class CircularDoublyLinkedList<T> implements IList<T> {
+public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -139,6 +139,11 @@ public class CircularDoublyLinkedList<T> implements IList<T> {
       currNode = currNode.getNext();
     }
     return false;
+  }
+
+  @Override
+  public T delete(int index) {
+    return null;
   }
 
   @Override

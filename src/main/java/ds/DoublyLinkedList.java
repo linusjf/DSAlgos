@@ -3,7 +3,7 @@ package ds;
 import java.util.Objects;
 
 @SuppressWarnings("nullness")
-public class DoublyLinkedList<T> implements IList<T> {
+public class DoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
   private int length;
@@ -53,6 +53,25 @@ public class DoublyLinkedList<T> implements IList<T> {
       currNode = next(currNode);
     }
     return false;
+  }
+
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @Override
+  public T delete(int index) {
+    Objects.checkIndex(index, length);
+    if (isEmpty()) return null;
+    if (index == 0) return unlinkFirst();
+    return unlink(get(index));
+  }
+
+  /** Links e as first element. */
+  protected void linkFirst(T e) {
+    final INode<T> f = head;
+    final INode<T> newNode = new DoubleNode<>(null, e, f);
+    head = newNode;
+    if (f == null) tail = newNode;
+    else f.setPrev(newNode);
+    ++length;
   }
 
   /**
@@ -124,8 +143,7 @@ public class DoublyLinkedList<T> implements IList<T> {
 
   @Override
   public INode<T> get(int index) {
-    if (index < 0 || index > this.length - 1)
-      throw new IndexOutOfBoundsException("Index not available: " + index);
+    Objects.checkIndex(index, this.length);
     if (index == 0) return this.head;
     if (index == this.length - 1) return this.tail;
     int midPoint = this.length >> 1;

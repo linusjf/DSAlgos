@@ -100,12 +100,11 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (index < 0 || index > this.length - 1)
       throw new IndexOutOfBoundsException("Index not available: " + index);
     T data;
-    if (index == 0)
-      data = unlinkFirst(head);
+    if (index == 0) data = unlinkFirst(head);
     else {
-    INode<T> prev = get(index - 1);
-    INode<T> curr = prev.getNext();
-   data = unlink(prev,current);
+      INode<T> prev = get(index - 1);
+      INode<T> curr = prev.getNext();
+      data = unlink(prev, curr);
     }
     return data;
   }
@@ -155,11 +154,10 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    if (prev != null)
-    prev.setNext(node);
+    if (prev != null) prev.setNext(node);
     ++length;
   }
-  
+
   @Override
   protected void linkAfter(T data, INode<T> node) {
     INode<T> newNode = new SingleNode<>(data);
@@ -167,7 +165,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     node.setNext(newNode);
     ++length;
   }
-  
+
   @Override
   protected T unlinkFirst(INode<T> node) {
     final T data = node.getData();
@@ -194,8 +192,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
-    if (prev != null)
-    prev.setNext(next);
+    if (prev != null) prev.setNext(next);
     --length;
     return data;
   }
@@ -256,7 +253,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public void reset() {
       nextIndex = 0;
       next = get(nextIndex);
-      lastReturned =  null;
+      lastReturned = null;
     }
 
     @Override
@@ -285,23 +282,22 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void insertAfter(T data) {
-      if (next == null) 
-        link(lastReturned,data);
-      else
-        linkAfter(data,next); 
+      if (next == null) link(lastReturned, data, next);
+      else linkAfter(data, next);
       ++nextIndex;
     }
 
     @Override
     public void insertBefore(T data) {
-      throw new UnsupportedOperationException("Unsupported!")
+      throw new UnsupportedOperationException("Unsupported!");
     }
 
     @Override
     public T remove() {
-      T data = delete(index - 1);
+      T data = delete(nextIndex - 1);
       lastReturned = null;
-      --index;
+      --nextIndex;
+      return data;
     }
 
     @Override
