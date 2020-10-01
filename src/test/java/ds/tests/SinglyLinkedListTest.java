@@ -4,8 +4,8 @@ import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.INode;
-import ds.Iterator;
 import ds.SinglyLinkedList;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +16,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings({"PMD.LawOfDemeter",
-"PMD.JUnitTestContainsTooManyAsserts"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts"})
 @DisplayName("SinglyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -256,55 +255,60 @@ class SinglyLinkedListTest {
     @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
     void testEmptyIterator() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-      Iterator<Integer> iter = list.getIterator();
+      ListIterator<Integer> iter = list.getIterator();
       assertFalse(iter.hasNext(), "No elements expected.");
       assertFalse(iter.hasPrevious(), "No elements expected.");
       assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
       assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
-      assertThrows(UnsupportedOperationException.class, () -> iter.previous(), EXCEPTION);
+      assertThrows(NoSuchElementException.class, () -> iter.previous(), EXCEPTION);
       assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
     }
 
     @Test
-    @DisplayName("SinglyLinkedListTest.IteratorTests.testInsertAfterException")
-    void testInsertAfterException() {
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testAddException")
+    void testAddException() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-      Iterator<Integer> iter = list.getIterator();
-      assertThrows(IllegalStateException.class, () -> iter.insertAfter(TEN), EXCEPTION);
+      ListIterator<Integer> iter = list.getIterator();
+      assertThrows(IllegalStateException.class, () -> iter.add(TEN), EXCEPTION);
     }
 
     @Test
-    @DisplayName("SinglyLinkedListTest.IteratorTests.testInsertBeforeException")
-    void testInsertBeforeException() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-      Iterator<Integer> iter = list.getIterator();
-      assertThrows(UnsupportedOperationException.class, () -> iter.insertBefore(TEN), EXCEPTION);
-    }
-
-    @Test
-    @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateNext")
-    void testIterateNext() {
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testNext")
+    void testNext() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
-      Iterator<Integer> iter = list.getIterator();
+      ListIterator<Integer> iter = list.getIterator();
       int i = 0;
       while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
       assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
     }
 
     @Test
-    @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateRemove")
-    void testIterateRemove() {
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testRemove")
+    void testRemove() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
-      Iterator<Integer> iter = list.getIterator();
+      ListIterator<Integer> iter = list.getIterator();
       int i = 0;
       while (iter.hasNext()) {
-        assertEquals(i, iter.next(), VALUES_EQUAL);
-        assertEquals(i, iter.remove(), VALUES_EQUAL);
-        ++i;
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        iter.remove();
       }
       assertEquals(0, list.size(), SIZE_ZERO);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testAdd")
+    void testAdd() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.add(i++);
+      }
+      assertEquals(1 <<SCORE, list.size(), SIZE_MUST_BE + (1 <<SCORE));
     }
   }
 }

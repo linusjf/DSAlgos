@@ -1,5 +1,6 @@
 package ds;
 
+import java.util.ListIterator;
 import java.util.Objects;
 
 @SuppressWarnings({"nullness", "PMD.LawOfDemeter"})
@@ -205,7 +206,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  public Iterator<T> getIterator() {
+  public ListIterator<T> getIterator() {
     return null;
   }
 

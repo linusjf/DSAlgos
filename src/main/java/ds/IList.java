@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.ListIterator;
+
 public interface IList<T> {
   void add(T data, int index);
 
@@ -19,5 +21,5 @@ public interface IList<T> {
 
   boolean isEmpty();
 
-  Iterator<T> getIterator();
+  ListIterator<T> getIterator();
 }

@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.ListIterator;
+
 public abstract class AbstractList<T> implements IList<T> {
 
   @Override
@@ -30,7 +32,7 @@ public abstract class AbstractList<T> implements IList<T> {
   public abstract boolean isEmpty();
 
   @Override
-  public abstract Iterator<T> getIterator();
+  public abstract ListIterator<T> getIterator();
 
   protected void link(INode<T> prev, T data, INode<T> next) {
     throw new UnsupportedOperationException();

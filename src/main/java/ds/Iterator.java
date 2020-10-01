@@ -11,9 +11,11 @@ public interface Iterator<T> {
 
   boolean hasPrevious();
 
-  void insertAfter(T data);
+  void add(T data);
 
-  void insertBefore(T data);
+  int nextIndex();
+
+  int previousIndex();
 
   T remove();
 

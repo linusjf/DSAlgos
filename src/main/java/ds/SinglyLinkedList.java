@@ -1,5 +1,6 @@
 package ds;
 
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -221,31 +222,27 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  public Iterator<T> getIterator() {
-    return new ListIterator(0);
+  public ListIterator<T> getIterator() {
+    return new Iterator(0);
   }
 
-  final class ListIterator implements Iterator<T> {
+  final class Iterator implements ListIterator<T> {
+    private INode<T> prevNode;
     private INode<T> lastReturned;
     private INode<T> nextNode;
     private int nextIndex;
 
-    ListIterator(int index) {
+    Iterator(int index) {
       Objects.checkIndex(index, length + 1);
+      prevNode = (index > 0) ? get(index - 1) : null;
       nextNode = (index == length) ? null : get(index);
       nextIndex = index;
     }
 
     @Override
-    public void reset() {
-      nextIndex = 0;
-      nextNode = get(nextIndex);
-      lastReturned = null;
-    }
-
-    @Override
     public T next() {
       if (nextNode == null) throw new NoSuchElementException("No more elements!");
+      prevNode = lastReturned;
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
@@ -259,7 +256,12 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T previous() {
-      throw new UnsupportedOperationException("No previous element!");
+      if (prevNode == null) throw new NoSuchElementException("No more elements!");
+      nextNode = lastReturned;
+      lastReturned = prevNode;
+      prevNode = (nextIndex > 0) ? get(nextIndex - 1) : null;
+      --nextIndex;
+      return lastReturned.getData();
     }
 
     @Override
@@ -268,38 +270,41 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public void insertAfter(T data) {
+    public void add(T data) {
       if (lastReturned == null) throw new IllegalStateException("Next not invoked!");
       if (nextNode == null) {
         linkFirst(data);
-        lastReturned = null;
       } else {
-        linkAfter(data, lastReturned);
+        link(lastReturned, data, nextNode);
         nextNode = lastReturned.getNext();
-        lastReturned = null;
       }
+      lastReturned = null;
       ++nextIndex;
     }
 
     @Override
-    public void insertBefore(T data) {
-      throw new UnsupportedOperationException("Unsupported!");
-    }
-
-    @Override
-    public T remove() {
+    public void remove() {
       if (lastReturned == null)
         throw new IllegalStateException("Remove already invoked or next not invoked!");
       T data = deleteAt(nextIndex - 1);
       lastReturned = null;
       --nextIndex;
-      return data;
     }
 
     @Override
     public void set(T data) {
       if (lastReturned == null) throw new IllegalStateException("Null element cannot be set.");
       lastReturned.setData(data);
+    }
+
+    @Override
+    public int nextIndex() {
+      return nextIndex;
+    }
+
+    @Override
+    public int previousIndex() {
+      return nextIndex - 1;
     }
   }
 }
