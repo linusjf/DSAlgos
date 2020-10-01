@@ -16,7 +16,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter",
+"PMD.JUnitTestContainsTooManyAsserts"})
 @DisplayName("SinglyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -46,7 +47,7 @@ class SinglyLinkedListTest {
     INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
-    assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), head.toString(), VALUES_EQUAL);
     assertFalse(list.isEmpty(), "List must not be empty.");
   }
 
@@ -66,7 +67,7 @@ class SinglyLinkedListTest {
     INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
-    assertEquals(String.valueOf(SCORE), head.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), head.toString(), VALUES_EQUAL);
     assertFalse(list.isEmpty(), "List must not be empty.");
   }
 
@@ -100,7 +101,7 @@ class SinglyLinkedListTest {
     INode<Integer> node = list.find(Integer.valueOf(SCORE));
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(node, "Node must not be null.");
-    assertEquals(String.valueOf(SCORE), node.toString(), "Values must be equal.");
+    assertEquals(String.valueOf(SCORE), node.toString(), VALUES_EQUAL);
   }
 
   @SuppressWarnings("nullness:argument.type.incompatible")

@@ -275,7 +275,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
         lastReturned = null;
       } else {
         linkAfter(data, lastReturned);
-        lastReturned = lastReturned.getNext();
+        nextNode = lastReturned.getNext();
+        lastReturned = null;
       }
       ++nextIndex;
     }
