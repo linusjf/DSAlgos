@@ -308,7 +308,7 @@ class SinglyLinkedListTest {
         iter.next();
         iter.add(i++);
       }
-      assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2) );
+      assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
     }
   }
 }

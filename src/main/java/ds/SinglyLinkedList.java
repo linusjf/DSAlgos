@@ -226,6 +226,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     return new Iterator(0);
   }
 
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   final class Iterator implements ListIterator<T> {
     private INode<T> prevNode;
     private INode<T> lastReturned;
@@ -234,7 +235,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     Iterator(int index) {
       Objects.checkIndex(index, length + 1);
-      prevNode = (index > 0) ? get(index - 1) : null;
+      prevNode = index > 0 ? get(index - 1) : null;
       nextNode = (index == length) ? null : get(index);
       nextIndex = index;
     }
@@ -259,7 +260,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       if (prevNode == null) throw new NoSuchElementException("No more elements!");
       nextNode = lastReturned;
       lastReturned = prevNode;
-      prevNode = (nextIndex > 0) ? get(nextIndex - 1) : null;
+      prevNode = nextIndex > 0 ? get(nextIndex - 1) : null;
       --nextIndex;
       return lastReturned.getData();
     }
@@ -286,7 +287,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public void remove() {
       if (lastReturned == null)
         throw new IllegalStateException("Remove already invoked or next not invoked!");
-      T data = deleteAt(nextIndex - 1);
+      deleteAt(nextIndex - 1);
       lastReturned = null;
       --nextIndex;
     }
