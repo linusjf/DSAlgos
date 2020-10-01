@@ -26,6 +26,8 @@ class SinglyLinkedListTest {
   private static final String SIZE_ONE = "Size must be one.";
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
+  private static final String VALUES_EQUAL = "Values must be equal.";
+  private static final String VALUE_MUST_BE = "Value must be ";
 
   @Test
   @DisplayName("SinglyLinkedListTest.testConstructor")
@@ -258,7 +260,36 @@ class SinglyLinkedListTest {
       assertFalse(iter.hasPrevious(), "No elements expected.");
       assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
       assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
+      assertThrows(UnsupportedOperationException.class, () -> iter.previous(), EXCEPTION);
       assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
     }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testInsertAfterException")
+    void testInsertAfterException() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      Iterator<Integer> iter = list.getIterator();
+      assertThrows(IllegalStateException.class, () -> iter.insertAfter(TEN), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testInsertBeforeException")
+    void testInsertBeforeException() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      Iterator<Integer> iter = list.getIterator();
+      assertThrows(UnsupportedOperationException.class, () -> iter.insertBefore(TEN), EXCEPTION);
+    }
+  
+    @Test
+  @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateNext")
+  void testIterateNext() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.range(0, SCORE).forEach(i -> list.add(i));
+    Iterator<Integer> iter = list.getIterator();
+    int i = 0;
+    while (iterator.hasNext())
+      assertEquals(i++, iterator.next(), VALUES_EQUAL);
+    assertEquals(SCORE,i,() -> VALUE_MUST_BE + SCORE)
+  }
   }
 }

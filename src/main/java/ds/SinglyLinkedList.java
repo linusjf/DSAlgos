@@ -97,8 +97,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public T deleteAt(int index) {
-    if (index < 0 || index > this.length - 1)
-      throw new IndexOutOfBoundsException("Index not available: " + index);
+    Objects.checkIndex(index, length);
     T data;
     if (index == 0) data = unlinkFirst();
     else {
@@ -111,8 +110,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public INode<T> get(int index) {
-    if (index < 0 || index > this.length - 1)
-      throw new IndexOutOfBoundsException("Index not available: " + index);
+    Objects.checkIndex(index, length);
     if (index == 0) return this.head;
     if (index == this.length - 1) return getLast(this.head);
     int pointer = 1;
@@ -154,7 +152,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    prev.setNext(node);
+    if (prev != null) prev.setNext(node);
     ++length;
   }
 
@@ -271,8 +269,14 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void insertAfter(T data) {
-      if (nextNode == null) link(lastReturned, data, nextNode);
-      else linkAfter(data, nextNode);
+      if (lastReturned == null) throw new IllegalStateException("Next not invoked!");
+      if (nextNode == null) {
+        linkFirst(data);
+        lastReturned = null;
+      } else {
+        linkAfter(data, lastReturned);
+        lastReturned = lastReturned.getNext();
+      }
       ++nextIndex;
     }
 
@@ -283,13 +287,12 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T remove() {
-      if (lastReturned != null) {
-        T data = deleteAt(nextIndex - 1);
-        lastReturned = null;
-        --nextIndex;
-        return data;
-      }
-      throw new IllegalStateException("Remove already invoked or next not invoked!");
+      if (lastReturned == null)
+        throw new IllegalStateException("Remove already invoked or next not invoked!");
+      T data = deleteAt(nextIndex - 1);
+      lastReturned = null;
+      --nextIndex;
+      return data;
     }
 
     @Override
