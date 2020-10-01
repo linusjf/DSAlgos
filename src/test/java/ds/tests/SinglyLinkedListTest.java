@@ -302,7 +302,7 @@ class SinglyLinkedListTest {
         assertEquals(i, iter.next(), VALUES_EQUAL);
         assertEquals(i, iter.remove(), VALUES_EQUAL);
         ++i;
-      }       
+      }
       assertEquals(0, list.size(), SIZE_ZERO);
     }
   }
