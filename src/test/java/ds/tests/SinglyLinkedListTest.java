@@ -279,17 +279,31 @@ class SinglyLinkedListTest {
       Iterator<Integer> iter = list.getIterator();
       assertThrows(UnsupportedOperationException.class, () -> iter.insertBefore(TEN), EXCEPTION);
     }
-  
+
     @Test
-  @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateNext")
-  void testIterateNext() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    IntStream.range(0, SCORE).forEach(i -> list.add(i));
-    Iterator<Integer> iter = list.getIterator();
-    int i = 0;
-    while (iterator.hasNext())
-      assertEquals(i++, iterator.next(), VALUES_EQUAL);
-    assertEquals(SCORE,i,() -> VALUE_MUST_BE + SCORE)
-  }
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateNext")
+    void testIterateNext() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      Iterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+      assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testIterateRemove")
+    void testIterateRemove() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      Iterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i, iter.next(), VALUES_EQUAL);
+        assertEquals(i, iter.remove(), VALUES_EQUAL);
+        ++i;
+      }       
+      assertEquals(0, list.size(), SIZE_ZERO);
+    }
   }
 }
