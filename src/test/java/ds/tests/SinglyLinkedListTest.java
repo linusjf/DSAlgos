@@ -310,5 +310,34 @@ class SinglyLinkedListTest {
       }
       assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
     }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testSet")
+    void testSet() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = SCORE;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.set(i++);
+      }
+      ListIterator<Integer> iter2 = list.getIterator();
+      IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testNextIndex")
+    void testNextIndex() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.nextIndex(), VALUES_EQUAL);
+        iter.next();
+      }
+      assertEquals(SCORE, iter.nextIndex(), VALUES_EQUAL);
+    }
   }
 }
