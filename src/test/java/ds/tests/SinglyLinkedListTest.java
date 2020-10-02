@@ -324,6 +324,7 @@ class SinglyLinkedListTest {
       }
       ListIterator<Integer> iter2 = list.getIterator();
       IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
+      assertEquals(SCORE, list.size(), SIZE_MUST_BE + SCORE);
     }
 
     @Test

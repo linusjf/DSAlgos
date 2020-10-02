@@ -184,7 +184,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
-    prev.setNext(next);
+    if (prev != null) prev.setNext(next);
     --length;
     return data;
   }
@@ -287,7 +287,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public void remove() {
       if (lastReturned == null)
         throw new IllegalStateException("Remove already invoked or next not invoked!");
-      deleteAt(nextIndex - 1);
+      unlink(prevNode, lastReturned);
       lastReturned = null;
       --nextIndex;
     }
