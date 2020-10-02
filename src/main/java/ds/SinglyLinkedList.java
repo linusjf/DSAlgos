@@ -257,12 +257,14 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T previous() {
-      if (prevNode == null) throw new NoSuchElementException("No more elements!");
+      if (lastReturned == null) throw new NoSuchElementException("No more elements.");
+      T data = lastReturned.getData();
       nextNode = lastReturned;
       lastReturned = prevNode;
-      prevNode = nextIndex > 0 ? get(nextIndex - 1) : null;
       --nextIndex;
-      return lastReturned.getData();
+      int prevIndex = previousIndex();
+      prevNode = prevIndex >= 1 ? get(prevIndex - 1) : null;
+      return data;
     }
 
     @Override
@@ -306,6 +308,24 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public int previousIndex() {
       return nextIndex - 1;
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      String lineSeparator = System.lineSeparator();
+      sb.append("Prev node = ")
+          .append(prevNode)
+          .append(lineSeparator)
+          .append("Last returned = ")
+          .append(lastReturned)
+          .append(lineSeparator)
+          .append("Next node = ")
+          .append(nextNode)
+          .append(lineSeparator)
+          .append("Next index = ")
+          .append(nextIndex);
+      return sb.toString();
     }
   }
 }

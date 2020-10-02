@@ -27,6 +27,7 @@ class SinglyLinkedListTest {
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
+  private static final String VALUE_ZERO = "Value must be zero.";
   private static final String VALUE_MUST_BE = "Value must be ";
 
   @Test
@@ -273,6 +274,20 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testPrevious")
+    void testPrevious() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE - 1;
+      while (iter.hasPrevious())  
+        assertEquals(i--,iter.previous(),
+            VALUES_EQUAL);
+      assertEquals(-1,iter.previousIndex(),VALUES_EQUAL);
+    }
+
+    @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testNext")
     void testNext() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
@@ -339,6 +354,34 @@ class SinglyLinkedListTest {
         iter.next();
       }
       assertEquals(SCORE, iter.nextIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testPreviousIndex")
+    void testPreviousIndex() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE;
+      assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        iter.previous();
+        assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testAddAfterIteration")
+    void testAddAfterIteration() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      iter.add(SCORE);
+      assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
+      assertEquals(SCORE, list.getHead().getData(), () -> VALUE_MUST_BE + SCORE);
     }
   }
 }
