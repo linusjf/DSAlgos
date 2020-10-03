@@ -2,7 +2,6 @@ package ds;
 
 import static java.util.Objects.*;
 
-import ds.Generated;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
@@ -72,8 +71,11 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     return startNode;
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible",
-  "fenum:argument.type.incompatible"})
+  @SuppressWarnings({
+    "PMD.LawOfDemeter",
+    "nullness:argument.type.incompatible",
+    "fenum:argument.type.incompatible"
+  })
   @Override
   public boolean delete(T data) {
     requireNonNull(data, DATA_NON_NULL);

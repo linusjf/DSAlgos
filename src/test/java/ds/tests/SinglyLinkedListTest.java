@@ -158,6 +158,42 @@ class SinglyLinkedListTest {
   }
 
   @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteAt")
+  void testDeleteAt() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(
+            i ->
+                assertEquals(
+                    TEN - i, list.deleteAt(TEN - i), "Deleted at index " + (TEN - i) + "."));
+    assertEquals(0, list.size(), SIZE_ZERO);
+  }
+
+  @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteAtBefore")
+  void testDeleteAtBefore() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
+  }
+
+  @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteAtAfter")
+  void testDeleteAtAfter() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
+  }
+  
+  @Test
+  @DisplayName("SinglyLinkedListTest.testDeleteAtEmpty")
+  void testDeleteAtEmpty() {
+    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    assertNull(list.deleteAt(0), "Null expected.");
+  }
+
+  @Test
   @DisplayName("SinglyLinkedListTest.testFindNotFound")
   void testFindNotFound() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
