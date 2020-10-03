@@ -22,4 +22,6 @@ public interface IList<T> {
   boolean isEmpty();
 
   ListIterator<T> getIterator();
+  
+  ListIterator<T> getIteratorFromIndex(int index);
 }

@@ -190,7 +190,7 @@ class SinglyLinkedListTest {
   @DisplayName("SinglyLinkedListTest.testDeleteAtEmpty")
   void testDeleteAtEmpty() {
     SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-    assertNull(list.deleteAt(0), "Null expected.");
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
   }
 
   @Test
@@ -407,7 +407,7 @@ class SinglyLinkedListTest {
 
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddAfterIteration")
-    void testAddAfterIteration() {
+    void testAddAfterIteratIOn() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();

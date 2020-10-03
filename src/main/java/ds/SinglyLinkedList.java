@@ -156,7 +156,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected T unlinkFirst() {
     INode<T> node = head;
-    if (isNull(node)) return null;
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
@@ -212,7 +211,12 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public ListIterator<T> getIterator() {
-    return new Iterator(0);
+    return getIteratorFromIndex(0);
+  }
+  
+  @Override
+  public ListIterator<T> getIteratorFromIndex(int index) {
+    return new Iterator(index);
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
