@@ -27,7 +27,6 @@ class SinglyLinkedListTest {
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
-  private static final String VALUE_ZERO = "Value must be zero.";
   private static final String VALUE_MUST_BE = "Value must be ";
 
   @Test
@@ -281,10 +280,8 @@ class SinglyLinkedListTest {
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
       int i = SCORE - 1;
-      while (iter.hasPrevious())  
-        assertEquals(i--,iter.previous(),
-            VALUES_EQUAL);
-      assertEquals(-1,iter.previousIndex(),VALUES_EQUAL);
+      while (iter.hasPrevious()) assertEquals(i--, iter.previous(), VALUES_EQUAL);
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
     }
 
     @Test

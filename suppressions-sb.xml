@@ -34,6 +34,14 @@
     <Bug pattern="DMI_RANDOM_USED_ONLY_ONCE"/>
   </Match>
   <Match>
+    <Class name="~ds[.].*LinkedList"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="~ds[.].*LinkedList"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
     <Class name="ds.tests.LinkedListStackTest"/>
     <Method name="~.*testPeekEmpty.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
@@ -44,9 +52,24 @@
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
   </Match>
   <Match>
+    <Class name="ds.tests.CentredDequeTest$ConstructorTests"/>
+    <Method name="~.*testConstructorException.*"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.DequeTest$ConstructorTests"/>
+    <Method name="~.*testConstructorException.*"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
     <Class name="ds.tests.SimpleStackTest"/>
     <Method name="~.*testPeekEmpty.*"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/>
+  </Match>
+  <Match>
+    <Class name="ds.tests.CentredDequeTest$CentredDequeTests"/>
+    <Method name="~.*testDoublingRemoval.*"/>
+    <Bug pattern="PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS"/>
   </Match>
   <Match>
     <Class name="ds.tests.SimpleStackTest"/>

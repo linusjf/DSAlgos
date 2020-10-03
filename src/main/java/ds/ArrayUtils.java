@@ -1,5 +1,7 @@
 package ds;
 
+import java.util.Arrays;
+
 public final class ArrayUtils {
 
   @Generated
@@ -11,7 +13,9 @@ public final class ArrayUtils {
     if (n < 0) throw new IllegalStateException("Sorry, negative size not possible.");
     int newCapacity = n << 1;
     if (newCapacity < 0) throw new IllegalStateException("Sorry, deque too big.");
-    return new long[newCapacity];
+    long[] arr = new long[newCapacity];
+    Arrays.fill(arr, 0L);
+    return arr;
   }
 
   public static boolean isSorted(long... a) {

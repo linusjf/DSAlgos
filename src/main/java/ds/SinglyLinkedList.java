@@ -1,8 +1,9 @@
 package ds;
 
+import static java.util.Objects.*;
+
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 @SuppressWarnings({"nullness", "PMD.GodClass", "PMD.LawOfDemeter", "PMD.NullAssignment"})
 public class SinglyLinkedList<T> extends AbstractList<T> {
@@ -21,7 +22,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void addAtFirst(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     linkFirst(data);
   }
 
@@ -34,7 +35,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data, int index) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
       addAtFirst(data);
       return;
@@ -55,28 +56,25 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   public void add(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     linkLast(data);
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public INode<T> find(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) return head;
     INode<T> startNode = next(head);
-    while (startNode != null) {
-      if (startNode.equals(node)) return startNode;
-      startNode = next(startNode);
-    }
+    while (!node.equals(startNode) && nonNull(startNode)) startNode = next(startNode);
     return startNode;
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public boolean delete(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     if (head == null) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
@@ -85,20 +83,16 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
     INode<T> prevNode = head;
     INode<T> currNode = next(head);
-    while (currNode != null) {
-      if (currNode.equals(node)) {
-        unlink(prevNode, currNode);
-        return true;
-      }
+    while (!node.equals(currNode) && nonNull(currNode)) {
       prevNode = currNode;
       currNode = next(currNode);
     }
-    return false;
+    return isNull(unlink(prevNode, currNode)) ? false : true;
   }
 
   @Override
   public T deleteAt(int index) {
-    Objects.checkIndex(index, length);
+    checkIndex(index, length);
     T data;
     if (index == 0) data = unlinkFirst();
     else {
@@ -111,7 +105,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public INode<T> get(int index) {
-    Objects.checkIndex(index, length);
+    checkIndex(index, length);
     if (index == 0) return this.head;
     if (index == this.length - 1) return getLast(this.head);
     int pointer = 1;
@@ -125,11 +119,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> getLast(INode<T> node) {
-    if (node == null) return null;
-    INode<T> lastNode = node;
-    INode<T> nextNode = next(lastNode);
-    if (nextNode == null) return lastNode;
-    return getLast(nextNode);
+    INode<T> nextNode = next(node);
+    return isNull(nextNode) ? node : getLast(nextNode);
   }
 
   @Override
@@ -143,17 +134,18 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void linkLast(T data) {
     INode<T> node = new SingleNode<>(data);
-    final INode<T> f = head;
-    INode<T> last = getLast(f);
-    if (last == null) head = node;
-    else last.setNext(node);
+    if (isNull(head)) head = node;
+    else {
+      INode<T> last = getLast(head);
+      last.setNext(node);
+    }
     ++length;
   }
 
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    if (prev != null) prev.setNext(node);
+    if (nonNull(prev)) prev.setNext(node);
     ++length;
   }
 
@@ -168,7 +160,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected T unlinkFirst() {
     INode<T> node = head;
-    if (node == null) return null;
+    if (isNull(node)) return null;
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
@@ -180,11 +172,12 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlink(INode<T> prev, INode<T> node) {
+    if (isNull(node)) return null;
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
-    if (prev != null) prev.setNext(next);
+    if (nonNull(prev)) prev.setNext(next);
     --length;
     return data;
   }
@@ -212,10 +205,10 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
     INode<T> nextNode = this.head;
-    while (nextNode != null) {
+    while (nonNull(nextNode)) {
       sb.append(nextNode);
       nextNode = next(nextNode);
-      if (nextNode != null) sb.append(',');
+      if (nonNull(nextNode)) sb.append(',');
     }
     sb.append(']');
     return sb.toString();
@@ -234,7 +227,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     private int nextIndex;
 
     Iterator(int index) {
-      Objects.checkIndex(index, length + 1);
+      checkIndex(index, length + 1);
       prevNode = index > 0 ? get(index - 1) : null;
       nextNode = (index == length) ? null : get(index);
       nextIndex = index;
@@ -242,7 +235,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T next() {
-      if (nextNode == null) throw new NoSuchElementException("No more elements!");
+      if (isNull(nextNode)) throw new NoSuchElementException("No more elements!");
       prevNode = lastReturned;
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
@@ -257,8 +250,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public T previous() {
-      if (lastReturned == null) throw new NoSuchElementException("No more elements.");
-      T data = lastReturned.getData();
+      if (isNull(lastReturned)) throw new NoSuchElementException("No more elements.");
+      final T data = lastReturned.getData();
       nextNode = lastReturned;
       lastReturned = prevNode;
       --nextIndex;
@@ -274,8 +267,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void add(T data) {
-      if (lastReturned == null) throw new IllegalStateException("Next not invoked!");
-      if (nextNode == null) {
+      if (isNull(lastReturned)) throw new IllegalStateException("Next not invoked!");
+      if (isNull(nextNode)) {
         linkFirst(data);
       } else {
         link(lastReturned, data, nextNode);
@@ -287,7 +280,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void remove() {
-      if (lastReturned == null)
+      if (isNull(lastReturned))
         throw new IllegalStateException("Remove already invoked or next not invoked!");
       unlink(prevNode, lastReturned);
       lastReturned = null;
@@ -296,7 +289,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void set(T data) {
-      if (lastReturned == null) throw new IllegalStateException("Null element cannot be set.");
+      if (isNull(lastReturned)) throw new IllegalStateException("Null element cannot be set.");
       lastReturned.setData(data);
     }
 

@@ -1,7 +1,8 @@
 package ds;
 
+import static java.util.Objects.*;
+
 import java.util.ListIterator;
-import java.util.Objects;
 
 @SuppressWarnings({"nullness", "PMD.LawOfDemeter"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
@@ -18,22 +19,19 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   @SuppressWarnings("nullness:argument.type.incompatible")
   public INode<T> find(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) return head;
     INode<T> startNode = next(head);
-    while (startNode != null) {
-      if (startNode.equals(node)) return startNode;
-      startNode = next(startNode);
-    }
+    while (!node.equals(startNode) && startNode != null) startNode = next(startNode);
     return startNode;
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public boolean delete(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
-    if (head == null) return false;
+    requireNonNull(data, DATA_NON_NULL);
+    if (isEmpty()) return false;
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
       head = next(head);
@@ -42,24 +40,22 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     }
     INode<T> prevNode = head;
     INode<T> currNode = next(head);
-    while (currNode != null) {
-      if (currNode.equals(node)) {
-        INode<T> nextNode = next(currNode);
-        prevNode.setNext(nextNode);
-        if (nextNode != null) nextNode.setPrev(prevNode);
-        --length;
-        return true;
-      }
+    while (!node.equals(currNode) && nonNull(currNode)) {
       prevNode = currNode;
       currNode = next(currNode);
     }
-    return false;
+    if (isNull(currNode)) return false;
+    INode<T> nextNode = next(currNode);
+    prevNode.setNext(nextNode);
+    if (nextNode != null) nextNode.setPrev(prevNode);
+    --length;
+    return true;
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public T deleteAt(int index) {
-    Objects.checkIndex(index, length);
+    checkIndex(index, length);
     if (isEmpty()) return null;
     if (index == 0) return unlinkFirst();
     return unlink(get(index));
@@ -84,7 +80,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void add(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     if (head == null) {
       head = new DoubleNode<>(data);
       tail = head;
@@ -106,7 +102,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void add(T data, int index) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
       addAtFirst(data);
       return;
@@ -132,7 +128,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void addAtFirst(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new DoubleNode<>(data);
     if (this.head == null) this.head = this.tail = newNode;
     else {
@@ -145,7 +141,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public INode<T> get(int index) {
-    Objects.checkIndex(index, this.length);
+    checkIndex(index, this.length);
     if (index == 0) return this.head;
     if (index == this.length - 1) return this.tail;
     int midPoint = this.length >> 1;
@@ -174,11 +170,11 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return node.getNext();
+    return node == null ? null : node.getNext();
   }
 
   private INode<T> prev(INode<T> node) {
-    return node.getPrev();
+    return node == null ? null : node.getPrev();
   }
 
   @Override
