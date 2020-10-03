@@ -1,7 +1,8 @@
 package ds;
 
+import static java.util.Objects.*;
+
 import java.util.ListIterator;
-import java.util.Objects;
 
 @SuppressWarnings("nullness")
 public class CircularDoublyLinkedList<T> extends AbstractList<T> {
@@ -23,8 +24,8 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void add(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
-    if (head == null) {
+    requireNonNull(data, DATA_NON_NULL);
+    if (isNull(head)) {
       head = new DoubleNode<>(data);
       head.setNext(head);
       head.setPrev(head);
@@ -48,7 +49,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void add(T data, int index) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     if (index == 0) {
       addAtFirst(data);
       return;
@@ -74,9 +75,9 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
   @Override
   public void addAtFirst(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new DoubleNode<>(data);
-    if (this.head == null) {
+    if (isNull(this.head)) {
       this.head = newNode;
       this.tail = newNode;
       newNode.setNext(tail);
@@ -94,7 +95,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
   @Override
   public INode<T> find(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
+    requireNonNull(data, DATA_NON_NULL);
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) return head;
     INode<T> startNode = head.getNext();
@@ -113,8 +114,8 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   })
   @Override
   public boolean delete(T data) {
-    Objects.requireNonNull(data, DATA_NON_NULL);
-    if (head == null) return false;
+    requireNonNull(data, DATA_NON_NULL);
+    if (isNull(head)) return false;
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
       if (head.isSame(head.getNext())) head = tail = null;
@@ -209,7 +210,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
     INode<T> nextNode = this.head;
-    while (head != null) {
+    while (nonNull(head)) {
       sb.append(nextNode);
       nextNode = next(nextNode);
       if (head.isSame(nextNode)) break;

@@ -2,6 +2,7 @@ package ds;
 
 import static java.util.Objects.*;
 
+import ds.Generated;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
@@ -71,7 +72,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     return startNode;
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible"})
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible",
+  "fenum:argument.type.incompatible"})
   @Override
   public boolean delete(T data) {
     requireNonNull(data, DATA_NON_NULL);
@@ -146,14 +148,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
     if (nonNull(prev)) prev.setNext(node);
-    ++length;
-  }
-
-  @Override
-  protected void linkAfter(T data, INode<T> node) {
-    INode<T> newNode = new SingleNode<>(data);
-    newNode.setNext(node.getNext());
-    node.setNext(newNode);
     ++length;
   }
 
@@ -303,6 +297,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       return nextIndex - 1;
     }
 
+    @Generated
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();

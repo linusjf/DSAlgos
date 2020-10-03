@@ -23,7 +23,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) return head;
     INode<T> startNode = next(head);
-    while (!node.equals(startNode) && startNode != null) startNode = next(startNode);
+    while (!node.equals(startNode) && nonNull(startNode)) startNode = next(startNode);
     return startNode;
   }
 
@@ -47,7 +47,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     if (isNull(currNode)) return false;
     INode<T> nextNode = next(currNode);
     prevNode.setNext(nextNode);
-    if (nextNode != null) nextNode.setPrev(prevNode);
+    if (nonNull(nextNode)) nextNode.setPrev(prevNode);
     --length;
     return true;
   }
@@ -67,7 +67,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     final INode<T> f = head;
     final INode<T> newNode = new DoubleNode<>(null, e, f);
     head = newNode;
-    if (f == null) tail = newNode;
+    if (isNull(f)) tail = newNode;
     else f.setPrev(newNode);
     ++length;
   }
@@ -81,7 +81,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void add(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (head == null) {
+    if (isNull(head)) {
       head = new DoubleNode<>(data);
       tail = head;
     } else {
@@ -130,7 +130,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
     INode<T> newNode = new DoubleNode<>(data);
-    if (this.head == null) this.head = this.tail = newNode;
+    if (isNull(this.head)) this.head = this.tail = newNode;
     else {
       this.head.setPrev(newNode);
       newNode.setNext(this.head);
@@ -170,11 +170,11 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return node == null ? null : node.getNext();
+    return isNull(node) ? null : node.getNext();
   }
 
   private INode<T> prev(INode<T> node) {
-    return node == null ? null : node.getPrev();
+    return isNull(node) ? null : node.getPrev();
   }
 
   @Override
@@ -192,10 +192,10 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
     INode<T> nextNode = this.head;
-    while (nextNode != null) {
+    while (nonNull(nextNode)) {
       sb.append(nextNode);
       nextNode = next(nextNode);
-      if (nextNode != null) sb.append(',');
+      if (nonNull(nextNode)) sb.append(',');
     }
     sb.append(']');
     return sb.toString();
