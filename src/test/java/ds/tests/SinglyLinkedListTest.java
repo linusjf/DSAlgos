@@ -316,7 +316,12 @@ class SinglyLinkedListTest {
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
       int i = SCORE - 1;
-      while (iter.hasPrevious()) assertEquals(i--, iter.previous(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        System.out.println(iter);
+        Integer val = iter.previous();
+        System.out.println(val);
+        assertEquals(i--, val, VALUES_EQUAL);
+      }
       assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
     }
 
@@ -407,7 +412,7 @@ class SinglyLinkedListTest {
 
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddAfterIteration")
-    void testAddAfterIteratIOn() {
+    void testAddAfterIteration() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
@@ -415,6 +420,26 @@ class SinglyLinkedListTest {
       iter.add(SCORE);
       assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
       assertEquals(SCORE, list.getHead().getData(), () -> VALUE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testIndexedIterator")
+    void testIndexedIterator() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
+    void testIndexedIteratorReversed() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasPrevious()) assertEquals(--i, iter.previous(), VALUES_EQUAL);
     }
   }
 }

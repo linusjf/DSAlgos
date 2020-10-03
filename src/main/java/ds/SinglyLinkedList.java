@@ -213,7 +213,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   public ListIterator<T> getIterator() {
     return getIteratorFromIndex(0);
   }
-  
+
   @Override
   public ListIterator<T> getIteratorFromIndex(int index) {
     return new Iterator(index);
@@ -221,22 +221,20 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   final class Iterator implements ListIterator<T> {
-    private INode<T> prevNode;
     private INode<T> lastReturned;
     private INode<T> nextNode;
     private int nextIndex;
 
     Iterator(int index) {
       checkIndex(index, length + 1);
-      prevNode = index > 0 ? get(index - 1) : null;
       nextNode = (index == length) ? null : get(index);
+      lastReturned = index > 0 ? get(index - 1) : null;
       nextIndex = index;
     }
 
     @Override
     public T next() {
       if (isNull(nextNode)) throw new NoSuchElementException("No more elements!");
-      prevNode = lastReturned;
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
@@ -251,13 +249,10 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T previous() {
       if (isNull(lastReturned)) throw new NoSuchElementException("No more elements.");
-      final T data = lastReturned.getData();
       nextNode = lastReturned;
-      lastReturned = prevNode;
+      lastReturned = get(nextIndex - 1);
       --nextIndex;
-      int prevIndex = previousIndex();
-      prevNode = prevIndex >= 1 ? get(prevIndex - 1) : null;
-      return data;
+      return lastReturned.getData();
     }
 
     @Override
@@ -282,7 +277,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public void remove() {
       if (isNull(lastReturned))
         throw new IllegalStateException("Remove already invoked or next not invoked!");
-      unlink(prevNode, lastReturned);
+      unlink(get(nextIndex - 1), lastReturned);
       lastReturned = null;
       --nextIndex;
     }
@@ -308,10 +303,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       String lineSeparator = System.lineSeparator();
-      sb.append("Prev node = ")
-          .append(prevNode)
-          .append(lineSeparator)
-          .append("Last returned = ")
+      sb.append("Last returned = ")
           .append(lastReturned)
           .append(lineSeparator)
           .append("Next node = ")

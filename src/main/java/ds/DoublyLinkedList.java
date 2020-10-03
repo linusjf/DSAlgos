@@ -205,7 +205,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   public ListIterator<T> getIterator() {
     return getIteratorFromIndex(0);
   }
-  
+
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
     return null;
