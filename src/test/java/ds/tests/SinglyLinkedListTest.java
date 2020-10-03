@@ -185,7 +185,7 @@ class SinglyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
   }
-  
+
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteAtEmpty")
   void testDeleteAtEmpty() {

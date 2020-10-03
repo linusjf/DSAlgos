@@ -79,7 +79,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public boolean delete(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (head == null) return false;
+    if (isNull(head)) return false;
     INode<T> node = new SingleNode<>(data);
     if (head.equals(node)) {
       unlinkFirst();
