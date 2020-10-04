@@ -317,6 +317,24 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testAddIterated")
+    void testAddIterated() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        iter.add(val - 1);
+      }
+      assertEquals(6, list.size(), SIZE_MUST_BE + 6);
+      assertFalse(iter.hasNext(), "No elements expected.");
+    }
+
+    @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testPrevious")
     void testPrevious() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();

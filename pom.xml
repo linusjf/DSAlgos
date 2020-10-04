@@ -402,28 +402,46 @@
             </compilerArguments>
             <showWarnings>true</showWarnings>
             <verbose>true</verbose>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.checkerframework</groupId>
-                <artifactId>checker</artifactId>
-                <version>${checker.version}</version>
-              </path>
-            </annotationProcessorPaths>
-            <annotationProcessors>
-              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker</annotationProcessor>
-            </annotationProcessors>
             <compilerArgs>
               <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
               <arg>-Awarns</arg>
             </compilerArgs>
           </configuration>
+          <executions>
+            <execution>
+              <id>compile-src</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+              <configuration>
+                <annotationProcessorPaths>
+                  <path>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker</artifactId>
+                    <version>${checker.version}</version>
+                  </path>
+                </annotationProcessorPaths>
+                <annotationProcessors>
+                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker</annotationProcessor>
+                </annotationProcessors>
+              </configuration>
+            </execution>
+            <execution>
+              <id>compile-test</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
@@ -842,6 +860,9 @@
       <plugin>
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
+      </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
