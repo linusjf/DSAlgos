@@ -200,6 +200,103 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
-    return null;
+    return new ListIter(index);
+  }
+  
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+  final class ListIter implements ListIterator<T> {
+    private INode<T> lastReturned;
+    private INode<T> nextNode;
+    private int nextIndex;
+
+    ListIter() {
+      this(0);
+    }
+
+    ListIter(int index) {
+      checkIndex(index, length + 1);
+      nextNode = (index == length) ? getIndex(0) : get(index);
+      lastReturned = index > 0 ? get(index - 1) : get(length - 1);
+      nextIndex = index % length;
+    }
+
+    @Override
+    public T next() {
+      if (isEmpty()) throw new NoSuchElementException("No more elements!");
+      lastReturned = nextNode;
+      nextNode = nextNode.getNext();
+      ++nextIndex;
+      if (nextIndex == length)
+        nextIndex = 0;
+      return lastReturned.getData();
+    }
+
+    @Override
+    public boolean hasNext() {
+      return length > 0;
+    }
+
+    @Override
+    public T previous() {
+      if (isEmpty()) throw new NoSuchElementException("No more elements!");
+      nextNode = lastReturned;
+      lastReturned = nextIndex == 0 ? get(length - 1): get(nextIndex - 1);
+      --nextIndex;
+      if (nextIndex < 0)
+        nextIndex = length - 1;
+      return lastReturned.getData();
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return length > 0;
+    }
+
+    @Override
+    public void add(T data) {
+      link(lastReturned, data, nextNode);
+      ++nextIndex;
+    }
+
+    @Override
+    public void remove() {
+      if (isNull(lastReturned))
+        throw new IllegalStateException("Remove already invoked or next not invoked!");
+      unlink(get(nextIndex - 1), lastReturned);
+      lastReturned = null;
+      --nextIndex;
+    }
+
+    @Override
+    public void set(T data) {
+      if (isNull(lastReturned)) throw new IllegalStateException("Null element cannot be set.");
+      lastReturned.setData(data);
+    }
+
+    @Override
+    public int nextIndex() {
+      return nextIndex;
+    }
+
+    @Override
+    public int previousIndex() {
+      return nextIndex == 0 ? length - 1: nextIndex - 1;
+    }
+
+    @Generated
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      String lineSeparator = System.lineSeparator();
+      sb.append("Last returned = ")
+          .append(lastReturned)
+          .append(lineSeparator)
+          .append("Next node = ")
+          .append(nextNode)
+          .append(lineSeparator)
+          .append("Next index = ")
+          .append(nextIndex);
+      return sb.toString();
+    }
   }
 }
