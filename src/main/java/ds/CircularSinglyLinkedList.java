@@ -286,6 +286,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       ++nextIndex;
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void remove() {
       if (isNull(lastReturned))

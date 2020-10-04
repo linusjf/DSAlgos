@@ -252,13 +252,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public boolean hasNext() {
-      return nextIndex < length;
-    }
-
-    @Override
     public T previous() {
-      if (isNull(lastReturned)) throw new NoSuchElementException("No more elements.");
+      if (nextIndex <= 0) throw new NoSuchElementException("No more elements.");
       nextNode = lastReturned;
       lastReturned = get(nextIndex - 1);
       --nextIndex;
@@ -266,20 +261,24 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public boolean hasPrevious() {
-      return nextIndex > 0;
-    }
-
-    @Override
     public void add(T data) {
       if (isNull(nextNode)) {
         linkFirst(data);
       } else {
-        lastReturned =
-            lastReturned == null ? hasPrevious() ? get(nextIndex - 1) : null : lastReturned;
-        link(lastReturned, data, nextNode);
+        INode<T> prevNode = nextIndex > 0 ? get(nextIndex - 1) : null;
+        link(prevNode, data, nextNode);
       }
       ++nextIndex;
+    }
+
+    @Override
+    public boolean hasNext() {
+      return nextIndex < length;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return nextIndex > 0;
     }
 
     @Override
