@@ -409,6 +409,14 @@
           </configuration>
           <executions>
             <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>default-testCompile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
               <id>compile-src</id>
               <phase>compile</phase>
               <goals>
