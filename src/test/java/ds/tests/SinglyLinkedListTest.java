@@ -301,11 +301,19 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("SinglyLinkedListTest.IteratorTests.testAddException")
-    void testAddException() {
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testAddEmpty")
+    void testAddEmpty() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
-      assertThrows(IllegalStateException.class, () -> iter.add(TEN), EXCEPTION);
+      iter.add(TEN);
+      iter.add(SCORE);
+      iter.add(1);
+      while (iter.hasNext()) {
+        iter.next();
+        iter.remove();
+      }
+      assertEquals(3, list.size(), SIZE_MUST_BE + 3);
+      assertFalse(iter.hasNext(), "No elements expected.");
     }
 
     @Test
@@ -317,9 +325,7 @@ class SinglyLinkedListTest {
       while (iter.hasNext()) iter.next();
       int i = SCORE - 1;
       while (iter.hasPrevious()) {
-        System.out.println(iter);
         Integer val = iter.previous();
-        System.out.println(val);
         assertEquals(i--, val, VALUES_EQUAL);
       }
       assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);

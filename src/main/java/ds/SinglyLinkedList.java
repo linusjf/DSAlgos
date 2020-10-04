@@ -262,7 +262,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void add(T data) {
-      if (isNull(lastReturned)) throw new IllegalStateException("Next not invoked!");
       if (isNull(nextNode)) {
         linkFirst(data);
       } else {
