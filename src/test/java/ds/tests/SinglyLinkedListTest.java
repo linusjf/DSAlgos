@@ -28,6 +28,7 @@ class SinglyLinkedListTest {
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
   private static final String VALUE_MUST_BE = "Value must be ";
+  private static final String NO_ELEMENTS = "No elements expected.";
 
   @Test
   @DisplayName("SinglyLinkedListTest.testConstructor")
@@ -292,8 +293,8 @@ class SinglyLinkedListTest {
     void testEmptyIterator() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
-      assertFalse(iter.hasNext(), "No elements expected.");
-      assertFalse(iter.hasPrevious(), "No elements expected.");
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
       assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
       assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
       assertThrows(NoSuchElementException.class, () -> iter.previous(), EXCEPTION);
@@ -313,7 +314,7 @@ class SinglyLinkedListTest {
         iter.remove();
       }
       assertEquals(3, list.size(), SIZE_MUST_BE + 3);
-      assertFalse(iter.hasNext(), "No elements expected.");
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
     }
 
     @Test
@@ -331,7 +332,7 @@ class SinglyLinkedListTest {
         iter.add(val - 1);
       }
       assertEquals(6, list.size(), SIZE_MUST_BE + 6);
-      assertFalse(iter.hasNext(), "No elements expected.");
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
     }
 
     @Test
@@ -464,6 +465,15 @@ class SinglyLinkedListTest {
       ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
       int i = TEN;
       while (iter.hasPrevious()) assertEquals(--i, iter.previous(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testIterable")
+    void testIterable() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      int i = 0;
+      for (Integer item : list) assertEquals(i++, item, VALUES_EQUAL);
     }
   }
 }

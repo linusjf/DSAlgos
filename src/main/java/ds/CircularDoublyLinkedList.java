@@ -2,6 +2,7 @@ package ds;
 
 import static java.util.Objects.*;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
 @SuppressWarnings("nullness")
@@ -218,6 +219,11 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  @Override
+  public Iterator<T> iterator() {
+    return getIterator();
   }
 
   @Override

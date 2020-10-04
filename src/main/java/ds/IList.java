@@ -2,7 +2,7 @@ package ds;
 
 import java.util.ListIterator;
 
-public interface IList<T> {
+public interface IList<T> extends Iterable<T> {
   void add(T data, int index);
 
   void add(T data);

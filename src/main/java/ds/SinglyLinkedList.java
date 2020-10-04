@@ -2,6 +2,7 @@ package ds;
 
 import static java.util.Objects.*;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
@@ -210,22 +211,31 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
+  public Iterator<T> iterator() {
+    return getIterator();
+  }
+
+  @Override
   public ListIterator<T> getIterator() {
-    return getIteratorFromIndex(0);
+    return new ListIter();
   }
 
   @Override
   public ListIterator<T> getIteratorFromIndex(int index) {
-    return new Iterator(index);
+    return new ListIter(index);
   }
 
   @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  final class Iterator implements ListIterator<T> {
+  final class ListIter implements ListIterator<T> {
     private INode<T> lastReturned;
     private INode<T> nextNode;
     private int nextIndex;
 
-    Iterator(int index) {
+    ListIter() {
+      this(0);
+    }
+
+    ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? null : get(index);
       lastReturned = index > 0 ? get(index - 1) : null;

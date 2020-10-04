@@ -2,9 +2,11 @@ package ds;
 
 import static java.util.Objects.*;
 
+import java.util.Iterator;
 import java.util.ListIterator;
 
-@SuppressWarnings({"nullness", "PMD.LawOfDemeter"})
+@SuppressWarnings({"nullness", "PMD.LawOfDemeter",
+"PMD.GodClass"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -199,6 +201,11 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     }
     sb.append(']');
     return sb.toString();
+  }
+
+  @Override
+  public Iterator<T> iterator() {
+    return getIterator();
   }
 
   @Override
