@@ -149,7 +149,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    if (nonNull(prev)) prev.setNext(node);
+    prev.setNext(node);
     ++length;
   }
 
@@ -172,7 +172,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     node.setNext(null);
     node.setData(null);
-    if (nonNull(prev)) prev.setNext(next);
+    prev.setNext(next);
     --length;
     return data;
   }
