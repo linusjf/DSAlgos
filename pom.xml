@@ -861,8 +861,8 @@
         <groupId>com.coveo</groupId>
         <artifactId>fmt-maven-plugin</artifactId>
       </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
