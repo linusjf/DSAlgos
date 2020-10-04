@@ -703,7 +703,7 @@
             </execution>
             <execution>
               <id>test-delombok</id>
-              <phase>generate-test-sources</phase>
+              <phase>generate-sources</phase>
               <goals>
                 <goal>testDelombok</goal>
               </goals>
@@ -735,7 +735,7 @@
             </execution>
             <execution>
               <id>tests</id>
-              <phase>generate-test-sources</phase>
+              <phase>generate-sources</phase>
               <configuration>
                 <target>
                   <copy todir="${basedir}/src/test/java">

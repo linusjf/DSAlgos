@@ -5,8 +5,7 @@ import static java.util.Objects.*;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-@SuppressWarnings({"nullness", "PMD.LawOfDemeter",
-"PMD.GodClass"})
+@SuppressWarnings({"nullness", "PMD.LawOfDemeter", "PMD.GodClass"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
