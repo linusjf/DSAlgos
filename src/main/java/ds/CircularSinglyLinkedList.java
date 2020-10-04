@@ -262,7 +262,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     public void remove() {
       if (isNull(lastReturned))
         throw new IllegalStateException("Remove already invoked or next not invoked!");
-      unlink(get(nextIndex - 1), lastReturned);
+      INode<T> prevNode = nextIndex == 0 ? get(length - 1):get(nextIndex - 1);
+      unlink(prevNode, lastReturned);
       lastReturned = null;
       --nextIndex;
     }
