@@ -85,12 +85,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       unlinkFirst();
       return true;
     }
-    INode<T> prevNode = head;
     INode<T> currNode = next(head);
-    while (!node.equals(currNode) && nonNull(currNode)) {
-      prevNode = currNode;
-      currNode = next(currNode);
-    }
+    while (!node.equals(currNode) && nonNull(currNode)) currNode = next(currNode);
     return isNull(unlink(currNode)) ? false : true;
   }
 
@@ -278,7 +274,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T previous() {
       if (!hasPrevious()) throw new NoSuchElementException();
-      lastReturned = nextNode = (isNull(nextNode)) ? getLast(head) : getPrevious(nextNode);
+      lastReturned = nextNode = isNull(nextNode) ? getLast(head) : getPrevious(nextNode);
       nextIndex--;
       return lastReturned.getData();
     }
@@ -296,7 +292,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       if (isNull(lastReturned)) throw new IllegalStateException();
       INode<T> lastNext = lastReturned.getNext();
       unlink(lastReturned);
-      if (lastReturned == nextNode) nextNode = lastNext;
+      if (lastReturned.isSame(nextNode)) nextNode = lastNext;
       else nextIndex--;
       lastReturned = null;
     }

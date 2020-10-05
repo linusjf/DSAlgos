@@ -228,6 +228,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     return new ListIter();
   }
 
+  private boolean isTail(INode<T> node) {
+    return node == tail;
+  }
+
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
     return new ListIter(idx);
@@ -245,62 +249,65 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
     ListIter(int index) {
       checkIndex(index, length + 1);
-      nextNode = (index == length) ? get(0) : get(index);
-      lastReturned = index > 0 ? get(index - 1) : get(length - 1);
+      nextNode = (index == length) ? head : get(index);
       nextIndex = index % length;
     }
 
     @Override
     public T next() {
-      if (isEmpty()) throw new NoSuchElementException("No more elements!");
+      if (!hasNext()) throw new NoSuchElementException();
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
-      ++nextIndex;
-      if (nextIndex == length) nextIndex = 0;
+      nextIndex = ++nextIndex % length;
       return lastReturned.getData();
-    }
-
-    @Override
-    public boolean hasNext() {
-      return length > 0;
     }
 
     @Override
     public T previous() {
-      if (isEmpty()) throw new NoSuchElementException("No more elements!");
-      nextNode = lastReturned;
-      lastReturned = nextIndex == 0 ? get(length - 1) : get(nextIndex - 1);
-      --nextIndex;
-      if (nextIndex < 0) nextIndex = length - 1;
+      if (!hasPrevious()) throw new NoSuchElementException();
+      lastReturned = nextNode = isTail(nextNode) ? tail : nextNode.getPrevious();
+      nextIndex--;
+      if (nextIndex < 0)
+        nextIndex = length - 1;
       return lastReturned.getData();
     }
 
     @Override
-    public boolean hasPrevious() {
-      return length > 0;
-    }
-
-    @Override
     public void add(T data) {
-      link(lastReturned, data, nextNode);
-      ++nextIndex;
+      lastReturned = null;
+      if (isTail(nextNode)) linkLast(data);
+      else linkBefore(data, nextNode);
+      nextIndex++;
     }
 
-    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void remove() {
-      if (isNull(lastReturned))
-        throw new IllegalStateException("Remove already invoked or next not invoked!");
-      INode<T> prevNode = nextIndex == 0 ? get(length - 1) : get(nextIndex - 1);
-      unlink(prevNode, lastReturned);
+      if (isNull(lastReturned)) throw new IllegalStateException();
+      INode<T> lastNext = lastReturned.getNext();
+      unlink(lastReturned);
+      if (lastReturned.isSame(nextNode)) nextNode = lastNext;
+      else { nextIndex--;
+if (nextIndex < 0)
+  nextIndex = length - 1;
+      }
+      
       lastReturned = null;
-      --nextIndex;
     }
 
     @Override
     public void set(T data) {
-      if (isNull(lastReturned)) throw new IllegalStateException("Null element cannot be set.");
+      if (lastReturned == null) throw new IllegalStateException();
       lastReturned.setData(data);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return !isEmpty();
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return !isEmpty();
     }
 
     @Override
@@ -310,7 +317,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public int previousIndex() {
-      return nextIndex == 0 ? length - 1 : nextIndex - 1;
+      return nextIndex > 0: nextIndex - 1: length - 1;
     }
 
     @Generated
