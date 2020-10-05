@@ -344,24 +344,13 @@ class SinglyLinkedListTest {
       list.add(1);
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) {
-        System.out.println("iter : " + iter);
         int val = iter.next();
-        System.out.println("iter next : " + iter);
-        System.out.println(list);
         iter.remove();
-        System.out.println("iter remove : " + iter);
-        System.out.println(list);
         iter.add(val + 1);
-        System.out.println("iter first add : " + iter);
-        System.out.println(list);
         if (iter.hasPrevious()) {
           val = iter.previous();
-          System.out.println("iter previous : " + iter);
-          System.out.println(list);
         }
         iter.add(val + 1);
-        System.out.println("iter second add : " + iter);
-        System.out.println(list);
       }
       assertEquals(6, list.size(), SIZE_MUST_BE + 6);
       assertFalse(iter.hasNext(), NO_ELEMENTS);
