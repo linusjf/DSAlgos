@@ -128,6 +128,19 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     return isNull(nextNode) ? node : getLast(nextNode);
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
+  private INode<T> getPrevious(INode<T> node) {
+    if (head.isSame(node)) return null;
+    INode<T> prevNode = head;
+    INode<T> currNode = head.getNext();
+    while (nonNull(currNode)) {
+      if (node.isSame(currNode)) return prevNode;
+      prevNode = currNode;
+      currNode = currNode.getNext();
+    }
+    return currNode;
+  }
+
   @Override
   protected void linkFirst(T data) {
     final INode<T> f = head;
@@ -150,6 +163,14 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
+    if (nonNull(prev)) prev.setNext(node);
+    ++length;
+  }
+
+  @Override
+  protected void linkBefore(T data, INode<T> next) {
+    INode<T> node = new SingleNode<>(data, next);
+    INode<T> prev = getPrevious(node);
     if (nonNull(prev)) prev.setNext(node);
     ++length;
   }
@@ -238,37 +259,48 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? null : get(index);
-      lastReturned = index > 0 ? get(index - 1) : null;
       nextIndex = index;
     }
 
     @Override
     public T next() {
-      if (isNull(nextNode)) throw new NoSuchElementException("No more elements!");
+      if (!hasNext()) throw new NoSuchElementException();
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
-      ++nextIndex;
+      nextIndex++;
       return lastReturned.getData();
     }
 
     @Override
     public T previous() {
-      if (nextIndex <= 0) throw new NoSuchElementException("No more elements.");
-      nextNode = lastReturned;
-      lastReturned = get(nextIndex - 1);
-      --nextIndex;
+      if (!hasPrevious()) throw new NoSuchElementException();
+      lastReturned = nextNode = (isNull(nextNode)) ? getLast(head) : getPrevious(nextNode);
+      nextIndex--;
       return lastReturned.getData();
     }
 
     @Override
     public void add(T data) {
-      if (isNull(nextNode)) {
-        linkFirst(data);
-      } else {
-        INode<T> prevNode = nextIndex > 0 ? get(nextIndex - 1) : null;
-        link(prevNode, data, nextNode);
-      }
-      ++nextIndex;
+      lastReturned = null;
+      if (isNull(nextNode)) linkLast(data);
+      else linkBefore(data, nextNode);
+      nextIndex++;
+    }
+
+    @Override
+    public void remove() {
+      if (isNull(lastReturned)) throw new IllegalStateException();
+      INode<T> lastNext = lastReturned.getNext();
+      unlink(lastReturned);
+      if (nextNode.isSame(lastReturned)) nextNode = lastNext;
+      else nextIndex--;
+      lastReturned = null;
+    }
+
+    @Override
+    public void set(T data) {
+      if (lastReturned == null) throw new IllegalStateException();
+      lastReturned.setData(data);
     }
 
     @Override
@@ -279,21 +311,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public boolean hasPrevious() {
       return nextIndex > 0;
-    }
-
-    @Override
-    public void remove() {
-      if (isNull(lastReturned))
-        throw new IllegalStateException("Remove already invoked or next not invoked!");
-      unlink(get(nextIndex - 1), lastReturned);
-      lastReturned = null;
-      --nextIndex;
-    }
-
-    @Override
-    public void set(T data) {
-      if (isNull(lastReturned)) throw new IllegalStateException("Null element cannot be set.");
-      lastReturned.setData(data);
     }
 
     @Override

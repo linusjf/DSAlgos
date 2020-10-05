@@ -38,6 +38,10 @@ public abstract class AbstractList<T> implements IList<T> {
     throw new UnsupportedOperationException();
   }
 
+  protected void linkBefore(T data, INode<T> next) {
+    throw new UnsupportedOperationException();
+  }
+
   protected void linkFirst(T data) {
     throw new UnsupportedOperationException();
   }

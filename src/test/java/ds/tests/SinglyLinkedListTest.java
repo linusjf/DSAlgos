@@ -354,10 +354,10 @@ class SinglyLinkedListTest {
         iter.add(val + 1);
         System.out.println("iter first add : " + iter);
         System.out.println(list);
-        if (iter.hasPrevious()) { 
+        if (iter.hasPrevious()) {
           val = iter.previous();
-        System.out.println("iter previous : " + iter);
-        System.out.println(list);
+          System.out.println("iter previous : " + iter);
+          System.out.println(list);
         }
         iter.add(val + 1);
         System.out.println("iter second add : " + iter);
