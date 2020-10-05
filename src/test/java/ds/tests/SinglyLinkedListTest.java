@@ -351,9 +351,10 @@ class SinglyLinkedListTest {
           val = iter.previous();
         }
         iter.add(val + 1);
+        if (list.size() >= HUNDRED) break;
       }
-      assertEquals(6, list.size(), SIZE_MUST_BE + 6);
-      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertEquals(HUNDRED, list.size(), SIZE_MUST_BE + HUNDRED);
+      assertTrue(iter.hasNext(), "More elements expected.");
     }
 
     @Test
@@ -465,7 +466,6 @@ class SinglyLinkedListTest {
       while (iter.hasNext()) iter.next();
       iter.add(SCORE);
       assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
-      assertEquals(SCORE, list.getHead().getData(), () -> VALUE_MUST_BE + SCORE);
     }
 
     @Test
