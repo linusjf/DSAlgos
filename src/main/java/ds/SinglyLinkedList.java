@@ -150,17 +150,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  protected void linkLast(T data) {
-    INode<T> node = new SingleNode<>(data);
-    if (isNull(head)) head = node;
-    else {
-      INode<T> last = getLast(head);
-      last.setNext(node);
-    }
-    ++length;
-  }
-
-  @Override
   protected void link(INode<T> prev, T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
     if (nonNull(prev)) prev.setNext(node);
@@ -172,6 +161,15 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> node = new SingleNode<>(data, next);
     INode<T> prev = getPrevious(node);
     if (nonNull(prev)) prev.setNext(node);
+    ++length;
+  }
+
+  @Override
+  protected void linkLast(T data) {
+    INode<T> node = new SingleNode<>(data);
+    INode<T> last = getLast(head);
+    if (nonNull(last)) last.setNext(node);
+    else head = node;
     ++length;
   }
 
@@ -190,6 +188,19 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected T unlink(INode<T> prev, INode<T> node) {
     if (isNull(node)) return null;
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    node.setNext(null);
+    node.setData(null);
+    prev.setNext(next);
+    --length;
+    return data;
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    if (isNull(node)) return null;
+    INode<T> prev = getPrevious(node);
     final T data = node.getData();
     final INode<T> next = node.getNext();
     node.setNext(null);
