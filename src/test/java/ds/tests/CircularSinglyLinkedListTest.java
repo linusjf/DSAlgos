@@ -249,4 +249,231 @@ class CircularSinglyLinkedListTest {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
   }
+  
+  @Nested
+  class IteratorTests {
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testEmptyIterator")
+    void testEmptyIterator() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
+      assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
+      assertThrows(NoSuchElementException.class, () -> iter.previous(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddEmpty")
+    void testAddEmpty() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      iter.add(TEN);
+      iter.add(SCORE);
+      iter.add(1);
+      while (iter.hasNext()) {
+        iter.next();
+        iter.remove();
+      }
+      assertEquals(3, list.size(), SIZE_MUST_BE + 3);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddIterated")
+    void testAddIterated() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        iter.add(val - 1);
+      }
+      assertEquals(6, list.size(), SIZE_MUST_BE + 6);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddIteratedCheck")
+    void testAddIteratedCheck() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        if (iter.hasPrevious()) {
+          val = iter.previous();
+        }
+        iter.add(val + 1);
+        if (list.size() >= HUNDRED) break;
+      }
+      assertEquals(HUNDRED, list.size(), SIZE_MUST_BE + HUNDRED);
+      assertTrue(iter.hasNext(), "More elements expected.");
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testPrevious")
+    void testPrevious() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE - 1;
+      while (iter.hasPrevious()) {
+        Integer val = iter.previous();
+        assertEquals(i--, val, VALUES_EQUAL);
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testNext")
+    void testNext() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+      assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testRemove")
+    void testRemove() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        iter.remove();
+      }
+      assertEquals(0, list.size(), SIZE_ZERO);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAdd")
+    void testAdd() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.add(i++);
+      }
+      assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testSet")
+    void testSet() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = SCORE;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.set(i++);
+      }
+      ListIterator<Integer> iter2 = list.getIterator();
+      IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
+      assertEquals(SCORE, list.size(), SIZE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testNextIndex")
+    void testNextIndex() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.nextIndex(), VALUES_EQUAL);
+        iter.next();
+      }
+      assertEquals(SCORE, iter.nextIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testPreviousIndex")
+    void testPreviousIndex() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE;
+      assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        iter.previous();
+        assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddAfterIteration")
+    void testAddAfterIteration() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      iter.add(SCORE);
+      assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testIndexedIterator")
+    void testIndexedIterator() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      int val;
+      while (iter.hasNext()) {
+        val = iter.next();
+        assertEquals(i++, val, VALUES_EQUAL);
+        if (i == SCORE)
+          break;
+      }
+      assertEquals(TEN - 1, val, VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
+    void testIndexedIteratorReversed() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasPrevious()) {
+        assertEquals(--i, iter.previous(), VALUES_EQUAL);
+        if (i == 0)
+          break;
+      }
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testIterable")
+    void testIterable() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      int i = 0;
+      for (Integer item : list) {
+        assertEquals(i++, item, VALUES_EQUAL);
+        if (i == SCORE)
+          break;
+      }
+    }
+  }
 }
