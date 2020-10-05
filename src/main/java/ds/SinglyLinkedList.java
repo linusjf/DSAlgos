@@ -166,7 +166,9 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void linkLast(T data) {
     INode<T> node = new SingleNode<>(data);
+    System.out.println("head = " + head);
     INode<T> last = getLast(head);
+    System.out.println("last = " + last);
     if (nonNull(last)) last.setNext(node);
     else head = node;
     ++length;
@@ -204,7 +206,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return node.getNext();
+    return isNull(node) ? null : node.getNext();
   }
 
   @Override
@@ -296,7 +298,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       if (isNull(lastReturned)) throw new IllegalStateException();
       INode<T> lastNext = lastReturned.getNext();
       unlink(lastReturned);
-      if (nextNode.isSame(lastReturned)) nextNode = lastNext;
+      if (lastReturned.isSame(nextNode)) nextNode = lastNext;
       else nextIndex--;
       lastReturned = null;
     }
