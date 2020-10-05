@@ -43,9 +43,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     }
     if (index == this.length) add(data);
     else if (index < this.length) {
-      INode<T> leftNode = get(index - 1);
-      INode<T> rightNode = leftNode.getNext();
-      link(leftNode, data, rightNode);
+      INode<T> rightNode = get(index);
+      linkBefore(data, rightNode);
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -92,7 +91,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       prevNode = currNode;
       currNode = next(currNode);
     }
-    return isNull(unlink(prevNode, currNode)) ? false : true;
+    return isNull(unlink(currNode)) ? false : true;
   }
 
   @Override
@@ -103,7 +102,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     else {
       INode<T> prev = get(index - 1);
       INode<T> curr = prev.getNext();
-      data = unlink(prev, curr);
+      data = unlink(curr);
     }
     return data;
   }
@@ -178,8 +177,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> node = head;
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    node.setNext(null);
-    node.setData(null);
     head = next;
     --length;
     return data;
@@ -190,8 +187,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     if (isNull(node)) return null;
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    node.setNext(null);
-    node.setData(null);
     prev.setNext(next);
     --length;
     return data;
@@ -203,8 +198,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> prev = getPrevious(node);
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    node.setNext(null);
-    node.setData(null);
     prev.setNext(next);
     --length;
     return data;
