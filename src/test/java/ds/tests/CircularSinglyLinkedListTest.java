@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.CircularSinglyLinkedList;
 import ds.INode;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,6 +27,8 @@ class CircularSinglyLinkedListTest {
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
+  private static final String VALUE_MUST_BE = "Value must be ";
+  private static final String NO_ELEMENTS = "No elements expected.";
 
   @Test
   @DisplayName("CircularSinglyLinkedListTest.testConstructor")
@@ -439,14 +444,14 @@ class CircularSinglyLinkedListTest {
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
       int i = TEN;
-      int val;
       while (iter.hasNext()) {
-        val = iter.next();
+        int val = iter.next();
         assertEquals(i++, val, VALUES_EQUAL);
-        if (i == SCORE)
+        if (i == SCORE) {
+          assertEquals(TEN - 1, val, VALUES_EQUAL);
           break;
+        }
       }
-      assertEquals(TEN - 1, val, VALUES_EQUAL);
     }
 
     @Test

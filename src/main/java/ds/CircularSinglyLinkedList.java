@@ -180,6 +180,19 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     }
     return pointerNode;
   }
+  
+  @SuppressWarnings("PMD.LawOfDemeter")
+  private INode<T> getPrevious(INode<T> node) {
+    if (head.isSame(node)) return head;
+    INode<T> prevNode = head;
+    INode<T> currNode = head.getNext();
+    while (nonNull(currNode)) {
+      if (node.isSame(currNode)) return prevNode;
+      prevNode = currNode;
+      currNode = currNode.getNext();
+    }
+    return currNode;
+  }
 
   private INode<T> next(INode<T> node) {
     return node.getNext();
@@ -265,7 +278,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T previous() {
       if (!hasPrevious()) throw new NoSuchElementException();
-      lastReturned = nextNode = isTail(nextNode) ? tail : nextNode.getPrevious();
+      lastReturned = nextNode = isTail(nextNode) ? tail : getPrevious(nextNode);
       nextIndex--;
       if (nextIndex < 0)
         nextIndex = length - 1;
@@ -317,7 +330,7 @@ if (nextIndex < 0)
 
     @Override
     public int previousIndex() {
-      return nextIndex > 0: nextIndex - 1: length - 1;
+      return nextIndex > 0 ? nextIndex - 1: length - 1;
     }
 
     @Generated
