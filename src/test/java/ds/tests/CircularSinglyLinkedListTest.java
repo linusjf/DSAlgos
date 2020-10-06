@@ -280,7 +280,12 @@ class CircularSinglyLinkedListTest {
       iter.add(TEN);
       iter.add(SCORE);
       iter.add(1);
-      int i = 0; while (iter.hasNext()) { iter.next(); iter.remove(); if (++i == 3) break; } 
+      int i = 0;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.remove();
+        if (++i == 3) break;
+      }
       assertEquals(3, list.size(), SIZE_MUST_BE + 3);
       assertTrue(iter.hasNext(), ELEMENTS);
     }
