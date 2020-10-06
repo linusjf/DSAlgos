@@ -322,9 +322,8 @@ class CircularSinglyLinkedListTest {
         int val = iter.next();
         iter.remove();
         iter.add(val + 1);
-        if (iter.hasPrevious()) {
+        if (iter.hasPrevious()) 
           val = iter.previous();
-        }
         iter.add(val + 1);
         if (list.size() >= HUNDRED) break;
       }
@@ -373,21 +372,12 @@ class CircularSinglyLinkedListTest {
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
       while (iter.hasNext()) {
-        System.out.println("Calling next: ");
-        System.out.println(list);
-        System.out.println(iter);
         assertEquals(i++, iter.next(), VALUES_EQUAL);
-        System.out.println("Calling next: ");
-        System.out.println(list);
-        System.out.println(iter);
         iter.remove();
       }
       assertEquals(0, list.size(), SIZE_ZERO);
     }
 
-    @Nested
-    class TestMemoryFault {
-      @Disabled
       @Test
       @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAdd")
       void testAdd() {
@@ -396,20 +386,12 @@ class CircularSinglyLinkedListTest {
         ListIterator<Integer> iter = list.getIterator();
         int i = 0;
         while (iter.hasNext()) {
-          System.out.println("Calling next: ");
-          System.out.println(list);
-          System.out.println(iter);
           iter.next();
-          System.out.println("Calling add: " + i);
-          System.out.println(list);
-          System.out.println(iter);
           iter.add(i++);
-          System.out.println("i = " + i);
           if (iter.nextIndex() == 0) break;
         }
         assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
       }
-    }
 
     @Test
     @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testSet")

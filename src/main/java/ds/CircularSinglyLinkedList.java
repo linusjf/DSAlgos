@@ -164,7 +164,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     INode<T> prev = previous(node);
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    prev.setNext(next);
+    if (prev != null) prev.setNext(next);
     node.setNext(null);
     node.setData(null);
     --length;
@@ -218,12 +218,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     if (isNull(head)) return null;
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
-    while (nonNull(currNode)) {
-      if (node.isSame(currNode)) return prevNode;
+    if (currNode.isSame(prevNode) && !head.equals(node)) return null;
+    while (!node.isSame(currNode)) {
       prevNode = currNode;
       currNode = currNode.getNext();
     }
-    return currNode;
+    return prevNode;
   }
 
   private INode<T> next(INode<T> node) {
@@ -322,7 +322,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     public void add(T data) {
       lastReturned = null;
       if (isNull(nextNode)) linkLast(data);
-      linkBefore(data, nextNode);
+      else linkBefore(data, nextNode);
       ++nextIndex;
     }
 
