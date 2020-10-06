@@ -125,6 +125,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> previous(INode<T> node) {
+    if (isNull(node)) return null;
     if (head.isSame(node)) return null;
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
@@ -156,6 +157,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> node = new SingleNode<>(data, next);
     INode<T> prev = previous(node);
     if (nonNull(prev)) prev.setNext(node);
+    else head = node;
     ++length;
   }
 
@@ -198,7 +200,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> prev = previous(node);
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    if (prev != null) prev.setNext(next);
+    if (nonNull(prev)) prev.setNext(next);
+    else head = next;
     node.setData(null);
     node.setNext(null);
     --length;
@@ -282,6 +285,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       if (!hasPrevious()) throw new NoSuchElementException();
       lastReturned =
           nextNode = isNull(nextNode) ? getLast(head) : SinglyLinkedList.this.previous(nextNode);
+      System.out.println("lastReturned = " + lastReturned);
       nextIndex--;
       return lastReturned.getData();
     }

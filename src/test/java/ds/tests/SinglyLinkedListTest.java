@@ -347,9 +347,8 @@ class SinglyLinkedListTest {
         int val = iter.next();
         iter.remove();
         iter.add(val + 1);
-        if (iter.hasPrevious()) {
+        if (iter.hasPrevious()) 
           val = iter.previous();
-        }
         iter.add(val + 1);
         if (list.size() >= HUNDRED) break;
       }
