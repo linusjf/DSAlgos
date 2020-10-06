@@ -471,7 +471,7 @@ class CircularSinglyLinkedListTest {
         int val = iter.next();
         assertEquals(i++, val, VALUES_EQUAL);
         if (i == SCORE) {
-          assertEquals(TEN - 1, val, VALUES_EQUAL);
+          assertEquals(SCORE - 1, val, VALUES_EQUAL);
           break;
         }
       }

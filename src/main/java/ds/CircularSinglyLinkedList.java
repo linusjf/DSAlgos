@@ -103,7 +103,15 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public T deleteAt(int index) {
-    return null;
+    checkIndex(index, length);
+    T data;
+    if (index == 0) data = unlinkFirst();
+    else {
+      INode<T> prev = get(index - 1);
+      INode<T> curr = prev.getNext();
+      data = unlink(curr);
+    }
+    return data;
   }
 
   @Override
@@ -134,10 +142,31 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
-  protected void link(INode<T> prevNode, T data, INode<T> nextNode) {
+  protected void linkLast(T data) {
+    INode<T> node = new SingleNode<>(data);
+    INode<T> last = tail;
+    if (nonNull(last)) last.setNext(node);
+    else head = tail = node;
+    ++length;
+  }
+
+  @Override
+  protected void linkBefore(T data, INode<T> nextNode) {
+    INode<T> prevNode = previous(nextNode);
     INode<T> node = new SingleNode<>(data, nextNode);
     prevNode.setNext(node);
     ++length;
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    if (isNull(node)) return null;
+    INode<T> prev = previous(node);
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    prev.setNext(next);
+    --length;
+    return data;
   }
 
   @SuppressWarnings({
@@ -182,7 +211,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
-  private INode<T> getPrevious(INode<T> node) {
+  private INode<T> previous(INode<T> node) {
     if (head.isSame(node)) return head;
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
@@ -195,7 +224,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return node.getNext();
+    return node == null ? null : node.getNext();
   }
 
   @Override
@@ -214,6 +243,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   public INode<T> getTail() {
     return tail;
+  }
+
+  private boolean isTail(INode<T> node) {
+    return node == tail;
   }
 
   @Override
@@ -241,10 +274,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     return new ListIter();
   }
 
-  private boolean isTail(INode<T> node) {
-    return node == tail;
-  }
-
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
     return new ListIter(idx);
@@ -263,7 +292,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? head : get(index);
-      nextIndex = index % length;
+      if (nextIndex == length) nextIndex = 0;
+      else nextIndex = index;
     }
 
     @Override
@@ -278,7 +308,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T previous() {
       if (!hasPrevious()) throw new NoSuchElementException();
-      lastReturned = nextNode = isTail(nextNode) ? tail : getPrevious(nextNode);
+      lastReturned =
+          nextNode = isTail(nextNode) ? tail : CircularSinglyLinkedList.this.previous(nextNode);
       nextIndex--;
       if (nextIndex < 0) nextIndex = length - 1;
       return lastReturned.getData();
@@ -302,7 +333,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
         nextIndex--;
         if (nextIndex < 0) nextIndex = length - 1;
       }
-
       lastReturned = null;
     }
 
