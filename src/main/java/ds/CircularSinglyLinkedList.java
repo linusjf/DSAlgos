@@ -154,7 +154,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   protected void linkBefore(T data, INode<T> nextNode) {
     INode<T> prevNode = previous(nextNode);
     INode<T> node = new SingleNode<>(data, nextNode);
-    prevNode.setNext(node);
+    if (prevNode != null) prevNode.setNext(node);
     ++length;
   }
 
@@ -165,6 +165,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     final T data = node.getData();
     final INode<T> next = node.getNext();
     prev.setNext(next);
+    node.setNext(null);
+    node.setData(null);
     --length;
     return data;
   }
@@ -212,7 +214,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> previous(INode<T> node) {
-    if (head.isSame(node)) return head;
+    if (isNull(node)) return null;
+    if (isNull(head)) return null;
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
     while (nonNull(currNode)) {
@@ -301,16 +304,16 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       if (!hasNext()) throw new NoSuchElementException();
       lastReturned = nextNode;
       nextNode = nextNode.getNext();
-      nextIndex = ++nextIndex % length;
+      ++nextIndex;
+      if (nextIndex == length) nextIndex = 0;
       return lastReturned.getData();
     }
 
     @Override
     public T previous() {
       if (!hasPrevious()) throw new NoSuchElementException();
-      lastReturned =
-          nextNode = isTail(nextNode) ? tail : CircularSinglyLinkedList.this.previous(nextNode);
-      nextIndex--;
+      lastReturned = nextNode = CircularSinglyLinkedList.this.previous(nextNode);
+      --nextIndex;
       if (nextIndex < 0) nextIndex = length - 1;
       return lastReturned.getData();
     }
@@ -318,9 +321,9 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public void add(T data) {
       lastReturned = null;
-      if (isTail(nextNode)) linkLast(data);
-      else linkBefore(data, nextNode);
-      nextIndex++;
+      if (isNull(nextNode)) linkLast(data);
+      linkBefore(data, nextNode);
+      ++nextIndex;
     }
 
     @Override
@@ -330,7 +333,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       unlink(lastReturned);
       if (lastReturned.isSame(nextNode)) nextNode = lastNext;
       else {
-        nextIndex--;
+        --nextIndex;
         if (nextIndex < 0) nextIndex = length - 1;
       }
       lastReturned = null;

@@ -174,6 +174,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final T data = node.getData();
     final INode<T> next = node.getNext();
     head = next;
+    node.setNext(null);
+    node.setData(null);
     --length;
     return data;
   }
@@ -184,6 +186,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final T data = node.getData();
     final INode<T> next = node.getNext();
     prev.setNext(next);
+    node.setData(null);
+    node.setNext(null);
     --length;
     return data;
   }
@@ -195,6 +199,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     final T data = node.getData();
     final INode<T> next = node.getNext();
     if (prev != null) prev.setNext(next);
+    node.setData(null);
+    node.setNext(null);
     --length;
     return data;
   }
