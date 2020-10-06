@@ -29,6 +29,7 @@ class CircularSinglyLinkedListTest {
   private static final String VALUES_EQUAL = "Values must be equal.";
   private static final String VALUE_MUST_BE = "Value must be ";
   private static final String NO_ELEMENTS = "No elements expected.";
+  private static final String ELEMENTS = "More elements expected.";
 
   @Test
   @DisplayName("CircularSinglyLinkedListTest.testConstructor")
@@ -282,8 +283,7 @@ class CircularSinglyLinkedListTest {
       while (iter.hasNext()) {
         iter.next();
         iter.remove();
-        if(++i == 3)
-          break;
+        if (++i == 3) break;
       }
       assertEquals(3, list.size(), SIZE_MUST_BE + 3);
       assertTrue(iter.hasNext(), ELEMENTS);
@@ -303,8 +303,7 @@ class CircularSinglyLinkedListTest {
         iter.remove();
         iter.add(val + 1);
         iter.add(val - 1);
-        if (++i == 3)
-          break;
+        if (++i == 3) break;
       }
       assertEquals(6, list.size(), SIZE_MUST_BE + 6);
       assertTrue(iter.hasNext(), ELEMENTS);
@@ -338,17 +337,15 @@ class CircularSinglyLinkedListTest {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
-      while (iter.hasNext())  {
+      while (iter.hasNext()) {
         iter.next();
-        if (iter.nextIndex() == 0)
-          break;
+        if (iter.nextIndex() == 0) break;
       }
       int i = SCORE - 1;
       while (iter.hasPrevious()) {
         Integer val = iter.previous();
         assertEquals(i--, val, VALUES_EQUAL);
-        if (iter.previousIndex() == list.size() - 1)
-          break;
+        if (iter.previousIndex() == list.size() - 1) break;
       }
       assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
     }
@@ -360,7 +357,10 @@ class CircularSinglyLinkedListTest {
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
-      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        if (i == SCORE) break;
+      }
       assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
     }
 
@@ -388,6 +388,7 @@ class CircularSinglyLinkedListTest {
       while (iter.hasNext()) {
         iter.next();
         iter.add(i++);
+        if (iter.nextIndex() == 0) break;
       }
       assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
     }
@@ -402,6 +403,7 @@ class CircularSinglyLinkedListTest {
       while (iter.hasNext()) {
         iter.next();
         iter.set(i++);
+        if (iter.nextIndex() == 0) break;
       }
       ListIterator<Integer> iter2 = list.getIterator();
       IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
@@ -418,8 +420,9 @@ class CircularSinglyLinkedListTest {
       while (iter.hasNext()) {
         assertEquals(i++, iter.nextIndex(), VALUES_EQUAL);
         iter.next();
+        if (iter.nextIndex() == 0) break;
       }
-      assertEquals(SCORE, iter.nextIndex(), VALUES_EQUAL);
+      assertEquals(0, iter.nextIndex(), VALUES_EQUAL);
     }
 
     @Test
@@ -430,16 +433,14 @@ class CircularSinglyLinkedListTest {
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) {
         iter.next();
-        if (iter.nextIndex() == 0)
-          break;
+        if (iter.nextIndex() == 0) break;
       }
       int i = SCORE;
       assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
       while (iter.hasPrevious()) {
         iter.previous();
         assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
-        if (iter.previousIndex() == list.size() - 1)
-          break;
+        if (iter.previousIndex() == list.size() - 1) break;
       }
       assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
     }
@@ -451,10 +452,9 @@ class CircularSinglyLinkedListTest {
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
-      while (iter.hasNext())  {
+      while (iter.hasNext()) {
         iter.next();
-        if (iter.nextIndex() == 0)
-          break;
+        if (iter.nextIndex() == 0) break;
       }
       iter.add(SCORE);
       assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
