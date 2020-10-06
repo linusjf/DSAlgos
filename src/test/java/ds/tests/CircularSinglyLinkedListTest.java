@@ -254,7 +254,7 @@ class CircularSinglyLinkedListTest {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
   }
-  
+
   @Nested
   class IteratorTests {
     @Test
@@ -278,12 +278,15 @@ class CircularSinglyLinkedListTest {
       iter.add(TEN);
       iter.add(SCORE);
       iter.add(1);
+      int i = 0;
       while (iter.hasNext()) {
         iter.next();
         iter.remove();
+        if(++i == 3)
+          break;
       }
       assertEquals(3, list.size(), SIZE_MUST_BE + 3);
-      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertTrue(iter.hasNext(), ELEMENTS);
     }
 
     @Test
@@ -294,14 +297,17 @@ class CircularSinglyLinkedListTest {
       list.add(SCORE);
       list.add(1);
       ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
       while (iter.hasNext()) {
         int val = iter.next();
         iter.remove();
         iter.add(val + 1);
         iter.add(val - 1);
+        if (++i == 3)
+          break;
       }
       assertEquals(6, list.size(), SIZE_MUST_BE + 6);
-      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertTrue(iter.hasNext(), ELEMENTS);
     }
 
     @Test
@@ -332,13 +338,19 @@ class CircularSinglyLinkedListTest {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
-      while (iter.hasNext()) iter.next();
+      while (iter.hasNext())  {
+        iter.next();
+        if (iter.nextIndex() == 0)
+          break;
+      }
       int i = SCORE - 1;
       while (iter.hasPrevious()) {
         Integer val = iter.previous();
         assertEquals(i--, val, VALUES_EQUAL);
+        if (iter.previousIndex() == list.size() - 1)
+          break;
       }
-      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+      assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
     }
 
     @Test
@@ -416,14 +428,20 @@ class CircularSinglyLinkedListTest {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
-      while (iter.hasNext()) iter.next();
+      while (iter.hasNext()) {
+        iter.next();
+        if (iter.nextIndex() == 0)
+          break;
+      }
       int i = SCORE;
       assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
       while (iter.hasPrevious()) {
         iter.previous();
         assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+        if (iter.previousIndex() == list.size() - 1)
+          break;
       }
-      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+      assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
     }
 
     @Test
@@ -432,7 +450,12 @@ class CircularSinglyLinkedListTest {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
-      while (iter.hasNext()) iter.next();
+      int i = 0;
+      while (iter.hasNext())  {
+        iter.next();
+        if (iter.nextIndex() == 0)
+          break;
+      }
       iter.add(SCORE);
       assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
     }
@@ -463,8 +486,7 @@ class CircularSinglyLinkedListTest {
       int i = TEN;
       while (iter.hasPrevious()) {
         assertEquals(--i, iter.previous(), VALUES_EQUAL);
-        if (i == 0)
-          break;
+        if (i == 0) break;
       }
     }
 
@@ -476,8 +498,7 @@ class CircularSinglyLinkedListTest {
       int i = 0;
       for (Integer item : list) {
         assertEquals(i++, item, VALUES_EQUAL);
-        if (i == SCORE)
-          break;
+        if (i == SCORE) break;
       }
     }
   }
