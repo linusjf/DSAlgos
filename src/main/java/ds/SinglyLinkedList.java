@@ -285,7 +285,6 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
       if (!hasPrevious()) throw new NoSuchElementException();
       lastReturned =
           nextNode = isNull(nextNode) ? getLast(head) : SinglyLinkedList.this.previous(nextNode);
-      System.out.println("lastReturned = " + lastReturned);
       nextIndex--;
       return lastReturned.getData();
     }

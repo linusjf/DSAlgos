@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-@SuppressWarnings("nullness")
+@SuppressWarnings({"nullness","PMD.LawOfDemeter"})
 public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -140,6 +140,19 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     --length;
     return data;
   }
+  
+  @Override
+  protected T unlink(INode<T> node) {
+    if (isNull(node)) return null;
+    INode<T> prev = previous(node);
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    if (prev != null) prev.setNext(next);
+    node.setNext(null);
+    node.setData(null);
+    --length;
+    return data;
+  }
 
   @Override
   protected void linkLast(T data) {
@@ -156,19 +169,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     INode<T> node = new SingleNode<>(data, nextNode);
     if (prevNode != null) prevNode.setNext(node);
     ++length;
-  }
-
-  @Override
-  protected T unlink(INode<T> node) {
-    if (isNull(node)) return null;
-    INode<T> prev = previous(node);
-    final T data = node.getData();
-    final INode<T> next = node.getNext();
-    if (prev != null) prev.setNext(next);
-    node.setNext(null);
-    node.setData(null);
-    --length;
-    return data;
   }
 
   @SuppressWarnings({
@@ -318,6 +318,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       return lastReturned.getData();
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void add(T data) {
       lastReturned = null;
@@ -326,6 +327,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       ++nextIndex;
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void remove() {
       if (isNull(lastReturned)) throw new IllegalStateException();
