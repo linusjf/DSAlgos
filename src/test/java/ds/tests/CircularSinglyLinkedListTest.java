@@ -8,7 +8,6 @@ import ds.INode;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +30,7 @@ class CircularSinglyLinkedListTest {
   private static final String VALUE_MUST_BE = "Value must be ";
   private static final String NO_ELEMENTS = "No elements expected.";
   private static final String ELEMENTS = "More elements expected.";
+  private static final int THREE = 3;
 
   @Test
   @DisplayName("CircularSinglyLinkedListTest.testConstructor")
@@ -44,7 +44,7 @@ class CircularSinglyLinkedListTest {
   @Nested
   class AddTests {
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAdd")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAdd")
     void testAdd() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       list.add(SCORE);
@@ -60,14 +60,14 @@ class CircularSinglyLinkedListTest {
 
     @SuppressWarnings("nullness:argument.type.incompatible")
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddNull")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddNull")
     void testAddNull() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(NullPointerException.class, () -> list.add(null), NULL_POINTER);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddIndex")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddIndex")
     void testAddIndex() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       list.add(SCORE, 0);
@@ -82,28 +82,28 @@ class CircularSinglyLinkedListTest {
 
     @SuppressWarnings("nullness:argument.type.incompatible")
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddIndexNull")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddIndexNull")
     void testAddIndexNull() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddIndexException")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddIndexException")
     void testAddIndexException() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), EXCEPTION);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddIndexExcessException")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddIndexExcessException")
     void testAddIndexExcessException() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddAtFirstMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddAtFirstMultiple")
     void testAddFirstMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN - i));
@@ -113,7 +113,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddMultiple")
     void testAddMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -122,7 +122,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testAddEndMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.AddTests.testAddEndMultiple")
     void testAddEndMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
@@ -136,7 +136,7 @@ class CircularSinglyLinkedListTest {
   @Nested
   class FindTests {
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testFind")
+    @DisplayName("CircularSinglyLinkedListTest.FindTests.testFind")
     void testFind() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       list.add(SCORE, 0);
@@ -148,7 +148,7 @@ class CircularSinglyLinkedListTest {
 
     @SuppressWarnings("nullness:argument.type.incompatible")
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testFindNull")
+    @DisplayName("CircularSinglyLinkedListTest.FindTests.testFindNull")
     void testFindNull() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       list.add(SCORE, 0);
@@ -156,7 +156,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testFindMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.FindTests.testFindMultiple")
     void testFindMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -166,7 +166,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testFindNotFound")
+    @DisplayName("CircularSinglyLinkedListTest.FindTests.testFindNotFound")
     void testFindNotFound() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -177,7 +177,7 @@ class CircularSinglyLinkedListTest {
   @Nested
   class DeleteTests {
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testDeleteMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.DeleteTests.testDeleteMultiple")
     void testDeleteMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -186,7 +186,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testDeleteMultipleReverse")
+    @DisplayName("CircularSinglyLinkedListTest.DeleteTests.testDeleteMultipleReverse")
     void testDeleteMultipleReverse() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -197,14 +197,14 @@ class CircularSinglyLinkedListTest {
 
     @SuppressWarnings("nullness:argument.type.incompatible")
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testDeleteNull")
+    @DisplayName("CircularSinglyLinkedListTest.DeleteTests.testDeleteNull")
     void testDeleteNull() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(NullPointerException.class, () -> list.delete(null), NULL_POINTER);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testDeleteNotFound")
+    @DisplayName("CircularSinglyLinkedListTest.DeleteTests.testDeleteNotFound")
     void testDeleteNotFound() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -212,7 +212,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testDeleteNotFoundEmpty")
+    @DisplayName("CircularSinglyLinkedListTest.DeleteTests.testDeleteNotFoundEmpty")
     void testDeleteNotFoundEmpty() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertFalse(list.delete(SCORE), "Not found expected.");
@@ -223,7 +223,7 @@ class CircularSinglyLinkedListTest {
   class GetTests {
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testGetMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.GetTests.testGetMultiple")
     void testGetMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -233,14 +233,14 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testGetNegativeIndex")
+    @DisplayName("CircularSinglyLinkedListTest.GetTests.testGetNegativeIndex")
     void testGetNegativeIndex() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1), EXCEPTION);
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testGetExcessIndex")
+    @DisplayName("CircularSinglyLinkedListTest.GetTests.testGetExcessIndex")
     void testGetExcessIndex() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
@@ -250,14 +250,14 @@ class CircularSinglyLinkedListTest {
   @Nested
   class StringTests {
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testEmptyToString")
+    @DisplayName("CircularSinglyLinkedListTest.StringTests.testEmptyToString")
     void testEmptyToString() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertEquals("[]", list.toString(), "Empty array string expected.");
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testToStringMultiple")
+    @DisplayName("CircularSinglyLinkedListTest.StringTests.testToStringMultiple")
     void testToStringMultiple() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
@@ -265,7 +265,7 @@ class CircularSinglyLinkedListTest {
     }
 
     @Test
-    @DisplayName("CircularSinglyLinkedListTest.testToStringSingle")
+    @DisplayName("CircularSinglyLinkedListTest.StringTests.testToStringSingle")
     void testToStringSingle() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       IntStream.range(0, 1).forEach(i -> list.add(i));
@@ -318,7 +318,7 @@ class CircularSinglyLinkedListTest {
         iter.remove();
         iter.add(val + 1);
         iter.add(val - 1);
-        if (++i == 3) break;
+        if (++i == THREE) break;
       }
       assertEquals(6, list.size(), SIZE_MUST_BE + 6);
       assertTrue(iter.hasNext(), ELEMENTS);
@@ -486,15 +486,13 @@ class CircularSinglyLinkedListTest {
         if (i == SCORE) break;
       }
     }
-  }
-
-  @Test
+  
+    @Test
   @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddAfterIteration")
   void testAddAfterIteration() {
     CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
     ListIterator<Integer> iter = list.getIterator();
-    int i = 0;
     while (iter.hasNext()) {
       iter.next();
       if (iter.nextIndex() == 0) break;
@@ -514,5 +512,6 @@ class CircularSinglyLinkedListTest {
       assertEquals(--i, iter.previous(), VALUES_EQUAL);
       if (i == 0) break;
     }
+  }
   }
 }

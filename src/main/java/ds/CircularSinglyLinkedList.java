@@ -170,13 +170,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       return true;
     }
     INode<T> prevNode = head;
-    INode<T> currNode = head.getNext();
+    INode<T> currNode = prevNode.getNext();
     while (!head.isSame(currNode)) {
       if (currNode.equals(node)) {
         unlink(currNode);
         return true;
       }
-      prevNode = currNode;
       currNode = currNode.getNext();
     }
     return false;
@@ -232,10 +231,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     return tail;
   }
 
-  private boolean isTail(INode<T> node) {
-    return node == tail;
-  }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
@@ -279,7 +274,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? head : get(index);
-      if (nextIndex == length) nextIndex = 0;
+      if (index == length) nextIndex = 0;
       else nextIndex = index;
     }
 
