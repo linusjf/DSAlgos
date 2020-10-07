@@ -27,8 +27,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public void add(T data) {
     requireNonNull(data, DATA_NON_NULL);
-      linkLast(data);
-    ++length;
+    linkLast(data);
   }
 
   /**
@@ -48,8 +47,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     if (index == this.length) add(data);
     else if (index < this.length) {
       INode<T> rightNode = get(index);
-      linkBefore(data,rightNode);
-      ++length;
+      linkBefore(data, rightNode);
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -65,9 +63,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     if (isNull(this.head)) {
       linkLast(data);
     } else {
-      linkBefore(data,this.head);
+      linkBefore(data, this.head);
     }
-    ++length;
   }
 
   @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
@@ -135,8 +132,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     if (nonNull(last)) {
       last.setNext(node);
       node.setNext(head);
-    }
-    else {
+      tail = node;
+    } else {
       head = tail = node;
       head.setNext(tail);
     }
@@ -147,8 +144,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   protected void linkBefore(T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
     INode<T> prev = previous(node);
-    if (nonNull(prev)) 
-      prev.setNext(node);
+    if (nonNull(prev)) prev.setNext(node);
     else {
       head = tail = node;
       tail.setNext(head);
@@ -317,10 +313,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     public void remove() {
       if (isNull(lastReturned)) throw new IllegalStateException();
       INode<T> lastNext = lastReturned.getNext();
-      if (lastReturned.isSame(head))
-        unlinkFirst();
-      else
-      unlink(lastReturned);
+      if (lastReturned.isSame(head)) unlinkFirst();
+      else unlink(lastReturned);
       if (lastReturned.isSame(nextNode)) nextNode = lastNext;
       else {
         --nextIndex;
