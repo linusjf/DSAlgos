@@ -486,32 +486,32 @@ class CircularSinglyLinkedListTest {
         if (i == SCORE) break;
       }
     }
-  
-    @Test
-  @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddAfterIteration")
-  void testAddAfterIteration() {
-    CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
-    IntStream.range(0, SCORE).forEach(i -> list.add(i));
-    ListIterator<Integer> iter = list.getIterator();
-    while (iter.hasNext()) {
-      iter.next();
-      if (iter.nextIndex() == 0) break;
-    }
-    iter.add(SCORE);
-    assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
-  }
 
-  @Test
-  @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
-  void testIndexedIteratorReversed() {
-    CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
-    IntStream.range(0, SCORE).forEach(i -> list.add(i));
-    ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
-    int i = TEN;
-    while (iter.hasPrevious()) {
-      assertEquals(--i, iter.previous(), VALUES_EQUAL);
-      if (i == 0) break;
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testAddAfterIteration")
+    void testAddAfterIteration() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        iter.next();
+        if (iter.nextIndex() == 0) break;
+      }
+      iter.add(SCORE);
+      assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
     }
-  }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
+    void testIndexedIteratorReversed() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasPrevious()) {
+        assertEquals(--i, iter.previous(), VALUES_EQUAL);
+        if (i == 0) break;
+      }
+    }
   }
 }

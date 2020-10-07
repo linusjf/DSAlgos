@@ -60,11 +60,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (isNull(head)) {
-      linkLast(data);
-    } else {
-      linkBefore(data, head);
-    }
+    if (isNull(head)) linkLast(data);
+    else linkBefore(data, head);
   }
 
   @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
@@ -274,8 +271,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? head : get(index);
-      if (index == length) nextIndex = 0;
-      else nextIndex = index;
+      nextIndex = index == length ? 0 : index;
     }
 
     @Override
@@ -301,9 +297,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public void add(T data) {
       lastReturned = null;
-      if (isNull(nextNode)) {
-        linkLast(data);
-      } else linkBefore(data, nextNode);
+      if (isNull(nextNode)) linkLast(data);
+      else linkBefore(data, nextNode);
       ++nextIndex;
     }
 
