@@ -278,9 +278,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
     ListIter(int index) {
       checkIndex(index, length + 1);
-      System.out.println("head = " + head);
       nextNode = (index == length) ? head : get(index);
-      System.out.println("nextNode = " + nextNode);
       if (nextIndex == length) nextIndex = 0;
       else nextIndex = index;
     }
