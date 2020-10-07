@@ -44,8 +44,8 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
       addAtFirst(data);
       return;
     }
-    if (index == this.length) add(data);
-    else if (index < this.length) {
+    if (index == length) add(data);
+    else if (index < length) {
       INode<T> rightNode = get(index);
       linkBefore(data, rightNode);
     } else throw new IndexOutOfBoundsException("Index not available.");
@@ -60,10 +60,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (isNull(this.head)) {
+    if (isNull(head)) {
       linkLast(data);
     } else {
-      linkBefore(data, this.head);
+      linkBefore(data, head);
     }
   }
 
@@ -185,10 +185,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public INode<T> get(int index) {
     checkIndex(index, length);
-    if (index == 0) return this.head;
-    if (index == this.length - 1) return tail;
+    if (index == 0) return head;
+    if (index == length - 1) return tail;
     int pointer = 0;
-    INode<T> pointerNode = this.head;
+    INode<T> pointerNode = head;
     while (pointer != index) {
       pointerNode = next(pointerNode);
       ++pointer;
@@ -216,12 +216,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public int size() {
-    return this.length;
+    return length;
   }
 
   @Override
   public boolean isEmpty() {
-    return this.length == 0;
+    return length == 0;
   }
 
   public INode<T> getHead() {
@@ -240,7 +240,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
     sb.append('[');
-    INode<T> nextNode = this.head;
+    INode<T> nextNode = head;
     while (nonNull(head)) {
       sb.append(nextNode);
       nextNode = next(nextNode);
@@ -278,7 +278,9 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
     ListIter(int index) {
       checkIndex(index, length + 1);
+      System.out.println("head = " + head);
       nextNode = (index == length) ? head : get(index);
+      System.out.println("nextNode = " + nextNode);
       if (nextIndex == length) nextIndex = 0;
       else nextIndex = index;
     }
@@ -286,10 +288,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public T next() {
       if (!hasNext()) throw new NoSuchElementException();
-      lastReturned = nextNode;
+      lastReturned = nextNode = (nextNode == null) ? head : nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
-      if (nextIndex == length) nextIndex = 0;
+      if (nextIndex >= length) nextIndex -= length;
       return lastReturned.getData();
     }
 
@@ -306,8 +308,9 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     @Override
     public void add(T data) {
       lastReturned = null;
-      if (isNull(nextNode)) linkLast(data);
-      else linkBefore(data, nextNode);
+      if (isNull(nextNode)) {
+        linkLast(data);
+      } else linkBefore(data, nextNode);
       ++nextIndex;
     }
 
