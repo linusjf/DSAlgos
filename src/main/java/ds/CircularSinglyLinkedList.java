@@ -143,9 +143,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void linkBefore(T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    INode<T> prev = previous(node);
-    if (nonNull(prev)) prev.setNext(node);
-    else {
+    INode<T> prev = previous(next);
+    if (nonNull(prev)) {
+      prev.setNext(node);
+      node.setNext(next);
+      if (prev.isSame(tail)) head = node;
+    } else {
       head = tail = node;
       tail.setNext(head);
     }
