@@ -129,11 +129,11 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
     while (nonNull(currNode)) {
-      if (node.isSame(currNode)) return prevNode;
+      if (node.isSame(currNode)) break;
       prevNode = currNode;
       currNode = currNode.getNext();
     }
-    return currNode;
+    return prevNode;
   }
 
   @Override
@@ -147,7 +147,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void linkBefore(T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
-    INode<T> prev = previous(node);
+    INode<T> prev = previous(next);
     if (nonNull(prev)) prev.setNext(node);
     else head = node;
     ++length;

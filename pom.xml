@@ -625,6 +625,7 @@
             <spotbugsXmlOutputFilename>sb-errors.xml</spotbugsXmlOutputFilename>
             <effort>max</effort>
             <threshold>Default</threshold>
+            <fork>false</fork>
           </configuration>
           <executions>
             <execution>

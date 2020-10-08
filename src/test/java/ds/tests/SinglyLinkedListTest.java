@@ -371,6 +371,25 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    @DisplayName("SinglyLinkedListTest.IteratorTests.testPreviousDelete")
+    void testPreviousDelete() {
+      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE - 1;
+      while (iter.hasPrevious()) {
+        Integer val = iter.previous();
+        assertEquals(i--, val, VALUES_EQUAL);
+        iter.remove();
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+      assertEquals(0, list.size(), SIZE_ZERO);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
+    }
+
+    @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testNext")
     void testNext() {
       SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
