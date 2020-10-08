@@ -325,7 +325,16 @@ class DoublyLinkedListTest {
       while (iter.hasNext()) {
         int val = iter.next();
         iter.remove();
+        System.out.println(iter);
+        System.out.println(list);
+        System.out.println(list.getHead());
+        System.out.println(list.getTail());
         iter.add(val + 1);
+        System.out.println(iter);
+        System.out.println(list);
+        System.out.println(list.getHead());
+        System.out.println(list.getTail());
+
         if (iter.hasPrevious()) val = iter.previous();
         iter.add(val + 1);
         if (list.size() >= HUNDRED) break;

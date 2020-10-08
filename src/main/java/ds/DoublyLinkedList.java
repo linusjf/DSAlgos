@@ -33,7 +33,12 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     if (nonNull(prev)) {
       prev.setNext(node);
       node.setPrev(prev);
-    } else head = node;
+    } else {
+      head = node;
+      head.setNext(next);
+      if (nonNull(next)) 
+        next.setPrev(head);
+    }
     ++length;
   }
 
@@ -70,7 +75,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     if (nonNull(prev)) {
       prev.setNext(next);
-      next.setPrev(prev);
+      if (nonNull(next)) next.setPrev(prev);
     } else if (isNull(next)) head = tail = null;
     else head = next;
     node.setData(null);
