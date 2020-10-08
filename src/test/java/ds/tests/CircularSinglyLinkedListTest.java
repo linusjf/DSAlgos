@@ -404,9 +404,7 @@ class CircularSinglyLinkedListTest {
     void testSinglePrevious() {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       list.add(TEN);
-      System.out.println(list);
       ListIterator<Integer> iter = list.getIterator();
-      System.out.println(iter);
       assertEquals(list.getHead().getData(), iter.previous(), VALUES_EQUAL);
       assertEquals(list.getHead().getData(), iter.next(), VALUES_EQUAL);
       assertEquals(list.getTail().getData(), iter.next(), VALUES_EQUAL);
