@@ -125,9 +125,8 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> previous(INode<T> node) {
-    if (head.isSame(node)) return null;
-    INode<T> prevNode = head;
-    INode<T> currNode = head.getNext();
+    INode<T> prevNode = null;
+    INode<T> currNode = head;
     while (nonNull(currNode)) {
       if (node.isSame(currNode)) break;
       prevNode = currNode;
