@@ -26,7 +26,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   protected void linkFirst(T e) {
     final INode<T> f = head;
-    final INode<T> newNode = new DoubleNode<>(null, e, f);
+    final INode<T> newNode = new DoubleNode<>(e, f);
     head = newNode;
     if (isNull(f)) tail = newNode;
     else f.setPrev(newNode);

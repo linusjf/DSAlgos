@@ -5,7 +5,7 @@ import static java.util.Objects.*;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-@SuppressWarnings({"nullness","PMD.GodClass"})
+@SuppressWarnings({"nullness", "PMD.GodClass"})
 public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";

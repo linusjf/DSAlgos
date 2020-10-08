@@ -127,8 +127,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
   private INode<T> previous(INode<T> node) {
     INode<T> prevNode = null;
     INode<T> currNode = head;
-    while (nonNull(currNode)) {
-      if (node.isSame(currNode)) break;
+    while (!node.isSame(currNode)) {
       prevNode = currNode;
       currNode = currNode.getNext();
     }
