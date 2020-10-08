@@ -372,8 +372,7 @@
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
             <includes>
-              <include>**/*LinkedListTest.java</include>
-              <include>**/*NodeTest.java</include>
+              <include>**/*Test.java</include>
             </includes>
           </configuration>
         </plugin>
