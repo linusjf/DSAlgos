@@ -34,23 +34,13 @@ public abstract class AbstractList<T> implements IList<T> {
   @Override
   public abstract ListIterator<T> getIterator();
 
-  protected void linkBefore(T data, INode<T> next) {
-    throw new UnsupportedOperationException();
-  }
+  protected abstract void linkBefore(T data, INode<T> next);
 
-  protected void linkFirst(T data) {
-    throw new UnsupportedOperationException();
-  }
+  protected abstract void linkFirst(T data);
 
-  protected void linkLast(T data) {
-    throw new UnsupportedOperationException();
-  }
+  protected abstract void linkLast(T data);
 
-  protected T unlink(INode<T> node) {
-    throw new UnsupportedOperationException();
-  }
+  protected abstract T unlink(INode<T> node);
 
-  protected T unlinkFirst() {
-    throw new UnsupportedOperationException();
-  }
+  protected abstract T unlinkFirst();
 }

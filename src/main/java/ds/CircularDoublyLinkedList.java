@@ -5,7 +5,7 @@ import static java.util.Objects.*;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-@SuppressWarnings("nullness")
+@SuppressWarnings({"nullness","PMD.GodClass"})
 public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -16,6 +16,31 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("initialization.fields.uninitialized")
   private INode<T> tail;
+
+  @Override
+  protected void linkBefore(T data, INode<T> next) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected void linkFirst(T data) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected void linkLast(T data) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected T unlinkFirst() {
+    throw new UnsupportedOperationException();
+  }
 
   /**
    * Add element at end.

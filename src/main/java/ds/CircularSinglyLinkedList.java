@@ -136,6 +136,11 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   @Override
+  protected void linkFirst(T data) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   protected void linkBefore(T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
     INode<T> prev = previous(next);

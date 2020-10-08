@@ -13,22 +13,6 @@ public class DoubleNode<T> implements INode<T> {
     this.data = data;
   }
 
-  public DoubleNode(INode<T> prev, T data, INode<T> next) {
-    this(data);
-    this.prev = prev;
-    this.next = next;
-  }
-
-  public DoubleNode(T data, INode<T> next) {
-    this(data);
-    this.next = next;
-  }
-
-  public DoubleNode(INode<T> prev, T data) {
-    this(data);
-    this.next = prev;
-  }
-
   @Override
   public INode<T> getPrev() {
     return prev;

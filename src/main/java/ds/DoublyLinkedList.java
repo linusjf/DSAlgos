@@ -18,6 +18,37 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   private INode<T> tail;
 
   @Override
+  protected void linkBefore(T data, INode<T> next) {
+    throw new UnsupportedOperationException();
+  }
+
+  /** Links e as first element. */
+  @Override
+  protected void linkFirst(T e) {
+    final INode<T> f = head;
+    final INode<T> newNode = new DoubleNode<>(null, e, f);
+    head = newNode;
+    if (isNull(f)) tail = newNode;
+    else f.setPrev(newNode);
+    ++length;
+  }
+
+  @Override
+  protected void linkLast(T data) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  protected T unlinkFirst() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   @SuppressWarnings("nullness:argument.type.incompatible")
   public INode<T> find(T data) {
     requireNonNull(data, DATA_NON_NULL);
@@ -60,17 +91,6 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     if (isEmpty()) return null;
     if (index == 0) return unlinkFirst();
     return unlink(get(index));
-  }
-
-  /** Links e as first element. */
-  @Override
-  protected void linkFirst(T e) {
-    final INode<T> f = head;
-    final INode<T> newNode = new DoubleNode<>(null, e, f);
-    head = newNode;
-    if (isNull(f)) tail = newNode;
-    else f.setPrev(newNode);
-    ++length;
   }
 
   /**
