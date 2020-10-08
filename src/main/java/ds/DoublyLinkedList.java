@@ -4,6 +4,7 @@ import static java.util.Objects.*;
 
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 @SuppressWarnings({"nullness", "PMD.LawOfDemeter", "PMD.GodClass"})
 public class DoublyLinkedList<T> extends AbstractList<T> {
@@ -237,11 +238,105 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public ListIterator<T> getIterator() {
-    return getIteratorFromIndex(0);
+    return new ListIter(0);
   }
 
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
-    return null;
+    return new ListIter(idx);
+  }
+
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+  final class ListIter implements ListIterator<T> {
+    private INode<T> lastReturned;
+    private INode<T> nextNode;
+    private int nextIndex;
+
+    ListIter() {
+      this(0);
+    }
+
+    ListIter(int index) {
+      checkIndex(index, length + 1);
+      nextNode = (index == length) ? null : get(index);
+      nextIndex = index;
+    }
+
+    @Override
+    public T next() {
+      if (!hasNext()) throw new NoSuchElementException();
+      lastReturned = nextNode;
+      nextNode = nextNode.getNext();
+      nextIndex++;
+      return lastReturned.getData();
+    }
+
+    @Override
+    public T previous() {
+      if (!hasPrevious()) throw new NoSuchElementException();
+      lastReturned = nextNode = isNull(nextNode) ? tail : nextNode.getPrev();
+      nextIndex--;
+      return lastReturned.getData();
+    }
+
+    @Override
+    public void add(T data) {
+      lastReturned = null;
+      if (isNull(nextNode)) linkLast(data);
+      else linkBefore(data, nextNode);
+      nextIndex++;
+    }
+
+    @Override
+    public void remove() {
+      if (isNull(lastReturned)) throw new IllegalStateException();
+      INode<T> lastNext = lastReturned.getNext();
+      unlink(lastReturned);
+      if (lastReturned.isSame(nextNode)) nextNode = lastNext;
+      else nextIndex--;
+      lastReturned = null;
+    }
+
+    @Override
+    public void set(T data) {
+      if (lastReturned == null) throw new IllegalStateException();
+      lastReturned.setData(data);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return nextIndex < length;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return nextIndex > 0;
+    }
+
+    @Override
+    public int nextIndex() {
+      return nextIndex;
+    }
+
+    @Override
+    public int previousIndex() {
+      return nextIndex - 1;
+    }
+
+    @Generated
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      String lineSeparator = System.lineSeparator();
+      sb.append("Last returned = ")
+          .append(lastReturned)
+          .append(lineSeparator)
+          .append("Next node = ")
+          .append(nextNode)
+          .append(lineSeparator)
+          .append("Next index = ")
+          .append(nextIndex);
+      return sb.toString();
+    }
   }
 }
