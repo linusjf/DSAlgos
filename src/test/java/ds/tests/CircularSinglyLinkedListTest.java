@@ -217,6 +217,42 @@ class CircularSinglyLinkedListTest {
       CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
       assertFalse(list.delete(SCORE), "Not found expected.");
     }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.testDeleteAt")
+    void testDeleteAt() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+      IntStream.rangeClosed(0, TEN)
+          .forEach(
+              i ->
+                  assertEquals(
+                      TEN - i, list.deleteAt(TEN - i), "Deleted at index " + (TEN - i) + "."));
+      assertEquals(0, list.size(), SIZE_ZERO);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.testDeleteAtBefore")
+    void testDeleteAtBefore() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+      assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.testDeleteAtAfter")
+    void testDeleteAtAfter() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+      assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("CircularSinglyLinkedListTest.testDeleteAtEmpty")
+    void testDeleteAtEmpty() {
+      CircularSinglyLinkedList<Integer> list = new CircularSinglyLinkedList<>();
+      assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
+    }
   }
 
   @Nested

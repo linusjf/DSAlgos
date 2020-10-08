@@ -188,6 +188,14 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     return this.length == 0;
   }
 
+  public INode<T> getHead() {
+    return head;
+  }
+
+  public INode<T> getTail() {
+    return tail;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(2);
@@ -215,13 +223,5 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
     return null;
-  }
-
-  public INode<T> getHead() {
-    return head;
-  }
-
-  public INode<T> getTail() {
-    return tail;
   }
 }
