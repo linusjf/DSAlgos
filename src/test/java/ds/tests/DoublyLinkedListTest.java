@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.DoublyLinkedList;
 import ds.INode;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,6 +27,8 @@ class DoublyLinkedListTest {
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
+  private static final String VALUE_MUST_BE = "Value must be ";
+  private static final String NO_ELEMENTS = "No elements expected.";
 
   @Test
   @DisplayName("DoublyLinkedListTest.testConstructor")
@@ -258,5 +263,234 @@ class DoublyLinkedListTest {
   void testGetExcessIndex() {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
+  }
+
+  @Nested
+  class IteratorTests {
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testEmptyIterator")
+    void testEmptyIterator() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
+      assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
+      assertThrows(NoSuchElementException.class, () -> iter.previous(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testAddEmpty")
+    void testAddEmpty() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      iter.add(TEN);
+      iter.add(SCORE);
+      iter.add(1);
+      while (iter.hasNext()) {
+        iter.next();
+        iter.remove();
+      }
+      assertEquals(3, list.size(), SIZE_MUST_BE + 3);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testAddIterated")
+    void testAddIterated() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        iter.add(val - 1);
+      }
+      assertEquals(6, list.size(), SIZE_MUST_BE + 6);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testAddIteratedCheck")
+    void testAddIteratedCheck() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        if (iter.hasPrevious()) val = iter.previous();
+        iter.add(val + 1);
+        if (list.size() >= HUNDRED) break;
+      }
+      assertEquals(HUNDRED, list.size(), SIZE_MUST_BE + HUNDRED);
+      assertTrue(iter.hasNext(), "More elements expected.");
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testPrevious")
+    void testPrevious() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE - 1;
+      while (iter.hasPrevious()) {
+        Integer val = iter.previous();
+        assertEquals(i--, val, VALUES_EQUAL);
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testPreviousDelete")
+    void testPreviousDelete() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE - 1;
+      while (iter.hasPrevious()) {
+        Integer val = iter.previous();
+        assertEquals(i--, val, VALUES_EQUAL);
+        iter.remove();
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+      assertEquals(0, list.size(), SIZE_ZERO);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testNext")
+    void testNext() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+      assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testRemove")
+    void testRemove() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        iter.remove();
+      }
+      assertEquals(0, list.size(), SIZE_ZERO);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testAdd")
+    void testAdd() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.add(i++);
+      }
+      assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testSet")
+    void testSet() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = SCORE;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.set(i++);
+      }
+      ListIterator<Integer> iter2 = list.getIterator();
+      IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
+      assertEquals(SCORE, list.size(), SIZE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testNextIndex")
+    void testNextIndex() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.nextIndex(), VALUES_EQUAL);
+        iter.next();
+      }
+      assertEquals(SCORE, iter.nextIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testPreviousIndex")
+    void testPreviousIndex() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      int i = SCORE;
+      assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        iter.previous();
+        assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      }
+      assertEquals(-1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testAddAfterIteration")
+    void testAddAfterIteration() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) iter.next();
+      iter.add(SCORE);
+      assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testIndexedIterator")
+    void testIndexedIterator() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasNext()) assertEquals(i++, iter.next(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
+    void testIndexedIteratorReversed() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasPrevious()) assertEquals(--i, iter.previous(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("DoublyLinkedListTest.IteratorTests.testIterable")
+    void testIterable() {
+      DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      int i = 0;
+      for (Integer item : list) assertEquals(i++, item, VALUES_EQUAL);
+    }
   }
 }

@@ -19,34 +19,65 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   private INode<T> tail;
 
   @Override
-  protected void linkBefore(T data, INode<T> next) {
-    throw new UnsupportedOperationException();
+  protected void linkFirst(T data) {
+    final INode<T> f = head;
+    INode<T> node = new DoubleNode<>(data, f);
+    head = tail = node;
+    ++length;
   }
 
-  /** Links e as first element. */
   @Override
-  protected void linkFirst(T e) {
-    final INode<T> f = head;
-    final INode<T> newNode = new DoubleNode<>(e, f);
-    head = newNode;
-    if (isNull(f)) tail = newNode;
-    else f.setPrev(newNode);
+  protected void linkBefore(T data, INode<T> next) {
+    INode<T> node = new DoubleNode<>(data, next);
+    INode<T> prev = next.getPrev();
+    if (nonNull(prev)) {
+      prev.setNext(node);
+      node.setPrev(prev);
+    } else head = node;
     ++length;
   }
 
   @Override
   protected void linkLast(T data) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  protected T unlink(INode<T> node) {
-    throw new UnsupportedOperationException();
+    INode<T> node = new DoubleNode<>(data);
+    INode<T> last = tail;
+    if (nonNull(last)) {
+      last.setNext(node);
+      node.setPrev(last);
+    } else head = tail = node;
+    ++length;
   }
 
   @Override
   protected T unlinkFirst() {
-    throw new UnsupportedOperationException();
+    INode<T> node = head;
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    if (isNull(next)) head = tail = null;
+    else head = next;
+    node.setPrev(null);
+    node.setNext(null);
+    node.setData(null);
+    --length;
+    return data;
+  }
+
+  @Override
+  protected T unlink(INode<T> node) {
+    if (isNull(node)) return null;
+    INode<T> prev = node.getPrev();
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    if (nonNull(prev)) {
+      prev.setNext(next);
+      next.setPrev(prev);
+    } else if (isNull(next)) head = tail = null;
+    else head = next;
+    node.setData(null);
+    node.setNext(null);
+    node.setPrev(null);
+    --length;
+    return data;
   }
 
   @Override
