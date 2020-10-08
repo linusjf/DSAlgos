@@ -110,12 +110,10 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlink(INode<T> node) {
-    if (isNull(node)) return null;
     INode<T> prev = previous(node);
     final T data = node.getData();
     final INode<T> next = node.getNext();
-    if (node.isSame(prev)) head = tail = null;
-    else prev.setNext(next);
+    prev.setNext(next);
     node.setData(null);
     node.setNext(null);
     --length;
@@ -141,14 +139,9 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   protected void linkBefore(T data, INode<T> next) {
     INode<T> node = new SingleNode<>(data, next);
     INode<T> prev = previous(next);
-    if (nonNull(prev)) {
-      prev.setNext(node);
-      node.setNext(next);
-      if (prev.isSame(tail)) head = node;
-    } else {
-      head = tail = node;
-      tail.setNext(head);
-    }
+    prev.setNext(node);
+    node.setNext(next);
+    if (prev.isSame(tail)) head = node;
     ++length;
   }
 
@@ -194,9 +187,6 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   private INode<T> previous(INode<T> node) {
-    if (isNull(node)) return null;
-    if (isNull(head)) return null;
-    if (head.isSame(tail) && head.isSame(node)) return node;
     INode<T> prevNode = head;
     INode<T> currNode = head.getNext();
     while (!node.isSame(currNode)) {
@@ -207,7 +197,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return node == null ? null : node.getNext();
+    return node.getNext();
   }
 
   @Override
