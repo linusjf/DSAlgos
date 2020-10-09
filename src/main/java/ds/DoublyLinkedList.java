@@ -110,10 +110,8 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       unlinkFirst();
       return true;
     }
-    INode<T> prevNode = head;
     INode<T> currNode = next(head);
     while (!node.equals(currNode) && nonNull(currNode)) {
-      prevNode = currNode;
       currNode = next(currNode);
     }
     if (isNull(currNode)) return false;
@@ -270,6 +268,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       this(0);
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     ListIter(int index) {
       checkIndex(index, length + 1);
       nextNode = (index == length) ? null : get(index);
@@ -293,6 +292,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       return lastReturned.getData();
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void add(T data) {
       lastReturned = null;
@@ -301,6 +301,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       nextIndex++;
     }
 
+    @SuppressWarnings("PMD.NullAssignment")
     @Override
     public void remove() {
       if (isNull(lastReturned)) throw new IllegalStateException();
@@ -313,7 +314,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void set(T data) {
-      if (lastReturned == null) throw new IllegalStateException();
+      if (isNull(lastReturned)) throw new IllegalStateException();
       lastReturned.setData(data);
     }
 

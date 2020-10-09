@@ -60,8 +60,7 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (isNull(head)) linkLast(data);
-    else linkBefore(data, head);
+    linkFirst(data);
   }
 
   @SuppressWarnings({"nullness:return.type.incompatible", "nullness:argument.type.incompatible"})
@@ -137,7 +136,15 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected void linkFirst(T data) {
-    throw new UnsupportedOperationException();
+    if (isNull(head)) {
+      head = tail = new SingleNode<>(data);
+      head.setNext(tail);
+    } else {
+      INode<T> node = new SingleNode<>(data, head);
+      head = node;
+      tail.setNext(head);
+    }
+    ++length;
   }
 
   @Override
