@@ -33,7 +33,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   protected void linkBefore(T data, INode<T> next) {
     INode<T> prev = next.getPrev();
     INode<T> node = new DoubleNode<>(prev, data, next);
-    if (nonNull(next)) next.setPrev(node);
+    next.setPrev(node);
     if (isNull(prev)) {
       head = node;
     } else {
@@ -204,11 +204,11 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   }
 
   private INode<T> next(INode<T> node) {
-    return isNull(node) ? null : node.getNext();
+    return node.getNext();
   }
 
   private INode<T> prev(INode<T> node) {
-    return isNull(node) ? null : node.getPrev();
+    return node.getPrev();
   }
 
   @Override
@@ -250,7 +250,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public ListIterator<T> getIterator() {
-    return new ListIter(0);
+    return new ListIter();
   }
 
   @Override
