@@ -124,7 +124,6 @@ class DoublyLinkedListTest {
   void testFindMultiple() {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
-    System.out.println(list);
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.find(i).getData(), "Values must equal index."));
     assertEquals(TEN + 1, list.size(), () -> SIZE_MUST_BE + (TEN + 1));
