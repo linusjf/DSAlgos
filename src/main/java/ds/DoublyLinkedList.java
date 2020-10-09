@@ -20,19 +20,19 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected void linkFirst(T data) {
-    final INode<T> f = head;
-    INode<T> node = new DoubleNode<>(data, f);
-    head = tail = node;
-    ++length;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   protected void linkBefore(T data, INode<T> next) {
-    INode<T> prev = next.getPrev();
+    INode<T> prev;
+    if (isNull(next)) prev = null;
+    else prev = next.getPrev();
     INode<T> node = new DoubleNode<>(prev, data, next);
-    next.setPrev(node);
+    if (nonNull(next)) next.setPrev(node);
     if (isNull(prev)) {
       head = node;
+      if (isNull(next)) tail = node;
     } else {
       prev.setNext(node);
     }
@@ -46,6 +46,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     if (nonNull(last)) {
       last.setNext(node);
       node.setPrev(last);
+      tail = node;
     } else head = tail = node;
     ++length;
   }
@@ -103,8 +104,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     if (isEmpty()) return false;
     INode<T> node = new DoubleNode<>(data);
     if (head.equals(node)) {
-      head = next(head);
-      --length;
+      unlinkFirst();
       return true;
     }
     INode<T> prevNode = head;
@@ -114,10 +114,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
       currNode = next(currNode);
     }
     if (isNull(currNode)) return false;
-    INode<T> nextNode = next(currNode);
-    prevNode.setNext(nextNode);
-    if (nonNull(nextNode)) nextNode.setPrev(prevNode);
-    --length;
+    unlink(currNode);
     return true;
   }
 
@@ -139,16 +136,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void add(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    if (isNull(head)) {
-      head = new DoubleNode<>(data);
-      tail = head;
-    } else {
-      INode<T> newNode = new DoubleNode<>(data);
-      tail.setNext(newNode);
-      newNode.setPrev(tail);
-      tail = newNode;
-    }
-    ++length;
+    linkLast(data);
   }
 
   /**
@@ -167,14 +155,8 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     }
     if (index == this.length) add(data);
     else if (index < this.length) {
-      INode<T> newNode = new DoubleNode<>(data);
-      INode<T> leftNode = get(index - 1);
       INode<T> rightNode = get(index);
-      newNode.setNext(rightNode);
-      newNode.setPrev(leftNode);
-      leftNode.setNext(newNode);
-      rightNode.setPrev(newNode);
-      ++length;
+      linkBefore(data, rightNode);
     } else throw new IndexOutOfBoundsException("Index not available.");
   }
 
@@ -187,14 +169,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    INode<T> newNode = new DoubleNode<>(data);
-    if (isNull(this.head)) this.head = this.tail = newNode;
-    else {
-      this.head.setPrev(newNode);
-      newNode.setNext(this.head);
-      this.head = newNode;
-    }
-    ++length;
+    linkBefore(data, head);
   }
 
   @Override
