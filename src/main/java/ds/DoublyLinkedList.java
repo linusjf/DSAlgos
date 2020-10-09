@@ -28,16 +28,13 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected void linkBefore(T data, INode<T> next) {
-    INode<T> node = new DoubleNode<>(data, next);
     INode<T> prev = next.getPrev();
-    if (nonNull(prev)) {
-      prev.setNext(node);
-      node.setPrev(prev);
-    } else {
+    INode<T> node = new DoubleNode<>(prev, data, next);
+    next.setPrev(node);
+    if (isNull(prev)) {
       head = node;
-      head.setNext(next);
-      if (nonNull(next)) 
-        next.setPrev(head);
+    } else {
+      prev.setNext(node);
     }
     ++length;
   }
@@ -69,15 +66,18 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected T unlink(INode<T> node) {
-    if (isNull(node)) return null;
     INode<T> prev = node.getPrev();
     final T data = node.getData();
     final INode<T> next = node.getNext();
     if (nonNull(prev)) {
       prev.setNext(next);
       if (nonNull(next)) next.setPrev(prev);
+      else tail = prev;
     } else if (isNull(next)) head = tail = null;
-    else head = next;
+    else {
+      head = next;
+      head.setPrev(null);
+    }
     node.setData(null);
     node.setNext(null);
     node.setPrev(null);
