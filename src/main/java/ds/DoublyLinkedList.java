@@ -20,19 +20,22 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   protected void linkFirst(T data) {
-    throw new UnsupportedOperationException();
+    if (isNull(head)) head = tail = new DoubleNode<>(data);
+    else {
+      INode<T> node = new DoubleNode<>(data, head);
+      head.setPrev(node);
+      head = node;
+    }
+    ++length;
   }
 
   @Override
   protected void linkBefore(T data, INode<T> next) {
-    INode<T> prev;
-    if (isNull(next)) prev = null;
-    else prev = next.getPrev();
+    INode<T> prev = next.getPrev();
     INode<T> node = new DoubleNode<>(prev, data, next);
     if (nonNull(next)) next.setPrev(node);
     if (isNull(prev)) {
       head = node;
-      if (isNull(next)) tail = node;
     } else {
       prev.setNext(node);
     }
@@ -169,7 +172,7 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @SuppressWarnings("nullness:argument.type.incompatible")
   public void addAtFirst(T data) {
     requireNonNull(data, DATA_NON_NULL);
-    linkBefore(data, head);
+    linkFirst(data);
   }
 
   @Override
