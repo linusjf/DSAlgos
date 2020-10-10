@@ -4,6 +4,7 @@ import static java.util.Objects.*;
 
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 @SuppressWarnings({"nullness", "PMD.GodClass"})
 public class CircularDoublyLinkedList<T> extends AbstractList<T> {
@@ -253,11 +254,113 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public ListIterator<T> getIterator() {
-    return getIteratorFromIndex(0);
+    return new ListIter();
   }
 
   @Override
   public ListIterator<T> getIteratorFromIndex(int idx) {
-    return null;
+    return new ListIter(idx);
+  }
+
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
+  final class ListIter implements ListIterator<T> {
+    private INode<T> lastReturned;
+    private INode<T> nextNode;
+    private int nextIndex;
+
+    ListIter() {
+      this(0);
+    }
+
+    ListIter(int index) {
+      checkIndex(index, length + 1);
+      nextNode = (index == length) ? head : get(index);
+      nextIndex = index == length ? 0 : index;
+    }
+
+    @Override
+    public T next() {
+      if (!hasNext()) throw new NoSuchElementException();
+      lastReturned = nextNode = (nextNode == null) ? head : nextNode;
+      nextNode = nextNode.getNext();
+      ++nextIndex;
+      if (nextIndex >= length) nextIndex -= length;
+      return lastReturned.getData();
+    }
+
+    @Override
+    public T previous() {
+      if (!hasPrevious()) throw new NoSuchElementException();
+      lastReturned = nextNode = nextNode.getPrev();
+      --nextIndex;
+      if (nextIndex < 0) nextIndex = length - 1;
+      return lastReturned.getData();
+    }
+
+    @SuppressWarnings("PMD.NullAssignment")
+    @Override
+    public void add(T data) {
+      lastReturned = null;
+      if (isNull(nextNode)) linkLast(data);
+      else linkBefore(data, nextNode);
+      ++nextIndex;
+    }
+
+    @SuppressWarnings("PMD.NullAssignment")
+    @Override
+    public void remove() {
+      if (isNull(lastReturned)) throw new IllegalStateException();
+      INode<T> lastNext = lastReturned.getNext();
+      if (lastReturned.isSame(head)) unlinkFirst();
+      else unlink(lastReturned);
+      if (lastReturned.isSame(nextNode)) nextNode = lastNext;
+      else {
+        --nextIndex;
+        if (nextIndex < 0) nextIndex = length - 1;
+      }
+      lastReturned = null;
+    }
+
+    @Override
+    public void set(T data) {
+      if (lastReturned == null) throw new IllegalStateException();
+      lastReturned.setData(data);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return !isEmpty();
+    }
+
+    @Override
+    public boolean hasPrevious() {
+      return !isEmpty();
+    }
+
+    @Override
+    public int nextIndex() {
+      return nextIndex;
+    }
+
+    @Override
+    public int previousIndex() {
+      return nextIndex > 0 ? nextIndex - 1 : length - 1;
+    }
+
+    @Generated
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      String lineSeparator = System.lineSeparator();
+      sb.append("Last returned = ")
+          .append(lastReturned)
+          .append(lineSeparator)
+          .append("Next node = ")
+          .append(nextNode)
+          .append(lineSeparator)
+          .append("Next index = ")
+          .append(nextIndex);
+      return sb.toString();
+    }
   }
 }
