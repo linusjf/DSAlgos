@@ -555,6 +555,7 @@
             <skipEmptyReport>true</skipEmptyReport>
             <benchmark>true</benchmark>
             <language>java</language>
+            <printFailingErrors>true</printFailingErrors>
           </configuration>
           <dependencies>
             <dependency>

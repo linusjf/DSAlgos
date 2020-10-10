@@ -16,7 +16,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts",
+"PMD.GodClass"})
 @DisplayName("CircularDoublyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
@@ -377,9 +378,6 @@ class CircularDoublyLinkedListTest {
       int i = SCORE - 1;
       assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
       while (iter.hasPrevious()) {
-        System.out.println(iter);
-        System.out.println(list);
-        System.out.println(list.getHead().getPrev());
         Integer val = iter.previous();
         assertEquals(i--, val, VALUES_EQUAL);
         if (iter.previousIndex() == list.size() - 1) break;
