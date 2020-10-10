@@ -19,28 +19,89 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   private INode<T> tail;
 
   @Override
-  protected void linkBefore(T data, INode<T> next) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   protected void linkFirst(T data) {
-    throw new UnsupportedOperationException();
+    if (isNull(head)) {
+      head = tail = new DoubleNode<>(data);
+      head.setPrev(tail);
+      tail.setNext(head);
+    }
+    else {
+      INode<T> node = new DoubleNode<>(data, head);
+      head.setPrev(node);
+      head = node;
+    }
+    ++length;
+  }
+  
+  @Override
+  protected void linkBefore(T data, INode<T> next) {
+    INode<T> prev = next.getPrev();
+    INode<T> node = new DoubleNode<>(prev, data, next);
+    next.setPrev(node);
+    if (isTail(prev)) 
+      head = node;
+    prev.setNext(node);
+    ++length;
   }
 
   @Override
   protected void linkLast(T data) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  protected T unlink(INode<T> node) {
-    throw new UnsupportedOperationException();
+    INode<T> node = new DoubleNode<>(data);
+    INode<T> last = tail;
+    if (nonNull(last)) {
+      last.setNext(node);
+      node.setPrev(last);
+      tail = node;
+    } else {
+      head = tail = node;
+      head.setPrev(tail);
+      tail.setNext(head);
+      }
+    ++length;
   }
 
   @Override
   protected T unlinkFirst() {
-    throw new UnsupportedOperationException();
+    INode<T> node = head;
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    if (isHead(next)) {
+      head = tail = null;
+    }
+    else {
+      head = next;
+      tail.setNext(head);
+      head.setPrev(tail);
+    }
+    node.setPrev(null);
+    node.setNext(null);
+    node.setData(null);
+    --length;
+    return data;
+  }
+  
+  @Override
+  protected T unlink(INode<T> node) {
+    INode<T> prev = node.getPrev();
+    final T data = node.getData();
+    final INode<T> next = node.getNext();
+    prev.setNext(next);
+    next.setPrev(prev);
+    if (isTail(node))
+      tail = prev;
+    node.setData(null);
+    node.setNext(null);
+    node.setPrev(null);
+    --length;
+    return data;
+  }
+
+  private boolean isTail(INode<T> node) {
+  return tail == node;
+  }
+  
+  private boolean isHead(INode<T> node) {
+  return head == node;
   }
 
   /**
@@ -281,7 +342,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     @Override
     public T next() {
       if (!hasNext()) throw new NoSuchElementException();
-      lastReturned = nextNode = (nextNode == null) ? head : nextNode;
+      lastReturned = nextNode = (isNull(nextNode)) ? head : nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
       if (nextIndex >= length) nextIndex -= length;
