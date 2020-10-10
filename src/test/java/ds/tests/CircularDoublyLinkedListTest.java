@@ -166,6 +166,42 @@ class CircularDoublyLinkedListTest {
   }
 
   @Test
+  @DisplayName("CircularDoublyLinkedListTest.testDeleteAt")
+  void testDeleteAt() {
+    CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(
+            i ->
+                assertEquals(
+                    TEN - i, list.deleteAt(TEN - i), "Deleted at index " + (TEN - i) + "."));
+    assertEquals(0, list.size(), SIZE_ZERO);
+  }
+
+  @Test
+  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtBefore")
+  void testDeleteAtBefore() {
+    CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
+  }
+
+  @Test
+  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtAfter")
+  void testDeleteAtAfter() {
+    CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
+  }
+
+  @Test
+  @DisplayName("CircularDoublyLinkedListTest.testDeleteAtEmpty")
+  void testDeleteAtEmpty() {
+    CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
+  }
+
+  @Test
   @DisplayName("CircularDoublyLinkedListTest.testFindNotFound")
   void testFindNotFound() {
     CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
