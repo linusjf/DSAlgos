@@ -174,6 +174,42 @@ class DoublyLinkedListTest {
   }
 
   @Test
+  @DisplayName("DoublyLinkedListTest.testDeleteAt")
+  void testDeleteAt() {
+    DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    IntStream.rangeClosed(0, TEN)
+        .forEach(
+            i ->
+                assertEquals(
+                    TEN - i, list.deleteAt(TEN - i), "Deleted at index " + (TEN - i) + "."));
+    assertEquals(0, list.size(), SIZE_ZERO);
+  }
+
+  @Test
+  @DisplayName("DoublyLinkedListTest.testDeleteAtBefore")
+  void testDeleteAtBefore() {
+    DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
+  }
+
+  @Test
+  @DisplayName("DoublyLinkedListTest.testDeleteAtAfter")
+  void testDeleteAtAfter() {
+    DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+    IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
+  }
+
+  @Test
+  @DisplayName("DoublyLinkedListTest.testDeleteAtEmpty")
+  void testDeleteAtEmpty() {
+    DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+    assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
+  }
+
+  @Test
   @DisplayName("DoublyLinkedListTest.testFindNotFound")
   void testFindNotFound() {
     DoublyLinkedList<Integer> list = new DoublyLinkedList<>();

@@ -123,7 +123,6 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
   @Override
   public T deleteAt(int index) {
     checkIndex(index, length);
-    if (isEmpty()) return null;
     if (index == 0) return unlinkFirst();
     return unlink(get(index));
   }
