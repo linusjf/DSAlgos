@@ -24,22 +24,20 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
       head = tail = new DoubleNode<>(data);
       head.setPrev(tail);
       tail.setNext(head);
-    }
-    else {
+    } else {
       INode<T> node = new DoubleNode<>(data, head);
       head.setPrev(node);
       head = node;
     }
     ++length;
   }
-  
+
   @Override
   protected void linkBefore(T data, INode<T> next) {
     INode<T> prev = next.getPrev();
     INode<T> node = new DoubleNode<>(prev, data, next);
     next.setPrev(node);
-    if (isTail(prev)) 
-      head = node;
+    if (isTail(prev)) head = node;
     prev.setNext(node);
     ++length;
   }
@@ -56,7 +54,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
       head = tail = node;
       head.setPrev(tail);
       tail.setNext(head);
-      }
+    }
     ++length;
   }
 
@@ -67,8 +65,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     if (isHead(next)) {
       head = tail = null;
-    }
-    else {
+    } else {
       head = next;
       tail.setNext(head);
       head.setPrev(tail);
@@ -79,7 +76,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     --length;
     return data;
   }
-  
+
   @Override
   protected T unlink(INode<T> node) {
     INode<T> prev = node.getPrev();
@@ -87,8 +84,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     final INode<T> next = node.getNext();
     prev.setNext(next);
     next.setPrev(prev);
-    if (isTail(node))
-      tail = prev;
+    if (isTail(node)) tail = prev;
     node.setData(null);
     node.setNext(null);
     node.setPrev(null);
@@ -97,11 +93,11 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
   }
 
   private boolean isTail(INode<T> node) {
-  return tail == node;
+    return tail == node;
   }
-  
+
   private boolean isHead(INode<T> node) {
-  return head == node;
+    return head == node;
   }
 
   /**
