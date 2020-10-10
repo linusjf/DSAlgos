@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.CircularDoublyLinkedList;
 import ds.INode;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,6 +27,10 @@ class CircularDoublyLinkedListTest {
   private static final String NULL_POINTER = "NullPointerException expected.";
   private static final String EXCEPTION = "Exception expected.";
   private static final String VALUES_EQUAL = "Values must be equal.";
+  private static final String VALUE_MUST_BE = "Value must be ";
+  private static final String NO_ELEMENTS = "No elements expected.";
+  private static final String ELEMENTS = "More elements expected.";
+  private static final int THREE = 3;
 
   @Test
   @DisplayName("CircularDoublyLinkedListTest.testConstructor")
@@ -248,5 +255,262 @@ class CircularDoublyLinkedListTest {
   void testGetExcessIndex() {
     CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
+  }
+
+  @Nested
+  class IteratorTests {
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testEmptyIterator")
+    void testEmptyIterator() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+      assertFalse(iter.hasPrevious(), NO_ELEMENTS);
+      assertThrows(NoSuchElementException.class, () -> iter.next(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.remove(), EXCEPTION);
+      assertThrows(NoSuchElementException.class, () -> iter.previous(), EXCEPTION);
+      assertThrows(IllegalStateException.class, () -> iter.set(SCORE), EXCEPTION);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddEmpty")
+    void testAddEmpty() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      ListIterator<Integer> iter = list.getIterator();
+      iter.add(TEN);
+      iter.add(SCORE);
+      iter.add(1);
+      while (iter.hasNext()) {
+        iter.next();
+        iter.remove();
+      }
+      assertEquals(0, list.size(), SIZE_ZERO);
+      assertFalse(iter.hasNext(), NO_ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddIterated")
+    void testAddIterated() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        iter.add(val - 1);
+        if (++i == THREE) break;
+      }
+      assertEquals(6, list.size(), SIZE_MUST_BE + 6);
+      assertTrue(iter.hasNext(), ELEMENTS);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddIteratedCheck")
+    void testAddIteratedCheck() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      list.add(TEN);
+      list.add(SCORE);
+      list.add(1);
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        int val = iter.next();
+        iter.remove();
+        iter.add(val + 1);
+        if (iter.hasPrevious()) val = iter.previous();
+        iter.add(val + 1);
+        if (list.size() >= HUNDRED) break;
+      }
+      assertEquals(HUNDRED, list.size(), SIZE_MUST_BE + HUNDRED);
+      assertTrue(iter.hasNext(), "More elements expected.");
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testPrevious")
+    void testPrevious() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        iter.next();
+        if (iter.nextIndex() == 0) break;
+      }
+      int i = SCORE - 1;
+      assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        System.out.println(iter);
+        System.out.println(list);
+        System.out.println(list.getHead().getPrev());
+        Integer val = iter.previous();
+        assertEquals(i--, val, VALUES_EQUAL);
+        if (iter.previousIndex() == list.size() - 1) break;
+      }
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testSinglePrevious")
+    void testSinglePrevious() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      list.add(TEN);
+      ListIterator<Integer> iter = list.getIterator();
+      assertEquals(list.getHead().getData(), iter.previous(), VALUES_EQUAL);
+      assertEquals(list.getHead().getData(), iter.next(), VALUES_EQUAL);
+      assertEquals(list.getTail().getData(), iter.next(), VALUES_EQUAL);
+      assertEquals(list.getTail().getData(), iter.previous(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testNext")
+    void testNext() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        if (i == SCORE) break;
+      }
+      assertEquals(SCORE, i, () -> VALUE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testRemove")
+    void testRemove() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.next(), VALUES_EQUAL);
+        iter.remove();
+      }
+      assertEquals(0, list.size(), SIZE_ZERO);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAdd")
+    void testAdd() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.add(i++);
+        if (list.size() == SCORE * 2) break;
+      }
+      assertEquals(SCORE * 2, list.size(), SIZE_MUST_BE + (SCORE * 2));
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testSet")
+    void testSet() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = SCORE;
+      while (iter.hasNext()) {
+        iter.next();
+        iter.set(i++);
+        if (iter.nextIndex() == 0) break;
+      }
+      ListIterator<Integer> iter2 = list.getIterator();
+      IntStream.range(0, SCORE).forEach(j -> assertEquals(SCORE + j, iter2.next(), VALUES_EQUAL));
+      assertEquals(SCORE, list.size(), SIZE_MUST_BE + SCORE);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testNextIndex")
+    void testNextIndex() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      int i = 0;
+      while (iter.hasNext()) {
+        assertEquals(i++, iter.nextIndex(), VALUES_EQUAL);
+        iter.next();
+        if (iter.nextIndex() == 0) break;
+      }
+      assertEquals(0, iter.nextIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testPreviousIndex")
+    void testPreviousIndex() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        iter.next();
+        if (iter.nextIndex() == 0) break;
+      }
+      int i = SCORE;
+      assertEquals(--i, iter.previousIndex(), VALUES_EQUAL);
+      while (iter.hasPrevious()) {
+        assertEquals(i--, iter.previousIndex(), VALUES_EQUAL);
+        iter.previous();
+        if (iter.previousIndex() == list.size() - 1) break;
+      }
+      assertEquals(list.size() - 1, iter.previousIndex(), VALUES_EQUAL);
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIndexedIterator")
+    void testIndexedIterator() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasNext()) {
+        int val = iter.next();
+        assertEquals(i++, val, VALUES_EQUAL);
+        if (i == SCORE) {
+          assertEquals(SCORE - 1, val, VALUES_EQUAL);
+          break;
+        }
+      }
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIterable")
+    void testIterable() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      int i = 0;
+      for (Integer item : list) {
+        assertEquals(i++, item, VALUES_EQUAL);
+        if (i == SCORE) break;
+      }
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testAddAfterIteration")
+    void testAddAfterIteration() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIterator();
+      while (iter.hasNext()) {
+        iter.next();
+        if (iter.nextIndex() == 0) break;
+      }
+      iter.add(SCORE);
+      assertEquals(SCORE + 1, list.size(), () -> SIZE_MUST_BE + (SCORE + 1));
+    }
+
+    @Test
+    @DisplayName("CircularDoublyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
+    void testIndexedIteratorReversed() {
+      CircularDoublyLinkedList<Integer> list = new CircularDoublyLinkedList<>();
+      IntStream.range(0, SCORE).forEach(i -> list.add(i));
+      ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
+      int i = TEN;
+      while (iter.hasPrevious()) {
+        assertEquals(--i, iter.previous(), VALUES_EQUAL);
+        if (i == 0) break;
+      }
+    }
   }
 }
