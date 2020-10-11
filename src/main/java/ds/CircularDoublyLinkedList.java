@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-@SuppressWarnings({"nullness", "PMD.GodClass"})
+@SuppressWarnings({"nullness", "PMD.GodClass", "PMD.LawOfDemeter"})
 public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
   private static final String DATA_NON_NULL = "Data cannot be null.";
@@ -93,10 +93,12 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     return data;
   }
 
+  @SuppressWarnings("all")
   private boolean isTail(INode<T> node) {
     return tail == node;
   }
 
+  @SuppressWarnings("all")
   private boolean isHead(INode<T> node) {
     return head == node;
   }
@@ -301,7 +303,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
 
     ListIter(int index) {
       checkIndex(index, length + 1);
-      nextNode = (index == length) ? head : get(index);
+      nextNode = index == length ? head : get(index);
       nextIndex = index == length ? 0 : index;
     }
 
