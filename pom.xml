@@ -556,7 +556,8 @@
             <benchmark>true</benchmark>
             <language>java</language>
             <printFailingErrors>true</printFailingErrors>
-            <verbose>true</verbose>
+            <verbose>false</verbose>
+            <failOnViolation>false</failOnViolation>
           </configuration>
           <dependencies>
             <dependency>
@@ -575,7 +576,7 @@
               <id>pmd</id>
               <phase>verify</phase>
               <goals>
-                <goal>pmd</goal>
+                <goal>check</goal>
               </goals>
               <configuration>
                 <format>txt</format>

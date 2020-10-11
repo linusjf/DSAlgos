@@ -310,7 +310,7 @@ public class CircularDoublyLinkedList<T> extends AbstractList<T> {
     @Override
     public T next() {
       if (!hasNext()) throw new NoSuchElementException();
-      lastReturned = nextNode = (isNull(nextNode)) ? head : nextNode;
+      lastReturned = nextNode = isNull(nextNode) ? head : nextNode;
       nextNode = nextNode.getNext();
       ++nextIndex;
       if (nextIndex >= length) nextIndex -= length;
