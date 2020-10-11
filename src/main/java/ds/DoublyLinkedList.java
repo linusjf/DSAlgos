@@ -220,10 +220,12 @@ public class DoublyLinkedList<T> extends AbstractList<T> {
     return this.length == 0;
   }
 
+  @Override
   public INode<T> getHead() {
     return head;
   }
 
+  @Override
   public INode<T> getTail() {
     return tail;
   }

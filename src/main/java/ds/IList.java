@@ -24,4 +24,8 @@ public interface IList<T> extends Iterable<T> {
   ListIterator<T> getIterator();
 
   ListIterator<T> getIteratorFromIndex(int index);
+
+  INode<T> getHead();
+
+  INode<T> getTail();
 }

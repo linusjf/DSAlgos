@@ -3,6 +3,7 @@ package ds.tests;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.IList;
 import ds.INode;
 import ds.SinglyLinkedList;
 import java.util.ListIterator;
@@ -33,7 +34,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testConstructor")
   void testConstructor() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
     assertTrue(list.isEmpty(), "List must be empty.");
@@ -42,7 +43,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAdd")
   void testAdd() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE);
     INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
@@ -55,14 +56,14 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAddNull")
   void testAddNull() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.add(null), NULL_POINTER);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndex")
   void testAddIndex() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     INode<Integer> head = list.getHead();
     assertEquals(1, list.size(), SIZE_ONE);
@@ -75,28 +76,28 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndexNull")
   void testAddIndexNull() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.add(null, 0), NULL_POINTER);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndexException")
   void testAddIndexException() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, -1), EXCEPTION);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testAddIndexExcessException")
   void testAddIndexExcessException() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.add(SCORE, TEN), EXCEPTION);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testFind")
   void testFind() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     INode<Integer> node = list.find(Integer.valueOf(SCORE));
     assertEquals(1, list.size(), SIZE_ONE);
@@ -108,7 +109,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testFindNull")
   void testFindNull() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE, 0);
     assertThrows(NullPointerException.class, () -> list.find(null), NULL_POINTER);
   }
@@ -116,7 +117,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testFindMultiple")
   void testFindMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.find(i).getData(), "Values must equal index."));
@@ -126,7 +127,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteMultiple")
   void testDeleteMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN).forEach(i -> assertTrue(list.delete(i), "Deleted true."));
     assertEquals(0, list.size(), SIZE_ZERO);
@@ -135,7 +136,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteMultipleReverse")
   void testDeleteMultipleReverse() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertTrue(list.delete(TEN - i), "Deleted true for " + (TEN - i) + "."));
@@ -146,14 +147,14 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNull")
   void testDeleteNull() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(NullPointerException.class, () -> list.delete(null), NULL_POINTER);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNotFound")
   void testDeleteNotFound() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertFalse(list.delete(SCORE), "Not found expected.");
   }
@@ -161,7 +162,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteAt")
   void testDeleteAt() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(
@@ -174,7 +175,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteAtBefore")
   void testDeleteAtBefore() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(-1), EXCEPTION);
   }
@@ -182,7 +183,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteAtAfter")
   void testDeleteAtAfter() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(SCORE), EXCEPTION);
   }
@@ -190,14 +191,14 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteAtEmpty")
   void testDeleteAtEmpty() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.deleteAt(0), EXCEPTION);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testFindNotFound")
   void testFindNotFound() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertNull(list.find(SCORE), "Not found expected.");
   }
@@ -205,21 +206,21 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testDeleteNotFoundEmpty")
   void testDeleteNotFoundEmpty() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertFalse(list.delete(SCORE), "Not found expected.");
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testEmptyToString")
   void testEmptyToString() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertEquals("[]", list.toString(), "Empty array string expected.");
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testGetMultiple")
   void testGetMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
@@ -229,7 +230,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAddAtFirstMultiple")
   void testAddFirstMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN - i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
@@ -239,7 +240,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAddMultiple")
   void testAddMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
     IntStream.range(0, TEN).forEach(i -> list.add(i, TEN));
     assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
@@ -248,7 +249,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testAddEndMultiple")
   void testAddEndMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
     IntStream.range(SCORE, SCORE + TEN).forEach(i -> list.add(i, i));
     IntStream.range(0, SCORE + TEN)
@@ -259,7 +260,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testToStringMultiple")
   void testToStringMultiple() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.rangeClosed(0, TEN).forEach(i -> list.add(i));
     assertEquals("[0,1,2,3,4,5,6,7,8,9,10]", list.toString(), "Strings must be equal.");
   }
@@ -267,7 +268,7 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testToStringSingle")
   void testToStringSingle() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     IntStream.range(0, 1).forEach(i -> list.add(i));
     assertEquals("[0]", list.toString(), "Strings must be equal.");
   }
@@ -275,14 +276,14 @@ class SinglyLinkedListTest {
   @Test
   @DisplayName("SinglyLinkedListTest.testGetNegativeIndex")
   void testGetNegativeIndex() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1), EXCEPTION);
   }
 
   @Test
   @DisplayName("SinglyLinkedListTest.testGetExcessIndex")
   void testGetExcessIndex() {
-    SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+    IList<Integer> list = new SinglyLinkedList<>();
     assertThrows(IndexOutOfBoundsException.class, () -> list.get(TEN), EXCEPTION);
   }
 
@@ -291,7 +292,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testEmptyIterator")
     void testEmptyIterator() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
       assertFalse(iter.hasNext(), NO_ELEMENTS);
       assertFalse(iter.hasPrevious(), NO_ELEMENTS);
@@ -304,7 +305,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddEmpty")
     void testAddEmpty() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       ListIterator<Integer> iter = list.getIterator();
       iter.add(TEN);
       iter.add(SCORE);
@@ -320,7 +321,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddIterated")
     void testAddIterated() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       list.add(TEN);
       list.add(SCORE);
       list.add(1);
@@ -338,7 +339,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddIteratedCheck")
     void testAddIteratedCheck() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       list.add(TEN);
       list.add(SCORE);
       list.add(1);
@@ -358,7 +359,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testPrevious")
     void testPrevious() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
@@ -373,7 +374,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testPreviousDelete")
     void testPreviousDelete() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
@@ -392,7 +393,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testNext")
     void testNext() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
@@ -403,7 +404,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testRemove")
     void testRemove() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
@@ -417,7 +418,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAdd")
     void testAdd() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
@@ -431,7 +432,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testSet")
     void testSet() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = SCORE;
@@ -447,7 +448,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testNextIndex")
     void testNextIndex() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       int i = 0;
@@ -461,7 +462,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testPreviousIndex")
     void testPreviousIndex() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
@@ -477,7 +478,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testAddAfterIteration")
     void testAddAfterIteration() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIterator();
       while (iter.hasNext()) iter.next();
@@ -488,7 +489,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testIndexedIterator")
     void testIndexedIterator() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
       int i = TEN;
@@ -498,7 +499,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testIndexedIteratorReversed")
     void testIndexedIteratorReversed() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       ListIterator<Integer> iter = list.getIteratorFromIndex(TEN);
       int i = TEN;
@@ -508,7 +509,7 @@ class SinglyLinkedListTest {
     @Test
     @DisplayName("SinglyLinkedListTest.IteratorTests.testIterable")
     void testIterable() {
-      SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+      IList<Integer> list = new SinglyLinkedList<>();
       IntStream.range(0, SCORE).forEach(i -> list.add(i));
       int i = 0;
       for (Integer item : list) assertEquals(i++, item, VALUES_EQUAL);

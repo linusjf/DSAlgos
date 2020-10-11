@@ -34,6 +34,12 @@ public abstract class AbstractList<T> implements IList<T> {
   @Override
   public abstract ListIterator<T> getIterator();
 
+  @Override
+  public abstract INode<T> getHead();
+
+  @Override
+  public abstract INode<T> getTail();
+
   protected abstract void linkBefore(T data, INode<T> next);
 
   protected abstract void linkFirst(T data);

@@ -222,10 +222,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
     return length == 0;
   }
 
+  @Override
   public INode<T> getHead() {
     return head;
   }
 
+  @Override
   public INode<T> getTail() {
     return tail;
   }
