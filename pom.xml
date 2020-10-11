@@ -634,7 +634,7 @@
               <id>spotbugs</id>
               <phase>verify</phase>
               <goals>
-                <goal>spotbugs</goal>
+                <goal>check</goal>
               </goals>
             </execution>
           </executions>

@@ -37,6 +37,7 @@ class SinglyLinkedListTest {
     IList<Integer> list = new SinglyLinkedList<>();
     assertEquals(0, list.size(), SIZE_ZERO);
     assertNull(list.getHead(), "List head must be null.");
+    assertNull(list.getTail(), "List tail must be null.");
     assertTrue(list.isEmpty(), "List must be empty.");
   }
 
@@ -46,8 +47,11 @@ class SinglyLinkedListTest {
     IList<Integer> list = new SinglyLinkedList<>();
     list.add(SCORE);
     INode<Integer> head = list.getHead();
+    INode<Integer> tail = list.getTail();
     assertEquals(1, list.size(), SIZE_ONE);
     assertNotNull(head, "List head must not be null.");
+    assertNotNull(tail, "List tail must not be null.");
+    assertEquals(tail, head, "List head and tail must be same.");
     assertEquals(String.valueOf(SCORE), head.toString(), VALUES_EQUAL);
     assertFalse(list.isEmpty(), "List must not be empty.");
   }
@@ -234,6 +238,8 @@ class SinglyLinkedListTest {
     IntStream.rangeClosed(0, TEN).forEach(i -> list.addAtFirst(TEN - i));
     IntStream.rangeClosed(0, TEN)
         .forEach(i -> assertEquals(i, list.get(i).getData(), "Values must equal index."));
+    assertEquals(0, list.getHead().getData(), VALUES_EQUAL);
+    assertEquals(TEN, list.getTail().getData(), VALUES_EQUAL);
     assertEquals(TEN + 1, list.size(), () -> SIZE_MUST_BE + (TEN + 1));
   }
 
@@ -243,6 +249,8 @@ class SinglyLinkedListTest {
     IList<Integer> list = new SinglyLinkedList<>();
     IntStream.range(0, SCORE).forEach(i -> list.add(i));
     IntStream.range(0, TEN).forEach(i -> list.add(i, TEN));
+    assertEquals(0, list.getHead().getData(), VALUES_EQUAL);
+    assertEquals(SCORE - 1, list.getTail().getData(), VALUES_EQUAL);
     assertEquals(TEN + SCORE, list.size(), () -> SIZE_MUST_BE + (TEN + SCORE));
   }
 
