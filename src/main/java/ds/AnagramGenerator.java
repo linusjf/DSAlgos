@@ -17,7 +17,10 @@ public class AnagramGenerator {
   }
 
   public void generate(int size) {
-    if (size == 1) return;
+    if (size == 1) {
+      addWordToList();
+      return;
+    }
     for (int j = 0; j < size; j++) {
       generate(size - 1);
       if (size == 2) addWordToList();
@@ -37,7 +40,8 @@ public class AnagramGenerator {
   private void addWordToList() {
     StringBuilder sb = new StringBuilder(arrChar.length);
     for (int j = 0; j < arrChar.length; j++) sb.append(arrChar[j]);
-    anagrams.add(sb.toString());
+    String word = sb.toString();
+    if (!anagrams.contains(word)) anagrams.add(word);
   }
 
   public List<String> getAnagrams() {
