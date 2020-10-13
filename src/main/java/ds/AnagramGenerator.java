@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnagramGenerator {
+  private static final int TWO = 2;
   private char[] arrChar;
-  private List<String> anagrams;
+  private final List<String> anagrams;
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   public AnagramGenerator(String input) {
     arrChar = input.toCharArray();
     anagrams = new ArrayList<>();
@@ -23,7 +25,7 @@ public class AnagramGenerator {
     }
     for (int j = 0; j < size; j++) {
       generate(size - 1);
-      if (size == 2) addWordToList();
+      if (size == TWO) addWordToList();
       rotate(size);
     }
   }
@@ -38,9 +40,7 @@ public class AnagramGenerator {
   }
 
   private void addWordToList() {
-    StringBuilder sb = new StringBuilder(arrChar.length);
-    for (int j = 0; j < arrChar.length; j++) sb.append(arrChar[j]);
-    String word = sb.toString();
+    String word = new String(arrChar);
     if (!anagrams.contains(word)) anagrams.add(word);
   }
 
