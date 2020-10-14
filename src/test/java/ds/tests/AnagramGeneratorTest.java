@@ -3,6 +3,8 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AnagramGenerator;
+import java.io.IOException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,6 +34,23 @@ class AnagramGeneratorTest {
     AnagramGenerator r = new AnagramGenerator(input);
     r.generate();
     assertEquals(24, r.getAnagrams().size(), "24 words expected.");
+  }
+
+  @Disabled
+  @DisplayName("AnagramGeneratorTest.testValidFourLetters")
+  @Test
+  void testValidFourLetters() {
+    String input = "cats";
+    AnagramGenerator r = new AnagramGenerator(input);
+    r.generate();
+    assertEquals(24, r.getAnagrams().size(), "24 words expected.");
+    try {
+      List<String> vals = r.getValidAnagrams();
+      System.out.println(vals);
+      assertEquals(6, vals.size(), "Five valid anagrams expected.");
+    } catch (IOException ioe) {
+      fail("Exception thrown.");
+    }
   }
 
   @DisplayName("AnagramGeneratorTest.testOneLetter")
