@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 public final class DictionaryLookup {
 
@@ -14,7 +15,7 @@ public final class DictionaryLookup {
   private static final String NO_RESULT_FOUND = "No definitions found";
 
   private DictionaryLookup() {
-  throw new IllegalStateException(DictionaryLookup.class.getName() + ": Private constructor");
+    throw new IllegalStateException(DictionaryLookup.class.getName() + ": Private constructor");
   }
 
   public static boolean isDictionaryWord(String word) throws IOException {
@@ -30,16 +31,15 @@ public final class DictionaryLookup {
     con.setRequestProperty("User-Agent", USER_AGENT);
     int responseCode = con.getResponseCode();
     if (responseCode == HttpURLConnection.HTTP_OK) {
-      try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+      try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(),Charset.forName("UTF-8")))) {
         String inputLine;
         StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) response.append(inputLine);
         String result = response.toString();
-        if (result.contains(NO_RESULT_FOUND)) return false;
-        return true;
+        return (!result.contains(NO_RESULT_FOUND));
       }
-    } 
+    }
     throw new IOException("Error connecting to dictionary service API...");
   }
 }
