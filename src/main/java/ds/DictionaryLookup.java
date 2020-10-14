@@ -31,13 +31,15 @@ public final class DictionaryLookup {
     con.setRequestProperty("User-Agent", USER_AGENT);
     int responseCode = con.getResponseCode();
     if (responseCode == HttpURLConnection.HTTP_OK) {
-      try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(),Charset.forName("UTF-8")))) {
+      try (BufferedReader in =
+          new BufferedReader(
+              new InputStreamReader(con.getInputStream(), Charset.forName("UTF-8")))) {
         String inputLine;
         StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) response.append(inputLine);
         String result = response.toString();
-        return (!result.contains(NO_RESULT_FOUND));
+        return !result.contains(NO_RESULT_FOUND);
       }
     }
     throw new IOException("Error connecting to dictionary service API...");
