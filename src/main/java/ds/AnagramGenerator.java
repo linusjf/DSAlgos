@@ -3,7 +3,6 @@ package ds;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import ds.Generated;
 
 public class AnagramGenerator {
   private static final int TWO = 2;
