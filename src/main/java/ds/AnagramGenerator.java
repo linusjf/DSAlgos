@@ -1,5 +1,6 @@
 package ds;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AnagramGenerator {
     }
   }
 
-  public void rotate(int newSize) {
+  private void rotate(int newSize) {
     int j;
     int size = arrChar.length;
     int position = size - newSize;
@@ -46,5 +47,13 @@ public class AnagramGenerator {
 
   public List<String> getAnagrams() {
     return anagrams;
+  }
+
+  public List<String> getValidAnagrams() throws IOException {
+    List<String> validAnagrams = new ArrayList<>();
+    for (String anagram : anagrams) {
+      if (DictionaryLookup.isDictionaryWord(anagram)) validAnagrams.add(anagram);
+    }
+    return validAnagrams;
   }
 }

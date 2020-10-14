@@ -1,39 +1,45 @@
 package ds;
 
-import static java.util.Objects.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
+public final class DictionaryLookup {
 
-public class DictionaryLookup {
+  private static final String URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+  private static final String GET = "GET";
+  private static final String USER_AGENT = "Mozilla/5.0";
+  private static final String NO_RESULT_FOUND = "No definitions found";
 
-  private static final String LOCAL_STORE = "local.ser";
-
-  private static Map<String, Boolean> lookupTable = null;
-
-  private static boolean isValidWord(String word) {
-    boolean isValid;
-    try {
-      isValid = isWordAvailable(word);
-    } catch (NoSuchElementException nsee) {
-      System.out.println(
-          word + " not found in local store..." + System.lineSeparator() + "Searching online...");
-      isValid = isWordOnline(word);
-    }
-    return isValid;
+  private DictionaryLookup() {
+  throw new IllegalStateException(DictionaryLookup.class.getName() + ": Private constructor");
   }
 
-  private static boolean isWordAvailable(String word) {
-    if (isNull(lookupTable)) deserializeLookupTable();
-    if (lookupTable.containsKey(word)) return lookupTable.get(word);
-    throw new NoSuchElementException(word + " does not exist in local store.");
+  public static boolean isDictionaryWord(String word) throws IOException {
+    return isWordAvailable(word);
   }
 
-  private static boolean isWordOnline(String word) {
-    return false;
+  @SuppressWarnings("PMD.LawOfDemeter")
+  private static boolean isWordAvailable(String word) throws IOException {
+    String wordUrl = URL + word;
+    URL obj = new URL(wordUrl);
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    con.setRequestMethod(GET);
+    con.setRequestProperty("User-Agent", USER_AGENT);
+    int responseCode = con.getResponseCode();
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+      try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+
+        while ((inputLine = in.readLine()) != null) response.append(inputLine);
+        String result = response.toString();
+        if (result.contains(NO_RESULT_FOUND)) return false;
+        return true;
+      }
+    } 
+    throw new IOException("Error connecting to dictionary service API...");
   }
-
-  private static void deserializeLookupTable() {}
-
-  private static void serializeLookupTable() {}
 }
