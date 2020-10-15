@@ -19,7 +19,9 @@ public final class DictionaryLookup {
     return isWordAvailable(word);
   }
 
-  /** To be used with caution. Rate limiting applies. Only for Proof of Concept(POC) purposes. */
+  /***
+   * Use with caution. Rate limiting applies. Proof of Concept(POC). 
+   ***/
   @SuppressWarnings("PMD.LawOfDemeter")
   private static boolean isWordAvailable(String word) throws IOException {
     String wordUrl = URL + word;

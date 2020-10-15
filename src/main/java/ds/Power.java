@@ -1,9 +1,9 @@
 package ds;
 
 public class Power {
-  private static int iterations = 0;
-  private int base;
-  private int exponent;
+  private static int iterations;
+  private final int base;
+  private final int exponent;
 
   public Power(int base, int exponent) {
     if (exponent < 0 && base == 0)
@@ -11,7 +11,7 @@ public class Power {
           "It's impossible to raise 0 to the power of a negative number.");
     this.base = base;
     this.exponent = exponent;
-    ++iterations;
+    incrementIterations();
   }
 
   public double compute() {
@@ -30,5 +30,9 @@ public class Power {
 
   public static void resetIterations() {
     iterations = 0;
+  }
+  
+  public static void incrementIterations() {
+    ++iterations;
   }
 }
