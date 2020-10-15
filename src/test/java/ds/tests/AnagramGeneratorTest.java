@@ -71,4 +71,19 @@ class AnagramGeneratorTest {
     r.generate();
     assertEquals(2, r.getAnagrams().size(), "2 words expected.");
   }
+
+  @DisplayName("AnagramGeneratorTest.testInvalidInput")
+  @Test
+  void testInvalidInput() {
+    String input = "@123abc";
+    assertThrows(
+        IllegalArgumentException.class, () -> new AnagramGenerator(input), "Exception expected.");
+  }
+
+  @DisplayName("AnagramGeneratorTest.testNull")
+  @Test
+  void testNull() {
+    assertThrows(
+        NullPointerException.class, () -> new AnagramGenerator(null), "Exception expected.");
+  }
 }

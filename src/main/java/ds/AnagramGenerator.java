@@ -1,5 +1,7 @@
 package ds;
 
+import static java.util.Objects.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,9 @@ public class AnagramGenerator {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   public AnagramGenerator(String input) {
+    requireNonNull(input, "Input cannot be null!");
+    if (!input.matches("^[A-Za-z]*$"))
+      throw new IllegalArgumentException("String should contain only alphabetic characters.");
     arrChar = input.toCharArray();
     anagrams = new ArrayList<>();
   }
