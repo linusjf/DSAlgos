@@ -24,6 +24,7 @@ public class Power {
 
   public double compute() {
     if (exponent == 0) return 1.0f;
+    if (base == 0) return 0;
     if (exponent < 0) return 1.0f / new Power(base, -1 * exponent).compute();
     else {
       double powerOfHalfN = new Power(base, exponent >> 1).compute();
