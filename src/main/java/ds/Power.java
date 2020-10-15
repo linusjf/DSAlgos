@@ -14,6 +14,14 @@ public class Power {
     incrementIterations();
   }
 
+  public int getBase() {
+    return base;
+  }
+  
+  public int getExponent() {
+    return exponent;
+  }
+
   public double compute() {
     if (exponent == 0) return 1.0f;
     if (exponent < 0) return 1.0f / new Power(base, -1 * exponent).compute();
