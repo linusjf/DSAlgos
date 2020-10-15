@@ -17,7 +17,7 @@ public class Power {
   public int getBase() {
     return base;
   }
-  
+
   public int getExponent() {
     return exponent;
   }

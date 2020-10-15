@@ -22,6 +22,6 @@ class PowerTest {
   void testConstructor() {
     Power pow = new Power(2, SCORE);
     assertEquals(2, pow.getBase(), "Value equals constructor parameter.");
-    assertEquals(SCORE, node.getExponent(), "Value equals constructor parameter.");
+    assertEquals(SCORE, pow.getExponent(), "Value equals constructor parameter.");
   }
 }
