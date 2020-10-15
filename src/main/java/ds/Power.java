@@ -1,7 +1,6 @@
 package ds;
 
 public class Power {
-  private static int iterations;
   private final int base;
   private final int exponent;
 
@@ -11,7 +10,6 @@ public class Power {
           "It's impossible to raise 0 to the power of a negative number.");
     this.base = base;
     this.exponent = exponent;
-    incrementIterations();
   }
 
   public int getBase() {
@@ -33,15 +31,4 @@ public class Power {
     }
   }
 
-  public static int iterationCount() {
-    return iterations;
-  }
-
-  public static void resetIterations() {
-    iterations = 0;
-  }
-
-  public static void incrementIterations() {
-    ++iterations;
-  }
 }

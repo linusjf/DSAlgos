@@ -1,7 +1,6 @@
 package ds.tests;
 
 import static ds.tests.TestConstants.*;
-import static java.lang.Math.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.Power;
@@ -19,10 +18,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class PowerTest {
   private static final String EXCEPTION_EXPECTED = "Exception expected.";
 
-  @AfterEach
-  void teardown() {
-    Power.resetIterations();
-  }
 
   @Test
   @DisplayName("PowerTest.testConstructor")
@@ -43,7 +38,6 @@ class PowerTest {
   void testZeroBase() {
     Power pow = new Power(0, TEN);
     assertEquals(0, pow.compute(), "Zero value expected.");
-    assertEquals(1, Power.iterationCount(), "Iterations must be one.");
   }
 
   @Test
@@ -51,16 +45,12 @@ class PowerTest {
   void testTwoTen() {
     Power pow = new Power(2, 10);
     assertEquals(1024.0f, pow.compute(), "1024 expected.");
-    assertEquals(
-        (int) (ceil(log(10) / log(2))) + 1, Power.iterationCount(), "Iterations must be log2 10.");
   }
-
+  
   @Test
   @DisplayName("PowerTest.testTwoSixteen")
   void testTwoSixteen() {
     Power pow = new Power(2, 16);
     assertEquals(65536.0f, pow.compute(), "65536 expected.");
-    assertEquals(
-        (int) (ceil(log(16) / log(2))) + 1, Power.iterationCount(), "Iterations must be log2 16.");
   }
 }
