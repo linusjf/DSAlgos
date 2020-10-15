@@ -20,7 +20,7 @@ public final class DictionaryLookup {
   }
 
   /***
-   * Use with caution. Rate limiting applies. Proof of Concept(POC). 
+   * Use with caution. Rate limiting applies. Proof of Concept(POC).
    ***/
   @SuppressWarnings("PMD.LawOfDemeter")
   private static boolean isWordAvailable(String word) throws IOException {

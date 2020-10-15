@@ -31,7 +31,7 @@ public class Power {
   public static void resetIterations() {
     iterations = 0;
   }
-  
+
   public static void incrementIterations() {
     ++iterations;
   }
