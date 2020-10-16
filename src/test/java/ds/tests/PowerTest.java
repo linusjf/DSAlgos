@@ -49,7 +49,7 @@ class PowerTest {
   @DisplayName("PowerTest.testTwoSixteen")
   void testTwoSixteen() {
     Power pow = new Power(2, 16);
-    assertEquals(65536.0f, pow.compute(), "65536 expected.");
+    assertEquals(65_536.0f, pow.compute(), "65536 expected.");
   }
 
   @Test
@@ -63,6 +63,6 @@ class PowerTest {
   @DisplayName("PowerTest.testTwoNegativeEleven")
   void testTwoNegativeEleven() {
     Power pow = new Power(2, -11);
-    assertEquals(0.00048828125f, pow.compute(), "2048 expected.");
+    assertEquals(0.00_048_828_125f, pow.compute(), "2048 expected.");
   }
 }
