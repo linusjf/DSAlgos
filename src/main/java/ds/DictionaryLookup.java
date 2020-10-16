@@ -20,7 +20,7 @@ public final class DictionaryLookup {
   }
 
   /***
-   * <p>Use with caution. Rate limiting applies. 
+   * <p>Use with caution. Rate limiting applies.
    * Proof of Concept(POC).</p>
    ***/
   @SuppressWarnings("PMD.LawOfDemeter")
