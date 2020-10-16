@@ -30,5 +30,4 @@ public class Power {
       return factor[exponent % 2] * powerOfHalfN * powerOfHalfN;
     }
   }
-
 }

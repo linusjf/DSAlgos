@@ -4,7 +4,6 @@ import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.Power;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class PowerTest {
   private static final String EXCEPTION_EXPECTED = "Exception expected.";
-
 
   @Test
   @DisplayName("PowerTest.testConstructor")
@@ -46,11 +44,25 @@ class PowerTest {
     Power pow = new Power(2, 10);
     assertEquals(1024.0f, pow.compute(), "1024 expected.");
   }
-  
+
   @Test
   @DisplayName("PowerTest.testTwoSixteen")
   void testTwoSixteen() {
     Power pow = new Power(2, 16);
     assertEquals(65536.0f, pow.compute(), "65536 expected.");
+  }
+
+  @Test
+  @DisplayName("PowerTest.testTwoEleven")
+  void testTwoEleven() {
+    Power pow = new Power(2, 11);
+    assertEquals(2048.0f, pow.compute(), "2048 expected.");
+  }
+
+  @Test
+  @DisplayName("PowerTest.testTwoNegativeEleven")
+  void testTwoNegativeEleven() {
+    Power pow = new Power(2, -11);
+    assertEquals(0.00048828125f, pow.compute(), "2048 expected.");
   }
 }
