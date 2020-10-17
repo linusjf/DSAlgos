@@ -35,7 +35,7 @@ public class Solution {
           .append(lineSeparator)
           .append("Items to pick :")
           .append(lineSeparator);
-      for (Item item : items) sb.append("- ").append(item);
+      for (Item item : items) sb.append("- ").append(item).append(lineSeparator);
     }
     return sb.toString();
   }
