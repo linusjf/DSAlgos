@@ -39,4 +39,8 @@ public class Solution {
     }
     return sb.toString();
   }
+
+  public int getValue() {
+    return value;
+  }
 }
