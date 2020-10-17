@@ -67,8 +67,8 @@ public class NaiveKnapsack {
     if (containsKey(wct)) return get(wct);
 
     /**
-     * If weight of the nth item is more than Knapsack capacity W, then this item cannot be included
-     * in the optimal solution.
+     * <p>If weight of the nth item is more than Knapsack capacity W, 
+     * then this item cannot be included in the optimal solution.</p>
      */
     if (items[n - 1].weight > totalWeight) {
       solutionItems.remove(items[n - 1]);

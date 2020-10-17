@@ -1,8 +1,8 @@
 package ds.knapsack;
 
 public class WeightCountTuple {
-  private int weight;
-  private int count;
+  private final int weight;
+  private final int count;
 
   public WeightCountTuple(int weight, int count) {
     this.weight = weight;
