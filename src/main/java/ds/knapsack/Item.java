@@ -1,6 +1,7 @@
 package ds.knapsack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -33,17 +34,13 @@ public class Item {
     return name + " [value = " + value + ", weight = " + weight + ", bounding = " + bounding + "]";
   }
 
-  public static List<Item> pack(List<Item> items) {
-    List<Item> packedItems = new ArrayList<>(items.size());
+  public static List<Item> pack(Collection<Item> items) {
     Set<Item> set = new HashSet<>(items);
-    for (Item item : set) {
-      item.bounding = Collections.frequency(items, item);
-      packedItems.add(item);
-    }
-    return packedItems;
+    for (Item item : set) item.bounding = Collections.frequency(items, item);
+    return List.of(set.toArray(new Item[0]));
   }
 
-  public static List<Item> unpack(List<Item> items) {
+  public static List<Item> unpack(Collection<Item> items) {
     List<Item> unpackedItems = new ArrayList<>(items.size());
     for (Item item : items) {
       int bounding = item.bounding;
