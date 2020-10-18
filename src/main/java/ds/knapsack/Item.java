@@ -30,7 +30,7 @@ public class Item {
 
   @Override
   public String toString() {
-    return name + " [value = " + value + ", weight = " + weight + "]";
+    return name + " [value = " + value + ", weight = " + weight + ", bounding = " + bounding + "]";
   }
 
   public static List<Item> pack(List<Item> items) {
