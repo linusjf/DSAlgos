@@ -6,9 +6,7 @@ import java.util.List;
 
 public class Knapsack {
 
-  // items of our problem
   final Item[] items;
-  // capacity of the bag
   final int capacity;
 
   public Knapsack(Item[] items, int capacity) {
@@ -41,7 +39,7 @@ public class Knapsack {
   }
 
   // we write the solve algorithm
-  protected Solution solve(Item[] items, int capacity) {
+  protected static Solution solveFor(Item[] items, int capacity) {
     int nbItems = items.length;
     // we use a matrix to store the max value at each n-th item
     int[][] matrix = new int[nbItems + 1][capacity + 1];
@@ -67,17 +65,17 @@ public class Knapsack {
     List<Item> itemsSolution = new ArrayList<>();
 
     for (int i = nbItems; i > 0 && res > 0; i--) {
-      // if (res != matrix[i - 1][w]) {
-      itemsSolution.add(items[i - 1]);
-      // we remove item's value and weight
-      res -= items[i - 1].value;
-      w -= items[i - 1].weight;
-      // }
+      if (res != matrix[i - 1][w]) {
+        itemsSolution.add(items[i - 1]);
+        // we remove item's value and weight
+        res -= items[i - 1].value;
+        w -= items[i - 1].weight;
+      }
     }
     return new Solution(itemsSolution, matrix[nbItems][capacity]);
   }
 
   public Solution solve() {
-    return solve(this.items, this.capacity);
+    return solveFor(this.items, this.capacity);
   }
 }

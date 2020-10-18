@@ -9,6 +9,7 @@ public class BoundedKnapsack extends Knapsack {
     super(items, capacity);
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public Solution solve() {
     List<Item> itemsList = Item.unpack(Arrays.asList(items));
