@@ -27,6 +27,7 @@ public class Solution {
     StringBuilder sb = new StringBuilder();
     String lineSeparator = System.lineSeparator();
     if (items != null && !items.isEmpty()) {
+      int totalWeight = 0;
       sb.append(lineSeparator)
           .append("Knapsack solution")
           .append(lineSeparator)
@@ -35,7 +36,11 @@ public class Solution {
           .append(lineSeparator)
           .append("Items to pick :")
           .append(lineSeparator);
-      for (Item item : items) sb.append("- ").append(item).append(lineSeparator);
+      for (Item item : items) {
+        sb.append("- ").append(item).append(lineSeparator);
+        totalWeight += item.weight * item.bounding;
+      }
+      sb.append("Total weight = ").append(totalWeight).append(lineSeparator);
     }
     return sb.toString();
   }
