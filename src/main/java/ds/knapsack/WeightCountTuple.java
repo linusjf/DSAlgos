@@ -1,5 +1,7 @@
 package ds.knapsack;
 
+import ds.Generated;
+
 public class WeightCountTuple {
   private final int weight;
   private final int count;
@@ -9,6 +11,7 @@ public class WeightCountTuple {
     this.count = count;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
@@ -21,11 +24,13 @@ public class WeightCountTuple {
     return true;
   }
 
+  @Generated
   @SuppressWarnings("all")
   protected boolean canEqual(final Object other) {
     return other instanceof WeightCountTuple;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public int hashCode() {

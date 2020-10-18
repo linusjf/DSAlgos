@@ -1,5 +1,6 @@
 package ds.knapsack;
 
+import ds.Generated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +50,7 @@ public class Item {
     return unpackedItems;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public boolean equals(final Object o) {
@@ -64,11 +66,13 @@ public class Item {
     return true;
   }
 
+  @Generated
   @SuppressWarnings("all")
   protected boolean canEqual(final Object other) {
     return other instanceof Item;
   }
 
+  @Generated
   @Override
   @SuppressWarnings("all")
   public int hashCode() {
