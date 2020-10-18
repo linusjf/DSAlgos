@@ -14,13 +14,15 @@ public class Knapsack {
     this.capacity = capacity;
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Generated
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     String lineSeparator = System.lineSeparator();
     if (items != null && items.length > 0) {
-      sb.append("Knapsack problem: ")
+      sb.append(getClass().getSimpleName())
+          .append(" problem: ")
           .append(lineSeparator)
           .append("Capacity : ")
           .append(capacity)

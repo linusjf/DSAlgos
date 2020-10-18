@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class NaiveKnapsack {
 
-  Item[] items;
+  final Item[] items;
   final int capacity;
   final transient Map<WeightCountTuple, Integer> vals;
 

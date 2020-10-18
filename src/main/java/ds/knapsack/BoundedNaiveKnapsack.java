@@ -1,30 +1,45 @@
 package ds.knapsack;
 
+import ds.Generated;
 import java.util.Arrays;
 import java.util.List;
 
 public class BoundedNaiveKnapsack extends NaiveKnapsack {
+  final Item[] origItems;
 
   public BoundedNaiveKnapsack(Item[] items, int capacity) {
-    super(items, capacity);
+    super(unpack(items), capacity);
+    this.origItems = items.clone();
+  }
+
+  private static Item[] unpack(Item... items) {
+    List<Item> itemsList = Item.unpack(Arrays.asList(items.clone()));
+    return itemsList.toArray(new Item[0]);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public Solution solve() {
-    List<Item> itemsList = Item.unpack(Arrays.asList(items));
-    Item[] unpackedItems = itemsList.toArray(new Item[0]);
-    // save original items
-    Item[] origItems = this.items;
-    // set items to unpacked items
-    this.items = unpackedItems.clone();
-
     Solution solution = super.solve();
-
-    itemsList = Item.pack(solution.getItems());
-
-    // restore original items
-    this.items = origItems;
+    List<Item> itemsList = Item.pack(solution.getItems());
     return new Solution(itemsList, solution.getValue());
+  }
+
+  @Generated
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String lineSeparator = System.lineSeparator();
+    if (origItems != null && origItems.length > 0) {
+      sb.append("Bounded Naive Knapsack problem: ")
+          .append(lineSeparator)
+          .append("Capacity : ")
+          .append(capacity)
+          .append(lineSeparator)
+          .append("Items :")
+          .append(lineSeparator);
+      for (Item item : origItems) sb.append("- ").append(item).append(lineSeparator);
+    }
+    return sb.toString();
   }
 }
