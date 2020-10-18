@@ -43,4 +43,8 @@ public class Solution {
   public int getValue() {
     return value;
   }
+
+  public List<Item> getItems() {
+    return items;
+  }
 }

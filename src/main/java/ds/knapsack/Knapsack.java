@@ -41,7 +41,7 @@ public class Knapsack {
   }
 
   // we write the solve algorithm
-  public Solution solve() {
+  protected Solution solve(Item[] items, int capacity) {
     int nbItems = items.length;
     // we use a matrix to store the max value at each n-th item
     int[][] matrix = new int[nbItems + 1][capacity + 1];
@@ -75,5 +75,9 @@ public class Knapsack {
       // }
     }
     return new Solution(itemsSolution, matrix[nbItems][capacity]);
+  }
+
+  public Solution solve() {
+    return solve(this.items, this.capacity);
   }
 }
