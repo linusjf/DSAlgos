@@ -15,7 +15,7 @@ public class BoundedKnapsack extends Knapsack {
     List<Item> itemsList = Item.unpack(Arrays.asList(items));
     Item[] items = itemsList.toArray(new Item[0]);
 
-    Solution solution = solve(items, capacity);
+    Solution solution = solveFor(items, capacity);
 
     itemsList = Item.pack(solution.getItems());
 
