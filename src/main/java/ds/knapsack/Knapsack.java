@@ -67,12 +67,12 @@ public class Knapsack {
     List<Item> itemsSolution = new ArrayList<>();
 
     for (int i = nbItems; i > 0 && res > 0; i--) {
-      if (res != matrix[i - 1][w]) {
-        itemsSolution.add(items[i - 1]);
-        // we remove items value and weight
-        res -= items[i - 1].value;
-        w -= items[i - 1].weight;
-      }
+      // if (res != matrix[i - 1][w]) {
+      itemsSolution.add(items[i - 1]);
+      // we remove item's value and weight
+      res -= items[i - 1].value;
+      w -= items[i - 1].weight;
+      // }
     }
     return new Solution(itemsSolution, matrix[nbItems][capacity]);
   }

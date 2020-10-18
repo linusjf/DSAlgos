@@ -491,6 +491,13 @@
           <groupId>com.coveo</groupId>
           <artifactId>fmt-maven-plugin</artifactId>
           <version>${fmt.maven.plugin.version}</version>
+          <configuration>
+            <verbose>true</verbose>
+            <filesNamePattern>.*\.java</filesNamePattern>
+            <skip>false</skip>
+            <skipSortingImports>false</skipSortingImports>
+            <style>google</style>
+          </configuration>
           <executions>
             <execution>
               <id>format</id>
