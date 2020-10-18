@@ -50,7 +50,7 @@ public class NaiveKnapsack {
     return vals.containsKey(wct);
   }
 
-  @SuppressWarnings("nullable")
+  @SuppressWarnings("all")
   private Integer get(WeightCountTuple wct) {
     return vals.get(wct);
   }
