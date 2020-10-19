@@ -41,7 +41,7 @@ public class UnboundedKnapsack extends AbstractKnapsack {
       for (Item item : items) {
         if (item.weight <= i) {
           int includedVal = dp[i - item.weight] + item.value;
-          if (includedVal > dp[i]) dp[i] = includedVal;
+          dp[i] = Math.max(includedVal, dp[i]);
         }
         ++j;
       }
