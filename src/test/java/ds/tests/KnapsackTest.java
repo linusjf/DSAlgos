@@ -8,6 +8,7 @@ import ds.knapsack.Item;
 import ds.knapsack.Knapsack;
 import ds.knapsack.NaiveKnapsack;
 import ds.knapsack.Solution;
+import ds.knapsack.UnboundedKnapsack;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -23,6 +24,7 @@ class KnapsackTest {
   private static final String VALUES_EQUAL = "Values must be equal.";
   private final Item[] items;
   private final Item[] boundedItems;
+  private final Item[] unboundedItems;
 
   KnapsackTest() {
     items =
@@ -58,6 +60,12 @@ class KnapsackTest {
           new Item("socks", 50, 4, 1),
           new Item("book", 10, 30, 2)
         };
+    unboundedItems =
+        new Item[] {
+          new Item("Element1", 10, 5, 0),
+          new Item("Element2", 30, 10, 0),
+          new Item("Element3", 20, 15, 0)
+        };
   }
 
   @Test
@@ -88,6 +96,16 @@ class KnapsackTest {
     Solution solution = knapsack.solve();
     solution.display();
     assertEquals(1010, solution.getValue(), VALUES_EQUAL);
+  }
+
+  @Test
+  @DisplayName("KnapsackTest.testUnboundedKnapsack")
+  void testUnboundedKnapsack() {
+    UnboundedKnapsack knapsack = new UnboundedKnapsack(unboundedItems, 100);
+    knapsack.display();
+    Solution solution = knapsack.solve();
+    solution.display();
+    assertEquals(300, solution.getValue(), VALUES_EQUAL);
   }
 
   @Test
