@@ -31,7 +31,8 @@ public class BoundedNaiveKnapsack extends NaiveKnapsack {
     StringBuilder sb = new StringBuilder();
     String lineSeparator = System.lineSeparator();
     if (origItems != null && origItems.length > 0) {
-      sb.append("Bounded Naive Knapsack problem: ")
+      sb.append(getClass().getSimpleName())
+          .append(" problem: ")
           .append(lineSeparator)
           .append("Capacity : ")
           .append(capacity)

@@ -1,43 +1,12 @@
 package ds.knapsack;
 
-import ds.Generated;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Knapsack {
-
-  final Item[] items;
-  final int capacity;
+public class Knapsack extends AbstractKnapsack {
 
   public Knapsack(Item[] items, int capacity) {
-    this.items = items.clone();
-    this.capacity = capacity;
-  }
-
-  @SuppressWarnings("PMD.LawOfDemeter")
-  @Generated
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    String lineSeparator = System.lineSeparator();
-    if (items != null && items.length > 0) {
-      sb.append(getClass().getSimpleName())
-          .append(" problem: ")
-          .append(lineSeparator)
-          .append("Capacity : ")
-          .append(capacity)
-          .append(lineSeparator)
-          .append("Items :")
-          .append(lineSeparator);
-      for (Item item : items) sb.append("- ").append(item).append(lineSeparator);
-    }
-    return sb.toString();
-  }
-
-  @Generated
-  @SuppressWarnings("all")
-  public void display() {
-    System.out.println(this);
+    super(items, capacity);
   }
 
   // we write the solve algorithm
@@ -77,6 +46,7 @@ public class Knapsack {
     return new Solution(itemsSolution, matrix[nbItems][capacity]);
   }
 
+  @Override
   public Solution solve() {
     return solveFor(this.items, this.capacity);
   }

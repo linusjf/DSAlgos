@@ -1,45 +1,18 @@
 package ds.knapsack;
 
-import ds.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
-public class NaiveKnapsack {
+public class NaiveKnapsack extends AbstractKnapsack {
 
-  final Item[] items;
-  final int capacity;
   final transient Map<WeightCountTuple, Integer> vals;
 
   public NaiveKnapsack(Item[] items, int capacity) {
-    this.items = items.clone();
-    this.capacity = capacity;
+    super(items, capacity);
     this.vals = new HashMap<>();
-  }
-
-  @Generated
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    String lineSeparator = System.lineSeparator();
-    if (items != null && items.length > 0) {
-      sb.append("Naive Knapsack problem: ")
-          .append(lineSeparator)
-          .append("Capacity : ")
-          .append(capacity)
-          .append(lineSeparator)
-          .append("Items :")
-          .append(lineSeparator);
-      for (Item item : items) sb.append("- ").append(item).append(lineSeparator);
-    }
-    return sb.toString();
-  }
-
-  @Generated
-  @SuppressWarnings("all")
-  public void display() {
-    System.out.println(this);
   }
 
   private void put(WeightCountTuple wct, Integer val) {
@@ -50,11 +23,12 @@ public class NaiveKnapsack {
     return vals.containsKey(wct);
   }
 
-  @SuppressWarnings("all")
   private Integer get(WeightCountTuple wct) {
-    return vals.get(wct);
+    if (vals.containsKey(wct)) return vals.get(wct);
+    throw new NoSuchElementException("No key : " + wct);
   }
 
+  @Override
   public Solution solve() {
     List<Item> itemsSolution = new ArrayList<>(0);
     int maximalValue = knapsack(capacity, items.length, itemsSolution);
