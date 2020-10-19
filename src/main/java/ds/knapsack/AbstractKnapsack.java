@@ -16,6 +16,7 @@ public abstract class AbstractKnapsack implements ISolve<Solution> {
   @Override
   public abstract Solution solve();
 
+  @SuppressWarnings("all")
   @Generated
   @Override
   public String toString() {

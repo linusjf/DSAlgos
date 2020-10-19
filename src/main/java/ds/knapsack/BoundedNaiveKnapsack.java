@@ -25,6 +25,7 @@ public class BoundedNaiveKnapsack extends NaiveKnapsack {
     return new Solution(itemsList, solution.getValue());
   }
 
+  @SuppressWarnings("all")
   @Generated
   @Override
   public String toString() {

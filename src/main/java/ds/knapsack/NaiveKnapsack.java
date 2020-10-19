@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class NaiveKnapsack extends AbstractKnapsack {
 
@@ -23,9 +22,9 @@ public class NaiveKnapsack extends AbstractKnapsack {
     return vals.containsKey(wct);
   }
 
+  @SuppressWarnings("all")
   private Integer get(WeightCountTuple wct) {
-    if (vals.containsKey(wct)) return vals.get(wct);
-    throw new NoSuchElementException("No key : " + wct);
+    return vals.get(wct);
   }
 
   @Override
