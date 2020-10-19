@@ -25,6 +25,7 @@ class KnapsackTest {
   private final Item[] items;
   private final Item[] boundedItems;
   private final Item[] unboundedItems;
+  private final Item[] unboundedItems2;
 
   KnapsackTest() {
     items =
@@ -66,6 +67,10 @@ class KnapsackTest {
           new Item("Element2", 30, 10, 0),
           new Item("Element3", 20, 15, 0)
         };
+    unboundedItems2 =
+        new Item[] {
+          new Item("E1", 40, 12, 0), new Item("E2", 60, 20, 0), new Item("E3", 50, 15, 0)
+        };
   }
 
   @Test
@@ -106,6 +111,16 @@ class KnapsackTest {
     Solution solution = knapsack.solve();
     solution.display();
     assertEquals(300, solution.getValue(), VALUES_EQUAL);
+  }
+
+  @Test
+  @DisplayName("KnapsackTest.testUnbounded2Knapsack")
+  void testUnbounded2Knapsack() {
+    UnboundedKnapsack knapsack = new UnboundedKnapsack(unboundedItems2, 45);
+    knapsack.display();
+    Solution solution = knapsack.solve();
+    solution.display();
+    assertEquals(150, solution.getValue(), VALUES_EQUAL);
   }
 
   @Test
