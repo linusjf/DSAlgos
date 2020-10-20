@@ -97,13 +97,14 @@ class KnapsackTest {
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
   }
 
+  @Test
   @DisplayName("KnapsackTest.testFractionalKnapsack")
   void testFractionalKnapsack() {
     FractionalKnapsack knapsack = new FractionalKnapsack(fractionalItems, 150);
     knapsack.display();
     Solution solution = knapsack.solve();
     solution.display();
-    assertEquals(349.378, solution.getValue(), VALUES_EQUAL);
+    assertEquals(349, Math.round(solution.getValue()), VALUES_EQUAL);
   }
 
   @Test
