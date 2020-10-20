@@ -102,7 +102,7 @@ class KnapsackTest {
   void testFractionalKnapsack() {
     FractionalKnapsack knapsack = new FractionalKnapsack(fractionalItems, 150);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Double> solution = knapsack.solve();
     solution.display();
     assertEquals(349, Math.round(solution.getValue()), VALUES_EQUAL);
   }

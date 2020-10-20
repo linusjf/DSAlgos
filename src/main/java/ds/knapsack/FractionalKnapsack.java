@@ -1,5 +1,6 @@
 package ds.knapsack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,7 @@ public class FractionalKnapsack extends AbstractKnapsack {
     int n = itemList.size();
     double profit = 0.0f;
     int diff = capacity - solutionWeight;
+    List<Item> solItems = new ArrayList<>();
     for (int i = 0; diff > 0 && i < n; i++) {
       Item item = itemList.get(i);
       diff = capacity - solutionWeight;
@@ -25,13 +27,15 @@ public class FractionalKnapsack extends AbstractKnapsack {
         item.bounding = diff;
         solutionWeight = capacity;
         profit += item.bounding / item.weight * item.value;
+        if (!solItems.contains(item)) solItems.add(item);
         break;
       } else {
         item.bounding = item.weight;
         solutionWeight += item.bounding;
         profit += item.value;
+        if (!solItems.contains(item)) solItems.add(item);
       }
     }
-    return new Solution<>(Arrays.asList(items), profit);
+    return new FractionalSolution<>(solItems, profit);
   }
 }
