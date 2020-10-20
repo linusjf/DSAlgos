@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class FractionalKnapsack extends AbstractKnapsack {
+public class FractionalKnapsack extends AbstractKnapsack<Solution<Double>> {
 
   public FractionalKnapsack(Item[] items, int capacity) {
     super(items, capacity);

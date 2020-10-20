@@ -3,7 +3,7 @@ package ds.knapsack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnboundedKnapsack extends AbstractKnapsack {
+public class UnboundedKnapsack extends AbstractKnapsack<Solution<Integer>> {
 
   public UnboundedKnapsack(Item[] items, int capacity) {
     super(items, capacity);

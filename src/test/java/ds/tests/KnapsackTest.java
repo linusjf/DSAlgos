@@ -2,6 +2,7 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.knapsack.AbstractKnapsack;
 import ds.knapsack.BoundedKnapsack;
 import ds.knapsack.BoundedNaiveKnapsack;
 import ds.knapsack.FractionalKnapsack;
@@ -90,9 +91,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testKnapsack")
   void testKnapsack() {
-    Knapsack knapsack = new Knapsack(items, 15);
+    AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(items, 15);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
   }
@@ -100,7 +101,7 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testFractionalKnapsack")
   void testFractionalKnapsack() {
-    FractionalKnapsack knapsack = new FractionalKnapsack(fractionalItems, 150);
+    AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, 150);
     knapsack.display();
     Solution<Double> solution = knapsack.solve();
     solution.display();
@@ -110,9 +111,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testBoundedKnapsack")
   void testBoundedKnapsack() {
-    BoundedKnapsack knapsack = new BoundedKnapsack(boundedItems, 400);
+    AbstractKnapsack<Solution<Integer>> knapsack = new BoundedKnapsack(boundedItems, 400);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(1010, solution.getValue(), VALUES_EQUAL);
   }
@@ -120,9 +121,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testBoundedNaiveKnapsack")
   void testBoundedNaiveKnapsack() {
-    BoundedNaiveKnapsack knapsack = new BoundedNaiveKnapsack(boundedItems, 400);
+    AbstractKnapsack<Solution<Integer>> knapsack = new BoundedNaiveKnapsack(boundedItems, 400);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(1010, solution.getValue(), VALUES_EQUAL);
   }
@@ -130,9 +131,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testUnboundedKnapsack")
   void testUnboundedKnapsack() {
-    UnboundedKnapsack knapsack = new UnboundedKnapsack(unboundedItems, 100);
+    AbstractKnapsack<Solution<Integer>> knapsack = new UnboundedKnapsack(unboundedItems, 100);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(300, solution.getValue(), VALUES_EQUAL);
   }
@@ -140,9 +141,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testUnbounded2Knapsack")
   void testUnbounded2Knapsack() {
-    UnboundedKnapsack knapsack = new UnboundedKnapsack(unboundedItems2, 45);
+    AbstractKnapsack<Solution<Integer>> knapsack = new UnboundedKnapsack(unboundedItems2, 45);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(150, solution.getValue(), VALUES_EQUAL);
   }
@@ -150,9 +151,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testKnapsackNoItems")
   void testKnapsackNoItems() {
-    Knapsack knapsack = new Knapsack(new Item[0], 15);
+    AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(new Item[0], 15);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
@@ -161,9 +162,9 @@ class KnapsackTest {
   @DisplayName("KnapsackTest.testKnapsackOneItem")
   void testKnapsackOneItem() {
     Item[] oneItems = {new Item("Elt1", 4, 12)};
-    Knapsack knapsack = new Knapsack(oneItems, 12);
+    AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(oneItems, 12);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(4, solution.getValue(), VALUES_EQUAL);
   }
@@ -171,9 +172,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testKnapsackWeightZero")
   void testKnapsackWeightZero() {
-    Knapsack knapsack = new Knapsack(items, 0);
+    AbstractKnapsack<Solution<Integer>> knapsack = new Knapsack(items, 0);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
@@ -181,9 +182,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testNaiveKnapsack")
   void testNaiveKnapsack() {
-    NaiveKnapsack knapsack = new NaiveKnapsack(items, 15);
+    AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(items, 15);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
   }
@@ -191,9 +192,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testNaiveKnapsackWeightZero")
   void testNaiveKnapsackWeightZero() {
-    NaiveKnapsack knapsack = new NaiveKnapsack(items, 0);
+    AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(items, 0);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }
@@ -201,9 +202,9 @@ class KnapsackTest {
   @Test
   @DisplayName("KnapsackTest.testNaiveKnapsackNoItems")
   void testNaiveKnapsackNoItems() {
-    NaiveKnapsack knapsack = new NaiveKnapsack(new Item[0], 15);
+    AbstractKnapsack<Solution<Integer>> knapsack = new NaiveKnapsack(new Item[0], 15);
     knapsack.display();
-    Solution solution = knapsack.solve();
+    Solution<Integer> solution = knapsack.solve();
     solution.display();
     assertEquals(0, solution.getValue(), VALUES_EQUAL);
   }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NaiveKnapsack extends AbstractKnapsack {
+public class NaiveKnapsack extends AbstractKnapsack<Solution<Integer>> {
 
   final transient Map<WeightCountTuple, Integer> vals;
 
