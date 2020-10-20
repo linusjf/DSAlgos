@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.knapsack.BoundedKnapsack;
 import ds.knapsack.BoundedNaiveKnapsack;
+import ds.knapsack.FractionalKnapsack;
 import ds.knapsack.Item;
 import ds.knapsack.Knapsack;
 import ds.knapsack.NaiveKnapsack;
@@ -26,6 +27,7 @@ class KnapsackTest {
   private final Item[] boundedItems;
   private final Item[] unboundedItems;
   private final Item[] unboundedItems2;
+  private final Item[] fractionalItems;
 
   KnapsackTest() {
     items =
@@ -71,6 +73,18 @@ class KnapsackTest {
         new Item[] {
           new Item("E1", 40, 12, 0), new Item("E2", 60, 20, 0), new Item("E3", 50, 15, 0)
         };
+    fractionalItems =
+        new Item[] {
+          new Item("beef", 36, 38),
+          new Item("pork", 43, 54),
+          new Item("ham", 90, 36),
+          new Item("greaves", 45, 24),
+          new Item("flitch", 30, 40),
+          new Item("brawn", 56, 25),
+          new Item("welt", 67, 37),
+          new Item("salami", 95, 30),
+          new Item("sausage", 98, 59)
+        };
   }
 
   @Test
@@ -81,6 +95,15 @@ class KnapsackTest {
     Solution solution = knapsack.solve();
     solution.display();
     assertEquals(15, solution.getValue(), VALUES_EQUAL);
+  }
+
+  @DisplayName("KnapsackTest.testFractionalKnapsack")
+  void testFractionalKnapsack() {
+    FractionalKnapsack knapsack = new FractionalKnapsack(fractionalItems, 150);
+    knapsack.display();
+    Solution solution = knapsack.solve();
+    solution.display();
+    assertEquals(349.378, solution.getValue(), VALUES_EQUAL);
   }
 
   @Test

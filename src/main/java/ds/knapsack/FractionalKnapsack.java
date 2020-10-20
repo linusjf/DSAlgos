@@ -1,6 +1,5 @@
 package ds.knapsack;
 
-
 public class FractionalKnapsack extends AbstractKnapsack {
 
   public FractionalKnapsack(Item[] items, int capacity) {
