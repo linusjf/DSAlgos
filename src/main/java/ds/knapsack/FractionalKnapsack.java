@@ -1,7 +1,5 @@
 package ds.knapsack;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class FractionalKnapsack extends AbstractKnapsack {
 
