@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("PMD.ShortClassName")
-public class Item {
+public class Item implements Comparable {
   final String name;
   final int value;
   final int weight;
-  transient int bounding = 1;
+  transient double bounding = 1;
 
   public Item(String name, int value, int weight) {
     this.name = name;
@@ -44,10 +44,18 @@ public class Item {
   public static List<Item> unpack(Collection<Item> items) {
     List<Item> unpackedItems = new ArrayList<>(items.size());
     for (Item item : items) {
-      int bounding = item.bounding;
+      double bounding = item.bounding;
       for (int i = 0; i < bounding; i++) unpackedItems.add(new Item(item));
     }
     return unpackedItems;
+  }
+
+  @Override
+  public int compareTo(Object item) {
+    Item i2 = (Item) item;
+    double rate1 = (double) value / (double) weight;
+    double rate2 = (double) i2.value / (double) i2.weight;
+    return rate1 > rate2 ? -1 : rate1 < rate2 ? 1 : 0;
   }
 
   @Generated
