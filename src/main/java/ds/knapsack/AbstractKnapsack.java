@@ -3,7 +3,7 @@ package ds.knapsack;
 import ds.Generated;
 import ds.ISolve;
 
-public abstract class AbstractKnapsack<Solution> implements ISolve<Solution> {
+public abstract class AbstractKnapsack<T> implements ISolve<T> {
 
   final Item[] items;
   final int capacity;
@@ -14,7 +14,7 @@ public abstract class AbstractKnapsack<Solution> implements ISolve<Solution> {
   }
 
   @Override
-  public abstract Solution solve();
+  public abstract T solve();
 
   @SuppressWarnings("all")
   @Generated

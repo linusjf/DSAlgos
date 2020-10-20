@@ -24,10 +24,9 @@ public class FractionalKnapsack extends AbstractKnapsack<Solution<Double>> {
     for (int i = 0; diff > 0 && i < n; i++) {
       Item item = itemList.get(i);
       diff = capacity - solutionWeight;
-      if (!solItems.contains(item)) solItems.add(item);
+      solItems.add(item);
       if (item.weight >= diff) {
         item.bounding = diff;
-        // solutionWeight = capacity;
         profit += item.bounding / item.weight * item.value;
         break;
       } else {
