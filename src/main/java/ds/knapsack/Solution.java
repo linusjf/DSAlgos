@@ -3,14 +3,14 @@ package ds.knapsack;
 import ds.Generated;
 import java.util.List;
 
-public class Solution {
+public class Solution<T> {
 
   // list of items to put in the bag to have the maximal value
   final List<Item> items;
   // maximal value possible
-  final int value;
+  final T value;
 
-  public Solution(List<Item> items, int value) {
+  public Solution(List<Item> items, T value) {
     this.items = items;
     this.value = value;
   }
@@ -45,7 +45,7 @@ public class Solution {
     return sb.toString();
   }
 
-  public int getValue() {
+  public T getValue() {
     return value;
   }
 

@@ -11,14 +11,14 @@ public class BoundedKnapsack extends Knapsack {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
-  public Solution solve() {
+  public Solution<Integer> solve() {
     List<Item> itemsList = Item.unpack(Arrays.asList(items));
     Item[] items = itemsList.toArray(new Item[0]);
 
-    Solution solution = solveFor(items, capacity);
+    Solution<Integer> solution = solveFor(items, capacity);
 
     itemsList = Item.pack(solution.getItems());
 
-    return new Solution(itemsList, solution.getValue());
+    return new Solution<>(itemsList, solution.getValue());
   }
 }

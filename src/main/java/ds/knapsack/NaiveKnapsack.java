@@ -28,10 +28,10 @@ public class NaiveKnapsack extends AbstractKnapsack {
   }
 
   @Override
-  public Solution solve() {
+  public Solution<Integer> solve() {
     List<Item> itemsSolution = new ArrayList<>(0);
     int maximalValue = knapsack(capacity, items.length, itemsSolution);
-    return new Solution(itemsSolution, maximalValue);
+    return new Solution<>(itemsSolution, maximalValue);
   }
 
   private int knapsack(int totalWeight, int n, List<Item> solutionItems) {

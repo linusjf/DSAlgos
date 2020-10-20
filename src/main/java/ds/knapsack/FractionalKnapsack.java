@@ -10,7 +10,7 @@ public class FractionalKnapsack extends AbstractKnapsack {
   }
 
   @Override
-  public Solution solve() {
+  public Solution<Double> solve() {
     return null;
   }
 }

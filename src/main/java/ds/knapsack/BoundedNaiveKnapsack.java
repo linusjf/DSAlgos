@@ -19,10 +19,10 @@ public class BoundedNaiveKnapsack extends NaiveKnapsack {
 
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
-  public Solution solve() {
-    Solution solution = super.solve();
+  public Solution<Integer> solve() {
+    Solution<Integer> solution = super.solve();
     List<Item> itemsList = Item.pack(solution.getItems());
-    return new Solution(itemsList, solution.getValue());
+    return new Solution<>(itemsList, solution.getValue());
   }
 
   @SuppressWarnings("all")

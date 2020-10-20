@@ -10,7 +10,7 @@ public class Knapsack extends AbstractKnapsack {
   }
 
   // we write the solve algorithm
-  protected static Solution solveFor(Item[] items, int capacity) {
+  protected static Solution<Integer> solveFor(Item[] items, int capacity) {
     int nbItems = items.length;
     // we use a matrix to store the max value at each n-th item
     int[][] matrix = new int[nbItems + 1][capacity + 1];
@@ -43,11 +43,11 @@ public class Knapsack extends AbstractKnapsack {
         w -= items[i - 1].weight;
       }
     }
-    return new Solution(itemsSolution, matrix[nbItems][capacity]);
+    return new Solution<>(itemsSolution, matrix[nbItems][capacity]);
   }
 
   @Override
-  public Solution solve() {
+  public Solution<Integer> solve() {
     return solveFor(this.items, this.capacity);
   }
 }

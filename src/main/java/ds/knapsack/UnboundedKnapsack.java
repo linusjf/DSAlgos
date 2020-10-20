@@ -29,7 +29,7 @@ public class UnboundedKnapsack extends AbstractKnapsack {
 
   @SuppressWarnings("PMD.UnusedLocalVariable")
   @Override
-  public Solution solve() {
+  public Solution<Integer> solve() {
     int[] dp = new int[capacity + 1];
 
     List<Item> itemsList = new ArrayList<>(items.length);
@@ -47,6 +47,6 @@ public class UnboundedKnapsack extends AbstractKnapsack {
     }
     path(items, capacity, dp, itemsList);
     itemsList = Item.pack(itemsList);
-    return new Solution(itemsList, dp[capacity]);
+    return new Solution<>(itemsList, dp[capacity]);
   }
 }
