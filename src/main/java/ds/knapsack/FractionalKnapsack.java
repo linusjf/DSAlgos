@@ -11,6 +11,7 @@ public class FractionalKnapsack extends AbstractKnapsack {
     super(items, capacity);
   }
 
+  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public Solution<Double> solve() {
     List<Item> itemList = Arrays.asList(this.items.clone());
@@ -23,17 +24,16 @@ public class FractionalKnapsack extends AbstractKnapsack {
     for (int i = 0; diff > 0 && i < n; i++) {
       Item item = itemList.get(i);
       diff = capacity - solutionWeight;
+      if (!solItems.contains(item)) solItems.add(item);
       if (item.weight >= diff) {
         item.bounding = diff;
-        solutionWeight = capacity;
+        // solutionWeight = capacity;
         profit += item.bounding / item.weight * item.value;
-        if (!solItems.contains(item)) solItems.add(item);
         break;
       } else {
         item.bounding = item.weight;
         solutionWeight += item.bounding;
         profit += item.value;
-        if (!solItems.contains(item)) solItems.add(item);
       }
     }
     return new FractionalSolution<>(solItems, profit);
