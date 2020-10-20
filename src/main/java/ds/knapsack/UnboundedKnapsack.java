@@ -23,10 +23,8 @@ public class UnboundedKnapsack extends AbstractKnapsack {
         }
       }
     }
-    if (chosenItem != -1) {
-      itemsList.add(items[chosenItem]);
-      path(items, capacity - items[chosenItem].weight, dp, itemsList);
-    }
+    itemsList.add(items[chosenItem]);
+    path(items, capacity - items[chosenItem].weight, dp, itemsList);
   }
 
   @SuppressWarnings("PMD.UnusedLocalVariable")
