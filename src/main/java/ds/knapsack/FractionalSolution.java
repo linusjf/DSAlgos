@@ -6,7 +6,7 @@ import java.util.List;
 public class FractionalSolution<T> extends Solution<T> {
 
   public FractionalSolution(List<Item> items, T value) {
-    super(items,value);
+    super(items, value);
   }
 
   @Generated
@@ -34,9 +34,6 @@ public class FractionalSolution<T> extends Solution<T> {
   }
 
   private String toString(Item item) {
-   return item.name + " [val = " + item.value 
-     + ", weight = " + item.bounding
-     + "]";
+    return item.name + " [val = " + item.value + ", weight = " + item.bounding + "]";
   }
-
 }
