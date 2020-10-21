@@ -2,3 +2,4 @@
 [Solving bounded knapsack with java](https://rosettacode.org/wiki/Knapsack_problem/Bounded#Java)
 [Solving unbounded knapsack](https://www.geeksforgeeks.org/unbounded-knapsack-repetition-items-allowed/)
 [Unbounded path](https://stackoverflow.com/a/61875516/3924108)
+[Fractional knapsack](https://rosettacode.org/wiki/Knapsack_problem/Continuous#Java)
