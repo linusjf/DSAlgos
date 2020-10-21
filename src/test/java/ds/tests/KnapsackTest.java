@@ -109,6 +109,26 @@ class KnapsackTest {
   }
 
   @Test
+  @DisplayName("KnapsackTest.testFractionalKnapsackZeroCapacity")
+  void testFractionalKnapsackZeroCapacity() {
+    AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(fractionalItems, 0);
+    knapsack.display();
+    Solution<Double> solution = knapsack.solve();
+    solution.display();
+    assertEquals(0, Math.round(solution.getValue()), VALUES_EQUAL);
+  }
+
+  @Test
+  @DisplayName("KnapsackTest.testFractionalKnapsackEmptyList")
+  void testFractionalKnapsackEmptyList() {
+    AbstractKnapsack<Solution<Double>> knapsack = new FractionalKnapsack(new Item[0], 10);
+    knapsack.display();
+    Solution<Double> solution = knapsack.solve();
+    solution.display();
+    assertEquals(0, Math.round(solution.getValue()), VALUES_EQUAL);
+  }
+
+  @Test
   @DisplayName("KnapsackTest.testBoundedKnapsack")
   void testBoundedKnapsack() {
     AbstractKnapsack<Solution<Integer>> knapsack = new BoundedKnapsack(boundedItems, 400);
