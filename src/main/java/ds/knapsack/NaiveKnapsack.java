@@ -45,7 +45,7 @@ public class NaiveKnapsack extends AbstractKnapsack<Solution<Integer>> {
      * optimal solution.
      */
     if (items[n - 1].weight > totalWeight) {
-      solutionItems.remove(items[n - 1]);
+      //    solutionItems.remove(items[n - 1]);
       int val = knapsack(totalWeight, n - 1, solutionItems, vals);
       put(vals, wct, val);
       return val;

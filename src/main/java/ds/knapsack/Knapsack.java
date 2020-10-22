@@ -33,8 +33,7 @@ public class Knapsack extends AbstractKnapsack<Solution<Integer>> {
     List<Item> itemsSolution = new ArrayList<>();
 
     for (int i = nbItems; i > 0 && res > 0; i--) {
-      if (res == matrix[i - 1][w]) 
-      continue;
+      if (res == matrix[i - 1][w]) continue;
       itemsSolution.add(items[i - 1]);
       // we remove item's value and weight
       res -= items[i - 1].value;
