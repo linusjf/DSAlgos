@@ -21,6 +21,7 @@ public class Solution<T> {
     System.out.println(this);
   }
 
+  @SuppressWarnings("fenum")
   @Generated
   @Override
   public String toString() {

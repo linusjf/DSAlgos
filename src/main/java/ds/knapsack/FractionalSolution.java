@@ -9,6 +9,7 @@ public class FractionalSolution<T> extends Solution<T> {
     super(items, value);
   }
 
+  @SuppressWarnings("fenum")
   @Generated
   @Override
   public String toString() {

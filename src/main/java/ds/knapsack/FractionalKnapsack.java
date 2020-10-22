@@ -16,16 +16,15 @@ public class FractionalKnapsack extends AbstractKnapsack<Solution<Double>> {
   public Solution<Double> solve() {
     List<Item> itemList = Arrays.asList(this.items.clone());
     Collections.sort(itemList);
-    int solutionWeight = 0;
     int n = itemList.size();
     double profit = 0.0f;
-    int diff = capacity - solutionWeight;
+    int diff = capacity;
+    int solutionWeight = 0;
     List<Item> solItems = new ArrayList<>();
     for (int i = 0; diff > 0 && i < n; i++) {
       Item item = itemList.get(i);
-      diff = capacity - solutionWeight;
       solItems.add(item);
-      if (item.weight >= diff) {
+      if (item.weight > diff) {
         item.bounding = diff;
         profit += item.bounding / item.weight * item.value;
         break;
@@ -34,6 +33,7 @@ public class FractionalKnapsack extends AbstractKnapsack<Solution<Double>> {
         solutionWeight += item.bounding;
         profit += item.value;
       }
+      diff = capacity - solutionWeight;
     }
     return new FractionalSolution<>(solItems, profit);
   }

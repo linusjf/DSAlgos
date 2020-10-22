@@ -168,7 +168,7 @@
                 <param>ds.*</param>
               </targetClasses>
               <targetTests>
-                <param>ds.tests.*Test</param>
+                <param>ds.tests.*KnapsackTest</param>
               </targetTests>
               <excludedMethods>
                 <excludedMethod>display</excludedMethod>
