@@ -24,6 +24,7 @@ public class NaiveKnapsack extends AbstractKnapsack<Solution<Integer>> {
     return vals.get(wct);
   }
 
+  @SuppressWarnings("PMD.UseConcurrentHashMap")
   @Override
   public Solution<Integer> solve() {
     List<Item> itemsSolution = new ArrayList<>(0);
