@@ -175,6 +175,8 @@
                 <excludedMethod>equals</excludedMethod>
                 <excludedMethod>hashCode</excludedMethod>
                 <excludedMethod>canEqual</excludedMethod>
+                <excludedMethod>toString</excludedMethod>
+                <excludedMethod>compareTo</excludedMethod>
               </excludedMethods>
               <avoidCallsTo>
                 <avoidCallsTo>ds.AssertionUtils</avoidCallsTo>

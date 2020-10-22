@@ -15,9 +15,6 @@ public class Knapsack extends AbstractKnapsack<Solution<Integer>> {
     // we use a matrix to store the max value at each n-th item
     int[][] matrix = new int[nbItems + 1][capacity + 1];
 
-    // first line is initialized to 0
-    for (int i = 0; i <= capacity; i++) matrix[0][i] = 0;
-
     // we iterate on items
     for (int i = 1; i <= nbItems; i++) {
       // we iterate on each capacity
@@ -36,12 +33,12 @@ public class Knapsack extends AbstractKnapsack<Solution<Integer>> {
     List<Item> itemsSolution = new ArrayList<>();
 
     for (int i = nbItems; i > 0 && res > 0; i--) {
-      if (res != matrix[i - 1][w]) {
-        itemsSolution.add(items[i - 1]);
-        // we remove item's value and weight
-        res -= items[i - 1].value;
-        w -= items[i - 1].weight;
-      }
+      if (res == matrix[i - 1][w]) 
+      continue;
+      itemsSolution.add(items[i - 1]);
+      // we remove item's value and weight
+      res -= items[i - 1].value;
+      w -= items[i - 1].weight;
     }
     return new Solution<>(itemsSolution, matrix[nbItems][capacity]);
   }
