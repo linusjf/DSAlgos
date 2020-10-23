@@ -1,9 +1,9 @@
 package ds;
 
 public final class MathUtils {
- 
+
   private static final String INVALID_ARGUMENT = "Invalid argument: ";
- 
+
   @Generated
   private MathUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
@@ -14,11 +14,11 @@ public final class MathUtils {
   }
 
   public static boolean isInRangeInclusive(int min, int max, int val) {
-    return Math.min(min, val) == Math.max(val, max);
+    return Math.max(min, val) == Math.min(val, max);
   }
 
   public static boolean isInRange(int min, int max, int val) {
-    return Math.min(min, val) == Math.max(val, max - 1);
+    return Math.max(min, val) == Math.min(val, max - 1);
   }
 
   public static boolean isGreaterThan(int min, int val) {

@@ -1,6 +1,6 @@
 package ds.tests;
 
-import static ds.MathUtils.isOdd;
+import static ds.MathUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,42 +69,40 @@ class MathUtilsTest {
   void testMinValue() {
     assertFalse(isOdd(Integer.MIN_VALUE), () -> Integer.MIN_VALUE + " is even!");
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeLeft")
-  void testInRangeLeft() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,
-          Integer.MIN_VALUE));
+  @DisplayName("MathUtilsTest.testIsInRangeLeft")
+  void testIsInRangeLeft() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE));
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeRight")
-  void testInRangeRight() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,
-          Integer.MAX_VALUE - 1));
+  @DisplayName("MathUtilsTest.testIsInRangeRight")
+  void testIsInRangeRight() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeMid")
-  void testInRangeMid() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,0));
+  @DisplayName("MathUtilsTest.testIsInRangeMid")
+  void testIsInRangeMid() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeInclusiveMid")
-  void testInRangeInclusiveMid() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,0));
+  @DisplayName("MathUtilsTest.testIsInRangeInclusiveMid")
+  void testIsInRangeInclusiveMid() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeInclusiveLeft")
-  void testInRangeInclusiveLeft() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,Integer.MIN_VALUE));
+  @DisplayName("MathUtilsTest.testIsInRangeInclusiveLeft")
+  void testIsInRangeInclusiveLeft() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE));
   }
-  
+
   @Test
-  @DisplayName("MathUtilsTest.testInRangeInclusiveRight")
-  void testInRangeInclusiveRight() {
-    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,Integer.MAX_VALUE));
+  @DisplayName("MathUtilsTest.testIsInRangeInclusiveRight")
+  void testIsInRangeInclusiveRight() {
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
   }
 }
