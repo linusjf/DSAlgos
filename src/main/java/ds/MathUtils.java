@@ -14,7 +14,7 @@ public final class MathUtils {
   public static boolean isInRangeInclusive(int min, int max, int val) {
     return Math.min(min, val) == Math.max(val, max);
   }
-  
+
   public static boolean isInRange(int min, int max, int val) {
     return Math.min(min, val) == Math.max(val, max - 1);
   }
@@ -22,7 +22,7 @@ public final class MathUtils {
   public static boolean isGreaterThan(int min, int val) {
     return val > min;
   }
-  
+
   public static boolean isLessThan(int max, int val) {
     return val < max;
   }
@@ -30,7 +30,7 @@ public final class MathUtils {
   public static void requireLessThan(int max, int val) {
     if (!isLessThan(max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
-  
+
   public static void requireGreaterThan(int min, int val) {
     if (!isGreaterThan(min, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
@@ -39,9 +39,8 @@ public final class MathUtils {
     if (!isInRangeInclusive(min, max, val))
       throw new IllegalArgumentException("Invalid argument : " + val);
   }
-  
+
   public static void requireInRange(int min, int max, int val) {
-    if (!isInRange(min, max, val))
-      throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isInRange(min, max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
 }

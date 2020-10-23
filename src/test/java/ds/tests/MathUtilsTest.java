@@ -69,4 +69,42 @@ class MathUtilsTest {
   void testMinValue() {
     assertFalse(isOdd(Integer.MIN_VALUE), () -> Integer.MIN_VALUE + " is even!");
   }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeLeft")
+  void testInRangeLeft() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,
+          Integer.MIN_VALUE));
+  }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeRight")
+  void testInRangeRight() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,
+          Integer.MAX_VALUE - 1));
+  }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeMid")
+  void testInRangeMid() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,0));
+  }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeInclusiveMid")
+  void testInRangeInclusiveMid() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,0));
+  }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeInclusiveLeft")
+  void testInRangeInclusiveLeft() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,Integer.MIN_VALUE));
+  }
+  
+  @Test
+  @DisplayName("MathUtilsTest.testInRangeInclusiveRight")
+  void testInRangeInclusiveRight() {
+    assertTrue(inRange(Integer.MIN_VALUE, Integer.MAX_VALUE,Integer.MAX_VALUE));
+  }
 }
