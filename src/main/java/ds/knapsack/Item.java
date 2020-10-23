@@ -1,5 +1,8 @@
 package ds.knapsack;
 
+import static java.util.Objects.*;
+import static ds.MathUtils.*;
+
 import ds.Generated;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +19,9 @@ public class Item implements Comparable {
   transient double bounding = 1;
 
   public Item(String name, int value, int weight) {
+    requireNonNull(name);
+    requireGreaterThan(0, value);
+    requireGreaterThan(0, weight);
     this.name = name;
     this.value = value;
     this.weight = weight;
