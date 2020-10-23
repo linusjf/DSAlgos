@@ -18,6 +18,7 @@ public final class MathUtils {
   }
 
   public static boolean isInRange(int min, int max, int val) {
+
     return Math.max(min, val) == Math.min(val, max - 1);
   }
 

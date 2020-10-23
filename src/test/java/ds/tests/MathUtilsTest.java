@@ -19,6 +19,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("MathUtilsTest")
 class MathUtilsTest {
 
+  private static final String MUST_RETURN_TRUE = "Must return true.";
+
   @Test
   @DisplayName("MathUtilsTest.testPrivateConstructor")
   void testPrivateConstructor() {
@@ -73,36 +75,40 @@ class MathUtilsTest {
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeLeft")
   void testIsInRangeLeft() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE));
+    assertTrue(
+        isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE), MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeRight")
   void testIsInRangeRight() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
+    assertTrue(
+        isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE - 1), MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeMid")
   void testIsInRangeMid() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
+    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0), MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeInclusiveMid")
   void testIsInRangeInclusiveMid() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
+    assertTrue(isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, 0), MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeInclusiveLeft")
   void testIsInRangeInclusiveLeft() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE));
+    assertTrue(
+        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE), MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeInclusiveRight")
   void testIsInRangeInclusiveRight() {
-    assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE));
+    assertTrue(
+        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE), MUST_RETURN_TRUE);
   }
 }
