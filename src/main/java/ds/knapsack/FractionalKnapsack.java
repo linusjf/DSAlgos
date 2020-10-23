@@ -27,7 +27,7 @@ public class FractionalKnapsack extends AbstractKnapsack<Solution<Double>> {
       if (item.weight > diff) {
         item.bounding = diff;
         profit += item.bounding / item.weight * item.value;
-        break;
+        solutionWeight = capacity;
       } else {
         item.bounding = item.weight;
         solutionWeight += item.bounding;

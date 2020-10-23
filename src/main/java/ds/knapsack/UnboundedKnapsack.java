@@ -31,17 +31,14 @@ public class UnboundedKnapsack extends AbstractKnapsack<Solution<Integer>> {
   @Override
   public Solution<Integer> solve() {
     int[] dp = new int[capacity + 1];
-
     List<Item> itemsList = new ArrayList<>(items.length);
     int i = 0;
     for (int dpVal : dp) {
-      int j = 0;
       for (Item item : items) {
         if (item.weight <= i) {
           int includedVal = dp[i - item.weight] + item.value;
           dp[i] = Math.max(includedVal, dp[i]);
         }
-        ++j;
       }
       ++i;
     }
