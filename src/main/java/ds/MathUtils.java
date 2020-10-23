@@ -28,11 +28,11 @@ public final class MathUtils {
   }
 
   public static void requireLessThan(int max, int val) {
-    if (isLessThan(max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isLessThan(max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
   
   public static void requireGreaterThan(int min, int val) {
-    if (isGreaterThan(min, val)) throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isGreaterThan(min, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
 
   public static void requireInRangeInclusive(int min, int max, int val) {
