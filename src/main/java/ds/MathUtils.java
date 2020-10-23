@@ -1,7 +1,9 @@
 package ds;
 
 public final class MathUtils {
-
+ 
+  private static final String INVALID_ARGUMENT = "Invalid argument: ";
+ 
   @Generated
   private MathUtils() throws InstantiationException {
     throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
@@ -28,19 +30,19 @@ public final class MathUtils {
   }
 
   public static void requireLessThan(int max, int val) {
-    if (!isLessThan(max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isLessThan(max, val)) throw new IllegalArgumentException(INVALID_ARGUMENT + val);
   }
 
   public static void requireGreaterThan(int min, int val) {
-    if (!isGreaterThan(min, val)) throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isGreaterThan(min, val)) throw new IllegalArgumentException(INVALID_ARGUMENT + val);
   }
 
   public static void requireInRangeInclusive(int min, int max, int val) {
     if (!isInRangeInclusive(min, max, val))
-      throw new IllegalArgumentException("Invalid argument : " + val);
+      throw new IllegalArgumentException(INVALID_ARGUMENT + val);
   }
 
   public static void requireInRange(int min, int max, int val) {
-    if (!isInRange(min, max, val)) throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isInRange(min, max, val)) throw new IllegalArgumentException(INVALID_ARGUMENT + val);
   }
 }
