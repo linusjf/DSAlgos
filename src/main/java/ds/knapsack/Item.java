@@ -1,7 +1,7 @@
 package ds.knapsack;
 
-import static java.util.Objects.*;
 import static ds.MathUtils.*;
+import static java.util.Objects.*;
 
 import ds.Generated;
 import java.util.ArrayList;

@@ -12,20 +12,19 @@ public final class MathUtils {
   }
 
   public static boolean isInRangeInclusive(int min, int max, int val) {
-      return Math.min(min,val) == Math.max(val,max);
+    return Math.min(min, val) == Math.max(val, max);
   }
-  
+
   public static boolean isGreaterThan(int min, int val) {
-      return val > min;
+    return val > min;
   }
-  
+
   public static void requireGreaterThan(int min, int val) {
-      if (isGreaterThan(min, val))
-     throw new IllegalArgumentException("Invalid argument : " + val);
+    if (isGreaterThan(min, val)) throw new IllegalArgumentException("Invalid argument : " + val);
   }
 
   public static void requireInRangeInclusive(int min, int max, int val) {
-   if (!isInRange(min,max,val))
-     throw new IllegalArgumentException("Invalid argument : " + val);
+    if (!isInRangeInclusive(min, max, val))
+      throw new IllegalArgumentException("Invalid argument : " + val);
   }
 }
