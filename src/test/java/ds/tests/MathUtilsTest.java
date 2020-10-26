@@ -102,13 +102,15 @@ class MathUtilsTest {
   @DisplayName("MathUtilsTest.testIsInRangeInclusiveLeft")
   void testIsInRangeInclusiveLeft() {
     assertTrue(
-        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE), MUST_RETURN_TRUE);
+        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE),
+        MUST_RETURN_TRUE);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testIsInRangeInclusiveRight")
   void testIsInRangeInclusiveRight() {
     assertTrue(
-        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE), MUST_RETURN_TRUE);
+        isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
+        MUST_RETURN_TRUE);
   }
 }
