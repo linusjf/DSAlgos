@@ -254,7 +254,7 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <checker.version>3.7.0</checker.version>
+    <checker.version>3.7.1</checker.version>
     <groovy.version>3.0.6</groovy.version>
     <junit.version>5.7.0</junit.version>
     <pitest.version>1.5.2</pitest.version>
