@@ -255,7 +255,7 @@
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.8.0</checker.version>
-    <groovy.version>3.0.6</groovy.version>
+    <groovy.version>3.0.7</groovy.version>
     <junit.version>5.7.0</junit.version>
     <pitest.version>1.5.2</pitest.version>
   </properties>
