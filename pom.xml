@@ -257,7 +257,7 @@
     <checker.version>3.8.0</checker.version>
     <groovy.version>3.0.7</groovy.version>
     <junit.version>5.7.0</junit.version>
-    <pitest.version>1.5.2</pitest.version>
+    <pitest.version>1.6.2</pitest.version>
   </properties>
   <dependencyManagement>
     <dependencies>
