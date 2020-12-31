@@ -257,7 +257,8 @@
     <checker.version>3.8.0</checker.version>
     <groovy.version>3.0.7</groovy.version>
     <junit.version>5.7.0</junit.version>
-    <pitest.version>1.6.1</pitest.version>
+    <pitest.version>1.6.2</pitest.version>
+    <pitest.maven.version>1.6.2</pitest.maven.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -381,7 +382,7 @@
         <plugin>
           <groupId>org.pitest</groupId>
           <artifactId>pitest-maven</artifactId>
-          <version>1.6.2</version>
+          <version>${pitest.maven.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
