@@ -1,6 +1,5 @@
 package ds;
 
-
 public class Median {
 
   private long[] array;
@@ -9,7 +8,12 @@ public class Median {
     this.array = arr;
   }
 
-  public long find() {
-    return 0L;
+  public double find() {
+    return 0f;
+  }
+
+  private double quickSelectMedian() {
+   if (arr.length % 2 == 0)
+     return quickSelect(0, )
   }
 }
