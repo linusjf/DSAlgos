@@ -168,9 +168,8 @@ public class CentredDeque implements IQueue, IStack, IDeque {
   private void doubleCapacity() {
     int n = arr.length;
     if (n == 0) throw new IllegalStateException("Initial capacity is zero. Cannot be doubled.");
-    long[] a;
-    if (n == 1) a = getDoubleCapacity(n * 2);
-    else a = getDoubleCapacity(n);
+    long[] a = (n == 1) ? getDoubleCapacity(n * 2) : getDoubleCapacity(n);
+
     if (first >= 0) {
       int startIndex = getLeftBoundary(a.length) - getLeftLength() + 1;
       System.arraycopy(arr, first, a, startIndex, getLeftLength());

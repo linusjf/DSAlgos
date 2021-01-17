@@ -60,7 +60,7 @@ class ExecutorUtilsTest {
           while (true) {
             try {
               Thread.sleep(THOUSAND);
-            } catch (InterruptedException ie) {
+            } catch (InterruptedException ignored) {
               Thread.currentThread().interrupt();
             }
           }
@@ -144,7 +144,7 @@ class ExecutorUtilsTest {
       try {
         TimeUnit.MILLISECONDS.sleep(HUNDRED);
         parentThread.interrupt();
-      } catch (InterruptedException ie) {
+      } catch (InterruptedException ignored) {
         Thread.currentThread().interrupt();
       }
     }
@@ -156,7 +156,7 @@ class ExecutorUtilsTest {
     public void run() {
       try {
         TimeUnit.NANOSECONDS.sleep(Long.MAX_VALUE);
-      } catch (InterruptedException ie) {
+      } catch (InterruptedException ignored) {
         Thread.currentThread().interrupt();
       }
     }

@@ -25,8 +25,8 @@ public class ShellSort extends AbstractSort {
         for (int i = gap; i < n; ++i) {
           ++outerLoopCount;
           long temp = a[i];
-          int j;
-          for (j = i; j >= gap && a[j - gap] > temp; j -= gap) {
+          int j = i;
+          for (; j >= gap && a[j - gap] > temp; j -= gap) {
             ++comparisonCount;
             ++copyCount;
             ++innerLoopCount;

@@ -80,14 +80,12 @@ public class CircularSinglyLinkedList<T> extends AbstractList<T> {
   @Override
   public T deleteAt(int index) {
     checkIndex(index, length);
-    T data;
-    if (index == 0) data = unlinkFirst();
+    if (index == 0) return unlinkFirst();
     else {
       INode<T> prev = get(index - 1);
       INode<T> curr = prev.getNext();
-      data = unlink(curr);
+      return unlink(curr);
     }
-    return data;
   }
 
   @Override

@@ -60,11 +60,11 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
                       cdl.await();
                       highArray.delete(i);
                       done.countDown();
-                    } catch (ConcurrentModificationException cme) {
+                    } catch (ConcurrentModificationException ignored) {
                       LOGGER.fine(() -> "Error deleting " + i);
                       excCount.incrementAndGet();
                       done.countDown();
-                    } catch (InterruptedException ie) {
+                    } catch (InterruptedException ignored) {
                       Thread.currentThread().interrupt();
                       done.countDown();
                     }
@@ -75,7 +75,7 @@ class HighArrayConcurrencyTest implements ConcurrencyProvider {
       done.await();
       service.shutdown();
       service.awaitTermination(1, TimeUnit.MINUTES);
-    } catch (InterruptedException ie) {
+    } catch (InterruptedException ignored) {
       Thread.currentThread().interrupt();
     }
     assertNotEquals(0, excCount.get(), () -> excCount + " is number of concurrent exceptions.");

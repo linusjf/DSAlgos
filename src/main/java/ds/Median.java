@@ -4,14 +4,22 @@ import static ds.ArrayUtils.swap;
 
 public class Median {
 
-  private long[] array;
+  private static final int FOUR = 4;
+  private static final int FIVE = 5;
+  private static final int TEN = 10;
 
-  public Median(long[] arr) {
+  private final long[] array;
+
+  @SuppressWarnings("PMD.ArrayIsStoredDirectly")
+  public Median(long... arr) {
     this.array = arr;
   }
 
   public double find() {
-    return 0f;
+    if (array.length == 0) return Double.NaN;
+    if (array.length == 1) return array[0];
+    if (array.length % 2 == 1) return array[pivot(0, array.length - 1)];
+    else return 0.5 * (array[pivot(0, array.length - 1)] + array[pivot(0, array.length - 2)]);
   }
 
   int partition5(int left, int right) {
@@ -24,7 +32,7 @@ public class Median {
         ++i;
       }
     }
-    return (int) Math.floor((left + right) / 2);
+    return (left + right) / 2;
   }
 
   int select(int l, int r, int n) {
@@ -68,5 +76,21 @@ public class Median {
     // n is in the group equal to pivot
     return storeIndexEq;
     // n is in the group of larger elements
+  }
+
+  int pivot(int left, int right) {
+    // for 5 or less elements just get median
+    if (right - left < FIVE) return partition5(left, right);
+    // otherwise move the medians of five-element subgroups to the first n/5 positions
+    for (int i = left; i <= right; i += FIVE) {
+      // get the median position of the i'th five-element subgroup
+      int subRight = i + FOUR;
+      if (subRight > right) subRight = right;
+      int median5 = partition5(i, subRight);
+      swap(array, median5, left + (i - left) / FIVE);
+    }
+    // compute the median of the n/5 medians-of-five
+    int mid = (right - left) / TEN + left + 1;
+    return select(left, left + (right - left) / FIVE, mid);
   }
 }

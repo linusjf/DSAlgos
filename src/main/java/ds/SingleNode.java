@@ -35,7 +35,7 @@ public class SingleNode<T> implements INode<T> {
   }
 
   @Override
-  public void setPrev(INode<T> node) {
+  public void setPrev(INode<T> ignored) {
     throw new UnsupportedOperationException("Operation invalid.");
   }
 
