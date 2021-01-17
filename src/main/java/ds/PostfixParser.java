@@ -13,11 +13,9 @@ public class PostfixParser {
   }
 
   public int parse() {
-    char ch;
-    int j;
     int interAns = 0;
-    for (j = 0; j < input.length(); j++) {
-      ch = input.charAt(j);
+    for (int j = 0; j < input.length(); j++) {
+      char ch = input.charAt(j);
       if (ch >= '0' && ch <= '9') {
         theStack.push((int) (ch - '0'));
         continue;

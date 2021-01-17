@@ -448,14 +448,15 @@ class BrickSortParallelTest implements SortProvider {
 
   static class BrickSortExceptionable extends BrickSortParallel {
     @Override
-    protected void bubble(long[] a, int i) {
+    protected void bubble(long[] ignored, int ignoredInt) {
       throw new IllegalStateException("Error in " + BrickSortExceptionable.class + ".bubble");
     }
   }
 
   static class BrickSortInterruptible extends BrickSortParallel {
     @Override
-    protected void sortInterruptibly(long[] a, int length, ExecutorService service)
+    protected void sortInterruptibly(
+        long[] ignoredArr, int ignoredLength, ExecutorService ignoredService)
         throws InterruptedException, ExecutionException {
       throw new InterruptedException(
           "Error in " + BrickSortInterruptible.class + ".sortInterruptible");

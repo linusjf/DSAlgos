@@ -37,11 +37,11 @@ public class AnagramGenerator {
   }
 
   private void rotate(int newSize) {
-    int j;
     int size = arrChar.length;
     int position = size - newSize;
     char temp = arrChar[position];
-    for (j = position + 1; j < size; j++) arrChar[j - 1] = arrChar[j];
+    int j = position + 1;
+    for (; j < size; j++) arrChar[j - 1] = arrChar[j];
     arrChar[j - 1] = temp;
   }
 

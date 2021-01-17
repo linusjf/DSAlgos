@@ -25,16 +25,13 @@ public class ShellSortByThree extends AbstractSort {
     int h = 1;
     while (h <= n / THREE) h = h * THREE + 1;
 
-    int inner, outer;
-    long temp;
-
     // decreasing h, until h=1
     while (h > 0) {
       ++gapCount;
-      for (outer = h; outer < n; outer++) {
-        temp = a[outer];
+      for (int outer = h; outer < n; outer++) {
+        long temp = a[outer];
         ++outerLoopCount;
-        inner = outer;
+        int inner = outer;
         while (inner > h - 1 && a[inner - h] >= temp) {
           ++innerLoopCount;
           ++comparisonCount;

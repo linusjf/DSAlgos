@@ -58,7 +58,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                         if (random.nextBoolean()) ordArray.insert(i);
                         else ordArray.delete(i);
                         done.countDown();
-                      } catch (InterruptedException ie) {
+                      } catch (InterruptedException ignored) {
                         Thread.currentThread().interrupt();
                         done.countDown();
                       } catch (ConcurrentModificationException cme) {
@@ -72,7 +72,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       done.await();
       service.shutdown();
       service.awaitTermination(1, TimeUnit.MINUTES);
-    } catch (InterruptedException ie) {
+    } catch (InterruptedException ignored) {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();
@@ -101,7 +101,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                         cdl.await();
                         ordArray.insert(i);
                         done.countDown();
-                      } catch (InterruptedException ie) {
+                      } catch (InterruptedException ignored) {
                         Thread.currentThread().interrupt();
                         done.countDown();
                       } catch (ConcurrentModificationException cme) {
@@ -115,7 +115,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       done.await();
       service.shutdown();
       service.awaitTermination(1, TimeUnit.MINUTES);
-    } catch (InterruptedException ie) {
+    } catch (InterruptedException ignored) {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();
@@ -155,11 +155,11 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
                       cdl.await();
                       ordArray.delete(i);
                       done.countDown();
-                    } catch (ConcurrentModificationException cme) {
+                    } catch (ConcurrentModificationException ignored) {
                       LOGGER.fine(() -> "Error deleting " + i);
                       excCount.incrementAndGet();
                       done.countDown();
-                    } catch (InterruptedException ie) {
+                    } catch (InterruptedException ignored) {
                       Thread.currentThread().interrupt();
                       done.countDown();
                     }
@@ -170,7 +170,7 @@ class OrdArrayConcurrencyTest implements ConcurrencyProvider {
       done.await();
       service.shutdown();
       service.awaitTermination(1, TimeUnit.MINUTES);
-    } catch (InterruptedException ie) {
+    } catch (InterruptedException ignored) {
       Thread.currentThread().interrupt();
     }
     int excs = excCount.get();

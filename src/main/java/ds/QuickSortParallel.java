@@ -106,17 +106,17 @@ public class QuickSortParallel extends AbstractSort {
           return;
         }
 
-        int m;
+        int s = n >> 3;
         int middle = n >> 1;
-        if (n > MEDIUM) {
-          int s = n >> 3;
-          m =
-              median3(
-                  a,
-                  median3(a, low, low + s, low + (s << 1)),
-                  median3(a, middle - s, middle, middle + s),
-                  median3(a, high - (s << 1), high - s, high));
-        } else m = median3(a, low, low + middle, high);
+        int m =
+            n > MEDIUM
+                ? median3(
+                    a,
+                    median3(a, low, low + s, low + (s << 1)),
+                    median3(a, middle - s, middle, middle + s),
+                    median3(a, high - (s << 1), high - s, high))
+                : median3(a, low, low + middle, high);
+
         if (m != low && a[low] > a[m]) {
           swap(a, m, low);
           swapCount.incrementAndGet();

@@ -52,7 +52,8 @@ public class InToPost {
     return output.toString();
   }
 
-  public void handleParenthesis(char ch, StringBuilder output) {
+  @SuppressWarnings("PMD.UnusedFormalParameter")
+  public void handleParenthesis(char ignored, StringBuilder output) {
     while (!theStack.isEmpty()) {
       char chx = theStack.pop();
       if (chx == LEFT_PARENTHESIS) break;
@@ -67,9 +68,7 @@ public class InToPost {
         theStack.push(opTop);
         break;
       } else {
-        int prec2;
-        if (opTop == PLUS_OPERATOR || opTop == MINUS_OPERATOR) prec2 = 1;
-        else prec2 = 2;
+        int prec2 = opTop == PLUS_OPERATOR || opTop == MINUS_OPERATOR ? 1 : 2;
         if (prec2 < prec1) {
           theStack.push(opTop);
           break;

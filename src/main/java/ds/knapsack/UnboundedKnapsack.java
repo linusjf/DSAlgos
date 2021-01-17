@@ -33,7 +33,7 @@ public class UnboundedKnapsack extends AbstractKnapsack<Solution<Integer>> {
     int[] dp = new int[capacity + 1];
     List<Item> itemsList = new ArrayList<>(items.length);
     int i = 0;
-    for (int dpVal : dp) {
+    for (int ignored : dp) {
       for (Item item : items) {
         if (item.weight <= i) {
           int includedVal = dp[i - item.weight] + item.value;

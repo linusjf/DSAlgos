@@ -48,7 +48,7 @@ class AnagramGeneratorTest {
     try {
       List<String> vals = r.getValidAnagrams();
       assertEquals(6, vals.size(), "Five valid anagrams expected.");
-    } catch (IOException ioe) {
+    } catch (IOException ignored) {
       fail("Exception thrown.");
     }
   }

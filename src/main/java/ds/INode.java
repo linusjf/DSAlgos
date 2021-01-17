@@ -6,7 +6,7 @@ public interface INode<T> {
 
   void setData(T data);
 
-  @SuppressWarnings("not.interned")
+  @SuppressWarnings({"not.interned", "PMD.CompareObjectsWithEquals"})
   default boolean isSame(INode<T> node) {
     return this == node;
   }
