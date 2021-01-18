@@ -29,7 +29,7 @@ class MedianTest {
     Median median = new Median(arr);
     assertEquals(23, median.find(), "23 expected.");
   }
-  
+
   @Test
   @DisplayName("MedianTest.testTwoElementArray")
   void testTwoElementArray() {
@@ -37,7 +37,7 @@ class MedianTest {
     Median median = new Median(arr);
     assertEquals(23.5, median.find(), "23.5 expected.");
   }
-  
+
   @Test
   @DisplayName("MedianTest.testThreeElementArray")
   void testThreeElementArray() {
