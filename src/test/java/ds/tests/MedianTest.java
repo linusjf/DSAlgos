@@ -22,24 +22,43 @@ class MedianTest {
     assertEquals(Double.NaN, median.find(), "NaN expected.");
   }
 
+  @Test
   @DisplayName("MedianTest.testSingleElementArray")
   void testSingleElementArray() {
     long[] arr = {23};
     Median median = new Median(arr);
     assertEquals(23, median.find(), "23 expected.");
   }
+  
+  @Test
+  @DisplayName("MedianTest.testTwoElementArray")
+  void testTwoElementArray() {
+    long[] arr = {23, 24};
+    Median median = new Median(arr);
+    assertEquals(23.5, median.find(), "23.5 expected.");
+  }
+  
+  @Test
+  @DisplayName("MedianTest.testThreeElementArray")
+  void testThreeElementArray() {
+    long[] arr = {23, 21, 24};
+    Median median = new Median(arr);
+    assertEquals(23, median.find(), "23 expected.");
+  }
 
+  @Test
   @DisplayName("MedianTest.testMedianEven")
   void testMedianEven() {
     long[] arr = {23, 21, 20, 18, 17, 16, 0, 10, 9, 10};
     Median median = new Median(arr);
-    assertEquals(16.5f, median.find(), "23 expected.");
+    assertEquals(16.5f, median.find(), "16.5 expected.");
   }
 
+  @Test
   @DisplayName("MedianTest.testMedianOdd")
   void testMedianOdd() {
     long[] arr = {23, 21, 20, 18, 18, 17, 16, 0, 10, 9, 10};
     Median median = new Median(arr);
-    assertEquals(17.0f, median.find(), "23 expected.");
+    assertEquals(17.0f, median.find(), "17 expected.");
   }
 }
