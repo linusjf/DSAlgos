@@ -26,13 +26,10 @@ public class Median {
     long pivot = array[pivotIndex];
     if (array.length % 2 == 1) {
       int medianIndex = partitionIt(0, array.length - 1, pivot, array.length >> 1);
-      System.out.println("medianIndex = " + medianIndex);
       return array[medianIndex];
     } else {
       int medIndex1 = partitionIt(0, array.length - 1, pivot, (array.length - 1) >> 1);
       int medIndex2 = partitionIt(0, array.length - 1, pivot, array.length >> 1);
-      System.out.println("medIndex1 = " + medIndex1);
-      System.out.println("medIndex2 = " + medIndex2);
       return 0.5 * (array[medIndex1] + array[medIndex2]);
     }
   }
@@ -52,12 +49,14 @@ public class Median {
     if (leftPtr == k) return leftPtr;
     if (leftPtr < k) {
       int pivotIndex = random.nextInt(right - leftPtr);
-      long newPivot = array[leftPtr + 1 + pivotIndex];
-      return partitionIt(leftPtr + 1, right, newPivot, k);
+      if( array[leftPtr + 1 + pivotIndex] > array[right])
+          swap(array,leftPtr + 1 + pivotIndex, right);
+      return partitionIt(leftPtr + 1, right, array[right], k);
     } else {
       int pivotIndex = random.nextInt(leftPtr);
-      long newPivot = array[pivotIndex];
-      return partitionIt(0, leftPtr - 1, newPivot, k);
+      if (array[pivotIndex] > array[leftPtr - 1])
+          swap(array,pivotIndex,leftPtr - 1);
+      return partitionIt(0, leftPtr - 1, array[leftPtr - 1], k);
     }
   }
 }
