@@ -12,16 +12,19 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 @DisplayName("QuickSelectMedianTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
 class QuickSelectMedianTest {
 
+  private static final String EXPECTED = " expected.";
+
   @Test
   @DisplayName("QuickSelectMedianTest.testEmptyArray")
   void testEmptyArray() {
     QuickSelectMedian median = new QuickSelectMedian(new long[0]);
-    assertEquals(Double.NaN, median.find(), () -> Double.NaN + " expected.");
+    assertEquals(Double.NaN, median.find(), () -> Double.NaN + EXPECTED);
   }
 
   @Test
@@ -29,7 +32,7 @@ class QuickSelectMedianTest {
   void testSingleElementArray() {
     long[] arr = {23};
     QuickSelectMedian median = new QuickSelectMedian(arr);
-    assertEquals(23, median.find(), "23 expected.");
+    assertEquals(23, median.find(), () -> 23 + EXPECTED);
   }
 
   @Test
@@ -37,7 +40,7 @@ class QuickSelectMedianTest {
   void testTwoElementArray() {
     long[] arr = {23, 24};
     QuickSelectMedian median = new QuickSelectMedian(arr);
-    assertEquals(23.5, median.find(), "23 expected.");
+    assertEquals(23.5, median.find(), () -> 23.5 + EXPECTED);
   }
 
   @Test
@@ -45,7 +48,7 @@ class QuickSelectMedianTest {
   void testThreeElementArray() {
     long[] arr = {23, 21, 24};
     QuickSelectMedian median = new QuickSelectMedian(arr);
-    assertEquals(23, median.find(), "23 expected.");
+    assertEquals(23, median.find(), () -> 23 + EXPECTED);
   }
 
   @Test
@@ -55,7 +58,7 @@ class QuickSelectMedianTest {
     QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
     double expected = 0.5f * (arr[4] + arr[5]);
-    assertEquals(expected, median.find(), () -> expected + " expected.");
+    assertEquals(expected, median.find(), () -> expected + EXPECTED);
   }
 
   @Test
@@ -64,7 +67,7 @@ class QuickSelectMedianTest {
     long[] arr = {23, 21, 20, 18, 18, 17, 16, 0, 10, 9, 10};
     QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
-    assertEquals(arr[5], median.find(), () -> arr[5] + " expected.");
+    assertEquals(arr[5], median.find(), () -> arr[5] + EXPECTED);
   }
 
   @Test
@@ -76,7 +79,7 @@ class QuickSelectMedianTest {
     QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
     double medianVal = 0.5f * (arr[4999] + arr[5000]);
-    assertEquals(medianVal, median.find(), () -> medianVal + " expected.");
+    assertEquals(medianVal, median.find(), () -> medianVal + EXPECTED);
   }
 
   @Test
@@ -88,6 +91,6 @@ class QuickSelectMedianTest {
     QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
     long medianVal = arr[5000];
-    assertEquals(medianVal, median.find(), () -> medianVal + " expected.");
+    assertEquals(medianVal, median.find(), () -> medianVal + EXPECTED);
   }
 }
