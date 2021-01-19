@@ -4,18 +4,13 @@ import static ds.ArrayUtils.swap;
 import static ds.MathUtils.isOdd;
 import static ds.RandomUtils.randomInRange;
 
-import java.util.Random;
-
 public class QuickSelectMedian {
-
-  private final Random random;
 
   private final long[] array;
 
   @SuppressWarnings("PMD.ArrayIsStoredDirectly")
   public QuickSelectMedian(long... arr) {
     this.array = arr;
-    this.random = new Random();
   }
 
   public double find() {
