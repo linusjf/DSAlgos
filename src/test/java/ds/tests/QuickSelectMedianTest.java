@@ -2,7 +2,7 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.Median;
+import ds.QuickSelectMedian;
 import java.util.Arrays;
 import java.util.Random;
 import org.junit.jupiter.api.DisplayName;
@@ -12,90 +12,82 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@DisplayName("MedianTest")
+@DisplayName("QuickSelectMedianTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class MedianTest {
+class QuickSelectMedianTest {
 
   @Test
-  @DisplayName("MedianTest.testEmptyArray")
+  @DisplayName("QuickSelectMedianTest.testEmptyArray")
   void testEmptyArray() {
-    System.out.println("testEmptyArray");
-    Median median = new Median(new long[0]);
-    assertEquals(Double.NaN, median.find(), "NaN expected.");
+    QuickSelectMedian median = new QuickSelectMedian(new long[0]);
+    assertEquals(Double.NaN, median.find(), () -> Double.NaN + " expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testSingleElementArray")
+  @DisplayName("QuickSelectMedianTest.testSingleElementArray")
   void testSingleElementArray() {
-    System.out.println("testSingleElementArray");
     long[] arr = {23};
-    Median median = new Median(arr);
+    QuickSelectMedian median = new QuickSelectMedian(arr);
     assertEquals(23, median.find(), "23 expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testTwoElementArray")
+  @DisplayName("QuickSelectMedianTest.testTwoElementArray")
   void testTwoElementArray() {
-    System.out.println("testTwoElementArray");
     long[] arr = {23, 24};
-    Median median = new Median(arr);
-    assertEquals(23.5, median.find(), "23.5 expected.");
+    QuickSelectMedian median = new QuickSelectMedian(arr);
+    assertEquals(23.5, median.find(), "23 expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testThreeElementArray")
+  @DisplayName("QuickSelectMedianTest.testThreeElementArray")
   void testThreeElementArray() {
-    System.out.println("testThreeElementArray");
     long[] arr = {23, 21, 24};
-    Median median = new Median(arr);
+    QuickSelectMedian median = new QuickSelectMedian(arr);
     assertEquals(23, median.find(), "23 expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testMedianEven")
+  @DisplayName("QuickSelectMedianTest.testMedianEven")
   void testMedianEven() {
-    System.out.println("testMedianEven");
     long[] arr = {23, 21, 20, 18, 17, 16, 0, 10, 9, 10};
-    Median median = new Median(arr.clone());
+    QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
-    double expected = (arr[4] + arr[5]) / 2.0f;
+    double expected = 0.5f * (arr[4] + arr[5]);
     assertEquals(expected, median.find(), () -> expected + " expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testMedianOdd")
+  @DisplayName("QuickSelectMedianTest.testMedianOdd")
   void testMedianOdd() {
-    System.out.println("testMedianOdd");
     long[] arr = {23, 21, 20, 18, 18, 17, 16, 0, 10, 9, 10};
-    Median median = new Median(arr.clone());
+    QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
     assertEquals(arr[5], median.find(), () -> arr[5] + " expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testRandomEven")
+  @DisplayName("QuickSelectMedianTest.testRandomEven")
   void testRandomEven() {
-    System.out.println("testRandomEven");
     long[] arr = new long[10_000];
     Random random = new Random();
     for (int i = 0; i < 10_000; i++) arr[i] = random.nextInt();
-    Median median = new Median(arr.clone());
+    QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
-    double medianVal = 0.5 * (arr[4999] + arr[5000]);
-    assertEquals(medianVal, median.find(), "Sorted array value must match calculated value.");
+    double medianVal = 0.5f * (arr[4999] + arr[5000]);
+    assertEquals(medianVal, median.find(), () -> medianVal + " expected.");
   }
 
   @Test
-  @DisplayName("MedianTest.testRandomOdd")
+  @DisplayName("QuickSelectMedianTest.testRandomOdd")
   void testRandomOdd() {
-    System.out.println("testRandomOdd");
     long[] arr = new long[10_001];
     Random random = new Random();
     for (int i = 0; i < 10_001; i++) arr[i] = random.nextInt();
-    Median median = new Median(arr.clone());
+    QuickSelectMedian median = new QuickSelectMedian(arr.clone());
     Arrays.sort(arr);
-    double medianVal = arr[5000];
-    assertEquals(medianVal, median.find(), "Sorted array value must match calculated value.");
+    long medianVal = arr[5000];
+    assertEquals(medianVal, median.find(), () -> medianVal + " expected.");
   }
 }
