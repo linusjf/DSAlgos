@@ -9,7 +9,8 @@ public class RadixSort {
 
   int[] a;
 
-  public RadixSort(int[] array) {
+  @SuppressWarnings("PMD.ArrayIsStoredDirectly")
+  public RadixSort(int... array) {
     this.a = array;
   }
 
@@ -33,12 +34,12 @@ public class RadixSort {
 
     fill(count, 0);
 
-    for (int i = 0; i < a.length; i++) count[(a[i] / exp) % TEN]++;
+    for (int val : a) 
+      count[(val / exp) % TEN]++;
 
     for (int i = 1; i < TEN; i++) count[i] += count[i - 1];
 
     for (int i = a.length - 1; i >= 0; i--) {
-
       output[count[(a[i] / exp) % TEN] - 1] = a[i];
 
       count[(a[i] / exp) % TEN]--;

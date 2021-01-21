@@ -1,8 +1,6 @@
 package ds.tests;
 
-import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.*;
-import static ds.tests.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.RadixSort;
