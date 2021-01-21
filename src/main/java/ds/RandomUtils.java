@@ -1,6 +1,7 @@
 package ds;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 public final class RandomUtils {
@@ -17,5 +18,9 @@ public final class RandomUtils {
 
   public static LongStream longStream() {
     return RANDOM.longs();
+  }
+
+  public static IntStream intStream() {
+    return RANDOM.ints();
   }
 }
