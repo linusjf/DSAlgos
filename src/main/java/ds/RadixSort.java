@@ -34,8 +34,7 @@ public class RadixSort {
 
     fill(count, 0);
 
-    for (int val : a) 
-      count[(val / exp) % TEN]++;
+    for (int val : a) count[(val / exp) % TEN]++;
 
     for (int i = 1; i < TEN; i++) count[i] += count[i - 1];
 
