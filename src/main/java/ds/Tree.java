@@ -1,4 +1,7 @@
 package ds;
+
+import java.util.Iterator;
+
 /**
  * General interface for trees. Copyright (c) 2006 Dept. of Computer Science, University College
  * London
@@ -6,8 +9,6 @@ package ds;
  * @author Graham Roberts
  * @version 2.0 01-Mar-06
  */
-import java.util.Iterator;
-
 public interface Tree<E> {
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
