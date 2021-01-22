@@ -1,5 +1,6 @@
 package ds;
 
+
 public final class MathUtils {
 
   private static final String INVALID_ARGUMENT = "Invalid argument: ";
