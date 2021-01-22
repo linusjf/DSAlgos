@@ -1,6 +1,7 @@
 package ds;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -8,10 +9,11 @@ import java.util.Stack;
  * data structure. This should not be taken as a production quality class (see the text book
  * instead). Copyright (c) 2006 Dept. of Computer Science, University College London
  *
+ * <p>Objects stored in a tree must conform to Comparable so that their values can be compared. The
+ * type parameter is constrained to conform to Comparable to enforce this.
+ *
  * @author Graham Roberts
  * @version 2.0 01-Mar-06
- *     <p>Objects stored in a tree must conform to Comparable so that their values can be compared.
- *     The type parameter is constrained to conform to Comparable to enforce this.
  */
 @SuppressWarnings("PMD.CommentSize")
 public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
@@ -21,19 +23,23 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   private TreeNode<E> root;
 
+  @SuppressWarnings("nullness")
+  public BinaryTree() {
+    root = null;
+  }
+
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
    * in the correct location. Multiple objects representing the same value can be added.
    *
    * @param obj reference to Comparable object to add.
    */
+  @SuppressWarnings("nullness")
   @Override
   public void add(E obj) {
-    if (root == null) {
-      root = new TreeNode<>(obj, null, null);
-    } else {
-      root.insert(obj);
-    }
+    Objects.requireNonNull(obj);
+    if (root == null) root = new TreeNode<>(obj, null, null);
+    else root.insert(obj);
   }
 
   /**
@@ -44,11 +50,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   @Override
   public boolean contains(E obj) {
-    if (root == null) {
-      return false;
-    } else {
-      return root.find(obj) != null;
-    }
+    if (root == null) return false;
+    else return root.find(obj) != null;
   }
 
   /**
@@ -59,9 +62,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   @Override
   public void remove(E obj) {
-    if (root != null) {
-      root = root.remove(obj, root);
-    }
+    if (root != null) root = root.remove(obj, root);
   }
 
   /**
@@ -95,6 +96,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param left left child node reference or null
      * @param right right child node reference or null
      */
+    @SuppressWarnings("nullness")
     TreeNode(T val, TreeNode<T> left, TreeNode<T> right) {
       this.val = val;
       this.left = left;
@@ -106,19 +108,16 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      *
      * @param obj object to insert into tree.
      */
+    @SuppressWarnings("nullness")
     public void insert(T obj) {
+      Objects.requireNonNull(obj);
       if (val.compareTo(obj) < 0) {
-        if (right == null) {
-          right = new TreeNode<>(obj, null, null);
-        } else {
-          right.insert(obj);
-        }
+        if (right == null) right = new TreeNode<>(obj, null, null);
+        else right.insert(obj);
+
       } else {
-        if (left == null) {
-          left = new TreeNode<>(obj, null, null);
-        } else {
-          left.insert(obj);
-        }
+        if (left == null) left = new TreeNode<>(obj, null, null);
+        else left.insert(obj);
       }
     }
 
@@ -129,14 +128,13 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param obj Object representing value to find in tree.
      * @return reference to matching node or null.
      */
+    @SuppressWarnings("nullness")
     public TreeNode<T> find(T obj) {
       int temp = val.compareTo(obj);
-      if (temp == 0) {
-        return this;
-      }
-      if (temp < 0) {
-        return (right == null) ? null : right.find(obj);
-      }
+      if (temp == 0) return this;
+
+      if (temp < 0) return (right == null) ? null : right.find(obj);
+
       return (left == null) ? null : left.find(obj);
     }
 
@@ -152,19 +150,16 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @return reference to the (possibly new) root node of the sub-tree being examined or null if
      *     no node.
      */
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings({"PMD.LawOfDemeter", "nullness"})
     private TreeNode<T> remove(T obj, TreeNode<T> node) {
+      Objects.requireNonNull(obj);
       TreeNode<T> t = node;
-      if (t == null) {
-        return t;
-      }
-      if (obj.compareTo(t.val) < 0) {
-        t.left = remove(obj, t.left);
-      } else if (obj.compareTo(t.val) > 0) {
-        t.right = remove(obj, t.right);
-      } else if (t.left == null || t.right == null) {
-        t = t.left == null ? t.right : t.left;
-      } else {
+      if (t == null) return t;
+
+      if (obj.compareTo(t.val) < 0) t.left = remove(obj, t.left);
+      else if (obj.compareTo(t.val) > 0) t.right = remove(obj, t.right);
+      else if (t.left == null || t.right == null) t = t.left == null ? t.right : t.left;
+      else {
         t.val = findMin(t.right).val;
         t.right = remove(t.val, t.right);
       }
@@ -177,13 +172,12 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param t TreeNode to be examined.
      * @return reference to left most leaf node or null.
      */
-    private TreeNode<T> findMin(TreeNode<T> t) {
-      if (t == null) {
-        return null;
-      } else if (t.left == null) {
-        return t;
-      }
-      return findMin(t.left);
+    @SuppressWarnings("nullness")
+    private TreeNode<T> findMin(TreeNode<T> node) {
+      TreeNode<T> t = node;
+      if (t == null) return null;
+      while (t.left != null) t = t.left;
+      return t;
     }
   }
 
@@ -197,20 +191,21 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     private final Stack<TreeNode<E>> nodes = new Stack<>();
 
     /** Construct a new iterator for the current tree object. */
+    @SuppressWarnings("nullness")
     PreOrderIterator() {
       pushLeft(root);
     }
 
     /**
-     * Get next obnject in sequence.
+     * Get next object in sequence.
      *
      * @return next object in sequence or null if the end of the sequence has been reached.
      */
+    @SuppressWarnings("nullness")
     @Override
     public E next() {
-      if (nodes.isEmpty()) {
-        return null;
-      }
+      if (nodes.isEmpty()) return null;
+
       TreeNode<E> node = nodes.pop();
       pushLeft(node.right);
       return node.val;
