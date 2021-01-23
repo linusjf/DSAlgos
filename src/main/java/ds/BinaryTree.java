@@ -1,7 +1,8 @@
 package ds;
 
+import static java.util.Objects.*;
+
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -37,8 +38,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   @SuppressWarnings("nullness")
   @Override
   public void add(E obj) {
-    Objects.requireNonNull(obj);
-    if (root == null) root = new TreeNode<>(obj, null, null);
+    requireNonNull(obj);
+    if (isNull(root)) root = new TreeNode<>(obj, null, null);
     else root.insert(obj);
   }
 
@@ -50,8 +51,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   @Override
   public boolean contains(E obj) {
-    if (root == null) return false;
-    else return root.find(obj) != null;
+    return isNull(root) ? false : nonNull(root.find(obj));
   }
 
   /**
@@ -62,7 +62,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   @Override
   public void remove(E obj) {
-    if (root != null) root = root.remove(obj, root);
+    if (nonNull(root)) root = root.remove(obj, root);
   }
 
   /**
@@ -110,13 +110,13 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     @SuppressWarnings("nullness")
     public void insert(T obj) {
-      Objects.requireNonNull(obj);
+      requireNonNull(obj);
       if (val.compareTo(obj) < 0) {
-        if (right == null) right = new TreeNode<>(obj, null, null);
+        if (isNull(right)) right = new TreeNode<>(obj, null, null);
         else right.insert(obj);
 
       } else {
-        if (left == null) left = new TreeNode<>(obj, null, null);
+        if (isNull(left)) left = new TreeNode<>(obj, null, null);
         else left.insert(obj);
       }
     }
@@ -133,9 +133,9 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       int temp = val.compareTo(obj);
       if (temp == 0) return this;
 
-      if (temp < 0) return (right == null) ? null : right.find(obj);
+      if (temp < 0) return (isNull(right)) ? null : right.find(obj);
 
-      return (left == null) ? null : left.find(obj);
+      return (isNull(left)) ? null : left.find(obj);
     }
 
     /**
@@ -152,13 +152,13 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "nullness"})
     private TreeNode<T> remove(T obj, TreeNode<T> node) {
-      Objects.requireNonNull(obj);
+      requireNonNull(obj);
       TreeNode<T> t = node;
-      if (t == null) return t;
+      if (isNull(t)) return t;
 
       if (obj.compareTo(t.val) < 0) t.left = remove(obj, t.left);
       else if (obj.compareTo(t.val) > 0) t.right = remove(obj, t.right);
-      else if (t.left == null || t.right == null) t = t.left == null ? t.right : t.left;
+      else if (isNull(t.left) || isNull(t.right)) t = isNull(t.left) ? t.right : t.left;
       else {
         t.val = findMin(t.right).val;
         t.right = remove(t.val, t.right);
@@ -175,8 +175,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     @SuppressWarnings("nullness")
     private TreeNode<T> findMin(TreeNode<T> node) {
       TreeNode<T> t = node;
-      if (t == null) return null;
-      while (t.left != null) t = t.left;
+      if (isNull(t)) return null;
+      while (nonNull(t.left)) t = t.left;
       return t;
     }
   }
@@ -216,7 +216,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
 
     @Override
     public boolean hasNext() {
-      return root != null;
+      return nonNull(root);
     }
 
     @SuppressWarnings({"checkstyle:MissingSwitchDefault", "checkstyle:ReturnCount"})
@@ -243,8 +243,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       // need to visit the left subtree first, then the right
       // since a stack is a LIFO, push the right subtree first, then
       // the left.  Only push non-null trees
-      if (node.right != null) visiting.push(node.right);
-      if (node.left != null) visiting.push(node.left);
+      if (nonNull(node.right)) visiting.push(node.right);
+      if (nonNull(node.left)) visiting.push(node.left);
       // may not have pushed anything.  If so, we are at the end
       // no more nodes to visit
       if (visiting.empty()) root = null;
@@ -260,7 +260,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     private void pushLeftmostNode(TreeNode<E> node) {
       // find the leftmost node
-      if (node != null) {
+      if (nonNull(node)) {
         // push this node
         visiting.push(node);
         // recurse on next left node
@@ -285,7 +285,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       E result = node.val;
       // this is the value to return
       // if the node has a right child, its leftmost node is next
-      if (node.right != null) {
+      if (nonNull(node.right)) {
         TreeNode<E> right = node.right;
         // find the leftmost node of the right child
         pushLeftmostNode(right);
@@ -308,7 +308,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     private void pushLeftmostNodeRecord(TreeNode<E> node) {
       // find the leftmost node
-      if (node != null) {
+      if (nonNull(node)) {
         // push this node
         visiting.push(node);
         visitingRightChild.push(Boolean.FALSE);
@@ -342,7 +342,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
         // now push everything down to the leftmost node
         // in the right subtree
         TreeNode<E> right = visiting.peek().right;
-        assert right != null;
+        assert nonNull(right);
         pushLeftmostNodeRecord(right);
         // use recursive call to visit that node
         return postorderNext();
@@ -371,7 +371,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
 
     private String toString(TreeNode<E> node) {
-      return (node == null)
+      return (isNull(node))
           ? ""
           : node.toString() + "(" + toString(node.left) + ", " + toString(node.right) + ")";
     }
