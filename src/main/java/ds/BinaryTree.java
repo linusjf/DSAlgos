@@ -49,9 +49,11 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    * @param obj reference to Comparable object whose value will be searched for.
    * @return true if the value is found.
    */
+  @SuppressWarnings("PMD.SimplifiedTernary")
   @Override
   public boolean contains(E obj) {
-    return isNull(root) ? false : nonNull(root.find(obj));
+    requireNonNull(obj);
+    return nonNull(root) ? nonNull(root.find(obj)) : false;
   }
 
   /**
@@ -133,9 +135,9 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       int temp = val.compareTo(obj);
       if (temp == 0) return this;
 
-      if (temp < 0) return (isNull(right)) ? null : right.find(obj);
+      if (temp < 0) return isNull(right) ? null : right.find(obj);
 
-      return (isNull(left)) ? null : left.find(obj);
+      return isNull(left) ? null : left.find(obj);
     }
 
     /**
@@ -371,7 +373,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
 
     private String toString(TreeNode<E> node) {
-      return (isNull(node))
+      return isNull(node)
           ? ""
           : node.toString() + "(" + toString(node.left) + ", " + toString(node.right) + ")";
     }
