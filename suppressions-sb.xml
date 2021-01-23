@@ -38,7 +38,15 @@
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
-    <Class name="~ds[.].*BinaryTree"/>
+    <Class name="ds.BinaryTree"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.BinaryTree$TreeIterator"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.BinaryTree$TreeNode"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
@@ -46,7 +54,15 @@
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>
-    <Class name="~ds[.].*BinaryTree"/>
+    <Class name="ds.BinaryTree"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.BinaryTree$TreeIterator"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.BinaryTree$TreeNode"/>
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>

@@ -311,7 +311,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       if (node != null) {
         // push this node
         visiting.push(node);
-        visitingRightChild.push(false);
+        visitingRightChild.push(Boolean.FALSE);
         // record that it is on the left
         pushLeftmostNodeRecord(node.left);
         // continue looping
@@ -338,7 +338,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
         // now visit this node's right subtree
         // pop false and push true for visiting right child
         if (visitingRightChild.pop()) assert false;
-        visitingRightChild.push(true);
+        visitingRightChild.push(Boolean.TRUE);
         // now push everything down to the leftmost node
         // in the right subtree
         TreeNode<E> right = visiting.peek().right;
