@@ -23,12 +23,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   private TreeNode<E> root;
 
-  public enum TraversalOrder {
-    PRE_ORDER,
-    IN_ORDER,
-    POST_ORDER
-  }
-
   @SuppressWarnings({"nullness", "PMD.NullAssignment"})
   public BinaryTree() {
     root = null;
@@ -77,8 +71,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    * @return new iterator object.
    */
   @Override
-  public Iterator<E> iterator() {
-    return new PreOrderIterator();
+  public Iterator<E> iterator(TraversalOrder order) {
+    return new TreeIterator(root, order);
   }
 
   /**
@@ -187,95 +181,33 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
   }
 
-  /**
-   * Simple pre-order iterator class. An iterator object will sequence through the tree contents in
-   * ascending order. A stack is used to keep track of where the iteration has reached in the tree.
-   * Note that if new items are added or removed during an iteration, there is no guarantee that the
-   * iteration will continue correctly.
-   */
-  private class PreOrderIterator implements Iterator<E> {
-    private final Stack<TreeNode<E>> nodes = new Stack<>();
-
-    /** Construct a new iterator for the current tree object. */
-    @SuppressWarnings("nullness")
-    PreOrderIterator() {
-      pushLeft(root);
-    }
-
-    /**
-     * Get next object in sequence.
-     *
-     * @return next object in sequence or null if the end of the sequence has been reached.
-     */
-    @SuppressWarnings("nullness")
-    @Override
-    public E next() {
-      if (nodes.isEmpty()) return null;
-
-      TreeNode<E> node = nodes.pop();
-      pushLeft(node.right);
-      return node.val;
-    }
-
-    /**
-     * Determine if there is another object in the iteration sequence.
-     *
-     * @return true if another object is available in the sequence.
-     */
-    @Override
-    public boolean hasNext() {
-      return !nodes.isEmpty();
-    }
-
-    /**
-     * The remove operation is not supported by this iterator. This illustrates that a method
-     * required by an implemented interface can be written to not support the operation but should
-     * throw an exception if called. UnsupportedOperationException is a subclass of RuntimeException
-     * and is not required to be caught at runtime, so the remove method does not have a throws
-     * declaration. Calling methods do not have to use a try/catch block pair.
-     *
-     * @throws UnsupportedOperationException if method is called.
-     */
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
-    /** Helper method used to push node objects onto the stack to keep track of the iteration. */
-    private void pushLeft(TreeNode<E> leftNode) {
-      TreeNode<E> node = leftNode;
-      while (node != null) {
-        nodes.push(node);
-        node = node.left;
-      }
-    }
-  }
-
   /* an iterator class to iterate over binary trees
-   * @author	Biagioni, Edoardo
-   * @assignment	lecture 17
-   * @date	March 12, 2008
+   * @author Biagioni, Edoardo
+   * @assignment lecture 17
+   * @date March 12,2008
    */
 
   private class TreeIterator implements Iterator<E> {
-    /* the class variables keep track of how much the iterator
-     * has done so far, and what remains to be done.
-     * root is null when the iterator has not been initialized,
-     * or the entire tree has been visited.
-     * the first stack keeps track of the last node to return
-     * and all its ancestors
-     * the second stack keeps track of whether the node visited
-     * is to the left (false) or right (true) of its parent
+    /**
+     * the class variables keep track of how much the iterator has done so far, and what remains to
+     * be done. root is null when the iterator has not been initialized, or the entire tree has been
+     * visited. the first stack keeps track of the last node to return and all its ancestors the
+     * second stack keeps track of whether the node visited is to the left (false) or right (true)
+     * of its parent
      */
     protected TreeNode<E> root;
+
     protected Stack<TreeNode<E>> visiting;
     protected Stack<Boolean> visitingRightChild;
     TraversalOrder order;
 
-    /* constructor for in-order traversal
-     * @param	root of the tree to traverse
+    /**
+     * Constructor for traversal.
+     *
+     * @param root of the tree to traverse
+     * @param order of the tree to traverse
      */
-    public TreeIterator(TreeNode<E> root, TraversalOrder order) {
+    TreeIterator(TreeNode<E> root, TraversalOrder order) {
       this.root = root;
       visiting = new Stack<>();
       visitingRightChild = new Stack<>();
@@ -287,6 +219,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       return root != null;
     }
 
+    @SuppressWarnings({"checkstyle:MissingSwitchDefault", "checkstyle:ReturnCount"})
     @Override
     public E next() {
       if (!hasNext()) throw new java.util.NoSuchElementException("no more elements");
@@ -304,8 +237,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     // return the node at the top of the stack, push the next node if any
     @SuppressWarnings("PMD.NullAssignment")
     private E preorderNext() {
-      if (visiting.empty()) // at beginning of iterator
-      visiting.push(root);
+      // at beginning of iterator
+      if (visiting.empty()) visiting.push(root);
       TreeNode<E> node = visiting.pop();
       // need to visit the left subtree first, then the right
       // since a stack is a LIFO, push the right subtree first, then
@@ -313,22 +246,25 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       if (node.right != null) visiting.push(node.right);
       if (node.left != null) visiting.push(node.left);
       // may not have pushed anything.  If so, we are at the end
-      if (visiting.empty()) // no more nodes to visit
-      root = null;
+      // no more nodes to visit
+      if (visiting.empty()) root = null;
       return node.val;
     }
 
-    /* find the leftmost node from this root, pushing all the
-     * intermediate nodes onto the visiting stack
-     * @param	node the root of the subtree for which we
-     *		are trying to reach the leftmost node
-     * @changes	visiting takes all nodes between node and the leftmost
+    /**
+     * Find the leftmost node from this root, pushing all the intermediate nodes onto the visiting
+     * stack. are trying to reach the leftmost node changes visiting takes all nodes between node
+     * and the leftmost.
+     *
+     * @param node the root of the subtree
      */
     private void pushLeftmostNode(TreeNode<E> node) {
       // find the leftmost node
       if (node != null) {
-        visiting.push(node); // push this node
-        pushLeftmostNode(node.left); // recurse on next left node
+        // push this node
+        visiting.push(node);
+        // recurse on next left node
+        pushLeftmostNode(node.left);
       }
     }
 
@@ -338,61 +274,70 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     @SuppressWarnings("PMD.NullAssignment")
     private E inorderNext() {
-      if (visiting.empty()) { // at beginning of iterator
+      if (visiting.empty()) {
+        // at beginning of iterator
         // find the leftmost node, pushing all the intermediate nodes
         // onto the visiting stack
         pushLeftmostNode(root);
-      } // now the leftmost unvisited node is on top of the visiting stack
+      }
+      // now the leftmost unvisited node is on top of the visiting stack
       TreeNode<E> node = visiting.pop();
-      E result = node.val; // this is the value to return
+      E result = node.val;
+      // this is the value to return
       // if the node has a right child, its leftmost node is next
       if (node.right != null) {
         TreeNode<E> right = node.right;
         // find the leftmost node of the right child
         pushLeftmostNode(right);
         // note "node" has been replaced on the stack by its right child
-      } // else: no right subtree, go back up the stack
+      }
+      // else: no right subtree, go back up the stack
       // next node on stack will be next returned
-      if (visiting.empty()) // no next node left
-      root = null;
+      // no next node left
+      if (visiting.empty()) root = null;
       return result;
     }
 
-    /* find the leftmost node from this root, pushing all the
-     * intermediate nodes onto the visiting stack
-     * and also stating that each is a left child of its parent
-     * @param	node the root of the subtree for which we
-     *		are trying to reach the leftmost node
-     * @changes	visiting takes all nodes between node and the leftmost
+    /**
+     * Find the leftmost node from this root. pushing all the intermediate nodes onto the visiting
+     * stack and also stating that each is a left child of its parent are trying to reach the
+     * leftmost node
+     *
+     * @changes visiting takes all nodes between node and the leftmost
+     * @param node the root of the subtree for which we
      */
     private void pushLeftmostNodeRecord(TreeNode<E> node) {
       // find the leftmost node
       if (node != null) {
-        visiting.push(node); // push this node
-        visitingRightChild.push(false); // record that it is on the left
-        pushLeftmostNodeRecord(node.left); // continue looping
+        // push this node
+        visiting.push(node);
+        visitingRightChild.push(false);
+        // record that it is on the left
+        pushLeftmostNodeRecord(node.left);
+        // continue looping
       }
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment", "nullness"})
     private E postorderNext() {
-      if (visiting.empty()) // at beginning of iterator
-        // find the leftmost node, pushing all the intermediate nodes
-        // onto the visiting stack
-        pushLeftmostNodeRecord(root);
+      // at beginning of iterator
+      // find the leftmost node, pushing all the intermediate nodes
+      // onto the visiting stack
       // the node on top of the visiting stack is the next one to be
       // visited, unless it has a right subtree
-      if ((visiting.peek().right == null)
-          || // no right subtree, or
-          (visitingRightChild.peek())) { // right subtree already visited
-        // already visited right child, time to visit the node on top
+      if (visiting.empty()) pushLeftmostNodeRecord(root);
+      // no right subtree, or
+      // already visited right child, time to visit the node on top
+      if (visiting.peek().right == null || visitingRightChild.peek()) {
+        // right subtree already visited
         E result = visiting.pop().val;
         visitingRightChild.pop();
         if (visiting.empty()) root = null;
         return result;
-      } else { // now visit this node's right subtree
+      } else {
+        // now visit this node's right subtree
         // pop false and push true for visiting right child
-        if (visitingRightChild.pop()) assert (false);
+        if (visitingRightChild.pop()) assert false;
         visitingRightChild.push(true);
         // now push everything down to the leftmost node
         // in the right subtree
@@ -411,6 +356,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
 
     /* give the entire state of the iterator: the tree and the two stacks */
+    @SuppressWarnings({"checkstyle:MissingSwitchDefault", "checkstyle:ReturnCount"})
     @Override
     public String toString() {
       switch (order) {
@@ -425,11 +371,9 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
 
     private String toString(TreeNode<E> node) {
-      if (node == null) {
-        return "";
-      } else {
-        return node.toString() + "(" + toString(node.left) + ", " + toString(node.right) + ")";
-      }
+      return (node == null)
+          ? ""
+          : node.toString() + "(" + toString(node.left) + ", " + toString(node.right) + ")";
     }
   }
 }

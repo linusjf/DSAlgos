@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.BinaryTree;
 import ds.Tree;
+import ds.Tree.TraversalOrder;
 import java.util.Iterator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -111,7 +112,7 @@ class BinaryTreeTest {
   }
 
   private void assertTreeEmpty(Tree<Integer> tree) {
-    Iterator<Integer> iterator = tree.iterator();
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
     assertFalse(iterator.hasNext(), "Tree not empty");
   }
 
@@ -136,7 +137,7 @@ class BinaryTreeTest {
   }
 
   private void assertIterationValid(Tree<Integer> tree, int... elements) {
-    Iterator<Integer> iterator = tree.iterator();
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.IN_ORDER);
     for (int elem : elements) {
       assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
     }
