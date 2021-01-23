@@ -189,24 +189,23 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
 
   private class TreeIterator implements Iterator<E> {
     /**
-     * the class variables keep track of how much the iterator
-     * has done so far, and what remains to be done.
-     * root is null when the iterator has not been initialized,
-     * or the entire tree has been visited.
-     * the first stack keeps track of the last node to return
-     * and all its ancestors
-     * the second stack keeps track of whether the node visited
-     * is to the left (false) or right (true) of its parent
+     * the class variables keep track of how much the iterator has done so far, and what remains to
+     * be done. root is null when the iterator has not been initialized, or the entire tree has been
+     * visited. the first stack keeps track of the last node to return and all its ancestors the
+     * second stack keeps track of whether the node visited is to the left (false) or right (true)
+     * of its parent
      */
     protected TreeNode<E> root;
+
     protected Stack<TreeNode<E>> visiting;
     protected Stack<Boolean> visitingRightChild;
     TraversalOrder order;
 
-    /** 
+    /**
      * Constructor for traversal.
-     * @param  root of the tree to traverse
-     * @param  order of the tree to traverse
+     *
+     * @param root of the tree to traverse
+     * @param order of the tree to traverse
      */
     TreeIterator(TreeNode<E> root, TraversalOrder order) {
       this.root = root;
@@ -252,11 +251,11 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       return node.val;
     }
 
-    /** 
-     * Find the leftmost node from this root, pushing all the
-     * intermediate nodes onto the visiting stack.
-     * are trying to reach the leftmost node
-     * changes visiting takes all nodes between node and the leftmost.
+    /**
+     * Find the leftmost node from this root, pushing all the intermediate nodes onto the visiting
+     * stack. are trying to reach the leftmost node changes visiting takes all nodes between node
+     * and the leftmost.
+     *
      * @param node the root of the subtree
      */
     private void pushLeftmostNode(TreeNode<E> node) {
@@ -300,10 +299,10 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     }
 
     /**
-     * Find the leftmost node from this root.
-     * pushing all the intermediate nodes onto the visiting stack
-     * and also stating that each is a left child of its parent
-     * are trying to reach the leftmost node
+     * Find the leftmost node from this root. pushing all the intermediate nodes onto the visiting
+     * stack and also stating that each is a left child of its parent are trying to reach the
+     * leftmost node
+     *
      * @changes visiting takes all nodes between node and the leftmost
      * @param node the root of the subtree for which we
      */
@@ -314,13 +313,12 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
         visiting.push(node);
         visitingRightChild.push(false);
         // record that it is on the left
-        pushLeftmostNodeRecord(node.left); 
+        pushLeftmostNodeRecord(node.left);
         // continue looping
       }
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment",
-    "nullness"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment", "nullness"})
     private E postorderNext() {
       // at beginning of iterator
       // find the leftmost node, pushing all the intermediate nodes
@@ -330,8 +328,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       if (visiting.empty()) pushLeftmostNodeRecord(root);
       // no right subtree, or
       // already visited right child, time to visit the node on top
-      if (visiting.peek().right == null
-          || visitingRightChild.peek()) { 
+      if (visiting.peek().right == null || visitingRightChild.peek()) {
         // right subtree already visited
         E result = visiting.pop().val;
         visitingRightChild.pop();
