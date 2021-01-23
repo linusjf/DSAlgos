@@ -10,6 +10,12 @@ import java.util.Iterator;
  * @version 2.0 01-Mar-06
  */
 public interface Tree<E> {
+  enum TraversalOrder {
+    PRE_ORDER,
+    IN_ORDER,
+    POST_ORDER
+  }
+
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
    * in the correct location. Multiple objects representing the same value can be added.
@@ -39,5 +45,5 @@ public interface Tree<E> {
    *
    * @return new iterator object.
    */
-  Iterator<E> iterator();
+  Iterator<E> iterator(TraversalOrder order);
 }
