@@ -2,7 +2,10 @@ package ds;
 
 import static java.util.Objects.*;
 
+import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -180,6 +183,11 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       while (nonNull(t.left)) t = t.left;
       return t;
     }
+
+    @Override
+    public String toString() {
+      return Objects.toString(val);
+    }
   }
 
   /* an iterator class to iterate over binary trees
@@ -198,6 +206,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     protected TreeNode<E> root;
 
+    protected Queue<TreeNode<E>> queue;
     protected Stack<TreeNode<E>> visiting;
     protected Stack<Boolean> visitingRightChild;
     TraversalOrder order;
@@ -210,6 +219,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     TreeIterator(TreeNode<E> root, TraversalOrder order) {
       this.root = root;
+      queue = new ArrayDeque<>();
       visiting = new Stack<>();
       visitingRightChild = new Stack<>();
       this.order = order;
@@ -231,6 +241,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
           return inorderNext();
         case POST_ORDER:
           return postorderNext();
+        case BREADTH_FIRST_ORDER:
+          return breadthfirstNext();
       }
       return null;
     }
@@ -350,6 +362,18 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       }
     }
 
+    // return the node at the top of the queue, enqueue the next nodes if any
+    @SuppressWarnings("PMD.NullAssignment")
+    private E breadthfirstNext() {
+      // at beginning of iterator
+      if (queue.isEmpty()) queue.add(root);
+      TreeNode<E> node = queue.poll();
+      if (nonNull(node.left)) queue.add(node.left);
+      if (nonNull(node.right)) queue.add(node.right);
+      if (queue.isEmpty()) root = null;
+      return node.val;
+    }
+
     /* not implemented */
     @Override
     public void remove() {
@@ -366,6 +390,8 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
         case IN_ORDER:
           return "in: " + toString(root) + "\n" + visiting + "\n";
         case POST_ORDER:
+          return "post: " + toString(root) + "\n" + visiting + "\n" + visitingRightChild;
+        case BREADTH_FIRST_ORDER:
           return "post: " + toString(root) + "\n" + visiting + "\n" + visitingRightChild;
       }
       return "none of pre-order, in-order, or post-order are true";

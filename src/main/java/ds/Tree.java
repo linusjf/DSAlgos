@@ -13,7 +13,8 @@ public interface Tree<E> {
   enum TraversalOrder {
     PRE_ORDER,
     IN_ORDER,
-    POST_ORDER
+    POST_ORDER,
+    BREADTH_FIRST_ORDER
   }
 
   /**
