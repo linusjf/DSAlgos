@@ -71,6 +71,12 @@ class BinaryTreeTest {
   }
 
   @Test
+  @DisplayName("BinaryTreeTest.testBreadthFirstOrderIteration")
+  public void testBreadthFirstOrderIteration() {
+    assertBreadthFirstOrderIterationValid(several, new int[] {5, 2, 9, 1, 8, 10});
+  }
+
+  @Test
   @DisplayName("BinaryTreeTest.testSeveralDoesNotContain")
   public void testSeveralDoesNotContain() {
     assertDoesNotContain(several, new int[] {-1, 0, 3, 4, 6, 7, 11});
@@ -161,6 +167,13 @@ class BinaryTreeTest {
 
   private void assertPostOrderIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.POST_ORDER);
+    for (int elem : elements)
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
+    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+  }
+
+  private void assertBreadthFirstOrderIterationValid(Tree<Integer> tree, int... elements) {
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.BREADTH_FIRST_ORDER);
     for (int elem : elements)
       assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
     assertFalse(iterator.hasNext(), "Not reached end of iteration");
