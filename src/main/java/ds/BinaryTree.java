@@ -116,7 +116,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       if (val.compareTo(obj) < 0) {
         if (isNull(right)) right = new TreeNode<>(obj, null, null);
         else right.insert(obj);
-
       } else {
         if (isNull(left)) left = new TreeNode<>(obj, null, null);
         else left.insert(obj);

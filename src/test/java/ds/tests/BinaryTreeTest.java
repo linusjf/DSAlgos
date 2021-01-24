@@ -59,6 +59,18 @@ class BinaryTreeTest {
   }
 
   @Test
+  @DisplayName("BinaryTreeTest.testPreOrderIteration")
+  public void testPreOrderIteration() {
+    assertPreOrderIterationValid(several, new int[] {5, 2, 1, 9, 8, 10});
+  }
+
+  @Test
+  @DisplayName("BinaryTreeTest.testPostOrderIteration")
+  public void testPostOrderIteration() {
+    assertPostOrderIterationValid(several, new int[] {1, 2, 8, 10, 9, 5});
+  }
+
+  @Test
   @DisplayName("BinaryTreeTest.testSeveralDoesNotContain")
   public void testSeveralDoesNotContain() {
     assertDoesNotContain(several, new int[] {-1, 0, 3, 4, 6, 7, 11});
@@ -125,22 +137,32 @@ class BinaryTreeTest {
   }
 
   private void assertContains(Tree<Integer> tree, int... elements) {
-    for (int elem : elements) {
-      assertTrue(tree.contains(elem), () -> elem + " not in tree");
-    }
+    for (int elem : elements) assertTrue(tree.contains(elem), () -> elem + " not in tree");
   }
 
   private void assertDoesNotContain(Tree<Integer> tree, int... elements) {
-    for (int elem : elements) {
+    for (int elem : elements)
       assertFalse(tree.contains(elem), () -> elem + " unexpectedly found in tree");
-    }
   }
 
   private void assertIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.IN_ORDER);
-    for (int elem : elements) {
+    for (int elem : elements)
       assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
-    }
+    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+  }
+
+  private void assertPreOrderIterationValid(Tree<Integer> tree, int... elements) {
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
+    for (int elem : elements)
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
+    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+  }
+
+  private void assertPostOrderIterationValid(Tree<Integer> tree, int... elements) {
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.POST_ORDER);
+    for (int elem : elements)
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
     assertFalse(iterator.hasNext(), "Not reached end of iteration");
   }
 }
