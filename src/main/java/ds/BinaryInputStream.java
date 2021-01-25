@@ -98,6 +98,7 @@ public final class BinaryInputStream {
    * @return the next 8 bits of data from standard input as a {@code char}
    * @throws NoSuchElementException if there are fewer than 8 bits available on standard input
    */
+  @SuppressWarnings("PMD.PrematureDeclaration")
   public char readChar() {
     if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
