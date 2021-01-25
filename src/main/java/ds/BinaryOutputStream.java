@@ -26,9 +26,9 @@ import java.io.OutputStream;
  */
 @SuppressWarnings("PMD.SystemPrintln")
 public final class BinaryOutputStream {
-private static final int BYTE_SIZE = 8;
-private static final int CHAR_SIZE = 16;
-private static final int INT_SIZE = 32;
+  private static final int BYTE_SIZE = 8;
+  private static final int CHAR_SIZE = 16;
+  private static final int INT_SIZE = 32;
 
   // output stream
   private final BufferedOutputStream out;

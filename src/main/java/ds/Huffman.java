@@ -46,8 +46,7 @@ public class Huffman {
 
     // tabulate frequency counts
     int[] freq = new int[R];
-    for (int i: input)
-      freq[i]++;
+    for (int i : input) freq[i]++;
 
     // build Huffman trie
     Node root = buildTrie(freq);
@@ -63,7 +62,7 @@ public class Huffman {
     BinaryStdOut.write(input.length);
 
     // use Huffman code to encode input
-    for (int i: input) {
+    for (int i : input) {
       String code = st[i];
       for (int j = 0; j < code.length(); j++) {
         if (code.charAt(j) == ZERO_CHARACTER) BinaryStdOut.write(false);
@@ -107,12 +106,11 @@ public class Huffman {
 
   // make a lookup table from symbols and their encodings
   private void buildCode(String[] st, Node x, String s) {
-    if (x.isLeaf()) 
-st[x.ch] = s;
+    if (x.isLeaf()) st[x.ch] = s;
     else {
       buildCode(st, x.left, s + '0');
       buildCode(st, x.right, s + '1');
-    } 
+    }
   }
 
   /**
