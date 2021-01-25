@@ -24,21 +24,23 @@ import java.io.OutputStream;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings("PMD.SystemPrintln")
 public final class BinaryOutputStream {
+  private static final int BYTE_SIZE = 8;
+  private static final int CHAR_SIZE = 16;
+  private static final int INT_SIZE = 32;
+
   // output stream
-  private BufferedOutputStream out;
+  private final BufferedOutputStream out;
   // 8-bit buffer of bits to write
   private int buffer;
   // number of bits remaining in buffer
   private int n;
-  // first time?
-  private boolean isInitialized;
 
   public BinaryOutputStream(OutputStream os) {
     this.out = new BufferedOutputStream(os);
     buffer = 0;
     n = 0;
-    isInitialized = true;
   }
 
   /** Writes the specified bit to standard output. */
@@ -49,7 +51,7 @@ public final class BinaryOutputStream {
 
     // if buffer is full (8 bits), write out as a single byte
     n++;
-    if (n == 8) clearBuffer();
+    if (n == BYTE_SIZE) clearBuffer();
   }
 
   /** Writes the 8-bit byte to standard output. */
@@ -78,7 +80,7 @@ public final class BinaryOutputStream {
   private void clearBuffer() {
 
     if (n == 0) return;
-    if (n > 0) buffer <<= (8 - n);
+    if (n > 0) buffer <<= 8 - n;
     try {
       out.write(buffer);
     } catch (IOException e) {
@@ -108,7 +110,6 @@ public final class BinaryOutputStream {
     flush();
     try {
       out.close();
-      isInitialized = false;
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }
@@ -153,11 +154,11 @@ public final class BinaryOutputStream {
    * @throws IllegalArgumentException if {@code x} is not between 0 and 2<sup>r</sup> - 1.
    */
   public void write(int x, int r) {
-    if (r == 32) {
+    if (r == INT_SIZE) {
       write(x);
       return;
     }
-    if (r < 1 || r > 32) throw new IllegalArgumentException("Illegal value for r = " + r);
+    if (r < 1 || r > INT_SIZE) throw new IllegalArgumentException("Illegal value for r = " + r);
     if (x < 0 || x >= (1 << r))
       throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
     for (int i = 0; i < r; i++) {
@@ -205,6 +206,7 @@ public final class BinaryOutputStream {
    *
    * @param x the {@code short} to write.
    */
+  @SuppressWarnings("PMD.AvoidUsingShortType")
   public void write(short x) {
     writeByte((x >>> 8) & 0xff);
     writeByte((x >>> 0) & 0xff);
@@ -230,11 +232,11 @@ public final class BinaryOutputStream {
    * @throws IllegalArgumentException if {@code x} is not between 0 and 2<sup>r</sup> - 1.
    */
   public void write(char x, int r) {
-    if (r == 8) {
+    if (r == BYTE_SIZE) {
       write(x);
       return;
     }
-    if (r < 1 || r > 16) throw new IllegalArgumentException("Illegal value for r = " + r);
+    if (r < 1 || r > CHAR_SIZE) throw new IllegalArgumentException("Illegal value for r = " + r);
     if (x >= (1 << r)) throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
     for (int i = 0; i < r; i++) {
       boolean bit = ((x >>> (r - i - 1)) & 1) == 1;

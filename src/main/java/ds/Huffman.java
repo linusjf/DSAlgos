@@ -24,6 +24,10 @@ public class Huffman {
   // alphabet size of extended ASCII
   private static final int R = 256;
 
+  private static final char NULL_CHARACTER = '\0';
+  private static final char ZERO_CHARACTER = '0';
+  private static final char ONE_CHARACTER = '1';
+
   private String input;
 
   public Huffman(String input) {
@@ -34,6 +38,7 @@ public class Huffman {
    * Reads a sequence of 8-bit bytes from standard input; compresses them using Huffman codes with
    * an 8-bit alphabet; and writes the results to standard output.
    */
+  @SuppressWarnings("PMD.LawOfDemeter")
   public void compress() {
     // read the input
     String s = BinaryStdIn.readString();
@@ -41,7 +46,7 @@ public class Huffman {
 
     // tabulate frequency counts
     int[] freq = new int[R];
-    for (int i = 0; i < input.length; i++) freq[input[i]]++;
+    for (int i : input) freq[i]++;
 
     // build Huffman trie
     Node root = buildTrie(freq);
@@ -57,11 +62,11 @@ public class Huffman {
     BinaryStdOut.write(input.length);
 
     // use Huffman code to encode input
-    for (int i = 0; i < input.length; i++) {
-      String code = st[input[i]];
+    for (int i : input) {
+      String code = st[i];
       for (int j = 0; j < code.length(); j++) {
-        if (code.charAt(j) == '0') BinaryStdOut.write(false);
-        else if (code.charAt(j) == '1') BinaryStdOut.write(true);
+        if (code.charAt(j) == ZERO_CHARACTER) BinaryStdOut.write(false);
+        else if (code.charAt(j) == ONE_CHARACTER) BinaryStdOut.write(true);
         else throw new IllegalStateException("Illegal state");
       }
     }
@@ -71,7 +76,7 @@ public class Huffman {
   }
 
   // build the Huffman trie given frequencies
-  private Node buildTrie(int[] freq) {
+  private Node buildTrie(int... freq) {
 
     // initialize priority queue with singleton trees
     PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -81,7 +86,7 @@ public class Huffman {
     while (pq.size() > 1) {
       Node left = pq.poll();
       Node right = pq.poll();
-      Node parent = new Node('\0', left.freq + right.freq, left, right);
+      Node parent = new Node(NULL_CHARACTER, left.freq + right.freq, left, right);
       pq.offer(parent);
     }
     return pq.poll();
@@ -101,16 +106,18 @@ public class Huffman {
 
   // make a lookup table from symbols and their encodings
   private void buildCode(String[] st, Node x, String s) {
-    if (!x.isLeaf()) {
+    if (x.isLeaf()) st[x.ch] = s;
+    else {
       buildCode(st, x.left, s + '0');
       buildCode(st, x.right, s + '1');
-    } else st[x.ch] = s;
+    }
   }
 
   /**
    * Reads a sequence of bits that represents a Huffman-compressed message from standard input;
    * expands them; and writes the results to standard output.
    */
+  @SuppressWarnings("PMD.LawOfDemeter")
   public void expand() {
 
     // read in Huffman trie from input stream
@@ -143,7 +150,8 @@ public class Huffman {
   private static class Node implements Comparable<Node> {
     private final char ch;
     private final int freq;
-    private final Node left, right;
+    private final Node left;
+    private final Node right;
 
     Node(char ch, int freq, Node left, Node right) {
       this.ch = ch;
@@ -154,11 +162,12 @@ public class Huffman {
 
     // is the node a leaf node?
     private boolean isLeaf() {
-      assert ((left == null) && (right == null)) || ((left != null) && (right != null));
-      return (left == null) && (right == null);
+      assert ((left == null && right == null) || (left != null && right != null));
+      return left == null && right == null;
     }
 
     // compare, based on frequency
+    @Override
     public int compareTo(Node that) {
       return this.freq - that.freq;
     }
