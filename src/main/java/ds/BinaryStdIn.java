@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings("all")
 public final class BinaryStdIn {
   private static final int EOF = -1; // end of file
 

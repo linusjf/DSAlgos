@@ -24,32 +24,38 @@ import java.util.NoSuchElementException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings({"PMD.CommentSize",
+"PMD.SystemPrintln"})
 public final class BinaryInputStream {
 // end of file
   private static final int EOF = -1; 
 
+  private static final String READING_EMPTY = "Reading from empty input stream";
+
+  private static final int BYTE_SIZE = 8;
+  private static final int CHAR_SIZE = 16;
+  private static final int INT_SIZE = 32;
+
+
   // input stream
-  private BufferedInputStream in;
+  private final BufferedInputStream in;
   // one character buffer
   private  int buffer; 
   // number of bits left in buffer
   private  int n; 
-  // called for first time?
-  private  boolean isInitialized; 
 
   public BinaryInputStream(InputStream in) {
 this.in = new BufferedInputStream(in);
     buffer = 0;
     n = 0;
     fillBuffer();
-    isInitialized = true;
   }
 
 
   private  void fillBuffer() {
     try {
       buffer = in.read();
-      n = 8;
+      n = BYTE_SIZE;
     } catch (IOException e) {
       System.err.println("EOF: " + e.getMessage());
       buffer = EOF;
@@ -61,7 +67,6 @@ this.in = new BufferedInputStream(in);
   public  void close() {
     try {
       in.close();
-      isInitialized = false;
     } catch (IOException ioe) {
       throw new IllegalStateException("Could not close BinaryInputStream", ioe);
     }
@@ -83,7 +88,7 @@ this.in = new BufferedInputStream(in);
    * @throws NoSuchElementException if standard input is empty
    */
   public  boolean readBoolean() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
     n--;
     boolean bit = ((buffer >> n) & 1) == 1;
     if (n == 0) fillBuffer();
@@ -98,10 +103,10 @@ this.in = new BufferedInputStream(in);
    * @throws NoSuchElementException if there are fewer than 8 bits available on standard input
    */
   public  char readChar() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     // special case when aligned byte
-    if (n == 8) {
+    if (n == BYTE_SIZE) {
       int x = buffer;
       fillBuffer();
       return (char) (x & 0xff);
@@ -109,12 +114,12 @@ this.in = new BufferedInputStream(in);
 
     // combine last n bits of current buffer with first 8-n bits of new buffer
     int x = buffer;
-    x <<= (8 - n);
+    x <<= 8 - n;
     int oldN = n;
     fillBuffer();
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
     n = oldN;
-    x |= (buffer >>> n);
+    x |= buffer >>> n;
     return (char) (x & 0xff);
     // the above code doesn't quite work for the last character if n = 8
     // because buffer will be -1, so there is a special case for aligned byte
@@ -130,10 +135,10 @@ this.in = new BufferedInputStream(in);
    * @throws IllegalArgumentException unless {@code 1 <= r <= 16}
    */
   public  char readChar(int r) {
-    if (r < 1 || r > 16) throw new IllegalArgumentException("Illegal value of r = " + r);
+    if (r < 1 || r > CHAR_SIZE) throw new IllegalArgumentException("Illegal value of r = " + r);
 
     // optimize r = 8 case
-    if (r == 8) return readChar();
+    if (r == BYTE_SIZE) return readChar();
 
     char x = 0;
     for (int i = 0; i < r; i++) {
@@ -152,7 +157,7 @@ this.in = new BufferedInputStream(in);
    *     standard input is not a multiple of 8 (byte-aligned)
    */
   public  String readString() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     StringBuilder sb = new StringBuilder();
     while (!isEmpty()) {
@@ -168,6 +173,7 @@ this.in = new BufferedInputStream(in);
    * @return the next 16 bits of data from standard input as a {@code short}
    * @throws NoSuchElementException if there are fewer than 16 bits available on standard input
    */
+  @SuppressWarnings("PMD.AvoidUsingShortType")
   public  short readShort() {
     short x = 0;
     for (int i = 0; i < 2; i++) {
@@ -204,10 +210,10 @@ this.in = new BufferedInputStream(in);
    * @throws IllegalArgumentException unless {@code 1 <= r <= 32}
    */
   public  int readInt(int r) {
-    if (r < 1 || r > 32) throw new IllegalArgumentException("Illegal value of r = " + r);
+    if (r < 1 || r > INT_SIZE) throw new IllegalArgumentException("Illegal value of r = " + r);
 
     // optimize r = 32 case
-    if (r == 32) return readInt();
+    if (r == INT_SIZE) return readInt();
 
     int x = 0;
     for (int i = 0; i < r; i++) {
