@@ -19,10 +19,10 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class HuffmanTest {
 
-  private static final String abraFile = "abra.txt";
-  private static final String tinyTalesFile = "tinytales.txt";
-  private static final String talesFile = "tale.txt";
-  private static final String medTaleFile = "medtale.txt";
+  private static final String ABRA_FILE = "abra.txt";
+  private static final String TINY_TALES_FILE = "tinytales.txt";
+  private static final String TALES_FILE = "tale.txt";
+  private static final String MED_FILE = "medtale.txt";
 
   private final String abra;
   private final String tinyTales;
@@ -30,10 +30,10 @@ class HuffmanTest {
   private final String medTale;
 
   public HuffmanTest() throws IOException {
-    abra = readFile(abraFile);
-    tinyTales = readFile(tinyTalesFile);
-    tales = readFile(talesFile);
-    medTale = readFile(medTaleFile);
+    abra = readFile(ABRA_FILE);
+    tinyTales = readFile(TINY_TALES_FILE);
+    tales = readFile(TALES_FILE);
+    medTale = readFile(MED_TALE_FILE);
   }
 
   private String readFile(String fileName) throws IOException {

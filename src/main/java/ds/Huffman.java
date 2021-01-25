@@ -162,7 +162,7 @@ public class Huffman {
 
     // is the node a leaf node?
     private boolean isLeaf() {
-      assert ((left == null && right == null) || (left != null && right != null));
+      assert (left == null && right == null || left != null && right != null);
       return left == null && right == null;
     }
 
