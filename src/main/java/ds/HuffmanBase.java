@@ -11,8 +11,8 @@ import java.util.PriorityQueue;
  */
 
 /**
- * The {@code HuffmanBase} class provides methods for  a binary input
- * using Huffman codes over the 8-bit extended ASCII alphabet.
+ * The {@code HuffmanBase} class provides methods for a binary input using Huffman codes over the
+ * 8-bit extended ASCII alphabet.
  *
  * <p>For additional documentation, see <a
  * href="https://algs4.cs.princeton.edu/55compression">Section 5.5</a> of <i>Algorithms, 4th

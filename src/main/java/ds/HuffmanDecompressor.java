@@ -1,8 +1,5 @@
 package ds;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.PriorityQueue;
 
 /**
  * Expand a binary input stream using the Huffman algorithm.
@@ -11,8 +8,8 @@ import java.util.PriorityQueue;
  */
 
 /**
- * The {@code HuffmanDecompressor} class provides methods for expanding a binary input
- * using Huffman codes over the 8-bit extended ASCII alphabet.
+ * The {@code HuffmanDecompressor} class provides methods for expanding a binary input using Huffman
+ * codes over the 8-bit extended ASCII alphabet.
  *
  * <p>For additional documentation, see <a
  * href="https://algs4.cs.princeton.edu/55compression">Section 5.5</a> of <i>Algorithms, 4th
