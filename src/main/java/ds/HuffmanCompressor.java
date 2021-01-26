@@ -1,9 +1,12 @@
 package ds;
 
-/**
+/*
+ *
  * Compress a binary input stream using the Huffman algorithm.
  *
  * <p>****************************************************************************
+ * </p>
+ *
  */
 
 /**
