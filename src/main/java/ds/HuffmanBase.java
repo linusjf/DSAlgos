@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.PriorityQueue;
 
-
 /**
  * Compress or expand a binary input stream using the Huffman algorithm.
  *
