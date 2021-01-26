@@ -1,6 +1,5 @@
 package ds;
 
-
 /**
  * Expand a binary input stream using the Huffman algorithm.
  *
