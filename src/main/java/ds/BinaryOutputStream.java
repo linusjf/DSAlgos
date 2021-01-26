@@ -1,13 +1,16 @@
 package ds;
-
-/******************************************************************************
+/*
+ *
+ *****************************************************************************
  *  Write binary data to output, either one 1-bit boolean,
  *  one 8-bit char, one 32-bit int, one 64-bit double, one 32-bit float,
  *  or one 64-bit long at a time.
  *
  *  The bytes written are not aligned.
  *
- ******************************************************************************/
+ ******************************************************************************
+ *
+ */
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;

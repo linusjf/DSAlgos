@@ -4,10 +4,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.PriorityQueue;
 
-/**
+/*
  * Compress or expand a binary input stream using the Huffman algorithm.
  *
  * <p>****************************************************************************
+ * </p>
  */
 
 /**
@@ -21,6 +22,7 @@ import java.util.PriorityQueue;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings("checkstyle:AbstractClassName")
 public abstract class HuffmanBase {
 
   // alphabet size of extended ASCII
@@ -101,7 +103,7 @@ public abstract class HuffmanBase {
 
     // is the node a leaf node?
     boolean isLeaf() {
-      assert (left == null && right == null || left != null && right != null);
+      assert left == null && right == null || left != null && right != null;
       return left == null && right == null;
     }
 
