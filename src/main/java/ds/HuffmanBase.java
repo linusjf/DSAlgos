@@ -22,7 +22,8 @@ import java.util.PriorityQueue;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-@SuppressWarnings("checkstyle:AbstractClassName")
+@SuppressWarnings({"checkstyle:AbstractClassName",
+"PMD.AbstractClassWithoutAbstractMethod"})
 public abstract class HuffmanBase {
 
   // alphabet size of extended ASCII

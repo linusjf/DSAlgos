@@ -20,6 +20,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BinaryTreeTest {
 
+  private final static String MISSING_FROM_TREE = " missing from tree";
+  private final static String NOT_REACHED = "Not reached end of iteration";
+
   private Tree<Integer> empty;
   private Tree<Integer> one;
   private Tree<Integer> several;
@@ -154,28 +157,28 @@ class BinaryTreeTest {
   private void assertIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.IN_ORDER);
     for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
-    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
+    assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
   private void assertPreOrderIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
     for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
-    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
+    assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
   private void assertPostOrderIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.POST_ORDER);
     for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
-    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
+    assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
   private void assertBreadthFirstOrderIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.BREADTH_FIRST_ORDER);
     for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + " missing from tree");
-    assertFalse(iterator.hasNext(), "Not reached end of iteration");
+      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
+    assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 }

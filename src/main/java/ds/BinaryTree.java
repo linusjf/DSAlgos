@@ -184,6 +184,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       return t;
     }
 
+    @SuppressWarnings("PMD.UnnecessaryFullyQualifiedName")
     @Override
     public String toString() {
       return Objects.toString(val);
