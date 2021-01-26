@@ -1,5 +1,7 @@
 package ds;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.PriorityQueue;
 
 /**
@@ -19,19 +21,23 @@ import java.util.PriorityQueue;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-public class Huffman {
+public abstract class HuffmanBase {
 
   // alphabet size of extended ASCII
-  private static final int R = 256;
+  static final int R = 256;
 
-  private static final char NULL_CHARACTER = '\0';
-  private static final char ZERO_CHARACTER = '0';
-  private static final char ONE_CHARACTER = '1';
+  static final char NULL_CHARACTER = '\0';
+  static final char ZERO_CHARACTER = '0';
+  static final char ONE_CHARACTER = '1';
 
-  private String input;
+  protected final String input;
+  protected final BinaryInputStream bis;
+  protected final BinaryOutputStream bos;
 
-  public Huffman(String input) {
+  public HuffmanBase(String input) {
     this.input = input;
+    this.bis = new BinaryInputStream(new ByteArrayInputStream("".getBytes()));
+    this.bos = new BinaryOutputStream(new ByteArrayOutputStream());
   }
 
   /**
@@ -41,7 +47,7 @@ public class Huffman {
   @SuppressWarnings("PMD.LawOfDemeter")
   public void compress() {
     // read the input
-    String s = BinaryStdIn.readString();
+    String s = bis.readString();
     char[] input = s.toCharArray();
 
     // tabulate frequency counts
@@ -59,24 +65,24 @@ public class Huffman {
     writeTrie(root);
 
     // print number of bytes in original uncompressed message
-    BinaryStdOut.write(input.length);
+    bos.write(input.length);
 
     // use Huffman code to encode input
     for (int i : input) {
       String code = st[i];
       for (int j = 0; j < code.length(); j++) {
-        if (code.charAt(j) == ZERO_CHARACTER) BinaryStdOut.write(false);
-        else if (code.charAt(j) == ONE_CHARACTER) BinaryStdOut.write(true);
+        if (code.charAt(j) == ZERO_CHARACTER) bos.write(false);
+        else if (code.charAt(j) == ONE_CHARACTER) bos.write(true);
         else throw new IllegalStateException("Illegal state");
       }
     }
 
     // close output stream
-    BinaryStdOut.close();
+    bos.close();
   }
 
   // build the Huffman trie given frequencies
-  private Node buildTrie(int... freq) {
+  protected Node buildTrie(int... freq) {
 
     // initialize priority queue with singleton trees
     PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -93,19 +99,19 @@ public class Huffman {
   }
 
   // write bitstring-encoded trie to standard output
-  private void writeTrie(Node x) {
+  protected void writeTrie(Node x) {
     if (x.isLeaf()) {
-      BinaryStdOut.write(true);
-      BinaryStdOut.write(x.ch, 8);
+      bos.write(true);
+      bos.write(x.ch, 8);
       return;
     }
-    BinaryStdOut.write(false);
+    bos.write(false);
     writeTrie(x.left);
     writeTrie(x.right);
   }
 
   // make a lookup table from symbols and their encodings
-  private void buildCode(String[] st, Node x, String s) {
+  protected void buildCode(String[] st, Node x, String s) {
     if (x.isLeaf()) st[x.ch] = s;
     else {
       buildCode(st, x.left, s + '0');
@@ -124,30 +130,30 @@ public class Huffman {
     Node root = readTrie();
 
     // number of bytes to write
-    int length = BinaryStdIn.readInt();
+    int length = bis.readInt();
 
     // decode using the Huffman trie
     for (int i = 0; i < length; i++) {
       Node x = root;
       while (!x.isLeaf()) {
-        boolean bit = BinaryStdIn.readBoolean();
+        boolean bit = bis.readBoolean();
         if (bit) x = x.right;
         else x = x.left;
       }
-      BinaryStdOut.write(x.ch, 8);
+      bos.write(x.ch, 8);
     }
-    BinaryStdOut.close();
+    bos.close();
   }
 
-  private Node readTrie() {
-    boolean isLeaf = BinaryStdIn.readBoolean();
-    if (isLeaf) return new Node(BinaryStdIn.readChar(), -1, null, null);
-    else return new Node('\0', -1, readTrie(), readTrie());
+  protected Node readTrie() {
+    boolean isLeaf = bis.readBoolean();
+    if (isLeaf) return new Node(bis.readChar(), -1, null, null);
+    else return new Node(NULL_CHARACTER, -1, readTrie(), readTrie());
   }
 
   // Huffman trie node
   @SuppressWarnings("nullness")
-  private static class Node implements Comparable<Node> {
+  static class Node implements Comparable<Node> {
     private final char ch;
     private final int freq;
     private final Node left;
