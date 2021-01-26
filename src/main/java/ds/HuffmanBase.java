@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  */
 
 /**
- * The {@code Huffman} class provides static methods for compressing and expanding a binary input
+ * The {@code HuffmanBase} class provides methods for  a binary input
  * using Huffman codes over the 8-bit extended ASCII alphabet.
  *
  * <p>For additional documentation, see <a
@@ -38,47 +38,6 @@ public abstract class HuffmanBase {
     this.input = input;
     this.bis = new BinaryInputStream(new ByteArrayInputStream("".getBytes()));
     this.bos = new BinaryOutputStream(new ByteArrayOutputStream());
-  }
-
-  /**
-   * Reads a sequence of 8-bit bytes from standard input; compresses them using Huffman codes with
-   * an 8-bit alphabet; and writes the results to standard output.
-   */
-  @SuppressWarnings("PMD.LawOfDemeter")
-  public void compress() {
-    // read the input
-    String s = bis.readString();
-    char[] input = s.toCharArray();
-
-    // tabulate frequency counts
-    int[] freq = new int[R];
-    for (int i : input) freq[i]++;
-
-    // build Huffman trie
-    Node root = buildTrie(freq);
-
-    // build code table
-    String[] st = new String[R];
-    buildCode(st, root, "");
-
-    // print trie for decoder
-    writeTrie(root);
-
-    // print number of bytes in original uncompressed message
-    bos.write(input.length);
-
-    // use Huffman code to encode input
-    for (int i : input) {
-      String code = st[i];
-      for (int j = 0; j < code.length(); j++) {
-        if (code.charAt(j) == ZERO_CHARACTER) bos.write(false);
-        else if (code.charAt(j) == ONE_CHARACTER) bos.write(true);
-        else throw new IllegalStateException("Illegal state");
-      }
-    }
-
-    // close output stream
-    bos.close();
   }
 
   // build the Huffman trie given frequencies
@@ -119,32 +78,6 @@ public abstract class HuffmanBase {
     }
   }
 
-  /**
-   * Reads a sequence of bits that represents a Huffman-compressed message from standard input;
-   * expands them; and writes the results to standard output.
-   */
-  @SuppressWarnings("PMD.LawOfDemeter")
-  public void expand() {
-
-    // read in Huffman trie from input stream
-    Node root = readTrie();
-
-    // number of bytes to write
-    int length = bis.readInt();
-
-    // decode using the Huffman trie
-    for (int i = 0; i < length; i++) {
-      Node x = root;
-      while (!x.isLeaf()) {
-        boolean bit = bis.readBoolean();
-        if (bit) x = x.right;
-        else x = x.left;
-      }
-      bos.write(x.ch, 8);
-    }
-    bos.close();
-  }
-
   protected Node readTrie() {
     boolean isLeaf = bis.readBoolean();
     if (isLeaf) return new Node(bis.readChar(), -1, null, null);
@@ -154,10 +87,10 @@ public abstract class HuffmanBase {
   // Huffman trie node
   @SuppressWarnings("nullness")
   static class Node implements Comparable<Node> {
-    private final char ch;
-    private final int freq;
-    private final Node left;
-    private final Node right;
+    final char ch;
+    final int freq;
+    final Node left;
+    final Node right;
 
     Node(char ch, int freq, Node left, Node right) {
       this.ch = ch;
@@ -167,7 +100,7 @@ public abstract class HuffmanBase {
     }
 
     // is the node a leaf node?
-    private boolean isLeaf() {
+    boolean isLeaf() {
       assert (left == null && right == null || left != null && right != null);
       return left == null && right == null;
     }
