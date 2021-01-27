@@ -20,8 +20,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BinaryTreeTest {
 
-  private final static String MISSING_FROM_TREE = " missing from tree";
-  private final static String NOT_REACHED = "Not reached end of iteration";
+  private static final String MISSING_FROM_TREE = " missing from tree";
+  private static final String NOT_REACHED = "Not reached end of iteration";
 
   private Tree<Integer> empty;
   private Tree<Integer> one;
