@@ -14,10 +14,11 @@ package ds;
  ******************************************************************************/
 
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * <i>Binary output</i>. This class provides methods for converting primtive type variables ({@code
@@ -34,6 +35,9 @@ import java.net.Socket;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings({"PMD.CommentSize",
+"PMD.SystemPrintln","PMD.AvoidLiteralsInIfCondition",
+"PMD.AvoidUsingShortType"})
 public final class BinaryOutputStream {
 
   private BufferedOutputStream out;
@@ -64,7 +68,7 @@ public final class BinaryOutputStream {
    */
   public BinaryOutputStream(String filename) {
     try {
-      OutputStream os = new FileOutputStream(filename);
+      OutputStream os = Files.newOutputStream(Paths.get(filename));
       out = new BufferedOutputStream(os);
     } catch (IOException e) {
       System.err.println(e.getMessage());
@@ -128,7 +132,7 @@ public final class BinaryOutputStream {
   // write out any remaining bits in buffer to the binary output stream, padding with 0s
   private void clearBuffer() {
     if (n == 0) return;
-    if (n > 0) buffer <<= (8 - n);
+    if (n > 0) buffer <<= 8 - n;
     try {
       out.write(buffer);
     } catch (IOException e) {
