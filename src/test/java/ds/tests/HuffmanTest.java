@@ -2,7 +2,11 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.BinaryInputStream;
+import ds.BinaryOutputStream;
 import ds.HuffmanCompressor;
+import ds.HuffmanDecompressor;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,7 +46,29 @@ class HuffmanTest {
 
   @Test
   @DisplayName("HuffmanTest.testAbraFile")
-  public void testAbraFile() {
-    HuffmanCompressor hfc = new HuffmanCompressor(abra);
+  public void testAbraFile() throws IOException {
+    HuffmanCompressor hfc = new HuffmanCompressor(abra, new File("abra.huf"));
+    System.out.println(abra);
+    hfc.compress();
+    String output = readFile("abra.huf");
+    HuffmanDecompressor hdc = new HuffmanDecompressor(output, new File("abra.dec"));
+    hdc.expand();
+    String expanded = readFile("abra.dec");
+    assertEquals(abra, expanded, "Decompressed output must be same as input to compressor.");
+  }
+
+  @Test
+  @DisplayName("HuffmanTest.testBinaryAbraFile")
+  public void testBinaryAbraFile() throws IOException {
+    BinaryInputStream bis = new BinaryInputStream(ABRA_FILE);
+    BinaryOutputStream bos = new BinaryOutputStream("out.txt");
+
+    // read one 8-bit char at a time
+    while (!bis.isEmpty()) {
+      char c = bis.readChar();
+      bos.write(c);
+    }
+    bos.flush();
+    assertTrue(bis.isEmpty(), "Input file fully read.");
   }
 }

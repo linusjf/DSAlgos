@@ -1,69 +1,108 @@
 package ds;
-/*
+/******************************************************************************
+ *  Compilation:  javac BinaryOutputStream.java
+ *  Execution:    java BinaryOutputStream
+ *  Dependencies: none
  *
- *****************************************************************************
- *  Write binary data to output, either one 1-bit boolean,
+ *  Write binary data to an output stream, either one 1-bit boolean,
  *  one 8-bit char, one 32-bit int, one 64-bit double, one 32-bit float,
- *  or one 64-bit long at a time.
+ *  or one 64-bit long at a time. The output stream can be standard
+ *  output, a file, an OutputStream or a Socket.
  *
  *  The bytes written are not aligned.
  *
- ******************************************************************************
- *
- */
+ ******************************************************************************/
 
 import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.Socket;
 
 /**
- * <i>Binary output stream</i>. This class provides methods for converting primtive type variables
- * ({@code boolean}, {@code byte}, {@code char}, {@code int}, {@code long}, {@code float}, and
- * {@code double}) to sequences of bits and writing them to standard output. Uses big-endian
- * (most-significant byte first).
+ * <i>Binary output</i>. This class provides methods for converting primtive type variables ({@code
+ * boolean}, {@code byte}, {@code char}, {@code int}, {@code long}, {@code float}, and {@code
+ * double}) to sequences of bits and writing them to an output stream. The output stream can be
+ * standard output, a file, an OutputStream or a Socket. Uses big-endian (most-significant byte
+ * first).
  *
  * <p>The client must {@code flush()} the output stream when finished writing bits.
+ *
+ * <p>The client should not intermix calls to {@code BinaryOutputStream} with calls to {@code Out};
+ * otherwise unexpected behavior will result.
  *
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-@SuppressWarnings("PMD.SystemPrintln")
 public final class BinaryOutputStream {
-  private static final int BYTE_SIZE = 8;
-  private static final int CHAR_SIZE = 16;
-  private static final int INT_SIZE = 32;
 
-  // output stream
-  private final CustomBufferedOutputStream out;
-  // 8-bit buffer of bits to write
-  private int buffer;
-  // number of bits remaining in buffer
-  private int n;
+  private BufferedOutputStream out; // the output stream
+  private int buffer; // 8-bit buffer of bits to write out
+  private int n; // number of bits remaining in buffer
 
+  /** Initializes a binary output stream from standard output. */
+  public BinaryOutputStream() {
+    out = new BufferedOutputStream(System.out);
+  }
+
+  /**
+   * Initializes a binary output stream from an {@code OutputStream}.
+   *
+   * @param os the {@code OutputStream}
+   */
   public BinaryOutputStream(OutputStream os) {
-    this.out = new CustomBufferedOutputStream(os);
-    buffer = 0;
-    n = 0;
+    out = new BufferedOutputStream(os);
   }
 
-  public String stringOutput() {
-    return out.stringOutput();
+  /**
+   * Initializes a binary output stream from a file.
+   *
+   * @param filename the name of the file
+   */
+  public BinaryOutputStream(String filename) {
+    try {
+      OutputStream os = new FileOutputStream(filename);
+      out = new BufferedOutputStream(os);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
   }
 
-  /** Writes the specified bit to standard output. */
-  private void writeBit(boolean bit) {
+  /**
+   * Initializes a binary output stream from a socket.
+   *
+   * @param socket the socket
+   */
+  public BinaryOutputStream(Socket socket) {
+    try {
+      OutputStream os = socket.getOutputStream();
+      out = new BufferedOutputStream(os);
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
+  }
+
+  /**
+   * Writes the specified bit to the binary output stream.
+   *
+   * @param x the bit
+   */
+  private void writeBit(boolean x) {
     // add bit to buffer
     buffer <<= 1;
-    if (bit) buffer |= 1;
+    if (x) buffer |= 1;
 
     // if buffer is full (8 bits), write out as a single byte
     n++;
-    if (n == BYTE_SIZE) clearBuffer();
+    if (n == 8) clearBuffer();
   }
 
-  /** Writes the 8-bit byte to standard output. */
+  /**
+   * Writes the 8-bit byte to the binary output stream.
+   *
+   * @param x the byte
+   */
   private void writeByte(int x) {
-
     assert x >= 0 && x < 256;
 
     // optimized if byte-aligned
@@ -83,11 +122,10 @@ public final class BinaryOutputStream {
     }
   }
 
-  // write out any remaining bits in buffer to standard output, padding with 0s
+  // write out any remaining bits in buffer to the binary output stream, padding with 0s
   private void clearBuffer() {
-
     if (n == 0) return;
-    if (n > 0) buffer <<= 8 - n;
+    if (n > 0) buffer <<= (8 - n);
     try {
       out.write(buffer);
     } catch (IOException e) {
@@ -98,7 +136,8 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Flushes standard output, padding 0s if number of bits written so far is not a multiple of 8.
+   * Flushes the binary output stream, padding 0s if number of bits written so far is not a multiple
+   * of 8.
    */
   public void flush() {
     clearBuffer();
@@ -110,8 +149,7 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Flushes and closes standard output. Once standard output is closed, you can no longer write
-   * bits to it.
+   * Flushes and closes the binary output stream. Once it is closed, bits can no longer be written.
    */
   public void close() {
     flush();
@@ -123,16 +161,16 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the specified bit to standard output.
+   * Writes the specified bit to the binary output stream.
    *
-   * @param x the {@code boolean} to write.
+   * @param x the {@code boolean} to write
    */
   public void write(boolean x) {
     writeBit(x);
   }
 
   /**
-   * Writes the 8-bit byte to standard output.
+   * Writes the 8-bit byte to the binary output stream.
    *
    * @param x the {@code byte} to write.
    */
@@ -141,9 +179,9 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the 32-bit int to standard output.
+   * Writes the 32-bit int to the binary output stream.
    *
-   * @param x the {@code int} to write.
+   * @param x the {@code int} to write
    */
   public void write(int x) {
     writeByte((x >>> 24) & 0xff);
@@ -153,21 +191,20 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the <em>r</em>-bit int to standard output.
+   * Writes the <em>r</em>-bit int to the binary output stream.
    *
-   * @param x the {@code int} to write.
-   * @param r the number of relevant bits in the char.
-   * @throws IllegalArgumentException if {@code r} is not between 1 and 32.
-   * @throws IllegalArgumentException if {@code x} is not between 0 and 2<sup>r</sup> - 1.
+   * @param x the {@code int} to write
+   * @param r the number of relevant bits in the char
+   * @throws IllegalArgumentException unless {@code r} is between 1 and 32
+   * @throws IllegalArgumentException unless {@code x} is between 0 and 2<sup>r</sup> - 1
    */
   public void write(int x, int r) {
-    if (r == INT_SIZE) {
+    if (r == 32) {
       write(x);
       return;
     }
-    if (r < 1 || r > INT_SIZE) throw new IllegalArgumentException("Illegal value for r = " + r);
-    if (x < 0 || x >= (1 << r))
-      throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
+    if (r < 1 || r > 32) throw new IllegalArgumentException("Illegal value for r = " + r);
+    if (x >= (1 << r)) throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
     for (int i = 0; i < r; i++) {
       boolean bit = ((x >>> (r - i - 1)) & 1) == 1;
       writeBit(bit);
@@ -175,18 +212,18 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the 64-bit double to standard output.
+   * Writes the 64-bit double to the binary output stream.
    *
-   * @param x the {@code double} to write.
+   * @param x the {@code double} to write
    */
   public void write(double x) {
     write(Double.doubleToRawLongBits(x));
   }
 
   /**
-   * Writes the 64-bit long to standard output.
+   * Writes the 64-bit long to the binary output stream.
    *
-   * @param x the {@code long} to write.
+   * @param x the {@code long} to write
    */
   public void write(long x) {
     writeByte((int) ((x >>> 56) & 0xff));
@@ -200,30 +237,29 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the 32-bit float to standard output.
+   * Writes the 32-bit float to the binary output stream.
    *
-   * @param x the {@code float} to write.
+   * @param x the {@code float} to write
    */
   public void write(float x) {
     write(Float.floatToRawIntBits(x));
   }
 
   /**
-   * Writes the 16-bit int to standard output.
+   * Write the 16-bit int to the binary output stream.
    *
    * @param x the {@code short} to write.
    */
-  @SuppressWarnings("PMD.AvoidUsingShortType")
   public void write(short x) {
     writeByte((x >>> 8) & 0xff);
     writeByte((x >>> 0) & 0xff);
   }
 
   /**
-   * Writes the 8-bit char to standard output.
+   * Writes the 8-bit char to the binary output stream.
    *
-   * @param x the {@code char} to write.
-   * @throws IllegalArgumentException if {@code x} is not betwen 0 and 255.
+   * @param x the {@code char} to write
+   * @throws IllegalArgumentException unless {@code x} is betwen 0 and 255
    */
   public void write(char x) {
     if (x < 0 || x >= 256) throw new IllegalArgumentException("Illegal 8-bit char = " + x);
@@ -231,19 +267,19 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the <em>r</em>-bit char to standard output.
+   * Writes the <em>r</em>-bit char to the binary output stream.
    *
-   * @param x the {@code char} to write.
-   * @param r the number of relevant bits in the char.
-   * @throws IllegalArgumentException if {@code r} is not between 1 and 16.
-   * @throws IllegalArgumentException if {@code x} is not between 0 and 2<sup>r</sup> - 1.
+   * @param x the {@code char} to write
+   * @param r the number of relevant bits in the char
+   * @throws IllegalArgumentException unless {@code r} is between 1 and 16
+   * @throws IllegalArgumentException unless {@code x} is between 0 and 2<sup>r</sup> - 1
    */
   public void write(char x, int r) {
-    if (r == BYTE_SIZE) {
+    if (r == 8) {
       write(x);
       return;
     }
-    if (r < 1 || r > CHAR_SIZE) throw new IllegalArgumentException("Illegal value for r = " + r);
+    if (r < 1 || r > 16) throw new IllegalArgumentException("Illegal value for r = " + r);
     if (x >= (1 << r)) throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
     for (int i = 0; i < r; i++) {
       boolean bit = ((x >>> (r - i - 1)) & 1) == 1;
@@ -252,39 +288,45 @@ public final class BinaryOutputStream {
   }
 
   /**
-   * Writes the string of 8-bit characters to standard output.
+   * Writes the string of 8-bit characters to the binary output stream.
    *
-   * @param s the {@code String} to write.
-   * @throws IllegalArgumentException if any character in the string is not between 0 and 255.
+   * @param s the {@code String} to write
+   * @throws IllegalArgumentException if any character in the string is not between 0 and 255
    */
   public void write(String s) {
     for (int i = 0; i < s.length(); i++) write(s.charAt(i));
   }
 
   /**
-   * Writes the string of <em>r</em>-bit characters to standard output.
+   * Writes the string of <em>r</em>-bit characters to the binary output stream.
    *
-   * @param s the {@code String} to write.
-   * @param r the number of relevants bits in each character.
-   * @throws IllegalArgumentException if r is not between 1 and 16.
+   * @param s the {@code String} to write
+   * @param r the number of relevants bits in each character
+   * @throws IllegalArgumentException unless r is between 1 and 16
    * @throws IllegalArgumentException if any character in the string is not between 0 and
-   *     2<sup>r</sup> - 1.
+   *     2<sup>r</sup> - 1
    */
   public void write(String s, int r) {
     for (int i = 0; i < s.length(); i++) write(s.charAt(i), r);
   }
 
-  private static class CustomBufferedOutputStream extends BufferedOutputStream {
-    public CustomBufferedOutputStream(OutputStream out) {
-      super(out);
-    }
+  /**
+   * Test client. Read bits from standard input and write to the file specified on command line.
+   *
+   * @param args the command-line arguments
+   */
+  public static void main(String[] args) {
 
-    public CustomBufferedOutputStream(OutputStream out, int size) {
-      super(out, size);
-    }
+    // create binary output stream to write to file
+    String filename = args[0];
+    BinaryOutputStream out = new BinaryOutputStream(filename);
+    BinaryInputStream in = new BinaryInputStream();
 
-    public String stringOutput() {
-      return new String(buf);
+    // read from standard input and write to file
+    while (!in.isEmpty()) {
+      char c = in.readChar();
+      out.write(c);
     }
+    out.flush();
   }
 }

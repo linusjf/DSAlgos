@@ -2,6 +2,8 @@ package ds;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.PriorityQueue;
 
 /*
@@ -22,7 +24,11 @@ import java.util.PriorityQueue;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-@SuppressWarnings({"checkstyle:AbstractClassName", "PMD.AbstractClassWithoutAbstractMethod"})
+@SuppressWarnings({
+  "checkstyle:AbstractClassName",
+  "PMD.AbstractClassWithoutAbstractMethod",
+  "nullness"
+})
 public abstract class HuffmanBase {
 
   // alphabet size of extended ASCII
@@ -36,9 +42,9 @@ public abstract class HuffmanBase {
   protected final BinaryInputStream bis;
   protected final BinaryOutputStream bos;
 
-  public HuffmanBase(String input) {
+  public HuffmanBase(String input, File output) throws IOException {
     this.input = input;
-    this.bis = new BinaryInputStream(new ByteArrayInputStream("".getBytes()));
+    this.bis = new BinaryInputStream(new ByteArrayInputStream(input.getBytes()));
     this.bos = new BinaryOutputStream(new ByteArrayOutputStream());
   }
 

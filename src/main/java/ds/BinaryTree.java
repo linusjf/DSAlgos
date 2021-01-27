@@ -22,7 +22,7 @@ import java.util.Stack;
  * @author Graham Roberts
  * @version 2.0 01-Mar-06
  */
-@SuppressWarnings("PMD.CommentSize")
+@SuppressWarnings({"PMD.CommentSize", "nullness"})
 public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   /**
    * A tree is a hierarchical structure of TreeNode objects. root references the first node on the
@@ -30,7 +30,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    */
   private TreeNode<E> root;
 
-  @SuppressWarnings({"nullness", "PMD.NullAssignment"})
+  @SuppressWarnings("PMD.NullAssignment")
   public BinaryTree() {
     root = null;
   }
@@ -41,7 +41,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    *
    * @param obj reference to Comparable object to add.
    */
-  @SuppressWarnings("nullness")
   @Override
   public void add(E obj) {
     requireNonNull(obj);
@@ -104,7 +103,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param left left child node reference or null
      * @param right right child node reference or null
      */
-    @SuppressWarnings("nullness")
     TreeNode(T val, TreeNode<T> left, TreeNode<T> right) {
       this.val = val;
       this.left = left;
@@ -116,7 +114,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      *
      * @param obj object to insert into tree.
      */
-    @SuppressWarnings("nullness")
     public void insert(T obj) {
       requireNonNull(obj);
       if (val.compareTo(obj) < 0) {
@@ -135,7 +132,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param obj Object representing value to find in tree.
      * @return reference to matching node or null.
      */
-    @SuppressWarnings("nullness")
     public TreeNode<T> find(T obj) {
       int temp = val.compareTo(obj);
       if (temp == 0) return this;
@@ -157,7 +153,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @return reference to the (possibly new) root node of the sub-tree being examined or null if
      *     no node.
      */
-    @SuppressWarnings({"PMD.LawOfDemeter", "nullness"})
+    @SuppressWarnings("PMD.LawOfDemeter")
     private TreeNode<T> remove(T obj, TreeNode<T> node) {
       requireNonNull(obj);
       TreeNode<T> t = node;
@@ -179,7 +175,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      * @param t TreeNode to be examined.
      * @return reference to left most leaf node or null.
      */
-    @SuppressWarnings("nullness")
     private TreeNode<T> findMin(TreeNode<T> node) {
       TreeNode<T> t = node;
       if (isNull(t)) return null;
@@ -335,7 +330,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       }
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment", "nullness"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.NullAssignment"})
     private E postorderNext() {
       // at beginning of iterator
       // find the leftmost node, pushing all the intermediate nodes
