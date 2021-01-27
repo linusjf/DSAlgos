@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class HuffmanDecompressor extends HuffmanBase {
 
-  public HuffmanDecompressor(String input, File output) throws IOException {
+  public HuffmanDecompressor(File input, File output) throws IOException {
     super(input, output);
   }
 
@@ -42,8 +42,6 @@ public class HuffmanDecompressor extends HuffmanBase {
     // number of bytes to write
     int length = bis.readInt();
 
-    System.out.println(length);
-
     // decode using the Huffman trie
     for (int i = 0; i < length; i++) {
       Node x = root;
@@ -52,7 +50,6 @@ public class HuffmanDecompressor extends HuffmanBase {
         if (bit) x = x.right;
         else x = x.left;
       }
-      System.out.write(x.ch);
       bos.write(x.ch, 8);
     }
     bos.close();

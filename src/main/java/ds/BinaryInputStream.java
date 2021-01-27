@@ -40,11 +40,15 @@ import java.util.NoSuchElementException;
  * @author Kevin Wayne
  */
 public final class BinaryInputStream {
-  private static final int EOF = -1; // end of file
+  private static final int EOF = -1; 
+  // end of file
 
-  private BufferedInputStream in; // the input stream
-  private int buffer; // one character buffer
-  private int n; // number of bits left in buffer
+  private BufferedInputStream in; 
+  // the input stream
+  private int buffer; 
+  // one character buffer
+  private int n; 
+  // number of bits left in buffer
 
   /** Initializes a binary input stream from standard input. */
   public BinaryInputStream() {

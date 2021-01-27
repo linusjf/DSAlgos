@@ -47,11 +47,10 @@ class HuffmanTest {
   @Test
   @DisplayName("HuffmanTest.testAbraFile")
   public void testAbraFile() throws IOException {
-    HuffmanCompressor hfc = new HuffmanCompressor(abra, new File("abra.huf"));
-    System.out.println(abra);
+    HuffmanCompressor hfc = new HuffmanCompressor(new File(ABRA_FILE), new File("abra.huf"));
     hfc.compress();
     String output = readFile("abra.huf");
-    HuffmanDecompressor hdc = new HuffmanDecompressor(output, new File("abra.dec"));
+    HuffmanDecompressor hdc = new HuffmanDecompressor(new File("abra.huf"), new File("abra.dec"));
     hdc.expand();
     String expanded = readFile("abra.dec");
     assertEquals(abra, expanded, "Decompressed output must be same as input to compressor.");

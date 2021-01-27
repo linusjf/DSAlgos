@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class HuffmanCompressor extends HuffmanBase {
 
-  public HuffmanCompressor(String input, File output) throws IOException {
+  public HuffmanCompressor(File input, File output) throws IOException {
     super(input, output);
   }
 

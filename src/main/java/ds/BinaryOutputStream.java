@@ -36,9 +36,12 @@ import java.net.Socket;
  */
 public final class BinaryOutputStream {
 
-  private BufferedOutputStream out; // the output stream
-  private int buffer; // 8-bit buffer of bits to write out
-  private int n; // number of bits remaining in buffer
+  private BufferedOutputStream out; 
+  // the output stream
+  private int buffer; 
+  // 8-bit buffer of bits to write out
+  private int n; 
+  // number of bits remaining in buffer
 
   /** Initializes a binary output stream from standard output. */
   public BinaryOutputStream() {
