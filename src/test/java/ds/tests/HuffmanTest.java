@@ -48,7 +48,6 @@ class HuffmanTest {
   public void testAbraFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(ABRA_FILE), new File("abra.huf"));
     hfc.compress();
-    String output = readFile("abra.huf");
     HuffmanDecompressor hdc = new HuffmanDecompressor(new File("abra.huf"), new File("abra.dec"));
     hdc.expand();
     String expanded = readFile("abra.dec");
@@ -60,7 +59,6 @@ class HuffmanTest {
   public void testTalesFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(TALES_FILE), new File("tales.huf"));
     hfc.compress();
-    String output = readFile("tales.huf");
     HuffmanDecompressor hdc = new HuffmanDecompressor(new File("tales.huf"), new File("tales.dec"));
     hdc.expand();
     String expanded = readFile("tales.dec");
@@ -73,7 +71,6 @@ class HuffmanTest {
     HuffmanCompressor hfc =
         new HuffmanCompressor(new File(TINY_TALES_FILE), new File("tinytales.huf"));
     hfc.compress();
-    String output = readFile("tinytales.huf");
     HuffmanDecompressor hdc =
         new HuffmanDecompressor(new File("tinytales.huf"), new File("tinytales.dec"));
     hdc.expand();
@@ -86,7 +83,6 @@ class HuffmanTest {
   public void testMedTaleFile() throws IOException {
     HuffmanCompressor hfc = new HuffmanCompressor(new File(MED_TALE_FILE), new File("medtale.huf"));
     hfc.compress();
-    String output = readFile("medtale.huf");
     HuffmanDecompressor hdc =
         new HuffmanDecompressor(new File("medtale.huf"), new File("medtale.dec"));
     hdc.expand();

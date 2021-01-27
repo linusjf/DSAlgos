@@ -13,12 +13,12 @@ package ds;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import java.util.NoSuchElementException;
 
 /**
@@ -39,9 +39,13 @@ import java.util.NoSuchElementException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
+@SuppressWarnings({"PMD.CommentSize",
+"PMD.SystemPrintln","PMD.AvoidLiteralsInIfCondition",
+"PMD.AvoidUsingShortType"})
 public final class BinaryInputStream {
   private static final int EOF = -1;
   // end of file
+  private static final String READING_EMPTY = "Reading from empty input stream";
 
   private BufferedInputStream in;
   // the input stream
@@ -108,7 +112,7 @@ public final class BinaryInputStream {
       // first try to read file from local file system
       File file = new File(name);
       if (file.exists()) {
-        FileInputStream fis = new FileInputStream(file);
+        InputStream fis = Files.newInputStream(file.toPath());
         in = new BufferedInputStream(fis);
         fillBuffer();
         return;
@@ -167,7 +171,7 @@ public final class BinaryInputStream {
    * @throws NoSuchElementException if this binary input stream is empty
    */
   public boolean readBoolean() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
     n--;
     boolean bit = ((buffer >> n) & 1) == 1;
     if (n == 0) fillBuffer();
@@ -181,7 +185,7 @@ public final class BinaryInputStream {
    * @throws NoSuchElementException if there are fewer than 8 bits available
    */
   public char readChar() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     // special case when aligned byte
     if (n == 8) {
@@ -192,12 +196,12 @@ public final class BinaryInputStream {
 
     // combine last N bits of current buffer with first 8-N bits of new buffer
     int x = buffer;
-    x <<= (8 - n);
+    x <<= 8 - n;
     int oldN = n;
     fillBuffer();
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
     n = oldN;
-    x |= (buffer >>> n);
+    x |= buffer >>> n;
     return (char) (x & 0xff);
     // the above code doesn't quite work for the last character if N = 8
     // because buffer will be -1
@@ -235,7 +239,7 @@ public final class BinaryInputStream {
    *     available is not a multiple of 8 (byte-aligned)
    */
   public String readString() {
-    if (isEmpty()) throw new NoSuchElementException("Reading from empty input stream");
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     StringBuilder sb = new StringBuilder();
     while (!isEmpty()) {
