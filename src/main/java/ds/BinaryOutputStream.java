@@ -34,16 +34,20 @@ public final class BinaryOutputStream {
   private static final int INT_SIZE = 32;
 
   // output stream
-  private final BufferedOutputStream out;
+  private final CustomBufferedOutputStream out;
   // 8-bit buffer of bits to write
   private int buffer;
   // number of bits remaining in buffer
   private int n;
 
   public BinaryOutputStream(OutputStream os) {
-    this.out = new BufferedOutputStream(os);
+    this.out = new CustomBufferedOutputStream(os);
     buffer = 0;
     n = 0;
+  }
+
+  public String stringOutput() {
+    return out.stringOutput();
   }
 
   /** Writes the specified bit to standard output. */
@@ -268,5 +272,19 @@ public final class BinaryOutputStream {
    */
   public void write(String s, int r) {
     for (int i = 0; i < s.length(); i++) write(s.charAt(i), r);
+  }
+
+  private static class CustomBufferedOutputStream extends BufferedOutputStream {
+    public CustomBufferedOutputStream(OutputStream out) {
+      super(out);
+    }
+
+    public CustomBufferedOutputStream(OutputStream out, int size) {
+      super(out, size);
+    }
+
+    public String stringOutput() {
+      return new String(buf);
+    }
   }
 }
