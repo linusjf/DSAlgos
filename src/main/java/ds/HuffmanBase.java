@@ -1,9 +1,8 @@
 package ds;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.PriorityQueue;
 
 /*
@@ -38,14 +37,12 @@ public abstract class HuffmanBase {
   static final char ZERO_CHARACTER = '0';
   static final char ONE_CHARACTER = '1';
 
-  protected final String input;
   protected final BinaryInputStream bis;
   protected final BinaryOutputStream bos;
 
-  public HuffmanBase(String input, File output) throws IOException {
-    this.input = input;
-    this.bis = new BinaryInputStream(new ByteArrayInputStream(input.getBytes()));
-    this.bos = new BinaryOutputStream(new ByteArrayOutputStream());
+  public HuffmanBase(File input, File output) throws IOException {
+    this.bis = new BinaryInputStream(Files.newInputStream(input.toPath()));
+    this.bos = new BinaryOutputStream(Files.newOutputStream(output.toPath()));
   }
 
   // build the Huffman trie given frequencies
@@ -88,8 +85,10 @@ public abstract class HuffmanBase {
 
   protected Node readTrie() {
     boolean isLeaf = bis.readBoolean();
-    if (isLeaf) return new Node(bis.readChar(), -1, null, null);
-    else return new Node(NULL_CHARACTER, -1, readTrie(), readTrie());
+    if (isLeaf) {
+      char ch = bis.readChar();
+      return new Node(ch, -1, null, null);
+    } else return new Node(NULL_CHARACTER, -1, readTrie(), readTrie());
   }
 
   // Huffman trie node
