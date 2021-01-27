@@ -2,8 +2,6 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.BinaryInputStream;
-import ds.BinaryOutputStream;
 import ds.HuffmanCompressor;
 import ds.HuffmanDecompressor;
 import java.io.File;
@@ -27,6 +25,7 @@ class HuffmanTest {
   private static final String TINY_TALES_FILE = "tinytales.txt";
   private static final String TALES_FILE = "tale.txt";
   private static final String MED_TALE_FILE = "medtale.txt";
+  private static final String MSG = "Decompressed output must be same as input to compressor.";
 
   private final String abra;
   private final String tinyTales;
@@ -53,21 +52,45 @@ class HuffmanTest {
     HuffmanDecompressor hdc = new HuffmanDecompressor(new File("abra.huf"), new File("abra.dec"));
     hdc.expand();
     String expanded = readFile("abra.dec");
-    assertEquals(abra, expanded, "Decompressed output must be same as input to compressor.");
+    assertEquals(abra, expanded, MSG);
   }
 
   @Test
-  @DisplayName("HuffmanTest.testBinaryAbraFile")
-  public void testBinaryAbraFile() throws IOException {
-    BinaryInputStream bis = new BinaryInputStream(ABRA_FILE);
-    BinaryOutputStream bos = new BinaryOutputStream("out.txt");
+  @DisplayName("HuffmanTest.testTalesFile")
+  public void testTalesFile() throws IOException {
+    HuffmanCompressor hfc = new HuffmanCompressor(new File(TALES_FILE), new File("tales.huf"));
+    hfc.compress();
+    String output = readFile("tales.huf");
+    HuffmanDecompressor hdc = new HuffmanDecompressor(new File("tales.huf"), new File("tales.dec"));
+    hdc.expand();
+    String expanded = readFile("tales.dec");
+    assertEquals(tales, expanded, MSG);
+  }
 
-    // read one 8-bit char at a time
-    while (!bis.isEmpty()) {
-      char c = bis.readChar();
-      bos.write(c);
-    }
-    bos.flush();
-    assertTrue(bis.isEmpty(), "Input file fully read.");
+  @Test
+  @DisplayName("HuffmanTest.testTinyTalesFile")
+  public void testTinyTalesFile() throws IOException {
+    HuffmanCompressor hfc =
+        new HuffmanCompressor(new File(TINY_TALES_FILE), new File("tinytales.huf"));
+    hfc.compress();
+    String output = readFile("tinytales.huf");
+    HuffmanDecompressor hdc =
+        new HuffmanDecompressor(new File("tinytales.huf"), new File("tinytales.dec"));
+    hdc.expand();
+    String expanded = readFile("tinytales.dec");
+    assertEquals(tinyTales, expanded, MSG);
+  }
+
+  @Test
+  @DisplayName("HuffmanTest.testMedTaleFile")
+  public void testMedTaleFile() throws IOException {
+    HuffmanCompressor hfc = new HuffmanCompressor(new File(MED_TALE_FILE), new File("medtale.huf"));
+    hfc.compress();
+    String output = readFile("medtale.huf");
+    HuffmanDecompressor hdc =
+        new HuffmanDecompressor(new File("medtale.huf"), new File("medtale.dec"));
+    hdc.expand();
+    String expanded = readFile("medtale.dec");
+    assertEquals(medTale, expanded, MSG);
   }
 }
