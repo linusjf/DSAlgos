@@ -1,8 +1,11 @@
 package ds;
 
+import java.io.File;
+import java.io.IOException;
+
 /*
  *
- * Expand a binary input stream using the Huffman algorithm.
+ * Expand a binary input string using the Huffman algorithm.
  *
  * <p>****************************************************************************
  * </p>
@@ -22,8 +25,8 @@ package ds;
  */
 public class HuffmanDecompressor extends HuffmanBase {
 
-  public HuffmanDecompressor(String input) {
-    super(input);
+  public HuffmanDecompressor(String input, File output) throws IOException {
+    super(input, output);
   }
 
   /**
@@ -39,6 +42,8 @@ public class HuffmanDecompressor extends HuffmanBase {
     // number of bytes to write
     int length = bis.readInt();
 
+    System.out.println(length);
+
     // decode using the Huffman trie
     for (int i = 0; i < length; i++) {
       Node x = root;
@@ -47,6 +52,7 @@ public class HuffmanDecompressor extends HuffmanBase {
         if (bit) x = x.right;
         else x = x.left;
       }
+      System.out.write(x.ch);
       bos.write(x.ch, 8);
     }
     bos.close();

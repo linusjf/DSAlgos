@@ -1,5 +1,8 @@
 package ds;
 
+import java.io.File;
+import java.io.IOException;
+
 /*
  *
  * Compress a binary input stream using the Huffman algorithm.
@@ -22,8 +25,8 @@ package ds;
  */
 public class HuffmanCompressor extends HuffmanBase {
 
-  public HuffmanCompressor(String input) {
-    super(input);
+  public HuffmanCompressor(String input, File output) throws IOException {
+    super(input, output);
   }
 
   /**
@@ -62,6 +65,7 @@ public class HuffmanCompressor extends HuffmanBase {
         else throw new IllegalStateException("Illegal state");
       }
     }
+
     // close output stream
     bos.close();
   }
