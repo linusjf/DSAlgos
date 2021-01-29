@@ -35,9 +35,12 @@ import java.nio.file.Paths;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-@SuppressWarnings({"PMD.CommentSize",
-"PMD.SystemPrintln","PMD.AvoidLiteralsInIfCondition",
-"PMD.AvoidUsingShortType"})
+@SuppressWarnings({
+  "PMD.CommentSize",
+  "PMD.SystemPrintln",
+  "PMD.AvoidLiteralsInIfCondition",
+  "PMD.AvoidUsingShortType"
+})
 public final class BinaryOutputStream {
 
   private BufferedOutputStream out;
