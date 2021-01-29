@@ -39,9 +39,12 @@ import java.util.NoSuchElementException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-@SuppressWarnings({"PMD.CommentSize",
-"PMD.SystemPrintln","PMD.AvoidLiteralsInIfCondition",
-"PMD.AvoidUsingShortType"})
+@SuppressWarnings({
+  "PMD.CommentSize",
+  "PMD.SystemPrintln",
+  "PMD.AvoidLiteralsInIfCondition",
+  "PMD.AvoidUsingShortType"
+})
 public final class BinaryInputStream {
   private static final int EOF = -1;
   // end of file
