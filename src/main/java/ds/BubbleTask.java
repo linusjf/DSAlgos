@@ -2,7 +2,7 @@ package ds;
 
 import java.util.concurrent.Callable;
 
-final class BubbleTask implements Callable<Void> {
+final class BubbleTask implements Cloneable, Callable<Void> {
   long[] a;
   int i;
   AbstractBrickSort sorter;
@@ -15,8 +15,22 @@ final class BubbleTask implements Callable<Void> {
   }
 
   @Override
+  public BubbleTask clone() {
+    try {
+    return (BubbleTask)super.clone();
+    } catch (CloneNotSupportedException cnse) {
+     throw new AssertionError("Shouldn't get here.." + cnse.getMessage(),
+         cnse);
+    }
+  }
+
+  @Override
   public Void call() {
     sorter.bubble(a, i);
     return null;
+  }
+
+  public static BubbleTask createCopy(BubbleTask bt) {
+    return (BubbleTask)bt.clone();
   }
 }
