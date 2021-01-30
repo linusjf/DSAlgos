@@ -1,12 +1,17 @@
 package ds;
 
-/******************************************************************************
+/*
+ * *****************************************************************************
  *  Compilation:  javac AVLTree.java
  *  Data files:   https://algs4.cs.princeton.edu/33balanced/tinyST.txt
  *
  *  A binary tree implemented using an AVL tree.
  *
- ******************************************************************************/
+ *****************************************************************************
+ */
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
@@ -14,15 +19,12 @@ import java.util.Queue;
 import java.util.Random;
 
 /**
- *
- * <p>This implementation of AVl tree requires that the value type implements the {@code Comparable} 
- * interface
- * and calls the {@code compareTo()} and method to compare two values. It does not call either
- * {@code equals()} or {@code hashCode()}. The <em>put</em>, <em>get</em>, <em>contains</em>,
+ * This implementation of AVl tree requires that the value type implements the {@code Comparable}
+ * interface and calls the {@code compareTo()} and method to compare two values. It does not call
+ * either {@code equals()} or {@code hashCode()}. The <em>put</em>, <em>get</em>, <em>contains</em>,
  * <em>delete</em>, <em>minimum</em>, <em>maximum</em>, <em>ceiling</em>, and <em>floor</em>
  * operations each take logarithmic time in the worst case. The <em>size</em>, and <em>is-empty</em>
  * operations take constant time. Construction also takes constant time.
- *
  *
  * @author Marcelo Silva
  */
@@ -31,7 +33,6 @@ public class AVLTree<T extends Comparable<T>> {
 
   /** The root node. */
   private Node<T> root;
-
 
   /**
    * Unit tests the {@code AVLTreeST} data type.
@@ -44,14 +45,14 @@ public class AVLTree<T extends Comparable<T>> {
     for (int i = 0; i < 100; i++) st.put(random.nextInt(1000));
     for (Integer s : st.values()) System.out.println(s + " " + st.get(s));
   }
-  
+
   /**
    * Checks if the binary tree is empty.
    *
    * @return {@code true} if the binary tree is empty.
    */
   public boolean isEmpty() {
-    return root == null;
+    return isNull(root);
   }
 
   /**
@@ -70,8 +71,24 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the number of nodes in the subtree
    */
   private int size(Node<T> x) {
-    if (x == null) return 0;
-    return x.size;
+    return isNull(x) ? 0 : x.size;
+  }
+
+  /**
+   * Returns the number of values in the binary tree in the given range.
+   *
+   * @param lo minimum endpoint
+   * @param hi maximum endpoint
+   * @return the number of values in the binary tree between {@code lo} (inclusive) and {@code hi}
+   *     (exclusive)
+   * @throws IllegalArgumentException if either {@code lo} or {@code hi} is {@code null}
+   */
+  public int size(T lo, T hi) {
+    if (isNull(lo)) throw new IllegalArgumentException("first argument to size() is null");
+    if (isNull(hi)) throw new IllegalArgumentException("second argument to size() is null");
+    if (lo.compareTo(hi) > 0) return 0;
+    if (contains(hi)) return rank(hi) - rank(lo) + 1;
+    else return rank(hi) - rank(lo);
   }
 
   /**
@@ -91,8 +108,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the height of the subtree.
    */
   private int height(Node<T> x) {
-    if (x == null) return -1;
-    return x.height;
+    return isNull(x) ? -1 : x.height;
   }
 
   /**
@@ -103,9 +119,9 @@ public class AVLTree<T extends Comparable<T>> {
    * @throws IllegalArgumentException if {@code val} is {@code null}
    */
   public T get(T val) {
-    if (val == null) throw new IllegalArgumentException("argument to get() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to get() is null");
     Node<T> x = get(root, val);
-    if (x == null) return null;
+    if (isNull(x)) return null;
     return x.val;
   }
 
@@ -116,8 +132,9 @@ public class AVLTree<T extends Comparable<T>> {
    * @param val the value
    * @return value associated with the given value in the subtree or {@code null} if no such value
    */
+  @SuppressWarnings("checkstyle:ReturnCount")
   private Node<T> get(Node<T> x, T value) {
-    if (x == null) return null;
+    if (isNull(x)) return null;
     int cmp = value.compareTo(x.val);
     if (cmp < 0) return get(x.left, value);
     else if (cmp > 0) return get(x.right, value);
@@ -132,22 +149,21 @@ public class AVLTree<T extends Comparable<T>> {
    * @throws IllegalArgumentException if {@code val} is {@code null}
    */
   public boolean contains(T val) {
-    return get(val) != null;
+    return nonNull(get(val));
   }
 
   /**
-   * Inserts the specified value-value pair into the binary tree, overwriting the old value with
-   * the new value if the binary tree already contains the specified value. Deletes the specified
-   * value (and its associated value) from this binary tree if the specified value is {@code null}.
+   * Inserts the specified value-value pair into the binary tree, overwriting the old value with the
+   * new value if the binary tree already contains the specified value. Deletes the specified value
+   * (and its associated value) from this binary tree if the specified value is {@code null}.
    *
-   * @param value the value
    * @param val the value
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public void put(T val) {
-    if (val == null) return;
+    if (isNull(val)) return;
     root = put(root, val);
-    assert check(this);
+    assert Checks.check(this);
   }
 
   /**
@@ -160,7 +176,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the subtree
    */
   private Node put(Node<T> x, T val) {
-    if (x == null) return new Node<>(val, 0, 1);
+    if (isNull(x)) return new Node<>(val, 0, 1);
     int cmp = val.compareTo(x.val);
     if (cmp < 0) x.left = put(x.left, val);
     else if (cmp > 0) x.right = put(x.right, val);
@@ -246,14 +262,14 @@ public class AVLTree<T extends Comparable<T>> {
    * Removes the specified value and its associated value from the binary tree (if the value is in
    * the binary tree).
    *
-   * @param value the value
+   * @param val the value
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public void delete(T val) {
-    if (val == null) throw new IllegalArgumentException("argument to delete() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to delete() is null");
     if (!contains(val)) return;
     root = delete(root, val);
-    assert check(this);
+    assert Checks.check(this);
   }
 
   /**
@@ -264,18 +280,14 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the updated subtree
    */
   private Node<T> delete(Node<T> node, T val) {
-   Node<T> x = node;
+    Node<T> x = node;
     int cmp = val.compareTo(x.val);
-    if (cmp < 0) {
-      x.left = delete(x.left, val);
-    } else if (cmp > 0) {
-      x.right = delete(x.right, val);
-    } else {
-      if (x.left == null) {
-        return x.right;
-      } else if (x.right == null) {
-        return x.left;
-      } else {
+    if (cmp < 0) x.left = delete(x.left, val);
+    else if (cmp > 0) x.right = delete(x.right, val);
+    else {
+      if (x.left == null) return x.right;
+      else if (x.right == null) return x.left;
+      else {
         Node<T> y = x;
         x = min(y.right);
         x.right = deleteMin(y.right);
@@ -295,7 +307,7 @@ public class AVLTree<T extends Comparable<T>> {
   public void deleteMin() {
     if (isEmpty()) throw new NoSuchElementException("called deleteMin() with empty binary tree");
     root = deleteMin(root);
-    assert check(this);
+    assert Checks.check(this);
   }
 
   /**
@@ -305,7 +317,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the updated subtree
    */
   private Node<T> deleteMin(Node<T> x) {
-    if (x.left == null) return x.right;
+    if (isNull(x.left)) return x.right;
     x.left = deleteMin(x.left);
     x.size = 1 + size(x.left) + size(x.right);
     x.height = 1 + Math.max(height(x.left), height(x.right));
@@ -320,7 +332,7 @@ public class AVLTree<T extends Comparable<T>> {
   public void deleteMax() {
     if (isEmpty()) throw new NoSuchElementException("called deleteMax() with empty binary tree");
     root = deleteMax(root);
-    assert check(this);
+    assert Checks.check(this);
   }
 
   /**
@@ -330,7 +342,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the updated subtree
    */
   private Node<T> deleteMax(Node<T> x) {
-    if (x.right == null) return x.left;
+    if (isNull(x.right)) return x.left;
     x.right = deleteMax(x.right);
     x.size = 1 + size(x.left) + size(x.right);
     x.height = 1 + Math.max(height(x.left), height(x.right));
@@ -356,7 +368,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the node with the smallest value in the subtree
    */
   private Node<T> min(Node<T> x) {
-    if (x.left == null) return x;
+    if (isNull(x.left)) return x;
     return min(x.left);
   }
 
@@ -379,23 +391,23 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the node with the largest value in the subtree
    */
   private Node<T> max(Node<T> x) {
-    if (x.right == null) return x;
+    if (isNull(x.right)) return x;
     return max(x.right);
   }
 
   /**
    * Returns the largest value in the binary tree less than or equal to {@code value}.
    *
-   * @param value the value
+   * @param val the value
    * @return the largest value in the binary tree less than or equal to {@code value}
    * @throws NoSuchElementException if the binary tree is empty
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public T floor(T val) {
-    if (val == null) throw new IllegalArgumentException("argument to floor() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to floor() is null");
     if (isEmpty()) throw new NoSuchElementException("called floor() with empty binary tree");
     Node<T> x = floor(root, val);
-    if (x == null) return null;
+    if (isNull(x)) return null;
     else return x.val;
   }
 
@@ -406,29 +418,30 @@ public class AVLTree<T extends Comparable<T>> {
    * @param value the value
    * @return the node in the subtree with the largest value less than or equal to the given value
    */
+  @SuppressWarnings("checkstyle:ReturnCount")
   private Node<T> floor(Node<T> x, T val) {
-    if (x == null) return null;
+    if (isNull(x)) return null;
     int cmp = val.compareTo(x.val);
     if (cmp == 0) return x;
     if (cmp < 0) return floor(x.left, val);
     Node<T> y = floor(x.right, val);
-    if (y == null) return x;
+    if (isNull(y)) return x;
     else return y;
   }
 
   /**
    * Returns the smallest value in the binary tree greater than or equal to {@code value}.
    *
-   * @param value the value
+   * @param val the value
    * @return the smallest value in the binary tree greater than or equal to {@code value}
    * @throws NoSuchElementException if the binary tree is empty
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public T ceiling(T val) {
-    if (val == null) throw new IllegalArgumentException("argument to ceiling() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to ceiling() is null");
     if (isEmpty()) throw new NoSuchElementException("called ceiling() with empty binary tree");
     Node<T> x = ceiling(root, val);
-    if (x == null) return null;
+    if (isNull(x)) return null;
     else return x.val;
   }
 
@@ -437,17 +450,18 @@ public class AVLTree<T extends Comparable<T>> {
    * value.
    *
    * @param x the subtree
-   * @param value the value
+   * @param val the value
    * @return the node in the subtree with the smallest value greater than or equal to the given
    *     value
    */
+  @SuppressWarnings("checkstyle:ReturnCount")
   private Node<T> ceiling(Node<T> x, T val) {
-    if (x == null) return null;
+    if (isNull(x)) return null;
     int cmp = val.compareTo(x.val);
     if (cmp == 0) return x;
     if (cmp > 0) return ceiling(x.right, val);
     Node<T> y = ceiling(x.left, val);
-    if (y == null) return x;
+    if (isNull(y)) return x;
     else return y;
   }
 
@@ -472,8 +486,9 @@ public class AVLTree<T extends Comparable<T>> {
    * @param k the kth smallest value in the subtree
    * @return the node with value the kth smallest value in the subtree
    */
+  @SuppressWarnings("checkstyle:ReturnCount")
   private Node<T> select(Node<T> x, int k) {
-    if (x == null) return null;
+    if (isNull(x)) return null;
     int t = size(x.left);
     if (t > k) return select(x.left, k);
     else if (t < k) return select(x.right, k - t - 1);
@@ -483,24 +498,25 @@ public class AVLTree<T extends Comparable<T>> {
   /**
    * Returns the number of values in the binary tree strictly less than {@code value}.
    *
-   * @param value the value
+   * @param val the value
    * @return the number of values in the binary tree strictly less than {@code value}
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public int rank(T val) {
-    if (val == null) throw new IllegalArgumentException("argument to rank() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to rank() is null");
     return rank(val, root);
   }
 
   /**
    * Returns the number of values in the subtree less than value.
    *
-   * @param value the value
+   * @param val the value
    * @param x the subtree
    * @return the number of values in the subtree less than value
    */
+  @SuppressWarnings("checkstyle:ReturnValue")
   private int rank(T val, Node<T> x) {
-    if (x == null) return 0;
+    if (isNull(x)) return 0;
     int cmp = val.compareTo(x.val);
     if (cmp < 0) return rank(val, x.left);
     else if (cmp > 0) return 1 + size(x.left) + rank(val, x.right);
@@ -514,6 +530,39 @@ public class AVLTree<T extends Comparable<T>> {
    */
   public Iterable<T> values() {
     return valuesInOrder();
+  }
+
+  /**
+   * Adds the values between {@code lo} and {@code hi} in the subtree to the {@code queue}.
+   *
+   * @param x the subtree
+   * @param queue the queue
+   * @param lo the lowest value
+   * @param hi the highest value
+   */
+  private void values(Node<T> x, Queue<T> queue, T lo, T hi) {
+    if (isNull(x)) return;
+    int cmplo = lo.compareTo(x.val);
+    int cmphi = hi.compareTo(x.val);
+    if (cmplo < 0) values(x.left, queue, lo, hi);
+    if (cmplo <= 0 && cmphi >= 0) queue.offer(x.val);
+    if (cmphi > 0) values(x.right, queue, lo, hi);
+  }
+
+  /**
+   * Returns all values in the binary tree in the given range.
+   *
+   * @param lo the lowest value
+   * @param hi the highest value
+   * @return all values in the binary tree between {@code lo} (inclusive) and {@code hi} (exclusive)
+   * @throws IllegalArgumentException if either {@code lo} or {@code hi} is {@code null}
+   */
+  public Iterable<T> values(T lo, T hi) {
+    if (isNull(lo)) throw new IllegalArgumentException("first argument to values() is null");
+    if (isNull(hi)) throw new IllegalArgumentException("second argument to values() is null");
+    Queue<T> queue = new ArrayDeque<>();
+    values(root, queue, lo, hi);
+    return queue;
   }
 
   /**
@@ -534,7 +583,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @param queue the queue
    */
   private void valuesInOrder(Node<T> x, Queue<T> queue) {
-    if (x == null) return;
+    if (isNull(x)) return;
     valuesInOrder(x.left, queue);
     queue.offer(x.val);
     valuesInOrder(x.right, queue);
@@ -553,166 +602,110 @@ public class AVLTree<T extends Comparable<T>> {
       while (!queue2.isEmpty()) {
         Node<T> x = queue2.poll();
         queue.offer(x.val);
-        if (x.left != null) {
-          queue2.offer(x.left);
-        }
-        if (x.right != null) {
-          queue2.offer(x.right);
-        }
+        if (nonNull(x.left)) queue2.offer(x.left);
+        if (nonNull(x.right)) queue2.offer(x.right);
       }
     }
     return queue;
   }
 
-  /**
-   * Returns all values in the binary tree in the given range.
-   *
-   * @param lo the lowest value
-   * @param hi the highest value
-   * @return all values in the binary tree between {@code lo} (inclusive) and {@code hi}
-   *     (exclusive)
-   * @throws IllegalArgumentException if either {@code lo} or {@code hi} is {@code null}
-   */
-  public Iterable<T> values(T lo, T hi) {
-    if (lo == null) throw new IllegalArgumentException("first argument to values() is null");
-    if (hi == null) throw new IllegalArgumentException("second argument to values() is null");
-    Queue<T> queue = new ArrayDeque<>();
-    values(root, queue, lo, hi);
-    return queue;
+  private static class Checks {
+    /**
+     * Checks if the AVL tree invariants are fine.
+     *
+     * @return {@code true} if the AVL tree invariants are fine
+     */
+    @SuppressWarnings("PMD.SystemPrintln")
+    private static <T extends Comparable<T>> boolean check(AVLTree<T> tree) {
+      if (!isBST(tree)) System.out.println("Symmetric order not consistent");
+      if (!isAVL(tree)) System.out.println("AVL property not consistent");
+      if (!isSizeConsistent(tree)) System.out.println("Subtree counts not consistent");
+      if (!isRankConsistent(tree)) System.out.println("Ranks not consistent");
+      return isBST(tree) && isAVL(tree) && isSizeConsistent(tree) && isRankConsistent(tree);
+    }
+
+    /**
+     * Checks if AVL property is consistent.
+     *
+     * @return {@code true} if AVL property is consistent.
+     */
+    private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree) {
+      return isAVL(tree, tree.root);
+    }
+
+    /**
+     * Checks if AVL property is consistent in the subtree.
+     *
+     * @param x the subtree
+     * @return {@code true} if AVL property is consistent in the subtree
+     */
+    private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree, Node<T> x) {
+      if (isNull(x)) return true;
+      int bf = tree.balanceFactor(x);
+      if (bf > 1 || bf < -1) return false;
+      return isAVL(tree, x.left) && isAVL(tree, x.right);
+    }
+
+    /**
+     * Checks if the symmetric order is consistent.
+     *
+     * @return {@code true} if the symmetric order is consistent
+     */
+    private static <T extends Comparable<T>> boolean isBST(AVLTree<T> tree) {
+      return isBST(tree.root, null, null);
+    }
+
+    /**
+     * Checks if the tree rooted at x is a BST. With all values strictly between min and max. (if
+     * min or max is null, treat as empty constraint). Credit: Bob Dondero's elegant solution
+     *
+     * @param x the subtree
+     * @param min the minimum value in subtree
+     * @param max the maximum value in subtree
+     * @return {@code true} if if the symmetric order is consistent
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:ReturnCount"})
+    private static <T extends Comparable<T>> boolean isBST(Node<T> x, T min, T max) {
+      if (isNull(x)) return true;
+      if (nonNull(min) && x.val.compareTo(min) <= 0) return false;
+      if (nonNull(max) && x.val.compareTo(max) >= 0) return false;
+      return isBST(x.left, min, x.val) && isBST(x.right, x.val, max);
+    }
+
+    /**
+     * Checks if size is consistent.
+     *
+     * @return {@code true} if size is consistent
+     */
+    private static <T extends Comparable<T>> boolean isSizeConsistent(AVLTree<T> tree) {
+      return isSizeConsistent(tree, tree.root);
+    }
+
+    /**
+     * Checks if the size of the subtree is consistent.
+     *
+     * @return {@code true} if the size of the subtree is consistent
+     */
+    private static <T extends Comparable<T>> boolean isSizeConsistent(AVLTree<T> tree, Node<T> x) {
+      if (isNull(x)) return true;
+      if (x.size != tree.size(x.left) + tree.size(x.right) + 1) return false;
+      return isSizeConsistent(tree, x.left) && isSizeConsistent(tree, x.right);
+    }
+
+    /**
+     * Checks if rank is consistent.
+     *
+     * @return {@code true} if rank is consistent
+     */
+    private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
+      for (int i = 0; i < tree.size(); i++) if (i != tree.rank(tree.select(i))) return false;
+      for (T val : tree.values()) if (val.compareTo(tree.select(tree.rank(val))) != 0) return false;
+      return true;
+    }
   }
 
-  /**
-   * Adds the values between {@code lo} and {@code hi} in the subtree to the {@code queue}.
-   *
-   * @param x the subtree
-   * @param queue the queue
-   * @param lo the lowest value
-   * @param hi the highest value
-   */
-  private void values(Node<T> x, Queue<T> queue, T lo, T hi) {
-    if (x == null) return;
-    int cmplo = lo.compareTo(x.val);
-    int cmphi = hi.compareTo(x.val);
-    if (cmplo < 0) values(x.left, queue, lo, hi);
-    if (cmplo <= 0 && cmphi >= 0) queue.offer(x.val);
-    if (cmphi > 0) values(x.right, queue, lo, hi);
-  }
-
-  /**
-   * Returns the number of values in the binary tree in the given range.
-   *
-   * @param lo minimum endpoint
-   * @param hi maximum endpoint
-   * @return the number of values in the binary tree between {@code lo} (inclusive) and {@code hi}
-   *     (exclusive)
-   * @throws IllegalArgumentException if either {@code lo} or {@code hi} is {@code null}
-   */
-  public int size(T lo, T hi) {
-    if (lo == null) throw new IllegalArgumentException("first argument to size() is null");
-    if (hi == null) throw new IllegalArgumentException("second argument to size() is null");
-    if (lo.compareTo(hi) > 0) return 0;
-    if (contains(hi)) return rank(hi) - rank(lo) + 1;
-    else return rank(hi) - rank(lo);
-  }
-
-  /**
-   * Checks if the AVL tree invariants are fine.
-   *
-   * @return {@code true} if the AVL tree invariants are fine
-   */
-  @SuppressWarnings("PMD.SystemPrintln")
-  private static <T extends Comparable<T>> boolean check(AVLTree<T> tree) {
-    if (!isBST(tree)) System.out.println("Symmetric order not consistent");
-    if (!isAVL(tree)) System.out.println("AVL property not consistent");
-    if (!isSizeConsistent(tree)) System.out.println("Subtree counts not consistent");
-    if (!isRankConsistent(tree)) System.out.println("Ranks not consistent");
-    return isBST(tree) && isAVL(tree) && isSizeConsistent(tree) && isRankConsistent(tree);
-  }
-
-  /**
-   * Checks if AVL property is consistent.
-   *
-   * @return {@code true} if AVL property is consistent.
-   */
-  private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree) {
-    return isAVL(tree,tree.root);
-  }
-
-  /**
-   * Checks if AVL property is consistent in the subtree.
-   *
-   * @param x the subtree
-   * @return {@code true} if AVL property is consistent in the subtree
-   */
-  private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree,Node<T> x) {
-    if (x == null) return true;
-    int bf = tree.balanceFactor(x);
-    if (bf > 1 || bf < -1) return false;
-    return isAVL(tree,x.left) && isAVL(tree, x.right);
-  }
-
-  /**
-   * Checks if the symmetric order is consistent.
-   *
-   * @return {@code true} if the symmetric order is consistent
-   */
-  private static <T extends Comparable<T>> boolean isBST(AVLTree<T> tree) {
-    return isBST(tree.root, null, null);
-  }
-
-  /**
-   * Checks if the tree rooted at x is a BST with all values strictly between min and max (if min or
-   * max is null, treat as empty constraint) Credit: Bob Dondero's elegant solution
-   *
-   * @param x the subtree
-   * @param min the minimum value in subtree
-   * @param max the maximum value in subtree
-   * @return {@code true} if if the symmetric order is consistent
-   */
-  @SuppressWarnings("PMD.LawOfDemeter")
-  private static <T extends Comparable<T>> boolean isBST(Node<T> x, T min, T max) {
-    if (x == null) return true;
-    if (min != null && x.val.compareTo(min) <= 0) return false;
-    if (max != null && x.val.compareTo(max) >= 0) return false;
-    return isBST(x.left, min, x.val) && isBST(x.right, x.val, max);
-  }
-
-  /**
-   * Checks if size is consistent.
-   *
-   * @return {@code true} if size is consistent
-   */
-  private static <T extends Comparable<T>> boolean isSizeConsistent(AVLTree<T> tree) {
-    return isSizeConsistent(tree,tree.root);
-  }
-
-  /**
-   * Checks if the size of the subtree is consistent.
-   *
-   * @return {@code true} if the size of the subtree is consistent
-   */
-  private static <T extends Comparable<T>> boolean isSizeConsistent(AVLTree<T> tree,Node<T> x) {
-    if (x == null) return true;
-    if (x.size != tree.size(x.left) + tree.size(x.right) + 1) return false;
-    return isSizeConsistent(tree,x.left) && isSizeConsistent(tree,x.right);
-  }
-
-  /**
-   * Checks if rank is consistent.
-   *
-   * @return {@code true} if rank is consistent
-   */
-  private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
-    for (int i = 0; i < tree.size(); i++) 
-      if (i != tree.rank(tree.select(i))) 
-        return false;
-    for (T val : tree.values()) 
-      if (val.compareTo(tree.select(tree.rank(val))) != 0) return false;
-    return true;
-  }
-
-  
   /** This class represents an inner node of the AVL tree. */
+  @SuppressWarnings("nullness")
   private static class Node<T> {
     // the value
     private T val;
