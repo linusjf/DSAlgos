@@ -51,7 +51,7 @@ public class BrickSortParallel extends BrickSort {
         Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     try {
       sortInterruptibly(a, length, service);
-    } catch (ExecutionException | InterruptedException ee) {
+    } catch (ExecutionException | InterruptedException ee ) {
       throw new CompletionException(ee);
     } finally {
       terminateExecutor(service, length, TimeUnit.MILLISECONDS);
@@ -81,10 +81,13 @@ public class BrickSortParallel extends BrickSort {
   protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
+    BubbleTask bt = new BubbleTask(this, a, 0);
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      futures.add(service.submit(new BubbleTask(this, a, i)));
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i; 
+      futures.add(service.submit(task));
     }
     assertEquality(futures.size(), oddTaskCount);
     for (Future future : futures) future.get();
@@ -92,12 +95,15 @@ public class BrickSortParallel extends BrickSort {
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
-      throws InterruptedException, ExecutionException {
+      throws InterruptedException, ExecutionException{
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
+    BubbleTask bt = new BubbleTask(this, a, 0);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      futures.add(service.submit(new BubbleTask(this, a, i)));
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i; 
+      futures.add(service.submit(task));
     }
     assertEquality(futures.size(), evenTaskCount);
     for (Future future : futures) future.get();
