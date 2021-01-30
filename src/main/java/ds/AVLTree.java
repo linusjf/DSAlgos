@@ -12,6 +12,7 @@ package ds;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
@@ -161,7 +162,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public void put(T val) {
-    if (isNull(val)) return;
+    requireNonNull(val);  
     root = put(root, val);
     assert Checks.check(this);
   }

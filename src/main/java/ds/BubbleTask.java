@@ -17,10 +17,9 @@ final class BubbleTask implements Cloneable, Callable<Void> {
   @Override
   public BubbleTask clone() {
     try {
-    return (BubbleTask)super.clone();
+      return (BubbleTask) super.clone();
     } catch (CloneNotSupportedException cnse) {
-     throw new AssertionError("Shouldn't get here.." + cnse.getMessage(),
-         cnse);
+      throw new AssertionError("Shouldn't get here.." + cnse.getMessage(), cnse);
     }
   }
 
@@ -31,6 +30,6 @@ final class BubbleTask implements Cloneable, Callable<Void> {
   }
 
   public static BubbleTask createCopy(BubbleTask bt) {
-    return (BubbleTask)bt.clone();
+    return bt.clone();
   }
 }
