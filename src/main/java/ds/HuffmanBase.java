@@ -50,13 +50,24 @@ public abstract class HuffmanBase {
 
     // initialize priority queue with singleton trees
     PriorityQueue<Node> pq = new PriorityQueue<>();
-    for (char c = 0; c < R; c++) if (freq[c] > 0) pq.offer(new Node(c, freq[c], null, null));
+    Node node = new Node('a', 0, null, null);
+    for (char c = 0; c < R; c++)
+      if (freq[c] > 0) {
+        Node newNode = node.clone();
+        newNode.ch = c;
+        newNode.freq = freq[c];
+        pq.offer(newNode);
+      }
 
     // merge two smallest trees
     while (pq.size() > 1) {
       Node left = pq.poll();
       Node right = pq.poll();
-      Node parent = new Node(NULL_CHARACTER, left.freq + right.freq, left, right);
+      Node parent = node.clone();
+      parent.left = left;
+      parent.right = right;
+      parent.ch = NULL_CHARACTER;
+      parent.freq = left.freq + right.freq;
       pq.offer(parent);
     }
     return pq.poll();
@@ -93,11 +104,11 @@ public abstract class HuffmanBase {
 
   // Huffman trie node
   @SuppressWarnings("nullness")
-  static class Node implements Comparable<Node> {
-    final char ch;
-    final int freq;
-    final Node left;
-    final Node right;
+  static class Node implements Cloneable, Comparable<Node> {
+    char ch;
+    int freq;
+    Node left;
+    Node right;
 
     Node(char ch, int freq, Node left, Node right) {
       this.ch = ch;
@@ -116,6 +127,15 @@ public abstract class HuffmanBase {
     @Override
     public int compareTo(Node that) {
       return this.freq - that.freq;
+    }
+
+    @Override
+    public Node clone() {
+      try {
+        return (Node) super.clone();
+      } catch (CloneNotSupportedException cnse) {
+        throw new AssertionError("Shouldn't get here..." + cnse.getMessage(), cnse);
+      }
     }
   }
 }
