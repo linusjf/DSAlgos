@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("PMD.ShortClassName")
-public class Item implements Comparable {
+public final class Item implements Comparable, Cloneable {
   final String name;
   final int value;
   final int weight;
@@ -37,6 +37,15 @@ public class Item implements Comparable {
   }
 
   @Override
+  public Item clone() {
+    try {
+      return (Item) super.clone();
+    } catch (CloneNotSupportedException cnse) {
+      throw new AssertionError("Shouldn't get here..." + cnse.getMessage(), cnse);
+    }
+  }
+
+  @Override
   public String toString() {
     return name + " [value = " + value + ", weight = " + weight + ", bounding = " + bounding + "]";
   }
@@ -51,7 +60,7 @@ public class Item implements Comparable {
     List<Item> unpackedItems = new ArrayList<>(items.size());
     for (Item item : items) {
       double bounding = item.bounding;
-      for (int i = 0; i < bounding; i++) unpackedItems.add(new Item(item));
+      for (int i = 0; i < bounding; i++) unpackedItems.add(item.clone());
     }
     return unpackedItems;
   }

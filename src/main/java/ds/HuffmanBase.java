@@ -104,7 +104,7 @@ public abstract class HuffmanBase {
 
   // Huffman trie node
   @SuppressWarnings("nullness")
-  static class Node implements Cloneable, Comparable<Node> {
+  protected static final class Node implements Cloneable, Comparable<Node> {
     char ch;
     int freq;
     Node left;

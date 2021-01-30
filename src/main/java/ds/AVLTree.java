@@ -162,7 +162,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
   public void put(T val) {
-    requireNonNull(val);  
+    requireNonNull(val);
     root = put(root, val);
     assert Checks.check(this);
   }
