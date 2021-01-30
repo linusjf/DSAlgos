@@ -81,7 +81,7 @@ public class QuickSortParallel extends AbstractSort {
         : less(a[k], a[j]) ? j : less(a[k], a[i]) ? k : i;
   }
 
-  class QuickSortAction extends RecursiveAction {
+  final class QuickSortAction extends RecursiveAction implements Cloneable {
     private static final long serialVersionUID = 1L;
 
     final long[] a;
@@ -93,6 +93,15 @@ public class QuickSortParallel extends AbstractSort {
       this.a = a;
       this.low = low;
       this.high = high;
+    }
+
+    @Override
+    public QuickSortAction clone() {
+      try {
+        return (QuickSortAction) super.clone();
+      } catch (CloneNotSupportedException cnse) {
+        throw new AssertionError("Shouldn't get here..." + cnse.getMessage(), cnse);
+      }
     }
 
     @Override
@@ -124,10 +133,16 @@ public class QuickSortParallel extends AbstractSort {
         int pivotIndex = partition(a, low, high);
 
         if ((pivotIndex - low) <= (high - pivotIndex)) {
-          invokeAll(new QuickSortAction(a, low, pivotIndex - 1));
+          QuickSortAction copy = this.clone();
+          copy.low = low;
+          copy.high = pivotIndex + 1;
+          invokeAll(copy);
           low = pivotIndex + 1;
         } else {
-          invokeAll(new QuickSortAction(a, pivotIndex + 1, high));
+          QuickSortAction copy = this.clone();
+          copy.low = pivotIndex + 1;
+          copy.high = high;
+          invokeAll(copy);
           high = pivotIndex - 1;
         }
       }
