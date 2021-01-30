@@ -10,8 +10,8 @@ package ds;
  *****************************************************************************
  */
 
-import static java.util.Objects.nonNull;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
@@ -71,8 +71,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the number of nodes in the subtree
    */
   private int size(Node<T> x) {
-    return  isNull(x) ?  
-       0:x.size;
+    return isNull(x) ? 0 : x.size;
   }
 
   /**
@@ -109,8 +108,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the height of the subtree.
    */
   private int height(Node<T> x) {
-    return isNull(x) ?
-      -1: x.height;
+    return isNull(x) ? -1 : x.height;
   }
 
   /**
@@ -284,16 +282,12 @@ public class AVLTree<T extends Comparable<T>> {
   private Node<T> delete(Node<T> node, T val) {
     Node<T> x = node;
     int cmp = val.compareTo(x.val);
-    if (cmp < 0) 
-      x.left = delete(x.left, val);
-    else if (cmp > 0) 
-      x.right = delete(x.right, val);
+    if (cmp < 0) x.left = delete(x.left, val);
+    else if (cmp > 0) x.right = delete(x.right, val);
     else {
-      if (x.left == null) 
-        return x.right;
-       else if (x.right == null) 
-        return x.left;
-       else {
+      if (x.left == null) return x.right;
+      else if (x.right == null) return x.left;
+      else {
         Node<T> y = x;
         x = min(y.right);
         x.right = deleteMin(y.right);
@@ -323,8 +317,7 @@ public class AVLTree<T extends Comparable<T>> {
    * @return the updated subtree
    */
   private Node<T> deleteMin(Node<T> x) {
-    if (isNull(x.left)) 
-      return x.right;
+    if (isNull(x.left)) return x.right;
     x.left = deleteMin(x.left);
     x.size = 1 + size(x.left) + size(x.right);
     x.height = 1 + Math.max(height(x.left), height(x.right));
@@ -609,10 +602,8 @@ public class AVLTree<T extends Comparable<T>> {
       while (!queue2.isEmpty()) {
         Node<T> x = queue2.poll();
         queue.offer(x.val);
-        if (nonNull(x.left)) 
-          queue2.offer(x.left);
-        if (nonNull(x.right)) 
-          queue2.offer(x.right);
+        if (nonNull(x.left)) queue2.offer(x.left);
+        if (nonNull(x.right)) queue2.offer(x.right);
       }
     }
     return queue;
