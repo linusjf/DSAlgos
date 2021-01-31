@@ -60,8 +60,7 @@ public class HuffmanCompressor extends HuffmanBase {
     for (int i : input) {
       String code = st[i];
       for (int j = 0; j < code.length(); j++) {
-        if (code.charAt(j) == ZERO_CHARACTER) 
-          bos.write(false);
+        if (code.charAt(j) == ZERO_CHARACTER) bos.write(false);
         else bos.write(true);
       }
     }
