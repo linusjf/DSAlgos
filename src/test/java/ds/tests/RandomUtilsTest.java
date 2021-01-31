@@ -51,5 +51,4 @@ class RandomUtilsTest {
     int random = randomInRange(0, 1);
     assertEquals(0, random, "Value must be zero.");
   }
-  
 }
