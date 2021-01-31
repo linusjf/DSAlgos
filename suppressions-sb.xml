@@ -42,6 +42,14 @@
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
+    <Class name="ds.AVLTree"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.HuffmanBase"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
     <Class name="ds.BinaryTree$TreeIterator"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
@@ -55,6 +63,18 @@
   </Match>
   <Match>
     <Class name="ds.BinaryTree"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.AVLTree"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.HuffmanBase"/>
+    <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.AVLTree"/>
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>

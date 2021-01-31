@@ -20,6 +20,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class MathUtilsTest {
 
   private static final String MUST_RETURN_TRUE = "Must return true.";
+  private static final String MUST_RETURN_FALSE = "Must return false.";
 
   @Test
   @DisplayName("MathUtilsTest.testPrivateConstructor")
@@ -87,6 +88,21 @@ class MathUtilsTest {
   }
 
   @Test
+  @DisplayName("MathUtilsTest.testIsNotInRangeRight")
+  void testIsNotInRangeRight() {
+    assertFalse(
+        isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE), MUST_RETURN_FALSE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testIsNotInRangeRight")
+  void testIsNotInRangeLeft() {
+    assertFalse(
+        isInRangeInclusive(Integer.MIN_VALUE + 1, Integer.MAX_VALUE, Integer.MIN_VALUE),
+        MUST_RETURN_FALSE);
+  }
+
+  @Test
   @DisplayName("MathUtilsTest.testIsInRangeMid")
   void testIsInRangeMid() {
     assertTrue(isInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, 0), MUST_RETURN_TRUE);
@@ -112,5 +128,61 @@ class MathUtilsTest {
     assertTrue(
         isInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
         MUST_RETURN_TRUE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testGreaterThan")
+  void testGreaterThan() {
+    assertTrue(isGreaterThan(Integer.MIN_VALUE, Integer.MAX_VALUE), MUST_RETURN_TRUE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testNotGreaterThan")
+  void testNotGreaterThan() {
+    assertFalse(isGreaterThan(Integer.MAX_VALUE, Integer.MIN_VALUE), MUST_RETURN_FALSE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testNotLessThan")
+  void testNotLessThan() {
+    assertFalse(isLessThan(Integer.MIN_VALUE, Integer.MAX_VALUE), MUST_RETURN_FALSE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testLessThan")
+  void testLessThan() {
+    assertTrue(isLessThan(Integer.MAX_VALUE, Integer.MIN_VALUE), MUST_RETURN_TRUE);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireNotGreaterThan")
+  void testRequireNotGreaterThan() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> requireGreaterThan(Integer.MAX_VALUE, Integer.MIN_VALUE),
+        "Exception expected");
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireGreaterThan")
+  void testRequireGreaterThan() {
+    assertDoesNotThrow(
+        () -> requireGreaterThan(Integer.MIN_VALUE, Integer.MAX_VALUE), "Exception not expected.");
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireNotLessThan")
+  void testRequireNotLessThan() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> requireLessThan(Integer.MIN_VALUE, Integer.MAX_VALUE),
+        "Exception expected");
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireGreaterThan")
+  void testRequireLessThan() {
+    assertDoesNotThrow(
+        () -> requireLessThan(Integer.MAX_VALUE, Integer.MIN_VALUE), "Exception not expected.");
   }
 }

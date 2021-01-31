@@ -29,7 +29,7 @@ import java.util.Random;
  *
  * @author Marcelo Silva
  */
-@SuppressWarnings("PMD.CommentSize")
+@SuppressWarnings({"PMD.CommentSize", "nullness"})
 public class AVLTree<T extends Comparable<T>> {
 
   /** The root node. */

@@ -32,16 +32,14 @@ public final class Item implements Comparable, Cloneable {
     this.bounding = bounding;
   }
 
-  public Item(Item src) {
-    this(src.name, src.value, src.weight);
-  }
-
+  @Generated
+  @SuppressWarnings("checkstyle:NoClone")
   @Override
   public Item clone() {
     try {
       return (Item) super.clone();
     } catch (CloneNotSupportedException cnse) {
-      throw new AssertionError("Shouldn't get here..." + cnse.getMessage(), cnse);
+      throw new AssertionError("Shouldn't get here" + cnse.getMessage(), cnse);
     }
   }
 

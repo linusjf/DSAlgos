@@ -104,7 +104,7 @@ public class MergeSortParallel extends MergeSort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(66);
     String lineSeparator = System.lineSeparator();
     sb.append(getClass().getName())
         .append(lineSeparator)

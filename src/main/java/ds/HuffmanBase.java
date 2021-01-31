@@ -129,6 +129,7 @@ public abstract class HuffmanBase {
       return this.freq - that.freq;
     }
 
+    @SuppressWarnings("checkstyle:NoClone")
     @Override
     public Node clone() {
       try {
