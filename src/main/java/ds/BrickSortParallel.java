@@ -131,7 +131,7 @@ public class BrickSortParallel extends BrickSort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(90);
     String lineSeparator = System.lineSeparator();
     sb.append(getClass().getName())
         .append(lineSeparator)

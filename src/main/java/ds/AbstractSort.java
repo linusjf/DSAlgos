@@ -54,7 +54,7 @@ public abstract class AbstractSort implements ISort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(80);
     String lineSeparator = System.lineSeparator();
     sb.append(getClass().getName())
         .append(lineSeparator)

@@ -61,8 +61,7 @@ public class HuffmanCompressor extends HuffmanBase {
       String code = st[i];
       for (int j = 0; j < code.length(); j++) {
         if (code.charAt(j) == ZERO_CHARACTER) bos.write(false);
-        else if (code.charAt(j) == ONE_CHARACTER) bos.write(true);
-        else throw new IllegalStateException("Illegal state");
+        else (code.charAt(j) == ONE_CHARACTER) bos.write(true);
       }
     }
 

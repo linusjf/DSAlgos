@@ -210,7 +210,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder(2);
+    StringBuilder sb = new StringBuilder();
     sb.append('[');
     INode<T> nextNode = this.head;
     while (nonNull(nextNode)) {
@@ -318,7 +318,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     @Generated
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder(50);
       String lineSeparator = System.lineSeparator();
       sb.append("Last returned = ")
           .append(lastReturned)
