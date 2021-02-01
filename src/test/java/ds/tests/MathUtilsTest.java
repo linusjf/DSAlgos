@@ -192,7 +192,7 @@ class MathUtilsTest {
   @DisplayName("MathUtilsTest.testRequireIsInRange")
   void testRequireIsInRange() {
     assertDoesNotThrow(
-      () ->  requireInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE),
+        () -> requireInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE),
         EXCEPTION_NOT_EXPECTED);
   }
 
@@ -209,7 +209,7 @@ class MathUtilsTest {
   @DisplayName("MathUtilsTest.testRequireIsInRangeInclusive")
   void testRequireIsInRangeInclusive() {
     assertDoesNotThrow(
-  () ->      requireInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
+        () -> requireInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
         EXCEPTION_NOT_EXPECTED);
   }
 
