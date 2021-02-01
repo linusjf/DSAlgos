@@ -6,6 +6,7 @@ import ds.HuffmanCompressor;
 import ds.HuffmanDecompressor;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +41,7 @@ class HuffmanTest {
   }
 
   private String readFile(String fileName) throws IOException {
-    return new String(Files.readAllBytes(Paths.get(fileName)));
+    return new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
   }
 
   @Test
