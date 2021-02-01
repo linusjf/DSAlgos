@@ -1,9 +1,5 @@
 package ds;
 /******************************************************************************
- *  Compilation:  javac BinaryOutputStream.java
- *  Execution:    java BinaryOutputStream
- *  Dependencies: none
- *
  *  Write binary data to an output stream, either one 1-bit boolean,
  *  one 8-bit char, one 32-bit int, one 64-bit double, one 32-bit float,
  *  or one 64-bit long at a time. The output stream can be standard
@@ -320,23 +316,4 @@ public final class BinaryOutputStream {
     for (int i = 0; i < s.length(); i++) write(s.charAt(i), r);
   }
 
-  /**
-   * Test client. Read bits from standard input and write to the file specified on command line.
-   *
-   * @param args the command-line arguments
-   */
-  public static void main(String[] args) {
-
-    // create binary output stream to write to file
-    String filename = args[0];
-    BinaryOutputStream out = new BinaryOutputStream(filename);
-    BinaryInputStream in = new BinaryInputStream();
-
-    // read from standard input and write to file
-    while (!in.isEmpty()) {
-      char c = in.readChar();
-      out.write(c);
-    }
-    out.flush();
-  }
 }

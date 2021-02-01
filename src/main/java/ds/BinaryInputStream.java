@@ -1,13 +1,9 @@
 package ds;
 
-/******************************************************************************
- *  Compilation:  javac BinaryInputStream.java
- *  Execution:    java BinaryInputStream input output
- *  Dependencies: none
- *
+/*
+ ****************************************************************************
  *  This library is for reading binary data from an input stream.
  *
- *  % java BinaryInputStream https://introcs.cs.princeton.edu/java/cover.png output.png
  *
  ******************************************************************************/
 
@@ -355,21 +351,4 @@ public final class BinaryInputStream {
     return (byte) (c & 0xff);
   }
 
-  /**
-   * Unit tests the {@code BinaryInputStream} data type. Reads the name of a file or URL (first
-   * command-line argument) and writes it to a file (second command-line argument).
-   *
-   * @param args the command-line arguments
-   */
-  public static void main(String[] args) {
-    BinaryInputStream in = new BinaryInputStream(args[0]);
-    BinaryOutputStream out = new BinaryOutputStream(args[1]);
-
-    // read one 8-bit char at a time
-    while (!in.isEmpty()) {
-      char c = in.readChar();
-      out.write(c);
-    }
-    out.flush();
-  }
 }
