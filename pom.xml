@@ -243,7 +243,7 @@
     <lombok.maven.plugin.version>1.18.16.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
     <lombok.version>1.18.18</lombok.version>
-    <checkstyle.version>8.39</checkstyle.version>
+    <checkstyle.version>8.40</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.31.0</pmd.version>
