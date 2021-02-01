@@ -46,6 +46,14 @@
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
+    <Class name="ds.AVLTree"/>
+    <Bug pattern="CFS_CONFUSING_FUNCTION_SEMANTICS"/>
+  </Match>
+  <Match>
+    <Class name="ds.AVLTree$Node"/>
+    <Bug pattern="FCBL_FIELD_COULD_BE_LOCAL"/>
+  </Match>
+  <Match>
     <Class name="ds.HuffmanBase"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>

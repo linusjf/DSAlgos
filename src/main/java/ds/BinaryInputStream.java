@@ -19,6 +19,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
 /**
@@ -113,9 +115,9 @@ public final class BinaryInputStream {
 
     try {
       // first try to read file from local file system
-      File file = new File(name);
-      if (file.exists()) {
-        InputStream fis = Files.newInputStream(file.toPath());
+      Path path = Paths.get(name);
+      if (Files.isRegularFile(path)) {
+        InputStream fis = Files.newInputStream(path);
         in = new BufferedInputStream(fis);
         fillBuffer();
         return;
