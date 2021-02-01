@@ -58,6 +58,10 @@
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
+    <Class name="ds.HuffmanBase$Node"/>
+    <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS"/>
+  </Match>
+  <Match>
     <Class name="ds.BinaryTree$TreeIterator"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
