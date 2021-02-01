@@ -35,7 +35,7 @@ import java.nio.file.Paths;
   "PMD.CommentSize",
   "PMD.SystemPrintln",
   "PMD.AvoidLiteralsInIfCondition",
-  "PMD.AvoidUsingShortType"
+  "initialization.fields.uninitialized"
 })
 public final class BinaryOutputStream {
 
@@ -315,5 +315,4 @@ public final class BinaryOutputStream {
   public void write(String s, int r) {
     for (int i = 0; i < s.length(); i++) write(s.charAt(i), r);
   }
-
 }
