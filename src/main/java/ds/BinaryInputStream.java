@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
   "PMD.CommentSize",
   "PMD.SystemPrintln",
   "PMD.AvoidLiteralsInIfCondition",
-  "PMD.AvoidUsingShortType"
+  "initialization.fields.uninitialized"
 })
 public final class BinaryInputStream {
   private static final int EOF = -1;
@@ -350,5 +350,4 @@ public final class BinaryInputStream {
     char c = readChar();
     return (byte) (c & 0xff);
   }
-
 }
