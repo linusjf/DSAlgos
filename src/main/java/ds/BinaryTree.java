@@ -182,6 +182,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       return t;
     }
 
+    @Generated
     @SuppressWarnings("PMD.UnnecessaryFullyQualifiedName")
     @Override
     public String toString() {
