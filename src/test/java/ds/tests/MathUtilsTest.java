@@ -21,6 +21,8 @@ class MathUtilsTest {
 
   private static final String MUST_RETURN_TRUE = "Must return true.";
   private static final String MUST_RETURN_FALSE = "Must return false.";
+  private static final String EXCEPTION_EXPECTED = "Exception expected.";
+  private static final String EXCEPTION_NOT_EXPECTED = "Exception not expected.";
 
   @Test
   @DisplayName("MathUtilsTest.testPrivateConstructor")
@@ -160,14 +162,14 @@ class MathUtilsTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> requireGreaterThan(Integer.MAX_VALUE, Integer.MIN_VALUE),
-        "Exception expected");
+        EXCEPTION_EXPECTED);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testRequireGreaterThan")
   void testRequireGreaterThan() {
     assertDoesNotThrow(
-        () -> requireGreaterThan(Integer.MIN_VALUE, Integer.MAX_VALUE), "Exception not expected.");
+        () -> requireGreaterThan(Integer.MIN_VALUE, Integer.MAX_VALUE), EXCEPTION_NOT_EXPECTED);
   }
 
   @Test
@@ -176,13 +178,47 @@ class MathUtilsTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> requireLessThan(Integer.MIN_VALUE, Integer.MAX_VALUE),
-        "Exception expected");
+        EXCEPTION_EXPECTED);
   }
 
   @Test
   @DisplayName("MathUtilsTest.testRequireGreaterThan")
   void testRequireLessThan() {
     assertDoesNotThrow(
-        () -> requireLessThan(Integer.MAX_VALUE, Integer.MIN_VALUE), "Exception not expected.");
+        () -> requireLessThan(Integer.MAX_VALUE, Integer.MIN_VALUE), EXCEPTION_NOT_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireIsInRange")
+  void testRequireIsInRange() {
+    assertDoesNotThrow(
+      () ->  requireInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE),
+        EXCEPTION_NOT_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireNotInRange")
+  void testRequireNotInRange() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> requireInRange(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
+        EXCEPTION_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireIsInRangeInclusive")
+  void testRequireIsInRangeInclusive() {
+    assertDoesNotThrow(
+  () ->      requireInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE),
+        EXCEPTION_NOT_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testRequireNotInRangeInclusive")
+  void testRequireNotInRangeInclusive() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> requireInRangeInclusive(Integer.MIN_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE),
+        EXCEPTION_EXPECTED);
   }
 }
