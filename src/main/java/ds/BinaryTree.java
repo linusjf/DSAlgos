@@ -157,7 +157,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     private TreeNode<T> remove(T obj, TreeNode<T> node) {
       requireNonNull(obj);
       TreeNode<T> t = node;
-      if (isNull(t)) return t;
+      //  if (isNull(t)) return t;
 
       if (obj.compareTo(t.val) < 0) t.left = remove(obj, t.left);
       else if (obj.compareTo(t.val) > 0) t.right = remove(obj, t.right);
@@ -177,7 +177,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     private TreeNode<T> findMin(TreeNode<T> node) {
       TreeNode<T> t = node;
-      if (isNull(t)) return null;
+      // if (isNull(t)) return null;
       while (nonNull(t.left)) t = t.left;
       return t;
     }
