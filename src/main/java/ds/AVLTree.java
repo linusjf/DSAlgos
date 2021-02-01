@@ -176,7 +176,8 @@ public class AVLTree<T extends Comparable<T>> {
    * @param val the value
    * @return the subtree
    */
-  private Node put(Node<T> x, T val) {
+  private Node put(Node<T> node, T val) {
+    Node<T> x = node;
     if (isNull(x)) return new Node<>(val, 0, 1);
     int cmp = val.compareTo(x.val);
     if (cmp < 0) x.left = put(x.left, val);
@@ -368,9 +369,11 @@ public class AVLTree<T extends Comparable<T>> {
    * @param x the subtree
    * @return the node with the smallest value in the subtree
    */
-  private Node<T> min(Node<T> x) {
-    if (isNull(x.left)) return x;
-    return min(x.left);
+  private Node<T> min(Node<T> node) {
+    Node<T> x = node;
+    while (nonNull(x.left)) 
+      x = x.left;
+    return x;
   }
 
   /**
@@ -391,9 +394,11 @@ public class AVLTree<T extends Comparable<T>> {
    * @param x the subtree
    * @return the node with the largest value in the subtree
    */
-  private Node<T> max(Node<T> x) {
-    if (isNull(x.right)) return x;
-    return max(x.right);
+  private Node<T> max(Node<T> node) {
+    Node<T> x = node;
+    while(nonNull(x.right)) 
+      x = x.right;
+    return x;
   }
 
   /**
