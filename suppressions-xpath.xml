@@ -49,7 +49,6 @@
   <suppress-xpath files="QuickSelectMedian.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='QuickSelectMedian']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='find']]/SLIST/LITERAL_RETURN/EXPR/STAR/NUM_FLOAT[@text='0.5f']"/>
   <suppress-xpath files="QuickSelect.java" checks="ReturnCountCheck" query="/CLASS_DEF[./IDENT[@text='QuickSelect']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='select']]"/>
   <suppress-xpath files="RadixSort.java" checks="VariableDeclarationUsageDistanceCheck" query="/CLASS_DEF[./IDENT[@text='RadixSort']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='countSort']]/SLIST/VARIABLE_DEF[./IDENT[@text='output']]"/>
-  <suppress-xpath files="BinaryInputStream.java" checks="InvalidJavadocPositionCheck" query="/BLOCK_COMMENT_BEGIN"/>
   <suppress-xpath files="BinaryInputStream.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='BinaryInputStream']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='fillBuffer']]/SLIST/LITERAL_TRY/SLIST/EXPR/ASSIGN[./IDENT[@text='n']]/NUM_INT[@text='8']"/>
   <suppress-xpath files="BinaryInputStream.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='BinaryInputStream']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='readChar']]/SLIST/LITERAL_IF/EXPR/EQUAL[./IDENT[@text='n']]/NUM_INT[@text='8']"/>
   <suppress-xpath files="BinaryInputStream.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='BinaryInputStream']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='readChar']]/SLIST/LITERAL_IF/SLIST/LITERAL_RETURN/EXPR/TYPECAST/BAND[./IDENT[@text='x']]/NUM_INT[@text='0xff']"/>
@@ -106,6 +105,7 @@
   <suppress-xpath files="HuffmanDecompressor.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HuffmanDecompressor']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='expand']]/SLIST/LITERAL_FOR/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='8']"/>
   <suppress-xpath files="AVLTree.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTree']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='main']]/SLIST/LITERAL_FOR/FOR_CONDITION/EXPR/LT[./IDENT[@text='i']]/NUM_INT[@text='100']"/>
   <suppress-xpath files="AVLTree.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTree']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='main']]/SLIST/LITERAL_FOR/EXPR/METHOD_CALL/ELIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='1000']"/>
+  <suppress-xpath files="AVLTree.java" checks="OverloadMethodsDeclarationOrderCheck" query="/CLASS_DEF[./IDENT[@text='AVLTree']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='put']]"/>
   <suppress-xpath files="AVLTree.java" checks="ReturnCountCheck" query="/CLASS_DEF[./IDENT[@text='AVLTree']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='rank']]"/>
   <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CLASS_DEF[./IDENT[@text='InsertTests']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testInsertAggregate']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='77']"/>
   <suppress-xpath files="HighArrayTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='HighArrayTest']]/OBJBLOCK/CLASS_DEF[./IDENT[@text='InsertTests']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testInsertAggregate']]/SLIST/VARIABLE_DEF[./IDENT[@text='a']]/ASSIGN/ARRAY_INIT/EXPR/NUM_INT[@text='99']"/>
@@ -1113,4 +1113,8 @@
   <suppress-xpath files="BinaryTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='BinaryTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testRemoveByRoot']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertRemoveAll']]/ELIST/EXPR/LITERAL_NEW/ARRAY_INIT/EXPR/NUM_INT[@text='9']"/>
   <suppress-xpath files="BinaryTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='BinaryTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='testRemoveByRoot']]/SLIST/EXPR/METHOD_CALL[./IDENT[@text='assertRemoveAll']]/ELIST/EXPR/LITERAL_NEW/ARRAY_INIT/EXPR/NUM_INT[@text='10']"/>
   <suppress-xpath files="HuffmanTest.java" checks="RedundantModifierCheck" query="/CLASS_DEF[./IDENT[@text='HuffmanTest']]/OBJBLOCK/CTOR_DEF[./IDENT[@text='HuffmanTest']]/MODIFIERS/LITERAL_PUBLIC"/>
+  <suppress-xpath files="AVLTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='setUp']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='5']"/>
+  <suppress-xpath files="AVLTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='setUp']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='9']"/>
+  <suppress-xpath files="AVLTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='setUp']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='8']"/>
+  <suppress-xpath files="AVLTreeTest.java" checks="MagicNumberCheck" query="/CLASS_DEF[./IDENT[@text='AVLTreeTest']]/OBJBLOCK/METHOD_DEF[./IDENT[@text='setUp']]/SLIST/EXPR/METHOD_CALL/ELIST/EXPR/NUM_INT[@text='10']"/>
 </suppressions>
