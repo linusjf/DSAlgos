@@ -119,7 +119,6 @@ public abstract class HuffmanBase {
     // is the node a leaf node?
     @Generated
     boolean isLeaf() {
-      assert left == null && right == null || left != null && right != null;
       return left == null && right == null;
     }
 

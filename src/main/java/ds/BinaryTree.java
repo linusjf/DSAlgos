@@ -157,7 +157,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     private TreeNode<T> remove(T obj, TreeNode<T> node) {
       requireNonNull(obj);
       TreeNode<T> t = node;
-      //  if (isNull(t)) return t;
 
       if (obj.compareTo(t.val) < 0) t.left = remove(obj, t.left);
       else if (obj.compareTo(t.val) > 0) t.right = remove(obj, t.right);
@@ -177,7 +176,6 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
      */
     private TreeNode<T> findMin(TreeNode<T> node) {
       TreeNode<T> t = node;
-      // if (isNull(t)) return null;
       while (nonNull(t.left)) t = t.left;
       return t;
     }
@@ -350,16 +348,26 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
       } else {
         // now visit this node's right subtree
         // pop false and push true for visiting right child
-        if (visitingRightChild.pop()) assert false;
+        popRightChild();
         visitingRightChild.push(Boolean.TRUE);
         // now push everything down to the leftmost node
         // in the right subtree
         TreeNode<E> right = visiting.peek().right;
-        assert nonNull(right);
+        assertNonNull(right);
         pushLeftmostNodeRecord(right);
         // use recursive call to visit that node
         return postorderNext();
       }
+    }
+
+    @Generated
+    private void popRightChild() {
+      if (visitingRightChild.pop()) throw new AssertionError("Shouldn't be here...");
+    }
+
+    @Generated
+    private void assertNonNull(TreeNode<E> node) {
+      if (isNull(node)) throw new AssertionError("Node shouldn't be null.");
     }
 
     // return the node at the top of the queue, enqueue the next nodes if any
