@@ -164,7 +164,12 @@ public class AVLTree<T extends Comparable<T>> {
   public void put(T val) {
     requireNonNull(val);
     root = put(root, val);
-    assert Checks.check(this);
+    assertChecks();
+  }
+
+  @Generated
+  private void assertChecks() {
+    if (!Checks.check(this)) throw new AssertionError("Invalid state");
   }
 
   /**
@@ -271,7 +276,7 @@ public class AVLTree<T extends Comparable<T>> {
     if (isNull(val)) throw new IllegalArgumentException("argument to delete() is null");
     if (!contains(val)) return;
     root = delete(root, val);
-    assert Checks.check(this);
+    assertChecks();
   }
 
   /**
@@ -309,7 +314,7 @@ public class AVLTree<T extends Comparable<T>> {
   public void deleteMin() {
     if (isEmpty()) throw new NoSuchElementException("called deleteMin() with empty binary tree");
     root = deleteMin(root);
-    assert Checks.check(this);
+    assertChecks();
   }
 
   /**
@@ -334,7 +339,7 @@ public class AVLTree<T extends Comparable<T>> {
   public void deleteMax() {
     if (isEmpty()) throw new NoSuchElementException("called deleteMax() with empty binary tree");
     root = deleteMax(root);
-    assert Checks.check(this);
+    assertChecks();
   }
 
   /**
