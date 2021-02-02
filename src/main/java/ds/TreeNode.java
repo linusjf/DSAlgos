@@ -36,32 +36,32 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
 
   @Override
   public ITreeNode<T> left() {
-   return left;
+    return left;
   }
- 
+
   @Override
   public ITreeNode<T> right() {
-   return right;
+    return right;
   }
-  
+
   @Override
   public void setRight(ITreeNode<T> right) {
-   this.right = right;
+    this.right = right;
   }
-  
+
   @Override
   public void setLeft(ITreeNode<T> left) {
-   this.left = left;
+    this.left = left;
   }
-  
+
   @Override
   public void setValue(T val) {
-   this.val = val;
+    this.val = val;
   }
-  
+
   @Override
   public T value() {
-   return val;
+    return val;
   }
 
   /**

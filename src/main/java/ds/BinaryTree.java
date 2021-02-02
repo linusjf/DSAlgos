@@ -3,12 +3,8 @@ package ds;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
-import static java.util.Objects.toString;
 
-import java.util.ArrayDeque;
 import java.util.Iterator;
-import java.util.Queue;
-import java.util.Stack;
 
 /**
  * A simple generic binary tree class to demonstrate the basic principles of implementing a tree
@@ -59,10 +55,9 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     requireNonNull(obj);
     return nonNull(root) ? nonNull(root.find(obj)) : false;
   }
-  
+
   /**
-   * Returns the node comtaining the argument value.
-   * null otherwise
+   * Returns the node comtaining the argument value. null otherwise
    *
    * @param obj reference to Comparable object whose value will be searched for.
    * @return node.
@@ -70,8 +65,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   @Override
   public ITreeNode<E> find(E obj) {
     requireNonNull(obj);
-    if (isNull(root))
-      return null;
+    if (isNull(root)) return null;
     return root.find(obj);
   }
 
@@ -95,5 +89,4 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   public Iterator<E> iterator(TraversalOrder order) {
     return new TreeIterator(root, order);
   }
-
 }

@@ -24,10 +24,10 @@ import java.util.Random;
 /**
  * This implementation of AVl tree requires that the value type implements the {@code Comparable}
  * interface and calls the {@code compareTo()} and method to compare two values. It does not call
- * either {@code equals()} or {@code hashCode()}. The <em>add</em>, <em>find</em>, <em>contains</em>,
- * <em>delete</em>, <em>minimum</em>, <em>maximum</em>, <em>ceiling</em>, and <em>floor</em>
- * operations each take logarithmic time in the worst case. The <em>size</em>, and <em>is-empty</em>
- * operations take constant time. Construction also takes constant time.
+ * either {@code equals()} or {@code hashCode()}. The <em>add</em>, <em>find</em>,
+ * <em>contains</em>, <em>delete</em>, <em>minimum</em>, <em>maximum</em>, <em>ceiling</em>, and
+ * <em>floor</em> operations each take logarithmic time in the worst case. The <em>size</em>, and
+ * <em>is-empty</em> operations take constant time. Construction also takes constant time.
  *
  * @author Marcelo Silva
  */
@@ -35,7 +35,7 @@ import java.util.Random;
 public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   /** The root node. */
-  private AVLTreeNode<T> root;
+  AVLTreeNode<T> root;
 
   /**
    * Unit tests the {@code AVLTreeST} data type.
@@ -60,7 +60,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   @Override
   public Iterator<T> iterator(TraversalOrder order) {
-   return null;
+    return null;
   }
 
   /**
@@ -192,7 +192,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @return the subtree
    */
   private AVLTreeNode<T> add(ITreeNode<T> node, T val) {
-    AVLTreeNode<T> x = (AVLTreeNode<T>)node;
+    AVLTreeNode<T> x = (AVLTreeNode<T>) node;
     if (isNull(x)) return new AVLTreeNode<>(val, 0, 1);
     int cmp = val.compareTo(x.value());
     if (cmp < 0) x.setLeft(add(x.left(), val));
@@ -659,11 +659,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      * @param x the subtree
      * @return {@code true} if AVL property is consistent in the subtree
      */
-    private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree, AVLTreeNode<T> x) {
+    private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree, IAVLTreeNode<T> x) {
       if (isNull(x)) return true;
       int bf = tree.balanceFactor(x);
       if (bf > 1 || bf < -1) return false;
-      return isAVL(tree, x.left) && isAVL(tree, x.right);
+      return isAVL(tree, x.left()) && isAVL(tree, x.right());
     }
 
     /**
@@ -685,11 +685,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      * @return {@code true} if if the symmetric order is consistent
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:ReturnCount"})
-    private static <T extends Comparable<T>> boolean isBST(AVLTreeNode<T> x, T min, T max) {
+    private static <T extends Comparable<T>> boolean isBST(IAVLTreeNode<T> x, T min, T max) {
       if (isNull(x)) return true;
-      if (nonNull(min) && x.val.compareTo(min) <= 0) return false;
-      if (nonNull(max) && x.val.compareTo(max) >= 0) return false;
-      return isBST(x.left, min, x.val) && isBST(x.right, x.val, max);
+      if (nonNull(min) && x.value().compareTo(min) <= 0) return false;
+      if (nonNull(max) && x.value().compareTo(max) >= 0) return false;
+      return isBST(x.left(), min, x.value()) && isBST(x.right(), x.value(), max);
     }
 
     /**
@@ -706,10 +706,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      *
      * @return {@code true} if the size of the subtree is consistent
      */
-    private static <T extends Comparable<T>> boolean isSizeConsistent(AVLTree<T> tree, AVLTreeNode<T> x) {
+    private static <T extends Comparable<T>> boolean isSizeConsistent(
+        AVLTree<T> tree, ITreeNode<T> x) {
       if (isNull(x)) return true;
-      if (x.size != tree.size(x.left) + tree.size(x.right) + 1) return false;
-      return isSizeConsistent(tree, x.left) && isSizeConsistent(tree, x.right);
+      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + 1) return false;
+      return isSizeConsistent(tree, x.left()) && isSizeConsistent(tree, x.right());
     }
 
     /**
@@ -723,5 +724,4 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       return true;
     }
   }
-
 }

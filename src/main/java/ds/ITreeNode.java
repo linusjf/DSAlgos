@@ -10,7 +10,7 @@ interface ITreeNode<E> {
   ITreeNode<E> left();
 
   void setLeft(ITreeNode<E> node);
-  
+
   ITreeNode<E> right();
 
   void setRight(ITreeNode<E> node);
