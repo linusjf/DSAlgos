@@ -24,10 +24,11 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
      * second stack keeps track of whether the node visited is to the left (false) or right (true)
      * of its parent
      */
-    protected TreeNode<E> root;
+    protected ITreeNode<E> root;
 
-    protected Queue<TreeNode<E>> queue;
-    protected Stack<TreeNode<E>> visiting;
+    protected Queue<ITreeNode<E>> queue;
+    protected Stack<ITreeNode<E>> visiting;
+
     protected Stack<Boolean> visitingRightChild;
     TraversalOrder order;
 
@@ -72,16 +73,18 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     private E preorderNext() {
       // at beginning of iterator
       if (visiting.empty()) visiting.push(root);
-      TreeNode<E> node = visiting.pop();
+      ITreeNode<E> node = visiting.pop();
       // need to visit the left subtree first, then the right
       // since a stack is a LIFO, push the right subtree first, then
       // the left.  Only push non-null trees
-      if (nonNull(node.right)) visiting.push(node.right);
-      if (nonNull(node.left)) visiting.push(node.left);
+      ITreeNode<E> right = node.right();
+      ITreeNode<E> left = node.left();
+      if (nonNull(right)) visiting.push(right);
+      if (nonNull(left)) visiting.push(left);
       // may not have pushed anything.  If so, we are at the end
       // no more nodes to visit
       if (visiting.empty()) root = null;
-      return node.val;
+      return node.value();
     }
 
     /**
@@ -91,13 +94,13 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
      *
      * @param node the root of the subtree
      */
-    private void pushLeftmostNode(TreeNode<E> node) {
+    private void pushLeftmostNode(ITreeNode<E> node) {
       // find the leftmost node
       if (nonNull(node)) {
         // push this node
         visiting.push(node);
         // recurse on next left node
-        pushLeftmostNode(node.left);
+        pushLeftmostNode(node.left());
       }
     }
 
@@ -107,23 +110,21 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
      */
     @SuppressWarnings("PMD.NullAssignment")
     private E inorderNext() {
-      if (visiting.empty()) {
         // at beginning of iterator
         // find the leftmost node, pushing all the intermediate nodes
         // onto the visiting stack
+      if (visiting.empty()) 
         pushLeftmostNode(root);
-      }
       // now the leftmost unvisited node is on top of the visiting stack
-      TreeNode<E> node = visiting.pop();
-      E result = node.val;
+      ITreeNode<E> node = visiting.pop();
+      E result = node.value();
       // this is the value to return
       // if the node has a right child, its leftmost node is next
-      if (nonNull(node.right)) {
-        TreeNode<E> right = node.right;
+      ITreeNode<E> right = node.right();
         // find the leftmost node of the right child
-        pushLeftmostNode(right);
         // note "node" has been replaced on the stack by its right child
-      }
+      if (nonNull(right)) 
+        pushLeftmostNode(right);
       // else: no right subtree, go back up the stack
       // next node on stack will be next returned
       // no next node left
@@ -139,14 +140,14 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
      * @changes visiting takes all nodes between node and the leftmost
      * @param node the root of the subtree for which we
      */
-    private void pushLeftmostNodeRecord(TreeNode<E> node) {
+    private void pushLeftmostNodeRecord(ITreeNode<E> node) {
       // find the leftmost node
       if (nonNull(node)) {
         // push this node
         visiting.push(node);
         visitingRightChild.push(Boolean.FALSE);
         // record that it is on the left
-        pushLeftmostNodeRecord(node.left);
+        pushLeftmostNodeRecord(node.left());
         // continue looping
       }
     }
@@ -161,9 +162,9 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
       if (visiting.empty()) pushLeftmostNodeRecord(root);
       // no right subtree, or
       // already visited right child, time to visit the node on top
-      if (visiting.peek().right == null || visitingRightChild.peek()) {
+      if (visiting.peek().right() == null || visitingRightChild.peek()) {
         // right subtree already visited
-        E result = visiting.pop().val;
+        E result = visiting.pop().value();
         visitingRightChild.pop();
         if (visiting.empty()) root = null;
         return result;
@@ -174,7 +175,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
         visitingRightChild.push(Boolean.TRUE);
         // now push everything down to the leftmost node
         // in the right subtree
-        TreeNode<E> right = visiting.peek().right;
+        ITreeNode<E> right = visiting.peek().right();
         assertNonNull(right);
         pushLeftmostNodeRecord(right);
         // use recursive call to visit that node
@@ -188,7 +189,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     }
 
     @Generated
-    private void assertNonNull(TreeNode<E> node) {
+    private void assertNonNull(ITreeNode<E> node) {
       if (isNull(node)) throw new AssertionError("Node shouldn't be null.");
     }
 
@@ -197,11 +198,13 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     private E breadthfirstNext() {
       // at beginning of iterator
       if (queue.isEmpty()) queue.add(root);
-      TreeNode<E> node = queue.poll();
-      if (nonNull(node.left)) queue.add(node.left);
-      if (nonNull(node.right)) queue.add(node.right);
+      ITreeNode<E> node = queue.poll();
+      ITreeNode<E> left = node.left();
+      ITreeNode<E> right = node.right();
+      if (nonNull(left)) queue.add(left);
+      if (nonNull(right)) queue.add(right);
       if (queue.isEmpty()) root = null;
-      return node.val;
+      return node.value();
     }
 
     /* not implemented */
@@ -227,9 +230,9 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
       return "none of pre-order, in-order, or post-order are true";
     }
 
-    private String toString(TreeNode<E> node) {
+    private String toString(ITreeNode<E> node) {
       return isNull(node)
           ? ""
-          : node.toString() + "(" + toString(node.left) + ", " + toString(node.right) + ")";
+          : node.toString() + "(" + toString(node.left()) + ", " + toString(node.right()) + ")";
     }
   } 

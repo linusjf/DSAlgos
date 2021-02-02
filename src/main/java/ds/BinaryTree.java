@@ -59,6 +59,21 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     requireNonNull(obj);
     return nonNull(root) ? nonNull(root.find(obj)) : false;
   }
+  
+  /**
+   * Returns the node comtaining the argument value.
+   * null otherwise
+   *
+   * @param obj reference to Comparable object whose value will be searched for.
+   * @return node.
+   */
+  @Override
+  public ITreeNode<E> find(E obj) {
+    requireNonNull(obj);
+    if (isNull(root))
+      return null;
+    return root.find(obj);
+  }
 
   /**
    * Remove an object with a matching value from the tree. If multiple matches are possible, only
