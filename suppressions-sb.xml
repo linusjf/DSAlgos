@@ -62,11 +62,11 @@
     <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS"/>
   </Match>
   <Match>
-    <Class name="ds.BinaryTree$TreeIterator"/>
+    <Class name="ds.TreeIterator"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
-    <Class name="ds.BinaryTree$TreeNode"/>
+    <Class name="ds.TreeNode"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
@@ -90,11 +90,11 @@
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>
-    <Class name="ds.BinaryTree$TreeIterator"/>
+    <Class name="ds.TreeIterator"/>
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>
-    <Class name="ds.BinaryTree$TreeNode"/>
+    <Class name="ds.TreeNode"/>
     <Bug pattern="NP_NONNULL_PARAM_VIOLATION"/>
   </Match>
   <Match>
