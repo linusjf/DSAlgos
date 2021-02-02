@@ -103,13 +103,19 @@ public final class BinaryOutputStream {
     if (n == 8) clearBuffer();
   }
 
+  @Generated
+  private void assertByteValue(int x) {
+   if (x < 0 || x > 255)
+     throw new AssertionError("Invalid byte");
+  }
+
   /**
    * Writes the 8-bit byte to the binary output stream.
    *
    * @param x the byte
    */
   private void writeByte(int x) {
-    assert x >= 0 && x < 256;
+    assertByteValue(x);
 
     // optimized if byte-aligned
     if (n == 0) {
