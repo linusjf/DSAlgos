@@ -18,4 +18,8 @@ interface ITreeNode<E> {
   E value();
 
   void setValue(E val);
+  
+  int size();
+
+  int height();
 }

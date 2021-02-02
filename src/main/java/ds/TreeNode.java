@@ -20,6 +20,11 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   ITreeNode<T> left;
 
   ITreeNode<T> right;
+  
+  // height of the subtree
+  int height;
+  // number of nodes in subtree
+  int size;
 
   /**
    * Constructor for TreeNode.
@@ -32,6 +37,22 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.val = val;
     this.left = left;
     this.right = right;
+  }
+  
+  TreeNode(T val, int height, int size) {
+    this(val, null, null);
+    this.size = size;
+    this.height = height;
+  }
+
+  @Override
+  public int height() {
+    return this.height;
+  }
+
+  @Override
+  public int size() {
+    return this.size;
   }
 
   @Override
