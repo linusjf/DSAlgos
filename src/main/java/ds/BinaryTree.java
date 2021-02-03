@@ -30,6 +30,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     root = null;
   }
 
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   @Override
   public ITreeNode<E> root() {
     return root;

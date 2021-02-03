@@ -11,7 +11,9 @@ import java.util.Objects;
  * have public instance variables. Instances of this class are never made available to client code
  * of the tree.
  */
-@SuppressWarnings("nullness")
+@SuppressWarnings({"nullness",
+"PMD.AvoidFieldNameMatchingMethodName",
+"PMD.LawOfDemeter"})
 public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   /** Data object reference. */
   T val;
