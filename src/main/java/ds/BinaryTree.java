@@ -30,6 +30,11 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
     root = null;
   }
 
+  @Override
+  public ITreeNode<E> root() {
+   return root;
+  }
+
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
    * in the correct location. Multiple objects representing the same value can be added.

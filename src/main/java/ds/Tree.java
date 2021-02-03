@@ -40,6 +40,13 @@ public interface Tree<E> {
    * @return true if the value is found.
    */
   ITreeNode<E> find(E obj);
+  
+  /**
+   * Returns the root node of tree
+   *
+   * @return root of tree.
+   */
+  ITreeNode<E> root();
 
   /**
    * Remove an object with a matching value from the tree. If multiple matches are possible, only

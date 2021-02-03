@@ -54,6 +54,16 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   public int size() {
     return this.size;
   }
+  
+  @Override
+  public void setSize(int size) {
+   this.size = size;
+  }
+  
+  @Override
+  public void setHeight(int ht) {
+   this.height = ht;
+  }
 
   @Override
   public ITreeNode<T> left() {

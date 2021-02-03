@@ -21,5 +21,9 @@ interface ITreeNode<E> {
   
   int size();
 
+  void setSize(int size);
+
+  void setHeight(int height);
+
   int height();
 }

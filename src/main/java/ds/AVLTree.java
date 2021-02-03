@@ -50,6 +50,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     for (Integer s : st.values()) System.out.println(s + " " + st.find(s));
   }
 
+  @Override
+  public ITreeNode<T> root() {
+   return root;
+  }
+  
   /**
    * Checks if the binary tree is empty.
    *
@@ -117,7 +122,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @return the height of the subtree.
    */
   private int height(ITreeNode<T> x) {
-    return isNull(x) ? -1 : x.height;
+    return isNull(x) ? -1 : x.height();
   }
 
   /**
@@ -202,8 +207,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       x.setValue(val);
       return x;
     }
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
 
@@ -217,13 +222,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     ITreeNode<T> x = node;
     if (balanceFactor(x) < -1) {
       if (balanceFactor(x.right()) > 0) {
-        x.right = rotateRight(x.right());
+        x.setRight(rotateRight(x.right()));
       }
       x = rotateLeft(x);
     } else if (balanceFactor(x) > 1) {
-      if (balanceFactor(x.left()) < 0) {
-        x.left = rotateLeft(x.left());
-      }
+      if (balanceFactor(x.left()) < 0) 
+        x.setLeft(rotateLeft(x.left()));
       x = rotateRight(x);
     }
     return x;
@@ -250,12 +254,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   private ITreeNode<T> rotateRight(ITreeNode<T> x) {
     ITreeNode<T> y = x.left();
-    x.left = y.right();
-    y.right = x;
-    y.size = x.size;
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
-    y.height = 1 + Math.max(height(y.left()), height(y.right()));
+    x.setLeft(y.right());
+    y.setRight(x);
+    y.setSize(x.size());
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
+    y.setHeight(1 + Math.max(height(y.left()), height(y.right())));
     return y;
   }
 
@@ -267,12 +271,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   private ITreeNode<T> rotateLeft(ITreeNode<T> x) {
     ITreeNode<T> y = x.right();
-    x.right = y.left();
-    y.left = x;
-    y.size = x.size;
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
-    y.height = 1 + Math.max(height(y.left()), height(y.right()));
+    x.setRight(y.left());
+    y.setLeft(x);
+    y.setSize(x.size());
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
+    y.setHeight(1 + Math.max(height(y.left()), height(y.right())));
     return y;
   }
 
@@ -301,20 +305,20 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private ITreeNode<T> delete(ITreeNode<T> node, T val) {
     ITreeNode<T> x = node;
     int cmp = val.compareTo(x.value());
-    if (cmp < 0) x.left = delete(x.left(), val);
-    else if (cmp > 0) x.right = delete(x.right(), val);
+    if (cmp < 0) x.setLeft(delete(x.left(), val));
+    else if (cmp > 0) x.setRight(delete(x.right(), val));
     else {
-      if (x.left == null) return x.right();
+      if (x.left() == null) return x.right();
       else if (x.right() == null) return x.left();
       else {
         ITreeNode<T> y = x;
         x = min(y.right());
-        x.right = deleteMin(y.right());
-        x.left = y.left();
+        x.setRight(deleteMin(y.right()));
+        x.setLeft(y.left());
       }
     }
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
 
@@ -337,9 +341,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   private ITreeNode<T> deleteMin(ITreeNode<T> x) {
     if (isNull(x.left())) return x.right();
-    x.left = deleteMin(x.left());
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    x.setLeft(deleteMin(x.left()));
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
 
@@ -362,9 +366,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   private ITreeNode<T> deleteMax(ITreeNode<T> x) {
     if (isNull(x.right())) return x.left();
-    x.right = deleteMax(x.right());
-    x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    x.setRight(deleteMax(x.right()));
+    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
 
@@ -445,7 +449,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     int cmp = val.compareTo(x.value());
     if (cmp == 0) return x;
     if (cmp < 0) return floor(x.left(), val);
-    Node<T> y = floor(x.right(), val);
+    ITreeNode<T> y = floor(x.right(), val);
     if (isNull(y)) return x;
     else return y;
   }
@@ -649,8 +653,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      *
      * @return {@code true} if AVL property is consistent.
      */
-    private static <T extends Comparable<T>> boolean isAVL(Tree<T> tree) {
-      return isAVL(tree, tree.root);
+    private static <T extends Comparable<T>> boolean isAVL(AVLTree<T> tree) {
+      return isAVL(tree, tree.root());
     }
 
     /**
