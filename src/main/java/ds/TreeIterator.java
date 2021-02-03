@@ -14,8 +14,7 @@ import java.util.Stack;
  * @assignment lecture 17
  * @date March 12,2008
  */
-@SuppressWarnings({"nullness",
-"PMD.LawOfDemeter"})
+@SuppressWarnings({"nullness", "PMD.LawOfDemeter"})
 public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
   /**
    * the class variables keep track of how much the iterator has done so far, and what remains to be
