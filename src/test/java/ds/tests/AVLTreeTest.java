@@ -28,14 +28,14 @@ class AVLTreeTest {
   public void setUp() {
     empty = new AVLTree<>();
     one = new AVLTree<>();
-    one.put(0);
+    one.add(0);
     several = new AVLTree<>();
-    several.put(5);
-    several.put(2);
-    several.put(1);
-    several.put(9);
-    several.put(8);
-    several.put(10);
+    several.add(5);
+    several.add(2);
+    several.add(1);
+    several.add(9);
+    several.add(8);
+    several.add(10);
   }
 
   @Test

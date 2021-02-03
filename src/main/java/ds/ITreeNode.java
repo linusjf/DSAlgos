@@ -18,7 +18,7 @@ interface ITreeNode<E> {
   E value();
 
   void setValue(E val);
-  
+
   int size();
 
   void setSize(int size);

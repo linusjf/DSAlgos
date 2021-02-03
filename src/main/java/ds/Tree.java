@@ -40,7 +40,7 @@ public interface Tree<E> {
    * @return true if the value is found.
    */
   ITreeNode<E> find(E obj);
-  
+
   /**
    * Returns the root node of tree
    *
