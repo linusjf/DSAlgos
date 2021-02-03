@@ -32,8 +32,12 @@ import java.util.Random;
  *
  * @author Marcelo Silva
  */
-@SuppressWarnings({"PMD.CommentSize", "nullness",
-"PMD.LawOfDemeter","PMD.AvoidFieldNameMatchingMethodName"})
+@SuppressWarnings({
+  "PMD.CommentSize",
+  "nullness",
+  "PMD.LawOfDemeter",
+  "PMD.AvoidFieldNameMatchingMethodName"
+})
 public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   /** The root node. */

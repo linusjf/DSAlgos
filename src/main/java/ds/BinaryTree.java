@@ -23,6 +23,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    * A tree is a hierarchical structure of TreeNode objects. root references the first node on the
    * tree.
    */
+  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
   private TreeNode<E> root;
 
   @SuppressWarnings("PMD.NullAssignment")
