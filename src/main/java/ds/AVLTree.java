@@ -182,12 +182,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     root = add(root, val);
     assertChecks();
   }
-
-  @Generated
-  private void assertChecks() {
-    if (!Checks.check(this)) throw new AssertionError("Invalid state");
-  }
-
+  
   /**
    * Inserts the value-value pair in the subtree. It overrides the old value with the new value if
    * the binary tree already contains the specified value and deletes the specified value (and its
@@ -210,6 +205,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     x.setSize(1 + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
+  }
+
+  @Generated
+  private void assertChecks() {
+    if (!Checks.check(this)) throw new AssertionError("Invalid state");
   }
 
   /**
@@ -307,8 +307,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     if (cmp < 0) x.setLeft(delete(x.left(), val));
     else if (cmp > 0) x.setRight(delete(x.right(), val));
     else {
-      if (x.left() == null) return x.right();
-      else if (x.right() == null) return x.left();
+      if (isNull(x.left())) return x.right();
+      else if (isNull(x.right()))
+        return x.left();
       else {
         ITreeNode<T> y = x;
         x = min(y.right());

@@ -137,7 +137,6 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
    * replace the removed node. Hand work some examples to see how this works.
    *
    * @param obj Object representing value to remove from tree.
-   * @param t Root node of the sub-tree currently being examined (possibly null).
    * @return reference to the (possibly new) root node of the sub-tree being examined or null if no
    *     node.
    */

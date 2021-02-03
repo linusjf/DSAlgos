@@ -42,7 +42,7 @@ public interface Tree<E> {
   ITreeNode<E> find(E obj);
 
   /**
-   * Returns the root node of tree
+   * Returns the root node of tree.
    *
    * @return root of tree.
    */
