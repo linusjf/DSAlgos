@@ -184,7 +184,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @Override
   public void add(T val) {
     requireNonNull(val);
-    if (isNull(root)) root = new TreeNode<>(val, 0, 1);
+    if (isNull(root)) root = new TreeNode<>(val);
     else root = add(root, val);
     assertChecks();
   }
@@ -201,9 +201,15 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private ITreeNode<T> add(ITreeNode<T> node, T val) {
     ITreeNode<T> x = node;
     int cmp = val.compareTo(x.value());
-    if (cmp < 0) x.setLeft(add(x.left(), val));
-    else if (cmp > 0) x.setRight(add(x.right(), val));
-    else {
+    if (cmp < 0) {
+      ITreeNode<T> left = x.left();
+      if (isNull(left)) x.setLeft(new TreeNode<>(val));
+      else x.setLeft(add(left, val));
+    } else if (cmp > 0) {
+      ITreeNode<T> right = x.right();
+      if (isNull(right)) x.setRight(new TreeNode<>(val));
+      else x.setRight(add(right, val));
+    } else {
       x.setValue(val);
       return x;
     }

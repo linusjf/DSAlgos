@@ -43,6 +43,12 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.refCount = 1;
   }
 
+  TreeNode(T val) {
+    this(val, null, null);
+    this.size = 1;
+    this.height = 0;
+  }
+
   TreeNode(T val, int height, int size) {
     this(val, null, null);
     this.size = size;
