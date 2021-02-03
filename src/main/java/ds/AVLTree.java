@@ -32,7 +32,8 @@ import java.util.Random;
  *
  * @author Marcelo Silva
  */
-@SuppressWarnings({"PMD.CommentSize", "nullness"})
+@SuppressWarnings({"PMD.CommentSize", "nullness",
+"PMD.LawOfDemeter","PMD.AvoidFieldNameMatchingMethodName"})
 public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   /** The root node. */
@@ -182,7 +183,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     root = add(root, val);
     assertChecks();
   }
-  
+
   /**
    * Inserts the value-value pair in the subtree. It overrides the old value with the new value if
    * the binary tree already contains the specified value and deletes the specified value (and its
@@ -308,8 +309,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     else if (cmp > 0) x.setRight(delete(x.right(), val));
     else {
       if (isNull(x.left())) return x.right();
-      else if (isNull(x.right()))
-        return x.left();
+      else if (isNull(x.right())) return x.left();
       else {
         ITreeNode<T> y = x;
         x = min(y.right());
