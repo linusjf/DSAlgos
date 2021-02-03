@@ -41,7 +41,7 @@ import java.util.Random;
 public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   /** The root node. */
-  ITreeNode<T> root;
+  TreeNode<T> root;
 
   /**
    * Unit tests the {@code AVLTreeST} data type.
@@ -184,6 +184,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @Override
   public void add(T val) {
     requireNonNull(val);
+    if (isNull(root))
+      root = new TreeNode<>(val, 0, 1);
+    else 
     root = add(root, val);
     assertChecks();
   }
@@ -199,7 +202,6 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   private ITreeNode<T> add(ITreeNode<T> node, T val) {
     ITreeNode<T> x = (ITreeNode<T>) node;
-    if (isNull(x)) return new TreeNode<>(val, 0, 1);
     int cmp = val.compareTo(x.value());
     if (cmp < 0) x.setLeft(add(x.left(), val));
     else if (cmp > 0) x.setRight(add(x.right(), val));

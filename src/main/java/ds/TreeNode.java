@@ -25,6 +25,8 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   int height;
   // number of nodes in subtree
   int size;
+  // number of copies in node
+  int refCount;
 
   /**
    * Constructor for TreeNode.
@@ -37,12 +39,30 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.val = val;
     this.left = left;
     this.right = right;
+    this.refCount = 1;
   }
 
   TreeNode(T val, int height, int size) {
     this(val, null, null);
     this.size = size;
     this.height = height;
+  }
+
+  @Override
+  public void incrementRefCount() {
+    requireGreaterThan(0, refCount);
+    ++refCount;
+  }
+  
+  @Override
+  public void decrementRefCount() {
+    requireGreaterThan(1, refCount);
+    --refCount;
+  }
+
+  @Override
+  public int refCount() {
+    return refCount; 
   }
 
   @Override
