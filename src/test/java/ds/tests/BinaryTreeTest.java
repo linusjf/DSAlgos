@@ -26,6 +26,7 @@ class BinaryTreeTest {
   private Tree<Integer> empty;
   private Tree<Integer> one;
   private Tree<Integer> several;
+  private Tree<Integer> duplicates;
 
   @BeforeEach
   public void setUp() {
@@ -39,12 +40,26 @@ class BinaryTreeTest {
     several.add(9);
     several.add(8);
     several.add(10);
+    duplicates = new BinaryTree<>();
+    duplicates.add(5);
+    duplicates.add(3);
+    duplicates.add(3);
+    duplicates.add(5);
+    duplicates.add(8);
+    duplicates.add(5);
+    duplicates.add(10);
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testEmptyContainsZeroItems")
   public void testEmptyContainsZeroItems() {
     assertTreeEmpty(empty);
+  }
+  
+  @Test
+  @DisplayName("BinaryTreeTest.testEmptyTreeIteratorException")
+  public void testEmptyContainsZeroItems() {
+    assertTreeEmptyIteratorException(empty);
   }
 
   @Test
@@ -134,7 +149,13 @@ class BinaryTreeTest {
 
   private void assertTreeEmpty(Tree<Integer> tree) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
-    assertFalse(iterator.hasNext(), "Tree not empty");
+    assertFalse(iterator.hasNext(), "Tree empty");
+  }
+  
+  private void assertTreeEmptyIteratorException(Tree<Integer> tree) {
+    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
+    assertThrows(NoSuchElementException.class,
+        () -> iterator.next(), "Tree empty: exception");
   }
 
   private void assertRemoveAll(Tree<Integer> tree, int... elements) {
