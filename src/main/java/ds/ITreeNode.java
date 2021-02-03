@@ -26,7 +26,7 @@ interface ITreeNode<E> {
   void setHeight(int height);
 
   int height();
-  
+
   int refCount();
 
   void incrementRefCount();

@@ -6,6 +6,7 @@ import ds.BinaryTree;
 import ds.Tree;
 import ds.Tree.TraversalOrder;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,10 +56,10 @@ class BinaryTreeTest {
   public void testEmptyContainsZeroItems() {
     assertTreeEmpty(empty);
   }
-  
+
   @Test
   @DisplayName("BinaryTreeTest.testEmptyTreeIteratorException")
-  public void testEmptyContainsZeroItems() {
+  public void testEmptyTreeIteratorException() {
     assertTreeEmptyIteratorException(empty);
   }
 
@@ -151,11 +152,10 @@ class BinaryTreeTest {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
     assertFalse(iterator.hasNext(), "Tree empty");
   }
-  
+
   private void assertTreeEmptyIteratorException(Tree<Integer> tree) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
-    assertThrows(NoSuchElementException.class,
-        () -> iterator.next(), "Tree empty: exception");
+    assertThrows(NoSuchElementException.class, () -> iterator.next(), "Tree empty: exception");
   }
 
   private void assertRemoveAll(Tree<Integer> tree, int... elements) {
