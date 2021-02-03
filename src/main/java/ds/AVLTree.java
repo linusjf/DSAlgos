@@ -52,9 +52,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   @Override
   public ITreeNode<T> root() {
-   return root;
+    return root;
   }
-  
+
   /**
    * Checks if the binary tree is empty.
    *
@@ -226,8 +226,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       }
       x = rotateLeft(x);
     } else if (balanceFactor(x) > 1) {
-      if (balanceFactor(x.left()) < 0) 
-        x.setLeft(rotateLeft(x.left()));
+      if (balanceFactor(x.left()) < 0) x.setLeft(rotateLeft(x.left()));
       x = rotateRight(x);
     }
     return x;
@@ -499,7 +498,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
-    requireInRangeInclusive(0,size(),k);
+    requireInRangeInclusive(0, size(), k);
     return select(root, k).value();
   }
 

@@ -32,7 +32,7 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
 
   @Override
   public ITreeNode<E> root() {
-   return root;
+    return root;
   }
 
   /**
