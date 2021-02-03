@@ -34,6 +34,21 @@ public interface Tree<E> {
   boolean contains(E obj);
 
   /**
+   * Returns the node containing the same value as the argument. Null otherwise.
+   *
+   * @param obj reference to Comparable object whose value will be searched for.
+   * @return true if the value is found.
+   */
+  ITreeNode<E> find(E obj);
+  
+  /**
+   * Returns the root node of tree
+   *
+   * @return root of tree.
+   */
+  ITreeNode<E> root();
+
+  /**
    * Remove an object with a matching value from the tree. If multiple matches are possible, only
    * the first matching object is removed.
    *

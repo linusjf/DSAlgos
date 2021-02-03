@@ -17,9 +17,14 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   T val;
 
   /** Left and right child nodes. */
-  TreeNode<T> left;
+  ITreeNode<T> left;
 
-  TreeNode<T> right;
+  ITreeNode<T> right;
+  
+  // height of the subtree
+  int height;
+  // number of nodes in subtree
+  int size;
 
   /**
    * Constructor for TreeNode.
@@ -32,6 +37,62 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.val = val;
     this.left = left;
     this.right = right;
+  }
+  
+  TreeNode(T val, int height, int size) {
+    this(val, null, null);
+    this.size = size;
+    this.height = height;
+  }
+
+  @Override
+  public int height() {
+    return this.height;
+  }
+
+  @Override
+  public int size() {
+    return this.size;
+  }
+  
+  @Override
+  public void setSize(int size) {
+   this.size = size;
+  }
+  
+  @Override
+  public void setHeight(int ht) {
+   this.height = ht;
+  }
+
+  @Override
+  public ITreeNode<T> left() {
+    return left;
+  }
+
+  @Override
+  public ITreeNode<T> right() {
+    return right;
+  }
+
+  @Override
+  public void setRight(ITreeNode<T> right) {
+    this.right = right;
+  }
+
+  @Override
+  public void setLeft(ITreeNode<T> left) {
+    this.left = left;
+  }
+
+  @Override
+  public void setValue(T val) {
+    this.val = val;
+  }
+
+  @Override
+  public T value() {
+    return val;
   }
 
   /**
@@ -84,14 +145,18 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   @Override
   public ITreeNode<T> remove(T obj) {
     requireNonNull(obj);
-    TreeNode<T> t = this;
+    ITreeNode<T> t = this;
+    ITreeNode<T> left = t.left();
+    ITreeNode<T> right = t.right();
+    T value = t.value();
 
-    if (obj.compareTo(t.val) < 0) t.left = (TreeNode<T>) t.left.remove(obj);
-    else if (obj.compareTo(t.val) > 0) t.right = (TreeNode<T>) t.right.remove(obj);
-    else if (isNull(t.left) || isNull(t.right)) t = isNull(t.left) ? t.right : t.left;
+    int cmp = obj.compareTo(value);
+    if (cmp < 0) t.setLeft(left.remove(obj));
+    else if (cmp > 0) t.setRight(right.remove(obj));
+    else if (isNull(left) || isNull(right)) t = isNull(left) ? right : left;
     else {
-      t.val = findMin(t.right).val;
-      t.right = (TreeNode<T>) t.right.remove(t.val);
+      t.setValue(findMin(right).value());
+      t.setRight(right.remove(t.value()));
     }
     return t;
   }
@@ -102,9 +167,9 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
    * @param t TreeNode to be examined.
    * @return reference to left most leaf node or null.
    */
-  private TreeNode<T> findMin(TreeNode<T> node) {
-    TreeNode<T> t = node;
-    while (nonNull(t.left)) t = t.left;
+  private ITreeNode<T> findMin(ITreeNode<T> node) {
+    ITreeNode<T> t = node;
+    while (nonNull(t.left())) t = t.left();
     return t;
   }
 

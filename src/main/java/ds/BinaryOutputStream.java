@@ -105,8 +105,7 @@ public final class BinaryOutputStream {
 
   @Generated
   private void assertByteValue(int x) {
-   if (x < 0 || x > 255)
-     throw new AssertionError("Invalid byte");
+    if (x < 0 || x > 255) throw new AssertionError("Invalid byte");
   }
 
   /**
