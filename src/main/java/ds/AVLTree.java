@@ -10,6 +10,7 @@ package ds;
  *****************************************************************************
  */
 
+import static ds.MathUtils.requireInRangeInclusive;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
@@ -35,7 +36,7 @@ import java.util.Random;
 public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   /** The root node. */
-  TreeNode<T> root;
+  ITreeNode<T> root;
 
   /**
    * Unit tests the {@code AVLTreeST} data type.
@@ -115,7 +116,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the height of the subtree.
    */
-  private int height(TreeNode<T> x) {
+  private int height(ITreeNode<T> x) {
     return isNull(x) ? -1 : x.height;
   }
 
@@ -191,8 +192,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param val the value
    * @return the subtree
    */
-  private TreeNode<T> add(ITreeNode<T> node, T val) {
-    TreeNode<T> x = (TreeNode<T>) node;
+  private ITreeNode<T> add(ITreeNode<T> node, T val) {
+    ITreeNode<T> x = (ITreeNode<T>) node;
     if (isNull(x)) return new TreeNode<>(val, 0, 1);
     int cmp = val.compareTo(x.value());
     if (cmp < 0) x.setLeft(add(x.left(), val));
@@ -202,7 +203,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       return x;
     }
     x.size = 1 + size(x.left()) + size(x.right());
-    x.height = 1 + Math.max(height(x.left), height(x.right));
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
     return balance(x);
   }
 
@@ -212,16 +213,16 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the subtree with restored AVL property
    */
-  private TreeNode<T> balance(TreeNode<T> node) {
-    TreeNode<T> x = node;
+  private ITreeNode<T> balance(ITreeNode<T> node) {
+    ITreeNode<T> x = node;
     if (balanceFactor(x) < -1) {
-      if (balanceFactor(x.right) > 0) {
-        x.right = rotateRight(x.right);
+      if (balanceFactor(x.right()) > 0) {
+        x.right = rotateRight(x.right());
       }
       x = rotateLeft(x);
     } else if (balanceFactor(x) > 1) {
-      if (balanceFactor(x.left) < 0) {
-        x.left = rotateLeft(x.left);
+      if (balanceFactor(x.left()) < 0) {
+        x.left = rotateLeft(x.left());
       }
       x = rotateRight(x);
     }
@@ -237,8 +238,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the balance factor of the subtree
    */
-  private int balanceFactor(TreeNode<T> x) {
-    return height(x.left) - height(x.right);
+  private int balanceFactor(ITreeNode<T> x) {
+    return height(x.left()) - height(x.right());
   }
 
   /**
@@ -247,14 +248,14 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the right rotated subtree
    */
-  private TreeNode<T> rotateRight(TreeNode<T> x) {
-    TreeNode<T> y = x.left;
-    x.left = y.right;
+  private ITreeNode<T> rotateRight(ITreeNode<T> x) {
+    ITreeNode<T> y = x.left();
+    x.left = y.right();
     y.right = x;
     y.size = x.size;
-    x.size = 1 + size(x.left) + size(x.right);
-    x.height = 1 + Math.max(height(x.left), height(x.right));
-    y.height = 1 + Math.max(height(y.left), height(y.right));
+    x.size = 1 + size(x.left()) + size(x.right());
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    y.height = 1 + Math.max(height(y.left()), height(y.right()));
     return y;
   }
 
@@ -264,14 +265,14 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the left rotated subtree
    */
-  private TreeNode<T> rotateLeft(TreeNode<T> x) {
-    TreeNode<T> y = x.right;
-    x.right = y.left;
+  private ITreeNode<T> rotateLeft(ITreeNode<T> x) {
+    ITreeNode<T> y = x.right();
+    x.right = y.left();
     y.left = x;
     y.size = x.size;
-    x.size = 1 + size(x.left) + size(x.right);
-    x.height = 1 + Math.max(height(x.left), height(x.right));
-    y.height = 1 + Math.max(height(y.left), height(y.right));
+    x.size = 1 + size(x.left()) + size(x.right());
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
+    y.height = 1 + Math.max(height(y.left()), height(y.right()));
     return y;
   }
 
@@ -297,23 +298,23 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param value the value
    * @return the updated subtree
    */
-  private TreeNode<T> delete(TreeNode<T> node, T val) {
-    TreeNode<T> x = node;
-    int cmp = val.compareTo(x.val);
-    if (cmp < 0) x.left = delete(x.left, val);
-    else if (cmp > 0) x.right = delete(x.right, val);
+  private ITreeNode<T> delete(ITreeNode<T> node, T val) {
+    ITreeNode<T> x = node;
+    int cmp = val.compareTo(x.value());
+    if (cmp < 0) x.left = delete(x.left(), val);
+    else if (cmp > 0) x.right = delete(x.right(), val);
     else {
-      if (x.left == null) return x.right;
-      else if (x.right == null) return x.left;
+      if (x.left == null) return x.right();
+      else if (x.right() == null) return x.left();
       else {
-        TreeNode<T> y = x;
-        x = min(y.right);
-        x.right = deleteMin(y.right);
-        x.left = y.left;
+        ITreeNode<T> y = x;
+        x = min(y.right());
+        x.right = deleteMin(y.right());
+        x.left = y.left();
       }
     }
-    x.size = 1 + size(x.left) + size(x.right);
-    x.height = 1 + Math.max(height(x.left), height(x.right));
+    x.size = 1 + size(x.left()) + size(x.right());
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
     return balance(x);
   }
 
@@ -334,11 +335,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the updated subtree
    */
-  private TreeNode<T> deleteMin(TreeNode<T> x) {
-    if (isNull(x.left)) return x.right;
-    x.left = deleteMin(x.left);
-    x.size = 1 + size(x.left) + size(x.right);
-    x.height = 1 + Math.max(height(x.left), height(x.right));
+  private ITreeNode<T> deleteMin(ITreeNode<T> x) {
+    if (isNull(x.left())) return x.right();
+    x.left = deleteMin(x.left());
+    x.size = 1 + size(x.left()) + size(x.right());
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
     return balance(x);
   }
 
@@ -359,11 +360,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the updated subtree
    */
-  private TreeNode<T> deleteMax(TreeNode<T> x) {
-    if (isNull(x.right)) return x.left;
-    x.right = deleteMax(x.right);
-    x.size = 1 + size(x.left) + size(x.right);
-    x.height = 1 + Math.max(height(x.left), height(x.right));
+  private ITreeNode<T> deleteMax(ITreeNode<T> x) {
+    if (isNull(x.right())) return x.left();
+    x.right = deleteMax(x.right());
+    x.size = 1 + size(x.left()) + size(x.right());
+    x.height = 1 + Math.max(height(x.left()), height(x.right()));
     return balance(x);
   }
 
@@ -376,7 +377,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T min() {
     if (isEmpty()) throw new NoSuchElementException("called min() with empty binary tree");
-    return min(root).val;
+    return min(root).value();
   }
 
   /**
@@ -385,9 +386,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the node with the smallest value in the subtree
    */
-  private TreeNode<T> min(TreeNode<T> node) {
-    TreeNode<T> x = node;
-    while (nonNull(x.left)) x = x.left;
+  private ITreeNode<T> min(ITreeNode<T> node) {
+    ITreeNode<T> x = node;
+    while (nonNull(x.left())) x = x.left();
     return x;
   }
 
@@ -400,7 +401,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T max() {
     if (isEmpty()) throw new NoSuchElementException("called max() with empty binary tree");
-    return max(root).val;
+    return max(root).value();
   }
 
   /**
@@ -409,9 +410,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the node with the largest value in the subtree
    */
-  private TreeNode<T> max(TreeNode<T> node) {
-    TreeNode<T> x = node;
-    while (nonNull(x.right)) x = x.right;
+  private ITreeNode<T> max(ITreeNode<T> node) {
+    ITreeNode<T> x = node;
+    while (nonNull(x.right())) x = x.right();
     return x;
   }
 
@@ -426,9 +427,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   public T floor(T val) {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called floor() with empty binary tree");
-    TreeNode<T> x = floor(root, val);
+    ITreeNode<T> x = floor(root, val);
     if (isNull(x)) return null;
-    else return x.val;
+    else return x.value();
   }
 
   /**
@@ -439,12 +440,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @return the node in the subtree with the largest value less than or equal to the given value
    */
   @SuppressWarnings("checkstyle:ReturnCount")
-  private TreeNode<T> floor(TreeNode<T> x, T val) {
+  private ITreeNode<T> floor(ITreeNode<T> x, T val) {
     if (isNull(x)) return null;
-    int cmp = val.compareTo(x.val);
+    int cmp = val.compareTo(x.value());
     if (cmp == 0) return x;
-    if (cmp < 0) return floor(x.left, val);
-    Node<T> y = floor(x.right, val);
+    if (cmp < 0) return floor(x.left(), val);
+    Node<T> y = floor(x.right(), val);
     if (isNull(y)) return x;
     else return y;
   }
@@ -460,9 +461,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   public T ceiling(T val) {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called ceiling() with empty binary tree");
-    TreeNode<T> x = ceiling(root, val);
+    ITreeNode<T> x = ceiling(root, val);
     if (isNull(x)) return null;
-    else return x.val;
+    else return x.value();
   }
 
   /**
@@ -475,12 +476,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    *     value
    */
   @SuppressWarnings("checkstyle:ReturnCount")
-  private TreeNode<T> ceiling(TreeNode<T> x, T val) {
+  private ITreeNode<T> ceiling(ITreeNode<T> x, T val) {
     if (isNull(x)) return null;
-    int cmp = val.compareTo(x.val);
+    int cmp = val.compareTo(x.value());
     if (cmp == 0) return x;
-    if (cmp > 0) return ceiling(x.right, val);
-    TreeNode<T> y = ceiling(x.left, val);
+    if (cmp > 0) return ceiling(x.right(), val);
+    ITreeNode<T> y = ceiling(x.left(), val);
     if (isNull(y)) return x;
     else return y;
   }
@@ -494,9 +495,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    */
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
-    if (k < 0 || k >= size())
-      throw new IllegalArgumentException("k is not in range 0-" + (size() - 1));
-    return select(root, k).val;
+    requireInRangeInclusive(0,size(),k);
+    return select(root, k).value();
   }
 
   /**
@@ -507,11 +507,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @return the node with value the kth smallest value in the subtree
    */
   @SuppressWarnings("checkstyle:ReturnCount")
-  private TreeNode<T> select(TreeNode<T> x, int k) {
+  private ITreeNode<T> select(ITreeNode<T> x, int k) {
     if (isNull(x)) return null;
-    int t = size(x.left);
-    if (t > k) return select(x.left, k);
-    else if (t < k) return select(x.right, k - t - 1);
+    int t = size(x.left());
+    if (t > k) return select(x.left(), k);
+    else if (t < k) return select(x.right(), k - t - 1);
     else return x;
   }
 
@@ -535,12 +535,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @return the number of values in the subtree less than value
    */
   @SuppressWarnings("checkstyle:ReturnValue")
-  private int rank(T val, TreeNode<T> x) {
+  private int rank(T val, ITreeNode<T> x) {
     if (isNull(x)) return 0;
-    int cmp = val.compareTo(x.val);
-    if (cmp < 0) return rank(val, x.left);
-    else if (cmp > 0) return 1 + size(x.left) + rank(val, x.right);
-    else return size(x.left);
+    int cmp = val.compareTo(x.value());
+    if (cmp < 0) return rank(val, x.left());
+    else if (cmp > 0) return 1 + size(x.left()) + rank(val, x.right());
+    else return size(x.left());
   }
 
   /**
@@ -560,13 +560,13 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param lo the lowest value
    * @param hi the highest value
    */
-  private void values(TreeNode<T> x, Queue<T> queue, T lo, T hi) {
+  private void values(ITreeNode<T> x, Queue<T> queue, T lo, T hi) {
     if (isNull(x)) return;
-    int cmplo = lo.compareTo(x.val);
-    int cmphi = hi.compareTo(x.val);
-    if (cmplo < 0) values(x.left, queue, lo, hi);
-    if (cmplo <= 0 && cmphi >= 0) queue.offer(x.val);
-    if (cmphi > 0) values(x.right, queue, lo, hi);
+    int cmplo = lo.compareTo(x.value());
+    int cmphi = hi.compareTo(x.value());
+    if (cmplo < 0) values(x.left(), queue, lo, hi);
+    if (cmplo <= 0 && cmphi >= 0) queue.offer(x.value());
+    if (cmphi > 0) values(x.right(), queue, lo, hi);
   }
 
   /**
@@ -602,11 +602,11 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @param queue the queue
    */
-  private void valuesInOrder(TreeNode<T> x, Queue<T> queue) {
+  private void valuesInOrder(ITreeNode<T> x, Queue<T> queue) {
     if (isNull(x)) return;
-    valuesInOrder(x.left, queue);
-    queue.offer(x.val);
-    valuesInOrder(x.right, queue);
+    valuesInOrder(x.left(), queue);
+    queue.offer(x.value());
+    valuesInOrder(x.right(), queue);
   }
 
   /**
@@ -617,13 +617,13 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   public Iterable<T> valuesLevelOrder() {
     Queue<T> queue = new ArrayDeque<>();
     if (!isEmpty()) {
-      Queue<TreeNode<T>> queue2 = new ArrayDeque<>();
+      Queue<ITreeNode<T>> queue2 = new ArrayDeque<>();
       queue2.offer(root);
       while (!queue2.isEmpty()) {
-        TreeNode<T> x = queue2.poll();
-        queue.offer(x.val);
-        if (nonNull(x.left)) queue2.offer(x.left);
-        if (nonNull(x.right)) queue2.offer(x.right);
+        ITreeNode<T> x = queue2.poll();
+        queue.offer(x.value());
+        if (nonNull(x.left())) queue2.offer(x.left());
+        if (nonNull(x.right())) queue2.offer(x.right());
       }
     }
     return queue;
