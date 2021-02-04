@@ -37,7 +37,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
    * @param root of the tree to traverse
    * @param order of the tree to traverse
    */
-  TreeIterator(TreeNode<E> root, TraversalOrder order) {
+  TreeIterator(ITreeNode<E> root, TraversalOrder order) {
     this.root = root;
     queue = new ArrayDeque<>();
     visiting = new Stack<>();

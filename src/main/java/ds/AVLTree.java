@@ -71,7 +71,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   @Override
   public Iterator<T> iterator(TraversalOrder order) {
-    return null;
+    return new TreeIterator<>(root, order);
   }
 
   /**
