@@ -79,19 +79,19 @@ class AVLTreeTest {
   @Test
   @DisplayName("AVLTreeTest.testPreOrderIteration")
   public void testPreOrderIteration() {
-    assertPreOrderIterationValid(several, new int[] {5, 2, 1, 9, 8, 10});
+    assertPreOrderIterationValid(several, new int[] {8, 2, 1, 5, 9, 10});
   }
 
   @Test
   @DisplayName("AVLTreeTest.testPostOrderIteration")
   public void testPostOrderIteration() {
-    assertPostOrderIterationValid(several, new int[] {1, 2, 8, 10, 9, 5});
+    assertPostOrderIterationValid(several, new int[] {1, 5, 2, 10, 9, 8});
   }
 
   @Test
   @DisplayName("AVLTreeTest.testBreadthFirstOrderIteration")
   public void testBreadthFirstOrderIteration() {
-    assertBreadthFirstOrderIterationValid(several, new int[] {5, 2, 9, 1, 8, 10});
+    assertBreadthFirstOrderIterationValid(several, new int[] {8, 2, 9, 1, 5, 10});
   }
 
   @Test
@@ -135,7 +135,9 @@ class AVLTreeTest {
     empty.add(1);
     empty.add(1);
     assertIterationValid(empty, new int[] {1, 1, 1});
+
     assertTrue(empty.contains(1), "Should contain 1");
+
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
     assertIterationValid(empty, new int[] {1, 1});
