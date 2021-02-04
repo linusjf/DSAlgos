@@ -32,4 +32,6 @@ interface ITreeNode<E> {
   void incrementRefCount();
 
   void decrementRefCount();
+
+  ITreeNode<E> clone();
 }

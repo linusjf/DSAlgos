@@ -13,7 +13,7 @@ import java.util.Objects;
  * of the tree.
  */
 @SuppressWarnings({"nullness", "PMD.AvoidFieldNameMatchingMethodName", "PMD.LawOfDemeter"})
-public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
+public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T>, Cloneable {
   /** Data object reference. */
   T val;
 
@@ -204,5 +204,14 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   @Override
   public String toString() {
     return Objects.toString(val);
+  }
+
+  @Override
+  public ITreeNode<T> clone() {
+    try {
+      return (ITreeNode<T>) super.clone();
+    } catch (CloneNotSupportedException cnse) {
+      throw new AssertionError("Shouldn't reach here...", cnse);
+    }
   }
 }
