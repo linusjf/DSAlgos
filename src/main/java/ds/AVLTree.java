@@ -517,6 +517,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
+    System.out.println("root = " + root);
     return select(root, k).value();
   }
 
@@ -530,9 +531,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("checkstyle:ReturnCount")
   private ITreeNode<T> select(ITreeNode<T> x, int k) {
     if (isNull(x)) return null;
-    int t = size(x.left());
-    if (t > k) return select(x.left(), k);
-    else if (t < k) return select(x.right(), k - t - 1);
+    ITreeNode<T> left = x.left();
+    ITreeNode<T> right = x.right();
+    int t = size(left);
+    System.out.println("t = " + t);
+    if (t > k) return select(left, k);
+    else if (t < k) return select(right, k - t - 1);
     else return x;
   }
 
@@ -740,7 +744,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      * @return {@code true} if rank is consistent
      */
     private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
-      for (int i = 0; i < tree.size(); i++) if (i != tree.rank(tree.select(i))) return false;
+      int treeSize = tree.size();
+      System.out.println("tree size = " + treeSize);
+      for (int i = 0; i < treeSize; i++) if (i != tree.rank(tree.select(i))) return false;
       for (T val : tree.values()) if (val.compareTo(tree.select(tree.rank(val))) != 0) return false;
       return true;
     }
