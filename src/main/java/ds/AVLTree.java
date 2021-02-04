@@ -210,6 +210,9 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       if (isNull(right)) x.setRight(new TreeNode<>(val));
       else x.setRight(add(right, val));
     } else {
+      System.out.println("Ref count incremented");
+      x.incrementRefCount();
+      System.out.println("Ref count incremented done");
       x.setValue(val);
       return x;
     }
@@ -318,6 +321,10 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     if (cmp < 0) x.setLeft(delete(x.left(), val));
     else if (cmp > 0) x.setRight(delete(x.right(), val));
     else {
+      if (x.refCount() > 1) {
+        x.decrementRefCount();
+        return x;
+      }
       if (isNull(x.left())) return x.right();
       else if (isNull(x.right())) return x.left();
       else {
@@ -619,7 +626,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private void valuesInOrder(ITreeNode<T> x, Queue<T> queue) {
     if (isNull(x)) return;
     valuesInOrder(x.left(), queue);
-    queue.offer(x.value());
+    for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
     valuesInOrder(x.right(), queue);
   }
 
@@ -635,7 +642,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       queue2.offer(root);
       while (!queue2.isEmpty()) {
         ITreeNode<T> x = queue2.poll();
-        queue.offer(x.value());
+        for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
         if (nonNull(x.left())) queue2.offer(x.left());
         if (nonNull(x.right())) queue2.offer(x.right());
       }
@@ -723,7 +730,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     private static <T extends Comparable<T>> boolean isSizeConsistent(
         AVLTree<T> tree, ITreeNode<T> x) {
       if (isNull(x)) return true;
-      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + 1) return false;
+      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + x.refCount()) return false;
       return isSizeConsistent(tree, x.left()) && isSizeConsistent(tree, x.right());
     }
 

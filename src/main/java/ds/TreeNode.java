@@ -79,7 +79,7 @@ public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T>, Cl
 
   @Override
   public int size() {
-    return this.size;
+    return this.size + this.refCount - 1;
   }
 
   @Override
