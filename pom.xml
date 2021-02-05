@@ -247,7 +247,7 @@
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.31.0</pmd.version>
-    <spotbugs.version>4.2.0</spotbugs.version>
+    <spotbugs.version>4.2.1</spotbugs.version>
     <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
     <cs.main.class>com.puppycrawl.tools.checkstyle.Main</cs.main.class>
@@ -256,7 +256,7 @@
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.10.0</checker.version>
     <groovy.version>3.0.7</groovy.version>
-    <junit.version>5.7.0</junit.version>
+    <junit.version>5.7.1</junit.version>
     <pitest.version>1.6.2</pitest.version>
     <pitest.maven.version>1.6.2</pitest.maven.version>
   </properties>
@@ -276,7 +276,7 @@
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
-        <version>1.7.0</version>
+        <version>1.7.1</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -375,8 +375,9 @@
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
             <includes>
-              <include>**/*Test.java</include>
+              <include>**/*AVLTreeTest.java</include>
             </includes>
+            <trimStackTrace>true</trimStackTrace>
           </configuration>
         </plugin>
         <plugin>

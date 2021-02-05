@@ -17,7 +17,9 @@ import static java.util.Objects.requireNonNull;
 
 import ds.Tree.TraversalOrder;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
@@ -71,7 +73,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
   @Override
   public Iterator<T> iterator(TraversalOrder order) {
-    return null;
+    return new TreeIterator<>(root, order);
   }
 
   /**
@@ -210,10 +212,13 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       if (isNull(right)) x.setRight(new TreeNode<>(val));
       else x.setRight(add(right, val));
     } else {
+      System.out.println("Ref count incremented");
+      x.incrementRefCount();
+      System.out.println("Ref count incremented done");
       x.setValue(val);
       return x;
     }
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
@@ -267,7 +272,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     x.setLeft(y.right());
     y.setRight(x);
     y.setSize(x.size());
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     y.setHeight(1 + Math.max(height(y.left()), height(y.right())));
     return y;
@@ -284,7 +289,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     x.setRight(y.left());
     y.setLeft(x);
     y.setSize(x.size());
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     y.setHeight(1 + Math.max(height(y.left()), height(y.right())));
     return y;
@@ -318,6 +323,10 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     if (cmp < 0) x.setLeft(delete(x.left(), val));
     else if (cmp > 0) x.setRight(delete(x.right(), val));
     else {
+      if (x.refCount() > 1) {
+        x.decrementRefCount();
+        return x;
+      }
       if (isNull(x.left())) return x.right();
       else if (isNull(x.right())) return x.left();
       else {
@@ -327,7 +336,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
         x.setLeft(y.left());
       }
     }
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
@@ -352,7 +361,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private ITreeNode<T> deleteMin(ITreeNode<T> x) {
     if (isNull(x.left())) return x.right();
     x.setLeft(deleteMin(x.left()));
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
@@ -377,7 +386,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private ITreeNode<T> deleteMax(ITreeNode<T> x) {
     if (isNull(x.right())) return x.left();
     x.setRight(deleteMax(x.right()));
-    x.setSize(1 + size(x.left()) + size(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
@@ -510,7 +519,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
-    return select(root, k).value();
+    T val = select(root, k).value();
+    return val;
   }
 
   /**
@@ -523,10 +533,27 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("checkstyle:ReturnCount")
   private ITreeNode<T> select(ITreeNode<T> x, int k) {
     if (isNull(x)) return null;
-    int t = size(x.left());
-    if (t > k) return select(x.left(), k);
-    else if (t < k) return select(x.right(), k - t - 1);
-    else return x;
+    ITreeNode<T> left = x.left();
+    ITreeNode<T> right = x.right();
+    int t = size(left);
+    if (t == k) return x;
+    else if (k < t) return select(left, k);
+    else return select(right, k - t - 1);
+  }
+
+  /**
+   * Returns the number of values in the binary tree strictly less than {@code value}.
+   *
+   * @param val the value
+   * @return the number of values in the binary tree strictly less than {@code value}
+   * @throws IllegalArgumentException if {@code value} is {@code null}
+   */
+  public int rankIt(T val) {
+    requireNonNull(val);
+    Iterable<T> iterable = values();
+    int rank = 0;
+    for (T value : iterable) if (value.compareTo(val) < 0) ++rank;
+    return rank;
   }
 
   /**
@@ -551,10 +578,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("checkstyle:ReturnValue")
   private int rank(T val, ITreeNode<T> x) {
     if (isNull(x)) return 0;
+    ITreeNode<T> left = x.left();
+    ITreeNode<T> right = x.right();
     int cmp = val.compareTo(x.value());
-    if (cmp < 0) return rank(val, x.left());
-    else if (cmp > 0) return 1 + size(x.left()) + rank(val, x.right());
-    else return size(x.left());
+    if (cmp < 0) return rank(val, left);
+    else if (cmp > 0) return x.refCount() + size(left) + rank(val, right);
+    else return size(left);
   }
 
   /**
@@ -619,7 +648,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   private void valuesInOrder(ITreeNode<T> x, Queue<T> queue) {
     if (isNull(x)) return;
     valuesInOrder(x.left(), queue);
-    queue.offer(x.value());
+    for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
     valuesInOrder(x.right(), queue);
   }
 
@@ -635,7 +664,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       queue2.offer(root);
       while (!queue2.isEmpty()) {
         ITreeNode<T> x = queue2.poll();
-        queue.offer(x.value());
+        for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
         if (nonNull(x.left())) queue2.offer(x.left());
         if (nonNull(x.right())) queue2.offer(x.right());
       }
@@ -723,7 +752,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     private static <T extends Comparable<T>> boolean isSizeConsistent(
         AVLTree<T> tree, ITreeNode<T> x) {
       if (isNull(x)) return true;
-      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + 1) return false;
+      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + x.refCount()) return false;
       return isSizeConsistent(tree, x.left()) && isSizeConsistent(tree, x.right());
     }
 
@@ -733,8 +762,20 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      * @return {@code true} if rank is consistent
      */
     private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
-      for (int i = 0; i < tree.size(); i++) if (i != tree.rank(tree.select(i))) return false;
-      for (T val : tree.values()) if (val.compareTo(tree.select(tree.rank(val))) != 0) return false;
+      int treeSize = tree.size();
+      Iterable<T> iterable = tree.values();
+      List<T> result = new ArrayList<T>();
+      iterable.forEach(result::add);
+
+      for (int i = 0; i < treeSize; i++) {
+        T val = result.get(i);
+        System.out.println("val = " + val);
+        int rank = tree.rank(val);
+        System.out.println("rank = " + rank);
+        int rankIt = tree.rankIt(val);
+        System.out.println("rankIt = " + rankIt);
+        if (rank != rankIt) return false;
+      }
       return true;
     }
   }

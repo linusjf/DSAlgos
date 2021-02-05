@@ -25,6 +25,8 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
    */
   protected ITreeNode<E> root;
 
+  protected ITreeNode<E> prevNode;
+
   protected Queue<ITreeNode<E>> queue;
   protected Stack<ITreeNode<E>> visiting;
 
@@ -37,7 +39,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
    * @param root of the tree to traverse
    * @param order of the tree to traverse
    */
-  TreeIterator(TreeNode<E> root, TraversalOrder order) {
+  TreeIterator(ITreeNode<E> root, TraversalOrder order) {
     this.root = root;
     queue = new ArrayDeque<>();
     visiting = new Stack<>();
@@ -54,6 +56,12 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
   @Override
   public E next() {
     if (!hasNext()) throw new java.util.NoSuchElementException("no more elements");
+    if (nonNull(prevNode)) {
+      if (prevNode.refCount() > 0) {
+        prevNode.decrementRefCount();
+        return prevNode.value();
+      } else prevNode = null;
+    }
     switch (order) {
       case PRE_ORDER:
         return preorderNext();
@@ -82,7 +90,8 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     if (nonNull(left)) visiting.push(left);
     // may not have pushed anything.  If so, we are at the end
     // no more nodes to visit
-    if (visiting.empty()) root = null;
+    checkRefCount(node);
+    if (visiting.empty() && isNull(prevNode)) root = null;
     return node.value();
   }
 
@@ -125,7 +134,8 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     // else: no right subtree, go back up the stack
     // next node on stack will be next returned
     // no next node left
-    if (visiting.empty()) root = null;
+    checkRefCount(node);
+    if (visiting.empty() && isNull(prevNode)) root = null;
     return result;
   }
 
@@ -161,9 +171,11 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     // already visited right child, time to visit the node on top
     if (visiting.peek().right() == null || visitingRightChild.peek()) {
       // right subtree already visited
-      E result = visiting.pop().value();
+      ITreeNode<E> node = visiting.pop();
+      E result = node.value();
       visitingRightChild.pop();
-      if (visiting.empty()) root = null;
+      checkRefCount(node);
+      if (visiting.empty() && isNull(prevNode)) root = null;
       return result;
     } else {
       // now visit this node's right subtree
@@ -200,8 +212,16 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     ITreeNode<E> right = node.right();
     if (nonNull(left)) queue.add(left);
     if (nonNull(right)) queue.add(right);
+    checkRefCount(node);
     if (queue.isEmpty()) root = null;
     return node.value();
+  }
+
+  private void checkRefCount(ITreeNode<E> node) {
+    if (node.refCount() > 1) {
+      prevNode = node.clone();
+      prevNode.decrementRefCount();
+    }
   }
 
   /* not implemented */
