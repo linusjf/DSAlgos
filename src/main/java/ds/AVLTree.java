@@ -17,7 +17,9 @@ import static java.util.Objects.requireNonNull;
 
 import ds.Tree.TraversalOrder;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Random;
@@ -539,8 +541,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     System.out.println("k = " + k);
     System.out.println("t = " + t);
     if (t == k) return x;
-    else if (k < t)
-      return select(left, k);
+    else if (k < t) return select(left, k);
     else return select(right, k - t - 1);
   }
 
@@ -751,20 +752,21 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
      */
     private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
       int treeSize = tree.size();
+      Iterable<T> iterable = tree.values();
+      List<T> result = new ArrayList<T>();
+      iterable.forEach(result::add);
+
       for (int i = 0; i < treeSize; i++) {
-        T val = tree.select(i);
+        T val = result.get(i);
         int rank = tree.rank(val);
-        if (i != rank) {
+        System.out.println("i = " + i);
+        System.out.println("rank = " + rank);
+        if (rank > i) {
           System.out.println("False for " + i);
           System.out.println("False for " + i + "th value: " + val);
           return false;
         }
       }
-      for (T val : tree.values())
-        if (val.compareTo(tree.select(tree.rank(val))) != 0) {
-          System.out.println("False for val: " + val);
-          return false;
-        }
       return true;
     }
   }
