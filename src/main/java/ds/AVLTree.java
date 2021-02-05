@@ -519,9 +519,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
-    System.out.println("root = " + root);
     T val = select(root, k).value();
-    System.out.println(k + "th value = " + val);
     return val;
   }
 
@@ -538,11 +536,24 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     ITreeNode<T> left = x.left();
     ITreeNode<T> right = x.right();
     int t = size(left);
-    System.out.println("k = " + k);
-    System.out.println("t = " + t);
     if (t == k) return x;
     else if (k < t) return select(left, k);
     else return select(right, k - t - 1);
+  }
+
+  /**
+   * Returns the number of values in the binary tree strictly less than {@code value}.
+   *
+   * @param val the value
+   * @return the number of values in the binary tree strictly less than {@code value}
+   * @throws IllegalArgumentException if {@code value} is {@code null}
+   */
+  public int rankIt(T val) {
+    requireNonNull(val);
+    Iterable<T> iterable = values();
+    int rank = 0;
+    for (T value : iterable) if (value.compareTo(val) < 0) ++rank;
+    return rank;
   }
 
   /**
@@ -571,7 +582,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     ITreeNode<T> right = x.right();
     int cmp = val.compareTo(x.value());
     if (cmp < 0) return rank(val, left);
-    else if (cmp > 0) return 1 + size(left) + rank(val, right);
+    else if (cmp > 0) return x.refCount() + size(left) + rank(val, right);
     else return size(left);
   }
 
@@ -758,14 +769,12 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
       for (int i = 0; i < treeSize; i++) {
         T val = result.get(i);
+        System.out.println("val = " + val);
         int rank = tree.rank(val);
-        System.out.println("i = " + i);
         System.out.println("rank = " + rank);
-        if (rank > i) {
-          System.out.println("False for " + i);
-          System.out.println("False for " + i + "th value: " + val);
-          return false;
-        }
+        int rankIt = tree.rankIt(val);
+        System.out.println("rankIt = " + rankIt);
+        if (rank != rankIt) return false;
       }
       return true;
     }

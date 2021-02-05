@@ -32,8 +32,10 @@ class AVLTreeTest {
   @BeforeEach
   public void setUp() {
     empty = new AVLTree<>();
+    System.out.println("one");
     one = new AVLTree<>();
     one.add(0);
+    System.out.println("several");
     several = new AVLTree<>();
     several.add(5);
     several.add(2);
@@ -41,6 +43,7 @@ class AVLTreeTest {
     several.add(9);
     several.add(8);
     several.add(10);
+    System.out.println("duplicates");
     duplicates = new AVLTree<>();
     duplicates.add(5);
     duplicates.add(3);
