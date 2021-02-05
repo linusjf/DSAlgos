@@ -1,6 +1,5 @@
 package ds;
 
-import static ds.MathUtils.requireGreaterThan;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
@@ -57,14 +56,12 @@ public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T>, Cl
 
   @Override
   public void incrementRefCount() {
-    requireGreaterThan(0, refCount);
     ++refCount;
     ++size;
   }
 
   @Override
   public void decrementRefCount() {
-    requireGreaterThan(1, refCount);
     --refCount;
     --size;
   }

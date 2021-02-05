@@ -212,9 +212,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
       if (isNull(right)) x.setRight(new TreeNode<>(val));
       else x.setRight(add(right, val));
     } else {
-      System.out.println("Ref count incremented");
       x.incrementRefCount();
-      System.out.println("Ref count incremented done");
       x.setValue(val);
       return x;
     }
@@ -769,11 +767,8 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
 
       for (int i = 0; i < treeSize; i++) {
         T val = result.get(i);
-        System.out.println("val = " + val);
         int rank = tree.rank(val);
-        System.out.println("rank = " + rank);
         int rankIt = tree.rankIt(val);
-        System.out.println("rankIt = " + rankIt);
         if (rank != rankIt) return false;
       }
       return true;
