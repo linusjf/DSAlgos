@@ -59,12 +59,14 @@ public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T>, Cl
   public void incrementRefCount() {
     requireGreaterThan(0, refCount);
     ++refCount;
+    ++size;
   }
 
   @Override
   public void decrementRefCount() {
     requireGreaterThan(1, refCount);
     --refCount;
+    --size;
   }
 
   @Override
@@ -79,7 +81,7 @@ public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T>, Cl
 
   @Override
   public int size() {
-    return this.size + this.refCount - 1;
+    return this.size;
   }
 
   @Override
