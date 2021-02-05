@@ -52,16 +52,19 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     return nonNull(root);
   }
 
+  private void checkRefCount(ITreeNode<E> node) {
+    if (node.refCount() > 1) {
+      prevNode = node.clone();
+      prevNode.decrementRefCount();
+    }
+  }
+
   @SuppressWarnings({"checkstyle:MissingSwitchDefault", "checkstyle:ReturnCount"})
   @Override
   public E next() {
     if (!hasNext()) throw new java.util.NoSuchElementException("no more elements");
-    if (nonNull(prevNode)) {
-      if (prevNode.refCount() > 0) {
-        prevNode.decrementRefCount();
-        return prevNode.value();
-      } else prevNode = null;
-    }
+    E next = handleDuplicates();
+    if (nonNull(next)) return next;
     switch (order) {
       case PRE_ORDER:
         return preorderNext();
@@ -71,6 +74,28 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
         return postorderNext();
       case BREADTH_FIRST_ORDER:
         return breadthfirstNext();
+    }
+    return null;
+  }
+
+  private E handleDuplicates() {
+    if (nonNull(prevNode) && prevNode.refCount() > 0) {
+      E val = prevNode.value();
+      prevNode.decrementRefCount();
+      if (prevNode.refCount() == 0) {
+        prevNode = null;
+        switch (order) {
+          case PRE_ORDER:
+          case IN_ORDER:
+          case POST_ORDER:
+            if (visiting.empty()) root = null;
+            break;
+          case BREADTH_FIRST_ORDER:
+            if (queue.isEmpty()) root = null;
+            break;
+        }
+      }
+      return val;
     }
     return null;
   }
@@ -87,11 +112,12 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     ITreeNode<E> right = node.right();
     ITreeNode<E> left = node.left();
     if (nonNull(right)) visiting.push(right);
+
     if (nonNull(left)) visiting.push(left);
+    checkRefCount(node);
     // may not have pushed anything.  If so, we are at the end
     // no more nodes to visit
-    checkRefCount(node);
-    if (visiting.empty() && isNull(prevNode)) root = null;
+    if (visiting.empty()) root = null;
     return node.value();
   }
 
@@ -213,15 +239,8 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     if (nonNull(left)) queue.add(left);
     if (nonNull(right)) queue.add(right);
     checkRefCount(node);
-    if (queue.isEmpty()) root = null;
+    if (queue.isEmpty() && isNull(prevNode)) root = null;
     return node.value();
-  }
-
-  private void checkRefCount(ITreeNode<E> node) {
-    if (node.refCount() > 1) {
-      prevNode = node.clone();
-      prevNode.decrementRefCount();
-    }
   }
 
   /* not implemented */
