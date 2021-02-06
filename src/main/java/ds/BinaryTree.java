@@ -56,11 +56,9 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
    * @param obj reference to Comparable object whose value will be searched for.
    * @return true if the value is found.
    */
-  @SuppressWarnings("PMD.SimplifiedTernary")
   @Override
   public boolean contains(E obj) {
-    requireNonNull(obj);
-    return nonNull(root) ? nonNull(root.find(obj)) : false;
+    return nonNull(find(obj)) ? true : false;
   }
 
   /**

@@ -620,7 +620,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesInOrder(root, queue);
     return queue;
   }
-  
+
   /**
    * Adds the values in the subtree to queue following an in-order traversal.
    *
@@ -634,7 +634,6 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesInOrder(x.right(), queue);
   }
 
-
   /**
    * Returns all values in the binary tree following an pre-order traversal.
    *
@@ -645,7 +644,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesPreOrder(root, queue);
     return queue;
   }
-  
+
   /**
    * Adds the values in the subtree to queue following an pre-order traversal.
    *
