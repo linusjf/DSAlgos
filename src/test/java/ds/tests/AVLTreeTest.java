@@ -181,7 +181,7 @@ class AVLTreeTest {
   private void assertIterationValid(Tree<Integer> tree, int... elements) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.IN_ORDER);
     for (Integer elem : elements)
-      assertEquals(elem, iterator.next(), () -> "" + elem + MISSING_FROM_TREE);
+      assertEquals(elem, iterator.next(), () -> elem + MISSING_FROM_TREE);
     assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
