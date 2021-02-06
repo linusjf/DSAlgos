@@ -48,12 +48,6 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.height = 0;
   }
 
-  TreeNode(T val, int height, int size) {
-    this(val, null, null);
-    this.size = size;
-    this.height = height;
-  }
-
   @Override
   public void incrementRefCount() {
     ++refCount;

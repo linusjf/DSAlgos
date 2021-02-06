@@ -49,6 +49,13 @@ public interface Tree<E> {
   ITreeNode<E> root();
 
   /**
+   * Returns whether tree is empty or not.
+   *
+   * @return boolean.
+   */
+  boolean isEmpty();
+
+  /**
    * Remove an object with a matching value from the tree. If multiple matches are possible, only
    * the first matching object is removed.
    *
