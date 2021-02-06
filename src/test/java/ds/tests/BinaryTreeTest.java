@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.BinaryTree;
 import ds.Tree;
-import ds.Tree.TraversalOrder;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("BinaryTreeTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class BinaryTreeTest {
-
-  private static final String MISSING_FROM_TREE = " missing from tree";
-  private static final String NOT_REACHED = "Not reached end of iteration";
+class BinaryTreeTest extends BaseTreeTest<Integer> {
 
   private Tree<Integer> empty;
   private Tree<Integer> one;
@@ -67,38 +61,38 @@ class BinaryTreeTest {
   @DisplayName("BinaryTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
     assertTrue(one.contains(0), "One should contain 0");
-    assertIterationValid(one, new int[] {0});
+    assertIterationValid(one, new Integer[] {0});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testSeveralContainsSixItems")
   public void testSeveralContainsSixItems() {
-    assertContains(several, new int[] {1, 2, 5, 8, 9, 10});
-    assertIterationValid(several, new int[] {1, 2, 5, 8, 9, 10});
+    assertContains(several, new Integer[] {1, 2, 5, 8, 9, 10});
+    assertIterationValid(several, new Integer[] {1, 2, 5, 8, 9, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testPreOrderIteration")
   public void testPreOrderIteration() {
-    assertPreOrderIterationValid(several, new int[] {5, 2, 1, 9, 8, 10});
+    assertPreOrderIterationValid(several, new Integer[] {5, 2, 1, 9, 8, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testPostOrderIteration")
   public void testPostOrderIteration() {
-    assertPostOrderIterationValid(several, new int[] {1, 2, 8, 10, 9, 5});
+    assertPostOrderIterationValid(several, new Integer[] {1, 2, 8, 10, 9, 5});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testBreadthFirstOrderIteration")
   public void testBreadthFirstOrderIteration() {
-    assertBreadthFirstOrderIterationValid(several, new int[] {5, 2, 9, 1, 8, 10});
+    assertBreadthFirstOrderIterationValid(several, new Integer[] {5, 2, 9, 1, 8, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testSeveralDoesNotContain")
   public void testSeveralDoesNotContain() {
-    assertDoesNotContain(several, new int[] {-1, 0, 3, 4, 6, 7, 11});
+    assertDoesNotContain(several, new Integer[] {-1, 0, 3, 4, 6, 7, 11});
   }
 
   @Test
@@ -119,13 +113,13 @@ class BinaryTreeTest {
   @Test
   @DisplayName("BinaryTreeTest.testRemoveByLeaf")
   public void testRemoveByLeaf() {
-    assertRemoveAll(several, new int[] {5, 2, 1, 8, 10, 9, 5});
+    assertRemoveAll(several, new Integer[] {5, 2, 1, 8, 10, 9, 5});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testRemoveByRoot")
   public void testRemoveByRoot() {
-    assertRemoveAll(several, new int[] {5, 8, 9, 10, 2, 1});
+    assertRemoveAll(several, new Integer[] {5, 8, 9, 10, 2, 1});
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -135,72 +129,16 @@ class BinaryTreeTest {
     empty.add(1);
     empty.add(1);
     empty.add(1);
-    assertIterationValid(empty, new int[] {1, 1, 1});
+    assertIterationValid(empty, new Integer[] {1, 1, 1});
     assertTrue(empty.contains(1), "Should contain 1");
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
-    assertIterationValid(empty, new int[] {1, 1});
+    assertIterationValid(empty, new Integer[] {1, 1});
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
-    assertIterationValid(empty, new int[] {1});
+    assertIterationValid(empty, new Integer[] {1});
     empty.remove(1);
     assertFalse(empty.contains(1), "Should not contain 1");
     assertTreeEmpty(empty);
-  }
-
-  private void assertTreeEmpty(Tree<Integer> tree) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
-    assertFalse(iterator.hasNext(), "Tree empty");
-    assertNull(tree.root(), "Root must be null.");
-  }
-
-  private void assertTreeEmptyIteratorException(Tree<Integer> tree) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
-    assertThrows(NoSuchElementException.class, () -> iterator.next(), "Tree empty: exception");
-  }
-
-  private void assertRemoveAll(Tree<Integer> tree, int... elements) {
-    for (int elem : elements) {
-      tree.remove(elem);
-      assertFalse(tree.contains(elem), () -> elem + " Still in tree after being removed");
-    }
-    assertTreeEmpty(tree);
-  }
-
-  private void assertContains(Tree<Integer> tree, int... elements) {
-    for (int elem : elements) assertTrue(tree.contains(elem), () -> elem + " not in tree");
-  }
-
-  private void assertDoesNotContain(Tree<Integer> tree, int... elements) {
-    for (int elem : elements)
-      assertFalse(tree.contains(elem), () -> elem + " unexpectedly found in tree");
-  }
-
-  private void assertIterationValid(Tree<Integer> tree, int... elements) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.IN_ORDER);
-    for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
-    assertFalse(iterator.hasNext(), NOT_REACHED);
-  }
-
-  private void assertPreOrderIterationValid(Tree<Integer> tree, int... elements) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
-    for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
-    assertFalse(iterator.hasNext(), NOT_REACHED);
-  }
-
-  private void assertPostOrderIterationValid(Tree<Integer> tree, int... elements) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.POST_ORDER);
-    for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
-    assertFalse(iterator.hasNext(), NOT_REACHED);
-  }
-
-  private void assertBreadthFirstOrderIterationValid(Tree<Integer> tree, int... elements) {
-    Iterator<Integer> iterator = tree.iterator(TraversalOrder.BREADTH_FIRST_ORDER);
-    for (int elem : elements)
-      assertEquals(Integer.valueOf(elem), iterator.next(), () -> elem + MISSING_FROM_TREE);
-    assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 }
