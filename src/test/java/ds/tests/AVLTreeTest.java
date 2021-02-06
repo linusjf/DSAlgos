@@ -3,6 +3,7 @@ package ds.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AVLTree;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,18 @@ class AVLTreeTest extends BaseTreeTest<Integer> {
     duplicates.add(8);
     duplicates.add(5);
     duplicates.add(10);
+  }
+
+  @Test
+  @DisplayName("AVLTreeTest.testRandomInserts")
+  public void testRandomInserts() {
+    AVLTree<Integer> st = new AVLTree<>();
+    Random random = new Random();
+    for (int i = 0; i < 100; i++) 
+      st.add(random.nextInt(1000));
+    for (Integer s : st.values())
+      assertEquals(s, st.find(s),
+          "Value not found!");
   }
 
   @Test
