@@ -375,7 +375,7 @@
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
             <includes>
-              <include>**/*AVLTreeTest.java</include>
+              <include>**/*Test.java</include>
             </includes>
             <trimStackTrace>false</trimStackTrace>
           </configuration>
