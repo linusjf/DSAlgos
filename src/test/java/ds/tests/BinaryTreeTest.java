@@ -151,6 +151,7 @@ class BinaryTreeTest {
   private void assertTreeEmpty(Tree<Integer> tree) {
     Iterator<Integer> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
     assertFalse(iterator.hasNext(), "Tree empty");
+    assertNull(tree.root(), "Root must be null.");
   }
 
   private void assertTreeEmptyIteratorException(Tree<Integer> tree) {
