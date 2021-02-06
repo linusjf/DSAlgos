@@ -12,7 +12,7 @@ import java.util.Objects;
  * of the tree.
  */
 @SuppressWarnings({"nullness", "PMD.AvoidFieldNameMatchingMethodName", "PMD.LawOfDemeter"})
-public final class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
+public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   /** Data object reference. */
   T val;
 
