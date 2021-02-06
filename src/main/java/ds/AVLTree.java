@@ -45,18 +45,6 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   /** The root node. */
   ITreeNode<T> root;
 
-  /**
-   * Unit tests the {@code AVLTreeST} data type.
-   *
-   * @param args the command-line arguments
-   */
-  public static void main(String[] args) {
-    AVLTree<Integer> st = new AVLTree<>();
-    Random random = new Random();
-    for (int i = 0; i < 100; i++) st.add(random.nextInt(1000));
-    for (Integer s : st.values()) System.out.println(s + " " + st.find(s));
-  }
-
   @Override
   public ITreeNode<T> root() {
     return root;
@@ -67,6 +55,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return {@code true} if the binary tree is empty.
    */
+  @Override
   public boolean isEmpty() {
     return isNull(root);
   }
