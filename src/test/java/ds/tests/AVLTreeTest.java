@@ -51,7 +51,7 @@ class AVLTreeTest extends BaseTreeTest<Integer> {
     AVLTree<Integer> st = new AVLTree<>();
     Random random = new Random();
     for (int i = 0; i < 100; i++) st.add(random.nextInt(1000));
-    for (Integer s : st.values()) assertEquals(s, st.find(s), "Value not found!");
+    for (Integer s : st.values()) assertEquals(s, st.find(s).value(), "Value not found!");
   }
 
   @Test
