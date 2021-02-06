@@ -622,28 +622,6 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   }
   
   /**
-   * Returns all values in the binary tree following an pre-order traversal.
-   *
-   * @return all values in the binary tree following an pre-order traversal
-   */
-  public Iterable<T> valuesPreOrder() {
-    Queue<T> queue = new ArrayDeque<>();
-    valuesPreOrder(root, queue);
-    return queue;
-  }
-  
-  /**
-   * Returns all values in the binary tree following an post-order traversal.
-   *
-   * @return all values in the binary tree following an post-order traversal
-   */
-  public Iterable<T> valuesPostOrder() {
-    Queue<T> queue = new ArrayDeque<>();
-    valuesPostOrder(root, queue);
-    return queue;
-  }
-
-  /**
    * Adds the values in the subtree to queue following an in-order traversal.
    *
    * @param x the subtree
@@ -656,6 +634,18 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesInOrder(x.right(), queue);
   }
 
+
+  /**
+   * Returns all values in the binary tree following an pre-order traversal.
+   *
+   * @return all values in the binary tree following an pre-order traversal
+   */
+  public Iterable<T> valuesPreOrder() {
+    Queue<T> queue = new ArrayDeque<>();
+    valuesPreOrder(root, queue);
+    return queue;
+  }
+  
   /**
    * Adds the values in the subtree to queue following an pre-order traversal.
    *
@@ -667,6 +657,17 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
     valuesPreOrder(x.left(), queue);
     valuesPreOrder(x.right(), queue);
+  }
+
+  /**
+   * Returns all values in the binary tree following an post-order traversal.
+   *
+   * @return all values in the binary tree following an post-order traversal
+   */
+  public Iterable<T> valuesPostOrder() {
+    Queue<T> queue = new ArrayDeque<>();
+    valuesPostOrder(root, queue);
+    return queue;
   }
 
   /**
