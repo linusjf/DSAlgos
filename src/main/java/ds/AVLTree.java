@@ -517,25 +517,10 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
-    return select(root, k).value();
-  }
-
-  /**
-   * Returns the node with value the kth smallest value in the subtree.
-   *
-   * @param x the subtree
-   * @param k the kth smallest value in the subtree
-   * @return the node with value the kth smallest value in the subtree
-   */
-  @SuppressWarnings("checkstyle:ReturnCount")
-  private ITreeNode<T> select(ITreeNode<T> x, int k) {
-    if (isNull(x)) return null;
-    ITreeNode<T> left = x.left();
-    ITreeNode<T> right = x.right();
-    int t = size(left);
-    if (t == k) return x;
-    else if (k < t) return select(left, k);
-    else return select(right, k - t - 1);
+    Iterable<T> iterable = values();
+    List<T> result = new ArrayList<>();
+    iterable.forEach(result::add);
+    return result.get(k);
   }
 
   /**
@@ -635,6 +620,28 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesInOrder(root, queue);
     return queue;
   }
+  
+  /**
+   * Returns all values in the binary tree following an pre-order traversal.
+   *
+   * @return all values in the binary tree following an pre-order traversal
+   */
+  public Iterable<T> valuesPreOrder() {
+    Queue<T> queue = new ArrayDeque<>();
+    valuesPreOrder(root, queue);
+    return queue;
+  }
+  
+  /**
+   * Returns all values in the binary tree following an post-order traversal.
+   *
+   * @return all values in the binary tree following an post-order traversal
+   */
+  public Iterable<T> valuesPostOrder() {
+    Queue<T> queue = new ArrayDeque<>();
+    valuesPostOrder(root, queue);
+    return queue;
+  }
 
   /**
    * Adds the values in the subtree to queue following an in-order traversal.
@@ -647,6 +654,32 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     valuesInOrder(x.left(), queue);
     for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
     valuesInOrder(x.right(), queue);
+  }
+
+  /**
+   * Adds the values in the subtree to queue following an pre-order traversal.
+   *
+   * @param x the subtree
+   * @param queue the queue
+   */
+  private void valuesPreOrder(ITreeNode<T> x, Queue<T> queue) {
+    if (isNull(x)) return;
+    for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
+    valuesPreOrder(x.left(), queue);
+    valuesPreOrder(x.right(), queue);
+  }
+
+  /**
+   * Adds the values in the subtree to queue following an post-order traversal.
+   *
+   * @param x the subtree
+   * @param queue the queue
+   */
+  private void valuesPostOrder(ITreeNode<T> x, Queue<T> queue) {
+    if (isNull(x)) return;
+    valuesPostOrder(x.left(), queue);
+    valuesPostOrder(x.right(), queue);
+    for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());
   }
 
   /**

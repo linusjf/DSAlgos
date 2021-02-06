@@ -259,7 +259,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
       case POST_ORDER:
         return "post: " + toString(root) + "\n" + visiting + "\n" + visitingRightChild;
       case BREADTH_FIRST_ORDER:
-        return "post: " + toString(root) + "\n" + visiting + "\n" + visitingRightChild;
+        return "breadth-first : " + toString(root) + "\n" + queue;
     }
     return "none of pre-order, in-order, or post-order are true";
   }
