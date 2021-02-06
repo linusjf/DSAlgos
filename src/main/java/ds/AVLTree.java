@@ -517,8 +517,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
   @SuppressWarnings("PMD.LawOfDemeter")
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
-    T val = select(root, k).value();
-    return val;
+    return select(root, k).value();
   }
 
   /**
@@ -762,7 +761,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
     private static <T extends Comparable<T>> boolean isRankConsistent(AVLTree<T> tree) {
       int treeSize = tree.size();
       Iterable<T> iterable = tree.values();
-      List<T> result = new ArrayList<T>();
+      List<T> result = new ArrayList<>();
       iterable.forEach(result::add);
 
       for (int i = 0; i < treeSize; i++) {

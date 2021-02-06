@@ -78,6 +78,8 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     return null;
   }
 
+  @SuppressWarnings({"PMD.NullAssignment",
+  "PMD.AvoidDeeplyNestedIfStmts"})
   private E handleDuplicates() {
     if (nonNull(prevNode) && prevNode.refCount() > 0) {
       E val = prevNode.value();
