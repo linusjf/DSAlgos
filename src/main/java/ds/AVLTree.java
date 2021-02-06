@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import java.util.Random;
 
 /**
  * This implementation of AVl tree requires that the value type implements the {@code Comparable}
