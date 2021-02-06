@@ -1,6 +1,6 @@
 package ds;
 
-interface ITreeNode<E> extends Cloneable {
+public interface ITreeNode<E> extends Cloneable {
   void insert(E obj);
 
   ITreeNode<E> find(E obj);
