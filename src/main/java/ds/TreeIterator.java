@@ -152,8 +152,6 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     if (visiting.empty()) pushLeftmostNode(root);
     // now the leftmost unvisited node is on top of the visiting stack
     ITreeNode<E> node = visiting.pop();
-    E result = node.value();
-    // this is the value to return
     // if the node has a right child, its leftmost node is next
     ITreeNode<E> right = node.right();
     // find the leftmost node of the right child
@@ -164,7 +162,7 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     // no next node left
     checkRefCount(node);
     if (visiting.empty() && isNull(prevNode)) root = null;
-    return result;
+    return node.value();
   }
 
   /**
@@ -200,11 +198,10 @@ public class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
     if (visiting.peek().right() == null || visitingRightChild.peek()) {
       // right subtree already visited
       ITreeNode<E> node = visiting.pop();
-      E result = node.value();
       visitingRightChild.pop();
       checkRefCount(node);
       if (visiting.empty() && isNull(prevNode)) root = null;
-      return result;
+      return node.value();
     } else {
       // now visit this node's right subtree
       // pop false and push true for visiting right child
