@@ -18,29 +18,11 @@ import java.util.Iterator;
  * @version 2.0 01-Mar-06
  */
 @SuppressWarnings({"PMD.CommentSize", "nullness"})
-public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
+public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   /**
    * A tree is a hierarchical structure of TreeNode objects. root references the first node on the
    * tree.
    */
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  private TreeNode<E> root;
-
-  @SuppressWarnings("PMD.NullAssignment")
-  public BinaryTree() {
-    root = null;
-  }
-
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  @Override
-  public ITreeNode<E> root() {
-    return root;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return isNull(root);
-  }
 
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
@@ -88,15 +70,5 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   @Override
   public void remove(E obj) {
     if (nonNull(root)) root = (TreeNode<E>) root.remove(obj);
-  }
-
-  /**
-   * Return a new tree iterator object.
-   *
-   * @return new iterator object.
-   */
-  @Override
-  public Iterator<E> iterator(TraversalOrder order) {
-    return new TreeIterator(root, order);
   }
 }
