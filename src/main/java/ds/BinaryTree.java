@@ -4,7 +4,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A simple generic binary tree class to demonstrate the basic principles of implementing a tree
@@ -18,29 +18,11 @@ import java.util.Iterator;
  * @version 2.0 01-Mar-06
  */
 @SuppressWarnings({"PMD.CommentSize", "nullness"})
-public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
+public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   /**
    * A tree is a hierarchical structure of TreeNode objects. root references the first node on the
    * tree.
    */
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  private TreeNode<E> root;
-
-  @SuppressWarnings("PMD.NullAssignment")
-  public BinaryTree() {
-    root = null;
-  }
-
-  @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
-  @Override
-  public ITreeNode<E> root() {
-    return root;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return isNull(root);
-  }
 
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
@@ -91,12 +73,52 @@ public class BinaryTree<E extends Comparable<E>> implements Tree<E> {
   }
 
   /**
-   * Return a new tree iterator object.
+   * Removes the smallest value and associated value from the binary tree.
    *
-   * @return new iterator object.
+   * @throws NoSuchElementException if the binary tree is empty
    */
   @Override
-  public Iterator<E> iterator(TraversalOrder order) {
-    return new TreeIterator(root, order);
+  public void removeMin() {
+    if (isEmpty()) throw new NoSuchElementException("called removeMin() with empty binary tree");
+    root = removeMin(root);
+  }
+
+  /**
+   * Removes the smallest value and associated value from the given subtree.
+   *
+   * @param x the subtree
+   * @return the updated subtree
+   */
+  private ITreeNode<E> removeMin(ITreeNode<E> x) {
+    if (isNull(x.left())) return x.right();
+    x.setLeft(removeMin(x.left()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
+    return x;
+  }
+
+  /**
+   * Removes the largest value and associated value from the binary tree.
+   *
+   * @throws NoSuchElementException if the binary tree is empty
+   */
+  @Override
+  public void removeMax() {
+    if (isEmpty()) throw new NoSuchElementException("called removeMax() with empty binary tree");
+    root = removeMax(root);
+  }
+
+  /**
+   * Removes the largest value and associated value from the given subtree.
+   *
+   * @param x the subtree
+   * @return the updated subtree
+   */
+  private ITreeNode<E> removeMax(ITreeNode<E> x) {
+    if (isNull(x.right())) return x.left();
+    x.setRight(removeMax(x.right()));
+    x.setSize(x.refCount() + size(x.left()) + size(x.right()));
+    x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
+    return x;
   }
 }

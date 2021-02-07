@@ -27,6 +27,8 @@ public interface ITreeNode<E> extends Cloneable {
 
   int height();
 
+  int balanceFactor();
+
   int refCount();
 
   void incrementRefCount();
