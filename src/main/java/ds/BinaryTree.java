@@ -4,7 +4,6 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -72,12 +71,13 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   public void remove(E obj) {
     if (nonNull(root)) root = (TreeNode<E>) root.remove(obj);
   }
-  
+
   /**
    * Removes the smallest value and associated value from the binary tree.
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
+  @Override
   public void removeMin() {
     if (isEmpty()) throw new NoSuchElementException("called removeMin() with empty binary tree");
     root = removeMin(root);
@@ -102,6 +102,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
+  @Override
   public void removeMax() {
     if (isEmpty()) throw new NoSuchElementException("called removeMax() with empty binary tree");
     root = removeMax(root);

@@ -15,20 +15,20 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.stream.StreamSupport;
 
+@SuppressWarnings("PMD.LawOfDemeter")
 public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
   /** The root node. */
-  ITreeNode<T> root;
-  
+  ITreeNode<T> treeRoot;
+
   @Override
   public abstract void removeMin();
-  
+
   @Override
   public abstract void removeMax();
 
-
   @Override
   public ITreeNode<T> root() {
-    return root;
+    return treeRoot;
   }
 
   /**
@@ -38,12 +38,12 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    */
   @Override
   public boolean isEmpty() {
-    return isNull(root);
+    return isNull(treeRoot);
   }
 
   @Override
   public Iterator<T> iterator(TraversalOrder order) {
-    return new TreeIterator<>(root, order);
+    return new TreeIterator<>(treeRoot, order);
   }
 
   /**
@@ -54,7 +54,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
   @Override
   public Iterator<T> iteratorFromValues(TraversalOrder order) {
     Iterable<T> iterable = null;
-    switch(order) {
+    switch (order) {
       case PRE_ORDER:
         iterable = valuesPreOrder();
         break;
@@ -67,12 +67,12 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
       case BREADTH_FIRST_ORDER:
         iterable = valuesLevelOrder();
         break;
-     }
+    }
     requireNonNull(iterable);
     List<T> result = new ArrayList<>();
-    return Collections.unmodifiableCollection(result).iterator(); 
+    return Collections.unmodifiableCollection(result).iterator();
   }
-  
+
   /**
    * Returns the number value-value pairs in the binary tree.
    *
@@ -80,7 +80,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    */
   @Override
   public int size() {
-    return size(root);
+    return size(treeRoot);
   }
 
   /**
@@ -110,11 +110,11 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     if (contains(hi)) return rank(hi) - rank(lo) + 1;
     else return rank(hi) - rank(lo);
   }
- 
+
   @Override
   public int sizeFromValues() {
     Iterable<T> iterable = values();
-    return (int)StreamSupport.stream(iterable.spliterator(), false).count();
+    return (int) StreamSupport.stream(iterable.spliterator(), false).count();
   }
 
   /**
@@ -143,7 +143,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    */
   @Override
   public int height() {
-    return height(root);
+    return height(treeRoot);
   }
 
   /**
@@ -163,9 +163,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @throws NoSuchElementException if the binary tree is empty
    */
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   public T min() {
     if (isEmpty()) throw new NoSuchElementException("called min() with empty binary tree");
-    return min(root).value();
+    return min(treeRoot).value();
   }
 
   /**
@@ -187,9 +188,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @throws NoSuchElementException if the binary tree is empty
    */
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   public T max() {
     if (isEmpty()) throw new NoSuchElementException("called max() with empty binary tree");
-    return max(root).value();
+    return max(treeRoot).value();
   }
 
   /**
@@ -203,7 +205,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     while (nonNull(x.right())) x = x.right();
     return x;
   }
-  
+
   /**
    * Returns the largest value in the binary tree less than or equal to {@code value}.
    *
@@ -212,10 +214,11 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @throws NoSuchElementException if the binary tree is empty
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
+  @Override
   public T floor(T val) {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called floor() with empty binary tree");
-    ITreeNode<T> x = floor(root, val);
+    ITreeNode<T> x = floor(treeRoot, val);
     if (isNull(x)) return null;
     else return x.value();
   }
@@ -246,10 +249,11 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @throws NoSuchElementException if the binary tree is empty
    * @throws IllegalArgumentException if {@code value} is {@code null}
    */
+  @Override
   public T ceiling(T val) {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called ceiling() with empty binary tree");
-    ITreeNode<T> x = ceiling(root, val);
+    ITreeNode<T> x = ceiling(treeRoot, val);
     if (isNull(x)) return null;
     else return x.value();
   }
@@ -273,7 +277,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     if (isNull(y)) return x;
     else return y;
   }
-  
+
   /**
    * Returns the kth smallest value in the binary tree.
    *
@@ -282,6 +286,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @throws IllegalArgumentException unless {@code k} is between 0 and {@code size() -1 }
    */
   @SuppressWarnings("PMD.LawOfDemeter")
+  @Override
   public T select(int k) {
     requireInRangeInclusive(0, size(), k);
     Iterable<T> iterable = values();
@@ -297,6 +302,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @return the number of values in the binary tree strictly less than {@code value}
    * @throws NullPointerException if {@code value} is {@code null}
    */
+  @Override
   public int rankFromValues(T val) {
     requireNonNull(val);
     Iterable<T> iterable = values();
@@ -312,9 +318,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @return the number of values in the binary tree strictly less than {@code value}
    * @throws NullPointerException if {@code value} is {@code null}
    */
+  @Override
   public int rank(T val) {
     requireNonNull(val);
-    return rank(val, root);
+    return rank(val, treeRoot);
   }
 
   /**
@@ -340,6 +347,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return all values in the binary tree
    */
+  @Override
   public Iterable<T> values() {
     return valuesInOrder();
   }
@@ -369,11 +377,12 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @return all values in the binary tree between {@code lo} (inclusive) and {@code hi} (exclusive)
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
+  @Override
   public Iterable<T> values(T lo, T hi) {
     requireNonNull(lo);
     requireNonNull(hi);
     Queue<T> queue = new ArrayDeque<>();
-    values(root, queue, lo, hi);
+    values(treeRoot, queue, lo, hi);
     return queue;
   }
 
@@ -382,9 +391,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return all values in the binary tree following an in-order traversal
    */
+  @Override
   public Iterable<T> valuesInOrder() {
     Queue<T> queue = new ArrayDeque<>();
-    valuesInOrder(root, queue);
+    valuesInOrder(treeRoot, queue);
     return queue;
   }
 
@@ -406,9 +416,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return all values in the binary tree following an pre-order traversal
    */
+  @Override
   public Iterable<T> valuesPreOrder() {
     Queue<T> queue = new ArrayDeque<>();
-    valuesPreOrder(root, queue);
+    valuesPreOrder(treeRoot, queue);
     return queue;
   }
 
@@ -430,9 +441,10 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return all values in the binary tree following an post-order traversal
    */
+  @Override
   public Iterable<T> valuesPostOrder() {
     Queue<T> queue = new ArrayDeque<>();
-    valuesPostOrder(root, queue);
+    valuesPostOrder(treeRoot, queue);
     return queue;
   }
 
@@ -454,11 +466,12 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return all values in the binary tree following a level-order traversal.
    */
+  @Override
   public Iterable<T> valuesLevelOrder() {
     Queue<T> queue = new ArrayDeque<>();
     if (!isEmpty()) {
       Queue<ITreeNode<T>> queue2 = new ArrayDeque<>();
-      queue2.offer(root);
+      queue2.offer(treeRoot);
       while (!queue2.isEmpty()) {
         ITreeNode<T> x = queue2.poll();
         for (int i = 0; i < x.refCount(); i++) queue.offer(x.value());

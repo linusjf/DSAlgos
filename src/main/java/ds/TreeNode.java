@@ -69,7 +69,7 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   public int height() {
     return this.height;
   }
-  
+
   private int height(ITreeNode<T> x) {
     return isNull(x) ? -1 : x.height();
   }
@@ -93,7 +93,7 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   public int balanceFactor() {
     return height(left()) - height(right());
   }
-  
+
   @Override
   public ITreeNode<T> left() {
     return left;

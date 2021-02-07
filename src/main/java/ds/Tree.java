@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  * London
  *
  * @author Graham Roberts
- * @version 2.0 01-Mar-06
- * Modified by 
+ * @version 2.0 01-Mar-06 Modified by
  * @author Linus Fernandes
  */
 public interface Tree<E> {
@@ -72,21 +71,21 @@ public interface Tree<E> {
    * @return new iterator object.
    */
   Iterator<E> iterator(TraversalOrder order);
-  
+
   /**
    * Return a new tree iterator object from values.
    *
    * @return new iterator object.
    */
   Iterator<E> iteratorFromValues(TraversalOrder order);
-  
+
   /**
    * Return tree size.
    *
    * @return int.
    */
   int size();
-  
+
   /**
    * Returns the number of values in the binary tree in the given range.
    *
@@ -97,14 +96,14 @@ public interface Tree<E> {
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
   int size(E lo, E hi);
-  
+
   /**
    * Return tree size from values.
    *
    * @return int.
    */
   int sizeFromValues();
-  
+
   /**
    * Returns the number of values in the binary tree in the given range.
    *
@@ -115,7 +114,7 @@ public interface Tree<E> {
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
   int sizeFromValues(E lo, E hi);
-  
+
   /**
    * Returns the height of the internal AVL tree. It is assumed that the height of an empty tree is
    * -1 and the height of a tree with just one node is 0.
@@ -123,37 +122,37 @@ public interface Tree<E> {
    * @return the height of the internal AVL tree
    */
   int height();
-  
+
   /**
    * Removes the smallest value and associated value from the binary tree.
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
-   void removeMin();
-  
+  void removeMin();
+
   /**
    * Removes the largest value and associated value from the binary tree.
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
-   void removeMax();
-  
+  void removeMax();
+
   /**
    * Returns the smallest value in the binary tree.
    *
    * @return the smallest value in the binary tree
    * @throws NoSuchElementException if the binary tree is empty
    */
-   E min();
-  
+  E min();
+
   /**
    * Returns the largest value in the binary tree.
    *
    * @return the largest value in the binary tree
    * @throws NoSuchElementException if the binary tree is empty
    */
-   E max();
-  
+  E max();
+
   /**
    * Returns the largest value in the binary tree less than or equal to {@code value}.
    *
@@ -162,8 +161,8 @@ public interface Tree<E> {
    * @throws NoSuchElementException if the binary tree is empty
    * @throws NullPointerException if {@code value} is {@code null}
    */
-   E floor(E val);
-  
+  E floor(E val);
+
   /**
    * Returns the smallest value in the binary tree greater than or equal to {@code value}.
    *
@@ -172,8 +171,8 @@ public interface Tree<E> {
    * @throws NoSuchElementException if the binary tree is empty
    * @throws NullPointerException if {@code value} is {@code null}
    */
-   E ceiling(E val);
-  
+  E ceiling(E val);
+
   /**
    * Returns the kth smallest value in the binary tree.
    *
@@ -181,8 +180,8 @@ public interface Tree<E> {
    * @return the kth smallest value in the binary tree
    * @throws IllegalArgumentException unless {@code k} is between 0 and {@code size() -1 }
    */
-   E select(int k);
-  
+  E select(int k);
+
   /**
    * Returns the number of values in the binary tree strictly less than {@code value}.
    *
@@ -190,8 +189,8 @@ public interface Tree<E> {
    * @return the number of values in the binary tree strictly less than {@code value}
    * @throws NullPointerException if {@code value} is {@code null}
    */
-   int rank(E val);
-  
+  int rank(E val);
+
   /**
    * Returns the number of values in the binary tree strictly less than {@code value}.
    *
@@ -199,15 +198,15 @@ public interface Tree<E> {
    * @return the number of values in the binary tree strictly less than {@code value}
    * @throws NullPointerException if {@code value} is {@code null}
    */
-   int rankFromValues(E val);
-  
+  int rankFromValues(E val);
+
   /**
    * Returns all values in the binary tree.
    *
    * @return all values in the binary tree
    */
-   Iterable<E> values();
-  
+  Iterable<E> values();
+
   /**
    * Returns all values in the binary tree in the given range.
    *
@@ -216,33 +215,33 @@ public interface Tree<E> {
    * @return all values in the binary tree between {@code lo} (inclusive) and {@code hi} (exclusive)
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
-   Iterable<E> values(E lo, E hi);
-  
+  Iterable<E> values(E lo, E hi);
+
   /**
    * Returns all values in the binary tree following an in-order traversal.
    *
    * @return all values in the binary tree following an in-order traversal
    */
-   Iterable<E> valuesInOrder();
-  
+  Iterable<E> valuesInOrder();
+
   /**
    * Returns all values in the binary tree following an pre-order traversal.
    *
    * @return all values in the binary tree following an pre-order traversal
    */
-   Iterable<E> valuesPreOrder();
-  
+  Iterable<E> valuesPreOrder();
+
   /**
    * Returns all values in the binary tree following an post-order traversal.
    *
    * @return all values in the binary tree following an post-order traversal
    */
-   Iterable<E> valuesPostOrder();
-  
+  Iterable<E> valuesPostOrder();
+
   /**
    * Returns all values in the binary tree following a level-order traversal.
    *
    * @return all values in the binary tree following a level-order traversal.
    */
-   Iterable<E> valuesLevelOrder();
+  Iterable<E> valuesLevelOrder();
 }

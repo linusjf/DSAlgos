@@ -10,18 +10,11 @@ package ds;
  *****************************************************************************
  */
 
-import static ds.MathUtils.requireInRangeInclusive;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-import ds.Tree.TraversalOrder;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
 /**
  * This implementation of AVl tree requires that the value type implements the {@code Comparable}
@@ -165,7 +158,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
    * @return the balance factor of the subtree
    */
   private int balanceFactor(ITreeNode<T> x) {
-    return x == null ? 0: x.balanceFactor();
+    return x == null ? 0 : x.balanceFactor();
   }
 
   /**
@@ -253,6 +246,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
+  @Override
   public void removeMin() {
     if (isEmpty()) throw new NoSuchElementException("called removeMin() with empty binary tree");
     root = removeMin(root);
@@ -278,6 +272,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
    *
    * @throws NoSuchElementException if the binary tree is empty
    */
+  @Override
   public void removeMax() {
     if (isEmpty()) throw new NoSuchElementException("called removeMax() with empty binary tree");
     root = removeMax(root);
