@@ -33,8 +33,8 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   @Override
   public void add(E obj) {
     requireNonNull(obj);
-    if (isNull(root)) root = new TreeNode<>(obj, null, null);
-    else root.insert(obj);
+    if (isNull(treeRoot)) treeRoot = new TreeNode<>(obj, null, null);
+    else treeRoot.insert(obj);
   }
 
   /**
@@ -57,8 +57,8 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   @Override
   public ITreeNode<E> find(E obj) {
     requireNonNull(obj);
-    if (isNull(root)) return null;
-    return root.find(obj);
+    if (isNull(treeRoot)) return null;
+    return treeRoot.find(obj);
   }
 
   /**
@@ -69,7 +69,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
    */
   @Override
   public void remove(E obj) {
-    if (nonNull(root)) root = (TreeNode<E>) root.remove(obj);
+    if (nonNull(treeRoot)) treeRoot = (TreeNode<E>) treeRoot.remove(obj);
   }
 
   /**
@@ -80,7 +80,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   @Override
   public void removeMin() {
     if (isEmpty()) throw new NoSuchElementException("called removeMin() with empty binary tree");
-    root = removeMin(root);
+    treeRoot = removeMin(treeRoot);
   }
 
   /**
@@ -105,7 +105,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
   @Override
   public void removeMax() {
     if (isEmpty()) throw new NoSuchElementException("called removeMax() with empty binary tree");
-    root = removeMax(root);
+    treeRoot = removeMax(treeRoot);
   }
 
   /**
