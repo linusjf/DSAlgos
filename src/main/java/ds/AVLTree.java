@@ -90,7 +90,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    * @param hi maximum endpoint
    * @return the number of values in the binary tree between {@code lo} (inclusive) and {@code hi}
    *     (exclusive)
-   * @throws IllegalArgumentException if either {@code lo} or {@code hi} is {@code null}
+   * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
   public int size(T lo, T hi) {
     requireNonNull(lo);
@@ -516,7 +516,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @param val the value
    * @return the number of values in the binary tree strictly less than {@code value}
-   * @throws IllegalArgumentException if {@code value} is {@code null}
+   * @throws NullPointerException if {@code value} is {@code null}
    */
   public int rankIt(T val) {
     requireNonNull(val);
@@ -531,7 +531,7 @@ public class AVLTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @param val the value
    * @return the number of values in the binary tree strictly less than {@code value}
-   * @throws IllegalArgumentException if {@code value} is {@code null}
+   * @throws NullPointerException if {@code value} is {@code null}
    */
   public int rank(T val) {
     requireNonNull(val);
