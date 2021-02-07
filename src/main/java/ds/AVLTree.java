@@ -44,7 +44,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
   @Override
   public ITreeNode<T> find(T val) {
     requireNonNull(val);
-    ITreeNode<T> x = find(root, val);
+    ITreeNode<T> x = find(treeRoot, val);
     if (isNull(x)) return null;
     return x;
   }
@@ -88,8 +88,8 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
   @Override
   public void add(T val) {
     requireNonNull(val);
-    if (isNull(root)) root = new TreeNode<>(val);
-    else root = add(root, val);
+    if (isNull(treeRoot)) treeRoot = new TreeNode<>(val);
+    else treeRoot = add(treeRoot, val);
     assertChecks();
   }
 
@@ -206,7 +206,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
   public void remove(T val) {
     if (isNull(val)) throw new IllegalArgumentException("argument to remove() is null");
     if (!contains(val)) return;
-    root = remove(root, val);
+    treeRoot = remove(treeRoot, val);
     assertChecks();
   }
 
@@ -249,7 +249,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
   @Override
   public void removeMin() {
     if (isEmpty()) throw new NoSuchElementException("called removeMin() with empty binary tree");
-    root = removeMin(root);
+    treeRoot = removeMin(treeRoot);
     assertChecks();
   }
 
@@ -275,7 +275,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
   @Override
   public void removeMax() {
     if (isEmpty()) throw new NoSuchElementException("called removeMax() with empty binary tree");
-    root = removeMax(root);
+    treeRoot = removeMax(treeRoot);
     assertChecks();
   }
 
