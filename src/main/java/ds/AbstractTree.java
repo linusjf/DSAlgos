@@ -8,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 import ds.Tree.TraversalOrder;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,6 +45,33 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     return new TreeIterator<>(root, order);
   }
 
+  /**
+   * Return a new tree iterator object from values.
+   *
+   * @return new iterator object.
+   */
+  @Override
+  public Iterator<T> iteratorFromValues(TraversalOrder order) {
+    Iterable<T> iterable = null;
+    switch(order) {
+      case PRE_ORDER:
+        iterable = valuesPreOrder();
+        break;
+      case IN_ORDER:
+        iterable = valuesInOrder();
+        break;
+      case POST_ORDER:
+        iterable = valuesPostOrder();
+        break;
+      case BREADTH_FIRST_ORDER:
+        iterable = valuesLevelOrder();
+        break;
+     }
+    requireNonNull(iterable);
+    List<T> result = new ArrayList<>();
+    return Collections.unmodifiableCollection(result).iterator(); 
+  }
+  
   /**
    * Returns the number value-value pairs in the binary tree.
    *
