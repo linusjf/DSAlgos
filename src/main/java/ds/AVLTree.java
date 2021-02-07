@@ -27,7 +27,7 @@ import java.util.Queue;
  * This implementation of AVl tree requires that the value type implements the {@code Comparable}
  * interface and calls the {@code compareTo()} and method to compare two values. It does not call
  * either {@code equals()} or {@code hashCode()}. The <em>add</em>, <em>find</em>,
- * <em>contains</em>, <em>delete</em>, <em>minimum</em>, <em>maximum</em>, <em>ceiling</em>, and
+ * <em>contains</em>, <em>remove</em>, <em>minimum</em>, <em>maximum</em>, <em>ceiling</em>, and
  * <em>floor</em> operations each take logarithmic time in the worst case. The <em>size</em>, and
  * <em>is-empty</em> operations take constant time. Construction also takes constant time.
  *
@@ -102,7 +102,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
 
   /**
    * Inserts the value-value pair in the subtree. It overrides the old value with the new value if
-   * the binary tree already contains the specified value and deletes the specified value (and its
+   * the binary tree already contains the specified value and removes the specified value (and its
    * associated value) from this binary tree if the specified value is {@code null}.
    *
    * @param x the subtree
@@ -211,7 +211,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
    */
   @Override
   public void remove(T val) {
-    if (isNull(val)) throw new IllegalArgumentException("argument to delete() is null");
+    if (isNull(val)) throw new IllegalArgumentException("argument to remove() is null");
     if (!contains(val)) return;
     root = remove(root, val);
     assertChecks();
@@ -239,7 +239,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
       else {
         ITreeNode<T> y = x;
         x = min(y.right());
-        x.setRight(deleteMin(y.right()));
+        x.setRight(removeMin(y.right()));
         x.setLeft(y.left());
       }
     }
@@ -297,7 +297,4 @@ public class AVLTree<T extends Comparable<T>> extends AbstractTree<T> {
     x.setHeight(1 + Math.max(height(x.left()), height(x.right())));
     return balance(x);
   }
-
-
-
 }

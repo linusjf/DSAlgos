@@ -55,7 +55,7 @@ import java.util.List;
      * @return {@code true} if the symmetric order is consistent
      */
     public static <T extends Comparable<T>> boolean isBST(Tree<T> tree) {
-      return isBST(tree.root, null, null);
+      return isBST(tree.root(), null, null);
     }
 
     /**
@@ -81,7 +81,7 @@ import java.util.List;
      * @return {@code true} if size is consistent
      */
     public static <T extends Comparable<T>> boolean isSizeConsistent(Tree<T> tree) {
-      return isSizeConsistent(tree, tree.root);
+      return isSizeConsistent(tree, tree.root());
     }
 
     /**

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.stream.StreamSupport;
 
 public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
   /** The root node. */
@@ -77,6 +78,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return the number value-value pairs in the binary tree
    */
+  @Override
   public int size() {
     return size(root);
   }
@@ -87,7 +89,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the number of nodes in the subtree
    */
-  private int size(ITreeNode<T> x) {
+  protected int size(ITreeNode<T> x) {
     return isNull(x) ? 0 : x.size();
   }
 
@@ -100,12 +102,37 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *     (exclusive)
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
+  @Override
   public int size(T lo, T hi) {
     requireNonNull(lo);
     requireNonNull(hi);
     if (lo.compareTo(hi) > 0) return 0;
     if (contains(hi)) return rank(hi) - rank(lo) + 1;
     else return rank(hi) - rank(lo);
+  }
+ 
+  @Override
+  public int sizeFromValues() {
+    Iterable<T> iterable = values();
+    return (int)StreamSupport.stream(iterable.spliterator(), false).count();
+  }
+
+  /**
+   * Returns the number of values in the binary tree in the given range.
+   *
+   * @param lo minimum endpoint
+   * @param hi maximum endpoint
+   * @return the number of values in the binary tree between {@code lo} (inclusive) and {@code hi}
+   *     (exclusive)
+   * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
+   */
+  @Override
+  public int sizeFromValues(T lo, T hi) {
+    requireNonNull(lo);
+    requireNonNull(hi);
+    if (lo.compareTo(hi) > 0) return 0;
+    if (contains(hi)) return rankFromValues(hi) - rankFromValues(lo) + 1;
+    else return rankFromValues(hi) - rankFromValues(lo);
   }
 
   /**
@@ -114,6 +141,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    *
    * @return the height of the internal AVL tree
    */
+  @Override
   public int height() {
     return height(root);
   }
@@ -124,7 +152,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the height of the subtree.
    */
-  private int height(ITreeNode<T> x) {
+  protected int height(ITreeNode<T> x) {
     return isNull(x) ? -1 : x.height();
   }
 
@@ -146,7 +174,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the node with the smallest value in the subtree
    */
-  private ITreeNode<T> min(ITreeNode<T> node) {
+  protected ITreeNode<T> min(ITreeNode<T> node) {
     ITreeNode<T> x = node;
     while (nonNull(x.left())) x = x.left();
     return x;
@@ -170,7 +198,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @param x the subtree
    * @return the node with the largest value in the subtree
    */
-  private ITreeNode<T> max(ITreeNode<T> node) {
+  protected ITreeNode<T> max(ITreeNode<T> node) {
     ITreeNode<T> x = node;
     while (nonNull(x.right())) x = x.right();
     return x;
