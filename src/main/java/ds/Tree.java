@@ -74,6 +74,13 @@ public interface Tree<E> {
   Iterator<E> iterator(TraversalOrder order);
   
   /**
+   * Return a new tree iterator object from values.
+   *
+   * @return new iterator object.
+   */
+  Iterator<E> iteratorFromValues(TraversalOrder order);
+  
+  /**
    * Return tree size.
    *
    * @return int.
@@ -90,6 +97,24 @@ public interface Tree<E> {
    * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
    */
   public int size(T lo, T hi);
+  
+  /**
+   * Return tree size from values.
+   *
+   * @return int.
+   */
+  int sizeFromValues();
+  
+  /**
+   * Returns the number of values in the binary tree in the given range.
+   *
+   * @param lo minimum endpoint
+   * @param hi maximum endpoint
+   * @return the number of values in the binary tree between {@code lo} (inclusive) and {@code hi}
+   *     (exclusive)
+   * @throws NullPointerException if either {@code lo} or {@code hi} is {@code null}
+   */
+  public int sizeFromValues(T lo, T hi);
   
   /**
    * Returns the height of the internal AVL tree. It is assumed that the height of an empty tree is
@@ -166,6 +191,15 @@ public interface Tree<E> {
    * @throws NullPointerException if {@code value} is {@code null}
    */
   public int rank(T val);
+  
+  /**
+   * Returns the number of values in the binary tree strictly less than {@code value}.
+   *
+   * @param val the value
+   * @return the number of values in the binary tree strictly less than {@code value}
+   * @throws NullPointerException if {@code value} is {@code null}
+   */
+  public int rankFromValues(T val);
   
   /**
    * Returns all values in the binary tree.
