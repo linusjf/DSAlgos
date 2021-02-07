@@ -90,7 +90,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
    * @return the number of nodes in the subtree
    */
   protected int size(ITreeNode<T> x) {
-    return isNull(x) ? 0 : x.size();
+    return TreeUtils.size(x);
   }
 
   /**

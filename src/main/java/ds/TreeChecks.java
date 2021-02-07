@@ -92,9 +92,19 @@ import java.util.List;
     private static <T extends Comparable<T>> boolean isSizeConsistent(
         Tree<T> tree, ITreeNode<T> x) {
       if (isNull(x)) return true;
-      if (x.size() != tree.size(x.left()) + tree.size(x.right()) + x.refCount()) return false;
+      if (x.size() != size(x.left()) + size(x.right()) + x.refCount()) return false;
       return isSizeConsistent(tree, x.left()) && isSizeConsistent(tree, x.right());
     }
+  
+    /**
+   * Returns the number of nodes in the subtree.
+   *
+   * @param x the subtree
+   * @return the number of nodes in the subtree
+   */
+  private static <T extends Comparable<T>> int size(ITreeNode<T> x) {
+    return TreeUtils.size(x);
+  }
 
     /**
      * Checks if rank is consistent.
