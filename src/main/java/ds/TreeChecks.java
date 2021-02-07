@@ -6,6 +6,7 @@ import static java.util.Objects.nonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("nullness")
 public final class TreeChecks {
   private TreeChecks() {
     throw new IllegalStateException("Private constructor");
@@ -83,7 +84,10 @@ public final class TreeChecks {
    * @return {@code true} if size is consistent
    */
   public static <T extends Comparable<T>> boolean isSizeConsistent(Tree<T> tree) {
-    return isSizeConsistent(tree, tree.root());
+    boolean sizing = tree.size() == tree.sizeFromValues();
+    if (!sizing)
+      System.out.println("Computed tree sizes don't match");
+    return sizing && isSizeConsistent(tree, tree.root());
   }
 
   /**

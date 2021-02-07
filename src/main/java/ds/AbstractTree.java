@@ -15,7 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.stream.StreamSupport;
 
-@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings({"PMD.LawOfDemeter",
+"nullness"})
 public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
   /** The root node. */
   ITreeNode<T> treeRoot;
