@@ -1,5 +1,13 @@
 package ds;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
   public class TreeChecks {
     /**
      * Checks if the AVL tree invariants are fine.
