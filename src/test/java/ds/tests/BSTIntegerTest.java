@@ -70,35 +70,53 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   @Override
    List<Integer> severalElementsList() {
-    
+    return asList(new Integer[] {1, 2, 5, 8, 9, 10});
    }
 
   @Override
-   List<Integer> severalElementsInOrderList();
+   List<Integer> severalElementsInOrderList() {
+    return asList(new Integer[] {1, 2, 5, 8, 9, 10});
+   }
 
   @Override
-   List<Integer> severalElementsPreOrderList();
+   List<Integer> severalElementsPreOrderList() {
+return asList(new Integer[] {1, 2, 8, 10, 9, 5});
+   }
 
   @Override
-   List<Integer> severalElementsPostOrderList();
+  List<Integer> severalElementsPostOrderList() {
+   return asList(new Integer[] {1, 2, 8, 10, 9, 5});
+}
 
   @Override
-   List<Integer> severalElementsLevelOrderList();
+   List<Integer> severalElementsLevelOrderList() {
+return asList(new Integer[] {5, 2, 9, 1, 8, 10});
+}
 
   @Override
-   List<Integer> severalNonExistentList();
+   List<Integer> severalNonExistentList() {
+return asList(new Integer[] {-1, 0, 3, 4, 6, 7, 11});
+}
 
   @Override
-   T duplicateElement();
+   Integer duplicateElement() {
+   return 1;
+   }
 
   @Override
-   List<Integer> duplicateElementList();
+   List<Integer> duplicateElementList() {
+     return asList(new Integer[] {1});
+   } 
 
   @Override
-   List<Integer> duplicateTwoElementList();
+   List<Integer> duplicateTwoElementList() {
+     return asList(new Integer[] {1,1});
+   }
 
   @Override
-   List<Integer> duplicateThreeElementList();
+   List<Integer> duplicateThreeElementList() {
+     return asList(new Integer[] {1,1,1});
+   }
 
   @Test
   @DisplayName("BinaryTreeTest.testEmptyContainsZeroItems")
