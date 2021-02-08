@@ -15,8 +15,12 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.stream.StreamSupport;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "nullness",
-"PMD.TooManyMethods","PMD.CyclomaticComplexity"})
+@SuppressWarnings({
+  "PMD.LawOfDemeter",
+  "nullness",
+  "PMD.TooManyMethods",
+  "PMD.CyclomaticComplexity"
+})
 public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
   /** The root node. */
   ITreeNode<T> treeRoot;
@@ -220,7 +224,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called floor() with empty binary tree");
     ITreeNode<T> x = floor(treeRoot, val);
-    return isNull(x) ? null:x.value();
+    return isNull(x) ? null : x.value();
   }
 
   /**
@@ -237,7 +241,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     if (cmp == 0) return x;
     if (cmp < 0) return floor(x.left(), val);
     ITreeNode<T> y = floor(x.right(), val);
-    return isNull(y) ? x:y;
+    return isNull(y) ? x : y;
   }
 
   /**
@@ -253,7 +257,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     requireNonNull(val);
     if (isEmpty()) throw new NoSuchElementException("called ceiling() with empty binary tree");
     ITreeNode<T> x = ceiling(treeRoot, val);
-    return isNull(x) ? null:x.value();
+    return isNull(x) ? null : x.value();
   }
 
   /**
@@ -272,7 +276,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     if (cmp == 0) return x;
     if (cmp > 0) return ceiling(x.right(), val);
     ITreeNode<T> y = ceiling(x.left(), val);
-    return isNull(y) ? x:y;
+    return isNull(y) ? x : y;
   }
 
   /**
