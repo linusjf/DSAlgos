@@ -2,8 +2,8 @@ package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.BinaryTree;
 import ds.Tree;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,10 +22,26 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   private Tree<T> one;
   private Tree<T> several;
   private Tree<T> duplicates;
-  
+  private T singleElement;
+  private T[] singleElementArray;
+  private T[] severalElementsArray;
+  private T[] severalElementsInOrderArray;
+  private T[] severalElementsPreOrderArray;
+  private T[] severalElementsPostOrderArray;
+  private T[] severalElementsLevelOrderArray;
+  private T[] severalNonExistentArray;
+
+  private T duplicateElement;
+  private T[] duplicateElementArray;
+  private T[] duplicateTwoElementArray;
+  private T[] duplicateThreeElementArray;
+
   abstract Tree<T> emptyTree();
+
   abstract Tree<T> singleElementTree();
+
   abstract Tree<T> severalElementsTree();
+
   abstract Tree<T> duplicatesTree();
 
   abstract T singleElement();
@@ -33,18 +49,40 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   abstract T[] singleElementArray();
 
   abstract T[] severalElementsArray();
+
   abstract T[] severalElementsInOrderArray();
+
   abstract T[] severalElementsPreOrderArray();
+
   abstract T[] severalElementsPostOrderArray();
+
   abstract T[] severalElementsLevelOrderArray();
+
   abstract T[] severalNonExistentArray();
 
   abstract T duplicateElement();
+
   abstract T[] duplicateElementArray();
+
+  abstract T[] duplicateTwoElementArray();
+
+  abstract T[] duplicateThreeElementArray();
 
   @BeforeAll
   public void init() {
+    singleElement = singleElement();
+    singleElementArray = singleElementArray();
+    severalElementsArray = severalElementsArray();
+    severalElementsInOrderArray = severalElementsInOrderArray();
+    severalElementsPreOrderArray = severalElementsPreOrderArray();
+    severalElementsPostOrderArray = severalElementsPostOrderArray();
+    severalElementsLevelOrderArray = severalElementsLevelOrderArray();
+    severalNonExistentArray = severalNonExistentArray();
 
+    duplicateElement = duplicateElement();
+    duplicateElementArray = duplicateElementArray();
+    duplicateTwoElementArray = duplicateTwoElementArray();
+    duplicateThreeElementArray = duplicateThreeElementArray();
   }
 
   @BeforeEach
@@ -52,7 +90,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
     empty = emptyTree();
     one = singleElementTree();
     several = severalElementsTree();
-    duplicates = duplicateElementTree();
+    duplicates = duplicatesTree();
   }
 
   @Test
@@ -70,7 +108,9 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   @Test
   @DisplayName("BinaryTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
-    assertTrue(singleElementTree().contains(singleElement()),() -> "One should contain " + singleElement());
+    assertTrue(
+        singleElementTree().contains(singleElement()),
+        () -> "One should contain " + singleElement());
     assertIterationValid(singleElementTree(), singleElementArray());
   }
 
@@ -116,7 +156,9 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   @DisplayName("BinaryTreeTest.testRemoveFromOne")
   public void testRemoveFromOne() {
     singleElementTree().remove(singleElement());
-    assertFalse(singleElementTree().contains(singleElement()),  () -> singleElement() + "not removed from one");
+    assertFalse(
+        singleElementTree().contains(singleElement()),
+        () -> singleElement() + "not removed from one");
     assertTreeEmpty(singleElementTree());
   }
 
@@ -139,16 +181,22 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
     emptyTree().add(duplicateElement());
     emptyTree().add(duplicateElement());
     emptyTree().add(duplicateElement());
-    assertIterationValid(emptyTree(), new T[] {duplicateElement(), duplicateElement(), duplicateElement()});
-    assertTrue(emptyTree().contains(duplicateElement()), () -> "Should contain " + duplicateElement());
+    assertIterationValid(emptyTree(), duplicateThreeElementArray());
+    assertTrue(
+        emptyTree().contains(duplicateElement()), () -> "Should contain " + duplicateElement());
     emptyTree().remove(duplicateElement());
-    assertTrue(emptyTree().contains(duplicateElement()), () -> "Should still contain " + duplicateElement());
-    assertIterationValid(emptyTree(), new T[] {duplicateElement(), duplicateElement()});
+    assertTrue(
+        emptyTree().contains(duplicateElement()),
+        () -> "Should still contain " + duplicateElement());
+    assertIterationValid(emptyTree(), duplicateTwoElementArray);
     emptyTree().remove(duplicateElement());
-    assertTrue(emptyTree().contains(duplicateElement()), () -> "Should still contain " + duplicateElement());
+    assertTrue(
+        emptyTree().contains(duplicateElement()),
+        () -> "Should still contain " + duplicateElement());
     assertIterationValid(emptyTree(), duplicateElementArray());
     emptyTree().remove(duplicateElement());
-    assertFalse(emptyTree().contains(duplicateElement()), () -> "Should not contain " + duplicateElement());
+    assertFalse(
+        emptyTree().contains(duplicateElement()), () -> "Should not contain " + duplicateElement());
     assertTreeEmpty(emptyTree());
   }
 }
