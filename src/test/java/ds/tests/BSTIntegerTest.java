@@ -1,7 +1,6 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static java.util.Arrays.asList;
 
 import ds.BinaryTree;
 import ds.Tree;
@@ -19,7 +18,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("BinaryTreeTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class BinaryTreeTest extends BaseTreeTest<Integer> {
+class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   private Tree<Integer> empty;
   private Tree<Integer> one;
@@ -64,38 +63,38 @@ class BinaryTreeTest extends BaseTreeTest<Integer> {
   @DisplayName("BinaryTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
     assertTrue(one.contains(0), "One should contain 0");
-    assertIterationValid(one, asList(new Integer[] {0}));
+    assertIterationValid(one, new Integer[] {0});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testSeveralContainsSixItems")
   public void testSeveralContainsSixItems() {
-    assertContains(several, asList(new Integer[] {1, 2, 5, 8, 9, 10}));
-    assertIterationValid(several, asList(new Integer[] {1, 2, 5, 8, 9, 10}));
+    assertContains(several, new Integer[] {1, 2, 5, 8, 9, 10});
+    assertIterationValid(several, new Integer[] {1, 2, 5, 8, 9, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testPreOrderIteration")
   public void testPreOrderIteration() {
-    assertPreOrderIterationValid(several, asList(new Integer[] {5, 2, 1, 9, 8, 10}));
+    assertPreOrderIterationValid(several, new Integer[] {5, 2, 1, 9, 8, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testPostOrderIteration")
   public void testPostOrderIteration() {
-    assertPostOrderIterationValid(several, asList(new Integer[] {1, 2, 8, 10, 9, 5}));
+    assertPostOrderIterationValid(several, new Integer[] {1, 2, 8, 10, 9, 5});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testBreadthFirstOrderIteration")
   public void testBreadthFirstOrderIteration() {
-    assertBreadthFirstOrderIterationValid(several, asList(new Integer[] {5, 2, 9, 1, 8, 10}));
+    assertBreadthFirstOrderIterationValid(several, new Integer[] {5, 2, 9, 1, 8, 10});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testSeveralDoesNotContain")
   public void testSeveralDoesNotContain() {
-    assertDoesNotContain(several, asList(new Integer[] {-1, 0, 3, 4, 6, 7, 11}));
+    assertDoesNotContain(several, new Integer[] {-1, 0, 3, 4, 6, 7, 11});
   }
 
   @Test
@@ -116,13 +115,13 @@ class BinaryTreeTest extends BaseTreeTest<Integer> {
   @Test
   @DisplayName("BinaryTreeTest.testRemoveByLeaf")
   public void testRemoveByLeaf() {
-    assertRemoveAll(several, asList(new Integer[] {5, 2, 1, 8, 10, 9, 5}));
+    assertRemoveAll(several, new Integer[] {5, 2, 1, 8, 10, 9, 5});
   }
 
   @Test
   @DisplayName("BinaryTreeTest.testRemoveByRoot")
   public void testRemoveByRoot() {
-    assertRemoveAll(several, asList(new Integer[] {5, 8, 9, 10, 2, 1}));
+    assertRemoveAll(several, new Integer[] {5, 8, 9, 10, 2, 1});
   }
 
   @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -132,14 +131,14 @@ class BinaryTreeTest extends BaseTreeTest<Integer> {
     empty.add(1);
     empty.add(1);
     empty.add(1);
-    assertIterationValid(empty, asList(new Integer[] {1, 1, 1}));
+    assertIterationValid(empty, new Integer[] {1, 1, 1});
     assertTrue(empty.contains(1), "Should contain 1");
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
-    assertIterationValid(empty, asList(new Integer[] {1, 1}));
+    assertIterationValid(empty, new Integer[] {1, 1});
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
-    assertIterationValid(empty, asList(new Integer[] {1}));
+    assertIterationValid(empty, new Integer[] {1});
     empty.remove(1);
     assertFalse(empty.contains(1), "Should not contain 1");
     assertTreeEmpty(empty);

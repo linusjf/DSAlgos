@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import ds.Tree;
 import ds.Tree.TraversalOrder;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 class BaseTreeTest<T extends Comparable<T>> {
@@ -24,7 +25,7 @@ class BaseTreeTest<T extends Comparable<T>> {
     assertThrows(NoSuchElementException.class, () -> iterator.next(), "Tree empty: exception");
   }
 
-  protected void assertRemoveAll(Tree<T> tree, T... elements) {
+  protected void assertRemoveAll(Tree<T> tree, List<T> elements) {
     for (T elem : elements) {
       tree.remove(elem);
       assertFalse(tree.contains(elem), () -> elem + " Still in tree after being removed");
@@ -32,34 +33,34 @@ class BaseTreeTest<T extends Comparable<T>> {
     assertTreeEmpty(tree);
   }
 
-  protected void assertContains(Tree<T> tree, T... elements) {
+  protected void assertContains(Tree<T> tree, List<T> elements) {
     for (T elem : elements) assertTrue(tree.contains(elem), () -> elem + " not in tree");
   }
 
-  protected void assertDoesNotContain(Tree<T> tree, T... elements) {
+  protected void assertDoesNotContain(Tree<T> tree, List<T> elements) {
     for (T elem : elements)
       assertFalse(tree.contains(elem), () -> elem + " unexpectedly found in tree");
   }
 
-  protected void assertIterationValid(Tree<T> tree, T... elements) {
+  protected void assertIterationValid(Tree<T> tree, List<T> elements) {
     Iterator<T> iterator = tree.iterator(TraversalOrder.IN_ORDER);
     for (T elem : elements) assertEquals(elem, iterator.next(), () -> elem + MISSING_FROM_TREE);
     assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
-  protected void assertPreOrderIterationValid(Tree<T> tree, T... elements) {
+  protected void assertPreOrderIterationValid(Tree<T> tree, List<T> elements) {
     Iterator<T> iterator = tree.iterator(TraversalOrder.PRE_ORDER);
     for (T elem : elements) assertEquals(elem, iterator.next(), () -> elem + MISSING_FROM_TREE);
     assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
-  protected void assertPostOrderIterationValid(Tree<T> tree, T... elements) {
+  protected void assertPostOrderIterationValid(Tree<T> tree, List<T> elements) {
     Iterator<T> iterator = tree.iterator(TraversalOrder.POST_ORDER);
     for (T elem : elements) assertEquals(elem, iterator.next(), () -> elem + MISSING_FROM_TREE);
     assertFalse(iterator.hasNext(), NOT_REACHED);
   }
 
-  protected void assertBreadthFirstOrderIterationValid(Tree<T> tree, T... elements) {
+  protected void assertBreadthFirstOrderIterationValid(Tree<T> tree, List<T> elements) {
     Iterator<T> iterator = tree.iterator(TraversalOrder.BREADTH_FIRST_ORDER);
     for (T elem : elements) assertEquals(elem, iterator.next(), () -> elem + MISSING_FROM_TREE);
     assertFalse(iterator.hasNext(), NOT_REACHED);
