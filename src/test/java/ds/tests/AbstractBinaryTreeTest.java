@@ -109,9 +109,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   @Test
   @DisplayName("AbstractBinaryTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
-    assertTrue(
-        one.contains(singleElement),
-        () -> "One should contain " + singleElement);
+    assertTrue(one.contains(singleElement), () -> "One should contain " + singleElement);
     assertIterationValid(one, singleElementList);
   }
 
@@ -157,9 +155,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   @DisplayName("AbstractBinaryTreeTest.testRemoveFromOne")
   public void testRemoveFromOne() {
     one.remove(singleElement);
-    assertFalse(
-        one.contains(singleElement),
-        () -> singleElement + "not removed from one");
+    assertFalse(one.contains(singleElement), () -> singleElement + "not removed from one");
     assertTreeEmpty(one);
   }
 
@@ -183,21 +179,16 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
     empty.add(duplicateElement);
     empty.add(duplicateElement);
     assertIterationValid(empty, duplicateThreeElementList);
-    assertTrue(
-        empty.contains(duplicateElement), () -> "Should contain " + duplicateElement);
+    assertTrue(empty.contains(duplicateElement), () -> "Should contain " + duplicateElement);
     empty.remove(duplicateElement);
-    assertTrue(
-        empty.contains(duplicateElement),
-        () -> "Should still contain " + duplicateElement);
+    assertTrue(empty.contains(duplicateElement), () -> "Should still contain " + duplicateElement);
     assertIterationValid(empty, duplicateTwoElementList);
     empty.remove(duplicateElement);
     assertTrue(
-        empty.contains(duplicateElement),
-        () -> "Should still contain " + duplicateElement());
+        empty.contains(duplicateElement), () -> "Should still contain " + duplicateElement());
     assertIterationValid(empty, duplicateElementList);
     empty.remove(duplicateElement);
-    assertFalse(
-        empty.contains(duplicateElement), () -> "Should not contain " + duplicateElement);
+    assertFalse(empty.contains(duplicateElement), () -> "Should not contain " + duplicateElement);
     assertTreeEmpty(empty);
   }
 }

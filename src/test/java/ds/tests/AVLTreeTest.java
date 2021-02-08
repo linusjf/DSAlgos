@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AVLTree;
 import java.util.Random;
