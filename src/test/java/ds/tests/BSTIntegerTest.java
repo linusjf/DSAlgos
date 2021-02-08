@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static java.util.Arrays.asList;
 
 import ds.BinaryTree;
 import ds.Tree;
@@ -20,24 +21,33 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
-  private Tree<Integer> empty;
-  private Tree<Integer> one;
-  private Tree<Integer> several;
-  private Tree<Integer> duplicates;
+  @Override
+  Tree<Integer> emptyTree() {
+    return new BinaryTree<>();
+  }
 
-  @BeforeEach
-  public void setUp() {
-    empty = new BinaryTree<>();
-    one = new BinaryTree<>();
+  @Override
+  Tree<Integer> singleElementTree() {
+    Tree<Integer> one = new BinaryTree<>();
     one.add(0);
-    several = new BinaryTree<>();
+    return one; 
+  }
+
+  @Override
+  Tree<Integer> severalElementsTree() {
+    Tree<Integer> several = new BinaryTree<>();
     several.add(5);
     several.add(2);
     several.add(1);
     several.add(9);
     several.add(8);
     several.add(10);
-    duplicates = new BinaryTree<>();
+    return several;
+  }
+
+  @Override
+  Tree<Integer> duplicatesTree() {
+    Tree<Integer> duplicates = new BinaryTree<>();
     duplicates.add(5);
     duplicates.add(3);
     duplicates.add(3);
@@ -45,7 +55,50 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
     duplicates.add(8);
     duplicates.add(5);
     duplicates.add(10);
+    return duplicates;
   }
+
+  @Override
+  Integer singleElement() {
+    return 0;
+  }
+
+  @Override
+  List<Integer> singleElementList() {
+   return asList(new Integer[] {0});
+  }
+
+  @Override
+   List<Integer> severalElementsList() {
+    
+   }
+
+  @Override
+   List<Integer> severalElementsInOrderList();
+
+  @Override
+   List<Integer> severalElementsPreOrderList();
+
+  @Override
+   List<Integer> severalElementsPostOrderList();
+
+  @Override
+   List<Integer> severalElementsLevelOrderList();
+
+  @Override
+   List<Integer> severalNonExistentList();
+
+  @Override
+   T duplicateElement();
+
+  @Override
+   List<Integer> duplicateElementList();
+
+  @Override
+   List<Integer> duplicateTwoElementList();
+
+  @Override
+   List<Integer> duplicateThreeElementList();
 
   @Test
   @DisplayName("BinaryTreeTest.testEmptyContainsZeroItems")
