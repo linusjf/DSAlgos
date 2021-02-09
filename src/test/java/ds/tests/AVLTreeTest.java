@@ -1,6 +1,7 @@
 package ds.tests;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ds.AVLTree;
@@ -71,7 +72,7 @@ class AVLTreeTest extends BaseTreeTest<Integer> {
   @DisplayName("AVLTreeTest.testOneContainsOneItem")
   public void testOneContainsOneItem() {
     assertTrue(one.contains(0), "One should contain 0");
-    assertIterationValid(one, asList(new Integer[] {0}));
+    assertIterationValid(one, singletonList(0));
   }
 
   @Test
@@ -148,7 +149,7 @@ class AVLTreeTest extends BaseTreeTest<Integer> {
     assertIterationValid(empty, asList(new Integer[] {1, 1}));
     empty.remove(1);
     assertTrue(empty.contains(1), "Should still contain 1");
-    assertIterationValid(empty, asList(new Integer[] {1}));
+    assertIterationValid(empty, singletonList(1));
     empty.remove(1);
     assertFalse(empty.contains(1), "Should not contain 1");
     assertTreeEmpty(empty);

@@ -17,13 +17,8 @@ import java.util.NoSuchElementException;
  * @author Graham Roberts
  * @version 2.0 01-Mar-06
  */
-@SuppressWarnings({"PMD.CommentSize", "nullness"})
+@SuppressWarnings({"PMD.CommentSize", "nullness", "PMD.LawOfDemeter"})
 public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
-  /**
-   * A tree is a hierarchical structure of TreeNode objects. root references the first node on the
-   * tree.
-   */
-
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
    * in the correct location. Multiple objects representing the same value can be added.
@@ -45,7 +40,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
    */
   @Override
   public boolean contains(E obj) {
-    return nonNull(find(obj)) ? true : false;
+    return nonNull(find(obj));
   }
 
   /**
@@ -69,7 +64,7 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
    */
   @Override
   public void remove(E obj) {
-    if (nonNull(treeRoot)) treeRoot = (TreeNode<E>) treeRoot.remove(obj);
+    if (nonNull(treeRoot)) treeRoot = treeRoot.remove(obj);
   }
 
   /**
@@ -114,7 +109,8 @@ public class BinaryTree<E extends Comparable<E>> extends AbstractTree<E> {
    * @param x the subtree
    * @return the updated subtree
    */
-  private ITreeNode<E> removeMax(ITreeNode<E> x) {
+  private ITreeNode<E> removeMax(ITreeNode<E> node) {
+    ITreeNode<E> x = node;
     if (isNull(x.right())) return x.left();
     x.setRight(removeMax(x.right()));
     x.setSize(x.refCount() + size(x.left()) + size(x.right()));

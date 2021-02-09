@@ -38,6 +38,10 @@
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
   <Match>
+    <Class name="ds.AbstractTree"/>
+    <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
     <Class name="ds.BinaryTree"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
   </Match>
