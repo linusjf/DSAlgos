@@ -592,7 +592,7 @@
               <id>pmd</id>
               <phase>verify</phase>
               <goals>
-                <goal>pmd</goal>
+                <goal>check</goal>
               </goals>
               <configuration>
                 <typeresolution>true</typeresolution>
