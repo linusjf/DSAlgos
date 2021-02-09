@@ -6,7 +6,8 @@ import static java.util.Objects.nonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"nullness", "PMD.SystemPrintln"})
+@SuppressWarnings({"nullness", "PMD.SystemPrintln",
+"PMD.LawOfDemeter"})
 public final class TreeChecks {
   private TreeChecks() {
     throw new IllegalStateException("Private constructor");

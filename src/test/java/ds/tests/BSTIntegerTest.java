@@ -1,7 +1,7 @@
 package ds.tests;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.*;
+import static java.util.Collections.singletonList;
 
 import ds.BinaryTree;
 import ds.Tree;
@@ -62,7 +62,7 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   @Override
   List<Integer> singleElementList() {
-    return asList(new Integer[] {0});
+    return singletonList(0);
   }
 
   @Override
@@ -102,7 +102,7 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   @Override
   List<Integer> duplicateElementList() {
-    return asList(new Integer[] {1});
+    return singletonList(1);
   }
 
   @Override
