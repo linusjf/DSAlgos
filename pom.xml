@@ -592,9 +592,10 @@
               <id>pmd</id>
               <phase>verify</phase>
               <goals>
-                <goal>check</goal>
+                <goal>pmd</goal>
               </goals>
               <configuration>
+                <typeresolution>true</typeresolution>
                 <format>txt</format>
                 <includes>**\/*.java</includes>
               </configuration>
