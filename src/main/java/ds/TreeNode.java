@@ -6,11 +6,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-/**
- * Helper class used to implement tree nodes. As this is a private helper class it is acceptable to
- * have public instance variables. Instances of this class are never made available to client code
- * of the tree.
- */
 @SuppressWarnings({"nullness", "PMD.AvoidFieldNameMatchingMethodName", "PMD.LawOfDemeter"})
 public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   /** Data object reference. */
