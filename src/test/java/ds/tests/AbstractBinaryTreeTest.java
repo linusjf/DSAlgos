@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ds.Tree;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -19,80 +17,23 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeTest<T> {
 
-  private Tree<T> empty;
-  private Tree<T> one;
-  private Tree<T> several;
-  private Tree<T> duplicates;
-  private T singleElement;
-  private List<T> singleElementList;
-  private List<T> severalElementsList;
-  private List<T> severalElementsInOrderList;
-  private List<T> severalElementsPreOrderList;
-  private List<T> severalElementsPostOrderList;
-  private List<T> severalElementsLevelOrderList;
-  private List<T> severalNonExistentList;
+  Tree<T> empty;
+  Tree<T> one;
+  Tree<T> several;
+  Tree<T> duplicates;
+  T singleElement;
+  List<T> singleElementList;
+  List<T> severalElementsList;
+  List<T> severalElementsInOrderList;
+  List<T> severalElementsPreOrderList;
+  List<T> severalElementsPostOrderList;
+  List<T> severalElementsLevelOrderList;
+  List<T> severalNonExistentList;
 
-  private T duplicateElement;
-  private List<T> duplicateElementList;
-  private List<T> duplicateTwoElementList;
-  private List<T> duplicateThreeElementList;
-
-  abstract Tree<T> emptyTree();
-
-  abstract Tree<T> singleElementTree();
-
-  abstract Tree<T> severalElementsTree();
-
-  abstract Tree<T> duplicatesTree();
-
-  abstract T singleElement();
-
-  abstract List<T> singleElementList();
-
-  abstract List<T> severalElementsList();
-
-  abstract List<T> severalElementsInOrderList();
-
-  abstract List<T> severalElementsPreOrderList();
-
-  abstract List<T> severalElementsPostOrderList();
-
-  abstract List<T> severalElementsLevelOrderList();
-
-  abstract List<T> severalNonExistentList();
-
-  abstract T duplicateElement();
-
-  abstract List<T> duplicateElementList();
-
-  abstract List<T> duplicateTwoElementList();
-
-  abstract List<T> duplicateThreeElementList();
-
-  @BeforeAll
-  public void init() {
-    singleElement = singleElement();
-    singleElementList = singleElementList();
-    severalElementsList = severalElementsList();
-    severalElementsInOrderList = severalElementsInOrderList();
-    severalElementsPreOrderList = severalElementsPreOrderList();
-    severalElementsPostOrderList = severalElementsPostOrderList();
-    severalElementsLevelOrderList = severalElementsLevelOrderList();
-    severalNonExistentList = severalNonExistentList();
-
-    duplicateElement = duplicateElement();
-    duplicateElementList = duplicateElementList();
-    duplicateTwoElementList = duplicateTwoElementList();
-    duplicateThreeElementList = duplicateThreeElementList();
-  }
-
-  @BeforeEach
-  public void setup() {
-    empty = emptyTree();
-    one = singleElementTree();
-    several = severalElementsTree();
-    duplicates = duplicatesTree();
-  }
+  T duplicateElement;
+  List<T> duplicateElementList;
+  List<T> duplicateTwoElementList;
+  List<T> duplicateThreeElementList;
 
   @Test
   @DisplayName("AbstractBinaryTreeTest.testEmptyContainsZeroItems")
@@ -184,8 +125,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
     assertTrue(empty.contains(duplicateElement), () -> "Should still contain " + duplicateElement);
     assertIterationValid(empty, duplicateTwoElementList);
     empty.remove(duplicateElement);
-    assertTrue(
-        empty.contains(duplicateElement), () -> "Should still contain " + duplicateElement());
+    assertTrue(empty.contains(duplicateElement), () -> "Should still contain " + duplicateElement);
     assertIterationValid(empty, duplicateElementList);
     empty.remove(duplicateElement);
     assertFalse(empty.contains(duplicateElement), () -> "Should not contain " + duplicateElement);
