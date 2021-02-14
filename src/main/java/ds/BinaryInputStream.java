@@ -242,9 +242,35 @@ public final class BinaryInputStream {
     if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     StringBuilder sb = new StringBuilder();
+    int count = 0;
+    while (!isEmpty()) {
+      try {
+        char c = readChar();
+        sb.append(c);
+      } catch (NoSuchElementException nsee) {
+        System.out.println("EOF ");
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Reads the specified bytes of data from this binary input stream and return as a string.
+   *
+   * @return the remaining bytes of data from this binary input stream as a {@code String}
+   * @throws NoSuchElementException if this binary input stream is empty or if the number of bits
+   *     available is not a multiple of 8 (byte-aligned)
+   */
+  public String readString(int length) {
+    if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
+
+    StringBuilder sb = new StringBuilder(length);
+    int count = 0;
     while (!isEmpty()) {
       char c = readChar();
       sb.append(c);
+      count++;
+      if (count == length) break;
     }
     return sb.toString();
   }
