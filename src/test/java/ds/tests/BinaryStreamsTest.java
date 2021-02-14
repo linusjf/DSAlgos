@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Random;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -21,6 +23,44 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BinaryStreamsTest {
   private static final String ABRA_FILE = "abra.txt";
+  private static final String TEST_FILE = "test";
+  private static final int TEN = 10;
+
+  char[] chars = new char[TEN];
+  short[] shorts = new short[TEN];
+  int[] ints = new int[TEN];
+  long[] longs = new long[TEN];
+  float[] floats = new float[TEN];
+  byte[] bytes = new byte[TEN];
+  double[] doubles = new double[TEN];
+  boolean[] bools = new boolean[TEN];
+
+  @BeforeAll
+  public void init() {
+    Random random = new Random();
+    for (int i = 0; i < TEN; i++) {
+      bools[i] = random.nextBoolean();
+      bytes[i] = (byte) random.nextInt();
+      chars[i] = (char) random.nextInt(256);
+      shorts[i] = (short) random.nextInt();
+      ints[i] = random.nextInt();
+      longs[i] = random.nextLong();
+      floats[i] = random.nextFloat();
+      doubles[i] = random.nextDouble();
+    }
+    BinaryOutputStream out = new BinaryOutputStream(TEST_FILE + ".out");
+    for (int i = 0; i < TEN; i++) {
+      out.write(bools[i]);
+      out.write(bytes[i]);
+      out.write(chars[i]);
+      out.write(shorts[i]);
+      out.write(ints[i]);
+      out.write(longs[i]);
+      out.write(floats[i]);
+      out.write(doubles[i]);
+    }
+    out.flush();
+  }
 
   @Test
   @DisplayName("BinaryStreamsTest.testAbraFile")
@@ -36,6 +76,41 @@ class BinaryStreamsTest {
     out.flush();
 
     assertEquals(getFileSize(ABRA_FILE), getFileSize(ABRA_FILE + ".out"), "Files must be equal.");
+  }
+
+  @Test
+  @DisplayName("BinaryStreamsTest.testBinary")
+  public void testBinary() throws IOException {
+    BinaryInputStream in = new BinaryInputStream(TEST_FILE + ".out");
+
+    char[] newChars = new char[TEN];
+    short[] newShorts = new short[TEN];
+    int[] newInts = new int[TEN];
+    long[] newLongs = new long[TEN];
+    float[] newFloats = new float[TEN];
+    byte[] newBytes = new byte[TEN];
+    double[] newDoubles = new double[TEN];
+    boolean[] newBools = new boolean[TEN];
+
+    for (int i = 0; i < TEN; i++) {
+      newBools[i] = in.readBoolean();
+      newBytes[i] = in.readByte();
+      newChars[i] = in.readChar();
+      newShorts[i] = in.readShort();
+      newInts[i] = in.readInt();
+      newLongs[i] = in.readLong();
+      newFloats[i] = in.readFloat();
+      newDoubles[i] = in.readDouble();
+    }
+
+    assertArrayEquals(bools, newBools, "Booleans must be equal.");
+    assertArrayEquals(bytes, newBytes, "Bytes must be equal.");
+    assertArrayEquals(chars, newChars, "Chars must be equal.");
+    assertArrayEquals(shorts, newShorts, "Shorts must be equal.");
+    assertArrayEquals(ints, newInts, "Integers must be equal.");
+    assertArrayEquals(longs, newLongs, "Longs must be equal.");
+    assertArrayEquals(floats, newFloats, "Floats must be equal.");
+    assertArrayEquals(doubles, newDoubles, "Doubles must be equal.");
   }
 
   private long getFileSize(String file) throws IOException {
