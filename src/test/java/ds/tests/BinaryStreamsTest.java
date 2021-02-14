@@ -59,6 +59,9 @@ class BinaryStreamsTest {
       out.write(floats[i]);
       out.write(doubles[i]);
     }
+    out.write('R', 16);
+    out.write(31, 5);
+    out.write("Random");
     out.flush();
   }
 
@@ -78,6 +81,7 @@ class BinaryStreamsTest {
     assertEquals(getFileSize(ABRA_FILE), getFileSize(ABRA_FILE + ".out"), "Files must be equal.");
   }
 
+  @SuppressWarnings("PMD")
   @Test
   @DisplayName("BinaryStreamsTest.testBinary")
   public void testBinary() throws IOException {
@@ -102,6 +106,9 @@ class BinaryStreamsTest {
       newFloats[i] = in.readFloat();
       newDoubles[i] = in.readDouble();
     }
+    char ch = in.readChar(16);
+    int val = in.readInt(5);
+    String string = in.readString();
 
     assertArrayEquals(bools, newBools, "Booleans must be equal.");
     assertArrayEquals(bytes, newBytes, "Bytes must be equal.");
@@ -111,6 +118,9 @@ class BinaryStreamsTest {
     assertArrayEquals(longs, newLongs, "Longs must be equal.");
     assertArrayEquals(floats, newFloats, "Floats must be equal.");
     assertArrayEquals(doubles, newDoubles, "Doubles must be equal.");
+    assertEquals('R', ch, "Value must be R");
+    assertEquals(31, val, "Value must be 31");
+    assertEquals("Random", string, "String must be random.");
   }
 
   private long getFileSize(String file) throws IOException {
