@@ -36,150 +36,207 @@ class BrickSortParallelTest implements SortProvider {
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
   private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testSortRandom")
-  void testSortRandom() {
-    HighArray arr = new HighArray(MYRIAD);
-    try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
-      stream.forEach(i -> arr.insert(i));
+  @Nested
+  class MyriadTests {
+    @Test
+    @DisplayName("BrickSortParallelTest.testSortRandom")
+    void testSortRandom() {
+      HighArray arr = new HighArray(MYRIAD);
+      try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
+        stream.forEach(i -> arr.insert(i));
+      }
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(arr);
+      assertTrue(isSorted(sorted), "Array must be sorted.");
     }
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(arr);
-    assertTrue(isSorted(sorted), "Array must be sorted.");
-  }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testStreamUnSorted")
-  void testStreamUnSorted() {
-    IArray high = new HighArray(MYRIAD);
-    IArray ord = new OrdArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD)
-        .unordered()
-        .forEach(
-            i -> {
-              high.insert(i);
-              ord.insert(i);
-            });
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(high);
-    long[] extentSorted = sorted.getExtentArray();
-    long[] extent = ord.getExtentArray();
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
+    @Test
+    @DisplayName("BrickSortParallelTest.testStreamUnSorted")
+    void testStreamUnSorted() {
+      IArray high = new HighArray(MYRIAD);
+      IArray ord = new OrdArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD)
+          .unordered()
+          .forEach(
+              i -> {
+                high.insert(i);
+                ord.insert(i);
+              });
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      long[] extentSorted = sorted.getExtentArray();
+      long[] extent = ord.getExtentArray();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testStreamSorted")
-  void testStreamSorted() {
-    IArray high = new HighArray(MYRIAD);
-    IArray ord = new OrdArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD)
-        .forEach(
-            i -> {
-              high.insert(i);
-              ord.insert(i);
-            });
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(high);
-    long[] extentSorted = sorted.getExtentArray();
-    long[] extent = ord.getExtentArray();
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
+    @Test
+    @DisplayName("BrickSortParallelTest.testStreamSorted")
+    void testStreamSorted() {
+      IArray high = new HighArray(MYRIAD);
+      IArray ord = new OrdArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD)
+          .forEach(
+              i -> {
+                high.insert(i);
+                ord.insert(i);
+              });
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      long[] extentSorted = sorted.getExtentArray();
+      long[] extent = ord.getExtentArray();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testComparisonCountSorted")
-  void testComparisonCountSorted() {
-    IArray high = new HighArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    sorter.sort(high);
-    int compCount = sorter.getComparisonCount();
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
+    @Test
+    @DisplayName("BrickSortParallelTest.testComparisonCountSorted")
+    void testComparisonCountSorted() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      int compCount = sorter.getComparisonCount();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testComparisonCountUnsorted")
-  void testComparisonCountUnsorted() {
-    IArray high = new HighArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    sorter.sort(high);
-    int compCount = sorter.getComparisonCount();
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertTrue(
-        MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
-        "Comparison count must be in range " + (MYRIAD - 1) + " and " + MYRIAD * (MYRIAD - 1));
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
+    @Test
+    @DisplayName("BrickSortParallelTest.testComparisonCountUnsorted")
+    void testComparisonCountUnsorted() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      int compCount = sorter.getComparisonCount();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertTrue(
+          MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
+          "Comparison count must be in range " + (MYRIAD - 1) + " and " + MYRIAD * (MYRIAD - 1));
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testReverseSorted")
-  void testReverseSorted() {
-    IArray high = new HighArray(MYRIAD);
-    revRange(1, MYRIAD).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(high);
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
+    @Test
+    @DisplayName("BrickSortParallelTest.testReverseSorted")
+    void testReverseSorted() {
+      IArray high = new HighArray(MYRIAD);
+      revRange(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(
+          sorter.getSwapCount(),
+          sorter.getComparisonCount(),
+          "Comparison count must be same as swap count in reverse ordered array.");
+      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
 
-  @Test
-  @DisplayName("BrickSortParallelTest.testReverseSortedOdd")
-  void testReverseSortedOdd() {
-    IArray high = new HighArray(MYRIAD + 1);
-    revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(high);
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals(
-        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-        innerLoopCount,
-        MUST_BE_EQUAL);
-    assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    @Test
+    @DisplayName("BrickSortParallelTest.testReverseSortedOdd")
+    void testReverseSortedOdd() {
+      IArray high = new HighArray(MYRIAD + 1);
+      revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals(
+          (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+          innerLoopCount,
+          MUST_BE_EQUAL);
+      assertEquals(
+          sorter.getSwapCount(),
+          sorter.getComparisonCount(),
+          "Comparison count must be same as swap count in reverse ordered array.");
+      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortParallelTest.testSwapCount")
+    void testSwapCount() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortParallelTest.testTimeComplexity")
+    void testTimeComplexity() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(MYRIAD - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortParallelTest.testReverseSortedOddException")
+    void testReverseSortedOddException() {
+      IArray high = new HighArray(MYRIAD + 1);
+      revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
+      ISort sorter = new BrickSortExceptionable();
+      assertThrows(
+          CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
+    }
+
+    @Test
+    @DisplayName("BrickSortParallelTest.testReverseSortedOddInterruption")
+    void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
+      IArray high = new HighArray(MYRIAD + 1);
+      revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
+      BrickSortInterruptible sorter = new BrickSortInterruptible();
+      assertThrows(
+          CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
+    }
   }
 
   @Test
@@ -207,66 +264,12 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Test
-  @DisplayName("BrickSortParallelTest.testSwapCount")
-  void testSwapCount() {
-    IArray high = new HighArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    sorter.sort(high);
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testTimeComplexity")
-  void testTimeComplexity() {
-    IArray high = new HighArray(MYRIAD);
-    LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    sorter.sort(high);
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-    assertEquals(MYRIAD - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
   @DisplayName("BrickSortParallelTest.testToStringClass")
   void testToStringClass() {
     AbstractSort sorter = new BrickSortParallel();
     String className = BrickSortParallel.class.getName();
     assertTrue(
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testReverseSortedOddException")
-  void testReverseSortedOddException() {
-    IArray high = new HighArray(MYRIAD + 1);
-    revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
-    ISort sorter = new BrickSortExceptionable();
-    assertThrows(
-        CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testReverseSortedOddInterruption")
-  void testReverseSortedOddInterruption() throws InterruptedException, ExecutionException {
-    IArray high = new HighArray(MYRIAD + 1);
-    revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
-    BrickSortInterruptible sorter = new BrickSortInterruptible();
-    assertThrows(
-        CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
   }
 
   @Test
