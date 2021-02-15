@@ -47,8 +47,7 @@ public class BrickSortParallel extends BrickSort {
       sequentialSort(a, length);
       return;
     }
-    ExecutorService service =
-        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    ExecutorService service = Executors.newSingleThreadExecutor();
     try {
       sortInterruptibly(a, length, service);
     } catch (ExecutionException | InterruptedException ee) {
@@ -85,11 +84,13 @@ public class BrickSortParallel extends BrickSort {
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.i = i;
-      futures.add(service.submit(task));
+      if (a[i] > a[i + 1] && (i + 1) < length) {
+        BubbleTask task = BubbleTask.createCopy(bt);
+        task.i = i;
+        futures.add(service.submit(task));
+      }
     }
-    assertEquality(futures.size(), oddTaskCount);
+    // assertEquality(futures.size(), oddTaskCount);
     for (Future future : futures) future.get();
   }
 
@@ -101,21 +102,23 @@ public class BrickSortParallel extends BrickSort {
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.i = i;
-      futures.add(service.submit(task));
+      if (a[i] > a[i + 1] && (i + 1) < length) {
+        BubbleTask task = BubbleTask.createCopy(bt);
+        task.i = i;
+        futures.add(service.submit(task));
+      }
     }
-    assertEquality(futures.size(), evenTaskCount);
+    // assertEquality(futures.size(), evenTaskCount);
     for (Future future : futures) future.get();
   }
 
   @Override
   protected void bubble(long[] a, int i) {
-    if (a[i] > a[i + 1]) {
-      swap(a, i, i + 1);
-      sorted.set(false);
-      swapCount.incrementAndGet();
-    }
+    // if (a[i] > a[i + 1]) {
+    swap(a, i, i + 1);
+    sorted.set(false);
+    swapCount.incrementAndGet();
+    // }
   }
 
   @Override
