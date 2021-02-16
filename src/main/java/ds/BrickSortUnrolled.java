@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ArrayUtils.swap;
+import static ds.ArrayUtils.swapIfLessThan;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
@@ -18,23 +18,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Not thread-safe with state variables. */
-public class BrickSortParallel extends BrickSort {
+public class BrickSortUnrolled extends BrickSort {
 
+  private static final int PROC_COUNT = Runtime.getRuntime().availableProcessors();
   private static final int THRESHOLD = 40;
   private final AtomicBoolean sorted = new AtomicBoolean();
   private final AtomicInteger swapCount = new AtomicInteger();
+  private final AtomicInteger comparisonCount = new AtomicInteger();
+  private final AtomicInteger innerLoopCount = new AtomicInteger();
 
   @Override
   protected void reset() {
     super.reset();
     sorted.getAndSet(false);
     swapCount.set(0);
+    comparisonCount.set(0);
+    innerLoopCount.set(0);
   }
 
   private void sequentialSort(long[] a, int length) {
     super.sort(a, length);
     sorted.getAndSet(super.sorted);
     swapCount.set(super.swapCount);
+    comparisonCount.set(super.comparisonCount);
+    innerLoopCount.set(super.innerLoopCount);
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -82,14 +89,12 @@ public class BrickSortParallel extends BrickSort {
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
-    for (int i = 1; i < length - 1; i += 2) {
-      ++innerLoopCount;
-      ++comparisonCount;
-      if (a[i] > a[i + 1] && (i + 1) < length) {
-        BubbleTask task = BubbleTask.createCopy(bt);
-        task.i = i;
-        futures.add(service.submit(task));
-      }
+    for (int i = 1; i < length - 1; i += 2 * PROC_COUNT) {
+      innerLoopCount.incrementAndGet();
+      comparisonCount.incrementAndGet();
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i;
+      futures.add(service.submit(task));
     }
     // assertEquality(futures.size(), oddTaskCount);
     for (Future future : futures) future.get();
@@ -101,13 +106,11 @@ public class BrickSortParallel extends BrickSort {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     for (int i = 0; i < length - 1; i += 2) {
-      ++innerLoopCount;
-      ++comparisonCount;
-      if (a[i] > a[i + 1] && (i + 1) < length) {
-        BubbleTask task = BubbleTask.createCopy(bt);
-        task.i = i;
-        futures.add(service.submit(task));
-      }
+      innerLoopCount.incrementAndGet();
+      comparisonCount.incrementAndGet();
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i;
+      futures.add(service.submit(task));
     }
     // assertEquality(futures.size(), evenTaskCount);
     for (Future future : futures) future.get();
@@ -115,15 +118,22 @@ public class BrickSortParallel extends BrickSort {
 
   @Override
   protected void bubble(long[] a, int i) {
-    // if (a[i] > a[i + 1]) {
-    if (swap(a, i, i + 1)) swapCount.incrementAndGet();
-    sorted.set(false);
-    // }
+    for (int j = i; j < i + 2 * PROC_COUNT; j += 2) {
+      innerLoopCount.incrementAndGet();
+      comparisonCount.incrementAndGet();
+      if (swapIfLessThan(a, j, j + 1)) swapCount.incrementAndGet();
+      sorted.set(false);
+    }
   }
 
   @Override
   public int getSwapCount() {
     return swapCount.intValue();
+  }
+
+  @Override
+  public int getComparisonCount() {
+    return comparisonCount.intValue();
   }
 
   @Override
