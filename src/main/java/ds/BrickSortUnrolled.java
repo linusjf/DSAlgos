@@ -145,9 +145,7 @@ public class BrickSortUnrolled extends BrickSort {
 
   @Override
   protected void bubbleStartEven(long[] a) {
-    int partitionSize = a.length / PROC_COUNT;
-    int firstPartitionEnd = a.length % partitionSize;
-    for (int i = 0; i < firstPartitionEnd; i += 2) {
+    for (int i = 0; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
       if (swapIfLessThan(a, i, i + 1)) {
@@ -159,9 +157,7 @@ public class BrickSortUnrolled extends BrickSort {
 
   @Override
   protected void bubbleStartOdd(long[] a) {
-    int partitionSize = a.length / PROC_COUNT;
-    int firstPartitionEnd = a.length % partitionSize;
-    for (int i = 1; i < firstPartitionEnd; i += 2) {
+    for (int i = 1; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
       if (swapIfLessThan(a, i, i + 1)) {

@@ -9,11 +9,11 @@ public abstract class AbstractBrickSort extends AbstractSort {
 
   protected abstract void bubble(long[] a, int i);
 
-  protected void bubbleStartOdd(long[] a) {
+  protected void bubbleStartOdd(long... unusedArray) {
     throw new UnsupportedOperationException("Unsupported..");
   }
 
-  protected void bubbleStartEven(long[] a) {
+  protected void bubbleStartEven(long... unusedArray) {
     throw new UnsupportedOperationException("Unsupported..");
   }
 

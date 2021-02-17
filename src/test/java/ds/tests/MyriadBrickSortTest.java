@@ -25,10 +25,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class MyriadBrickSortTest implements SortProvider {
 
   private static final String MUST_BE_EQUAL = "Must be equal";
-  private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
-  private static final String ONE_TASK_EXPECTED = "One task expected.";
-  private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
-  private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
 
   @Test
   @DisplayName("MyriadBrickSortTest.testSortRandom")
@@ -210,17 +206,6 @@ class MyriadBrickSortTest implements SortProvider {
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  /**
-   * @Test @DisplayName("MyriadBrickSortTest.testReverseSortedOddException") void
-   * testReverseSortedOddException() { IArray high = new HighArray(MYRIAD + 1); revRange(1, MYRIAD +
-   * 1).forEach(i -> high.insert(i)); ISort sorter = new BrickSortExceptionable(); assertThrows(
-   * CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
-   * } @Test @DisplayName("MyriadBrickSortTest.testReverseSortedOddInterruption") void
-   * testReverseSortedOddInterruption() throws InterruptedException, ExecutionException { IArray
-   * high = new HighArray(MYRIAD + 1); revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
-   * BrickSortInterruptible sorter = new BrickSortInterruptible(); assertThrows(
-   * CompletionException.class, () -> sorter.sort(high), "CompletionException expected."); }
-   */
   // CPD-OFF
   static class BrickSortComplex extends BrickSort {
 

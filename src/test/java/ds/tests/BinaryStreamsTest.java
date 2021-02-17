@@ -24,6 +24,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class BinaryStreamsTest {
   private static final String ABRA_FILE = "abra.txt";
   private static final String TEST_FILE = "test";
+  private static final String SUFFIX = ".out";
   private static final int TEN = 10;
 
   char[] chars = new char[TEN];
@@ -48,7 +49,7 @@ class BinaryStreamsTest {
       floats[i] = random.nextFloat();
       doubles[i] = random.nextDouble();
     }
-    BinaryOutputStream out = new BinaryOutputStream(TEST_FILE + ".out");
+    BinaryOutputStream out = new BinaryOutputStream(TEST_FILE + SUFFIX);
     for (int i = 0; i < TEN; i++) {
       out.write(bools[i]);
       out.write(bytes[i]);
@@ -69,7 +70,7 @@ class BinaryStreamsTest {
   @DisplayName("BinaryStreamsTest.testAbraFile")
   public void testAbraFile() throws IOException {
     BinaryInputStream in = new BinaryInputStream(ABRA_FILE);
-    BinaryOutputStream out = new BinaryOutputStream(ABRA_FILE + ".out");
+    BinaryOutputStream out = new BinaryOutputStream(ABRA_FILE + SUFFIX);
 
     // read one 8-bit char at a time
     while (!in.isEmpty()) {
@@ -78,14 +79,14 @@ class BinaryStreamsTest {
     }
     out.flush();
 
-    assertEquals(getFileSize(ABRA_FILE), getFileSize(ABRA_FILE + ".out"), "Files must be equal.");
+    assertEquals(getFileSize(ABRA_FILE), getFileSize(ABRA_FILE + SUFFIX), "Files must be equal.");
   }
 
   @SuppressWarnings("PMD")
   @Test
   @DisplayName("BinaryStreamsTest.testBinary")
   public void testBinary() throws IOException {
-    BinaryInputStream in = new BinaryInputStream(TEST_FILE + ".out");
+    BinaryInputStream in = new BinaryInputStream(TEST_FILE + SUFFIX);
 
     char[] newChars = new char[TEN];
     short[] newShorts = new short[TEN];
@@ -106,9 +107,9 @@ class BinaryStreamsTest {
       newFloats[i] = in.readFloat();
       newDoubles[i] = in.readDouble();
     }
-    char ch = in.readChar(16);
-    int val = in.readInt(5);
-    String string = in.readString();
+    final char ch = in.readChar(16);
+    final int val = in.readInt(5);
+    final String string = in.readString();
 
     assertArrayEquals(bools, newBools, "Booleans must be equal.");
     assertArrayEquals(bytes, newBytes, "Bytes must be equal.");
