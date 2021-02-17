@@ -6,6 +6,7 @@ import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
 import static java.lang.Math.abs;
 
+import ds.BubbleTask.TaskType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletionException;
@@ -26,6 +27,9 @@ public class BrickSortUnrolled extends BrickSort {
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
   private final AtomicInteger innerLoopCount = new AtomicInteger();
+  private int partitionSize;
+  private int partitionCount;
+  private int firstPartitionSize;
 
   @Override
   protected void reset() {
@@ -71,6 +75,11 @@ public class BrickSortUnrolled extends BrickSort {
     final int maxComparisons = computeMaxComparisons(length);
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
+    partitionSize = a.length / PROC_COUNT;
+    firstPartitionSize = a.length % PROC_COUNT;
+    if (firstPartitionSize == 0) partitionCount = PROC_COUNT;
+    else partitionCount = PROC_COUNT + 1;
+    if (isOdd(partitionSize)) partitionSize++;
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
@@ -87,69 +96,75 @@ public class BrickSortUnrolled extends BrickSort {
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
-    int start = bubbleStartOdd(a);
-    int partitionSize = a.length / PROC_COUNT;
-    if (isOdd(partitionSize))
-      partitionSize++;
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0);
+    BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
+    if (partitionCount != PROC_COUNT) {
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.type = TaskType.START_ODD;
+      futures.add(service.submit(task));
+    }
+    int start;
+    if (isOdd(firstPartitionSize)) start = firstPartitionSize;
+    else start = firstPartitionSize + 1;
     for (int i = start; i < length - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
+      task.type = TaskType.BUBBLE;
       futures.add(service.submit(task));
     }
-    // assertEquality(futures.size(), oddTaskCount);
+    assertEquality(futures.size(), partitionCount);
     for (Future future : futures) future.get();
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
-    int start = bubbleStartEven(a);
-    int partitionSize = a.length / PROC_COUNT;
-    if (isOdd(partitionSize))
-      partitionSize++;
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0);
+    BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
+    if (partitionCount != PROC_COUNT) {
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.type = TaskType.START_EVEN;
+      futures.add(service.submit(task));
+    }
+    int start;
+    if (isOdd(firstPartitionSize)) start = firstPartitionSize + 1;
+    else start = firstPartitionSize;
     for (int i = start; i < length - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
+      task.type = TaskType.BUBBLE;
       futures.add(service.submit(task));
     }
-    // assertEquality(futures.size(), evenTaskCount);
+    assertEquality(futures.size(), partitionCount);
     for (Future future : futures) future.get();
   }
 
-  private int bubbleStartEven(long[] a) {
-    int partitionSize = a.length / PROC_COUNT;
-    int firstPartitionEnd = a.length % partitionSize;
-    for (int i = 0; i < firstPartitionEnd; i += 2) {
+  @Override
+  protected void bubbleStartEven(long[] a) {
+    for (int i = 0; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, i, i + 1)) swapCount.incrementAndGet();
-      sorted.set(false);
+      if (swapIfLessThan(a, i, i + 1)) {
+        swapCount.incrementAndGet();
+        sorted.set(false);
+      }
     }
-    if (isOdd(firstPartitionEnd))
-    return firstPartitionEnd + 1;
-    else return firstPartitionEnd;
   }
-  
-  private int bubbleStartOdd(long[] a) {
-    int partitionSize = a.length / PROC_COUNT;
-    int firstPartitionEnd = a.length % partitionSize;
-    for (int i = 1; i < firstPartitionEnd; i += 2) {
+
+  @Override
+  protected void bubbleStartOdd(long[] a) {
+    for (int i = 1; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, i, i + 1)) swapCount.incrementAndGet();
-      sorted.set(false);
+      if (swapIfLessThan(a, i, i + 1)) {
+        swapCount.incrementAndGet();
+        sorted.set(false);
+      }
     }
-    if (isOdd(firstPartitionEnd))
-    return firstPartitionEnd;
-    else return firstPartitionEnd + 1;
   }
 
   @Override

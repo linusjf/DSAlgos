@@ -36,6 +36,104 @@ class BrickSortParallelTest implements SortProvider {
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
   private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
 
+  @Test
+  @DisplayName("BrickSortParallelTest.testReverseSortedOdd255")
+  void testReverseSortedOdd255() {
+    IArray high = new HighArray(255);
+    revRange(1, 255).forEach(i -> high.insert(i));
+    BrickSortComplex sorter = new BrickSortComplex();
+    IArray sorted = sorter.sort(high);
+    final int innerLoopCount = sorter.getInnerLoopCount();
+    final int outerLoopCount = sorter.getOuterLoopCount();
+    int length = high.count();
+    final int oddTaskCount = computeOddTaskCount(length);
+    final int evenTaskCount = computeEvenTaskCount(length);
+    assertEquals(
+        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+        innerLoopCount,
+        MUST_BE_EQUAL);
+    assertEquals(
+        sorter.getSwapCount(),
+        sorter.getComparisonCount(),
+        "Comparison count must be same as swap count in reverse ordered array.");
+    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testToStringClass")
+  void testToStringClass() {
+    AbstractSort sorter = new BrickSortParallel();
+    String className = BrickSortParallel.class.getName();
+    assertTrue(
+        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testZeroTimeComplexity")
+  void testZeroTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortZeroLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testOneTimeComplexity")
+  void testOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOneLengthArray();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testNMinusOneTimeComplexity")
+  void testNMinusOneTimeComplexity() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortNMinusOneLengthArray();
+    assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
+    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testReset")
+  void testReset() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternals();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testResetAfterSort")
+  void testResetAfterSort() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.resetInternalsAfterSort();
+    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
+    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
+    assertFalse(bsc.isSorted(), "sorted must be reset.");
+  }
+
+  @Test
+  @DisplayName("BrickSortParallelTest.testStateAfterReset")
+  void testStateAfterReset() {
+    BrickSortComplex bsc = new BrickSortComplex();
+    bsc.sortOdd();
+    final int oldInnerLoopCount = bsc.getInnerLoopCount();
+    final int oldOuterLoopCount = bsc.getOuterLoopCount();
+    bsc.sortEven();
+    final int innerLoopCount = bsc.getInnerLoopCount();
+    final int outerLoopCount = bsc.getOuterLoopCount();
+    assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
+    assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
+  }
+
   @Nested
   class MyriadTests {
     @Test
@@ -237,104 +335,6 @@ class BrickSortParallelTest implements SortProvider {
       assertThrows(
           CompletionException.class, () -> sorter.sort(high), "CompletionException expected.");
     }
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testReverseSortedOdd255")
-  void testReverseSortedOdd255() {
-    IArray high = new HighArray(255);
-    revRange(1, 255).forEach(i -> high.insert(i));
-    BrickSortComplex sorter = new BrickSortComplex();
-    IArray sorted = sorter.sort(high);
-    final int innerLoopCount = sorter.getInnerLoopCount();
-    final int outerLoopCount = sorter.getOuterLoopCount();
-    int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals(
-        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-        innerLoopCount,
-        MUST_BE_EQUAL);
-    assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testToStringClass")
-  void testToStringClass() {
-    AbstractSort sorter = new BrickSortParallel();
-    String className = BrickSortParallel.class.getName();
-    assertTrue(
-        sorter.toString().startsWith(className), () -> "ToString must start with " + className);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testZeroTimeComplexity")
-  void testZeroTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortZeroLengthArray();
-    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
-    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testOneTimeComplexity")
-  void testOneTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortOneLengthArray();
-    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be zero.");
-    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testNMinusOneTimeComplexity")
-  void testNMinusOneTimeComplexity() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortNMinusOneLengthArray();
-    assertEquals(3, bsc.getTimeComplexity(), "Time Complexity must be three.");
-    assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testReset")
-  void testReset() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.resetInternals();
-    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
-    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
-    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
-    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertFalse(bsc.isSorted(), "sorted must be reset.");
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testResetAfterSort")
-  void testResetAfterSort() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.resetInternalsAfterSort();
-    assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
-    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
-    assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
-    assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
-    assertFalse(bsc.isSorted(), "sorted must be reset.");
-  }
-
-  @Test
-  @DisplayName("BrickSortParallelTest.testStateAfterReset")
-  void testStateAfterReset() {
-    BrickSortComplex bsc = new BrickSortComplex();
-    bsc.sortOdd();
-    final int oldInnerLoopCount = bsc.getInnerLoopCount();
-    final int oldOuterLoopCount = bsc.getOuterLoopCount();
-    bsc.sortEven();
-    final int innerLoopCount = bsc.getInnerLoopCount();
-    final int outerLoopCount = bsc.getOuterLoopCount();
-    assertNotEquals(oldInnerLoopCount, innerLoopCount, "Inner loop count must not be same.");
-    assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
   @Nested

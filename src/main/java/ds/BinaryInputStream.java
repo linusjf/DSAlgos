@@ -242,13 +242,12 @@ public final class BinaryInputStream {
     if (isEmpty()) throw new NoSuchElementException(READING_EMPTY);
 
     StringBuilder sb = new StringBuilder();
-    int count = 0;
     while (!isEmpty()) {
       try {
         char c = readChar();
         sb.append(c);
       } catch (NoSuchElementException nsee) {
-        System.out.println("EOF ");
+        System.out.println("EOF " + nsee.getMessage());
       }
     }
     return sb.toString();
