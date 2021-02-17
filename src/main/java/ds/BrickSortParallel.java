@@ -48,7 +48,7 @@ public class BrickSortParallel extends BrickSort {
       sequentialSort(a, length);
       return;
     }
-    ExecutorService service = Executors.newSingleThreadExecutor();
+    ExecutorService service = Executors.newWorkStealingPool();
     try {
       sortInterruptibly(a, length, service);
     } catch (ExecutionException | InterruptedException ee) {

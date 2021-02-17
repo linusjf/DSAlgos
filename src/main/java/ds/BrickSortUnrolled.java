@@ -51,14 +51,17 @@ public class BrickSortUnrolled extends BrickSort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
+    System.out.println("Into sort");
     if (!shouldSort(length)) {
       sorted.getAndSet(true);
       return;
     }
+    System.out.println("Starting executor service");
     if (length <= THRESHOLD) {
       sequentialSort(a, length);
       return;
     }
+    System.out.println("Starting executor service");
     ExecutorService service = Executors.newWorkStealingPool();
     try {
       sortInterruptibly(a, length, service);
@@ -75,11 +78,14 @@ public class BrickSortUnrolled extends BrickSort {
     final int maxComparisons = computeMaxComparisons(length);
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    partitionSize = a.length / PROC_COUNT;
-    firstPartitionSize = a.length % PROC_COUNT;
+    System.out.println("processors = " + PROC_COUNT);
+    partitionSize = length / PROC_COUNT;
+    System.out.println("partitionSize = " + partitionSize);
+    firstPartitionSize = a.length % partitionSize;
+    System.out.println("firstPartitionSize = " + firstPartitionSize);
     if (firstPartitionSize == 0) partitionCount = PROC_COUNT;
     else partitionCount = PROC_COUNT + 1;
-    if (isOdd(partitionSize)) partitionSize++;
+    System.out.println("partitionCount = " + partitionCount);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
@@ -96,7 +102,7 @@ public class BrickSortUnrolled extends BrickSort {
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
-    List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
+    List<Future<Void>> futures = new ArrayList<>(partitionCount);
     BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
     if (partitionCount != PROC_COUNT) {
       BubbleTask task = BubbleTask.createCopy(bt);
@@ -121,7 +127,7 @@ public class BrickSortUnrolled extends BrickSort {
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
-    List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
+    List<Future<Void>> futures = new ArrayList<>(partitionCount);
     BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
     if (partitionCount != PROC_COUNT) {
       BubbleTask task = BubbleTask.createCopy(bt);
@@ -169,11 +175,13 @@ public class BrickSortUnrolled extends BrickSort {
 
   @Override
   protected void bubble(long[] a, int i) {
-    for (int j = i; j < i + 2 * PROC_COUNT; j += 2) {
+    for (int j = i; j < i + partitionSize - 1; j += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, j, j + 1)) swapCount.incrementAndGet();
-      sorted.set(false);
+      if (swapIfLessThan(a, j, j + 1)) {
+        swapCount.incrementAndGet();
+        sorted.set(false);
+      }
     }
   }
 
