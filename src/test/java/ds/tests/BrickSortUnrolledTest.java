@@ -56,14 +56,17 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
+    System.out.println(sorted);
+    System.out.println("Swap count: " + sorter.getSwapCount());
+    System.out.println("Comparison count: " + sorter.getComparisonCount());
+    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
-  
+
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedEven256() {
@@ -83,14 +86,17 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
+    System.out.println(sorted);
+    System.out.println("Swap count: " + sorter.getSwapCount());
+    System.out.println("Comparison count: " + sorter.getComparisonCount());
+    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
-  
+
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd309() {
@@ -110,12 +116,15 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
+    System.out.println(sorted);
+    System.out.println("Swap count: " + sorter.getSwapCount());
+    System.out.println("Comparison count: " + sorter.getComparisonCount());
+    assertTrue(isSorted(sorted), "Array must be sorted");
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
   @Disabled

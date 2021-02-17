@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ArrayUtils.swapIfLessThan;
+import static ds.ArrayUtils.swapIfGreaterThan;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
@@ -114,7 +114,6 @@ public class BrickSortUnrolled extends BrickSort {
     else start = firstPartitionSize + 1;
     for (int i = start; i < length - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
-      comparisonCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       task.type = TaskType.BUBBLE;
@@ -135,11 +134,10 @@ public class BrickSortUnrolled extends BrickSort {
       futures.add(service.submit(task));
     }
     int start;
-    if (isOdd(firstPartitionSize)) start = firstPartitionSize + 1;
+    if (isOdd(firstPartitionSize)) start = firstPartitionSize - 1;
     else start = firstPartitionSize;
     for (int i = start; i < length - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
-      comparisonCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       task.type = TaskType.BUBBLE;
@@ -154,10 +152,10 @@ public class BrickSortUnrolled extends BrickSort {
     for (int i = 0; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, i, i + 1)) {
+      if (swapIfGreaterThan(a, i, i + 1)) {
         swapCount.incrementAndGet();
         sorted.set(false);
-      }
+      } 
     }
   }
 
@@ -166,7 +164,7 @@ public class BrickSortUnrolled extends BrickSort {
     for (int i = 1; i < firstPartitionSize - 1; i += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, i, i + 1)) {
+      if (swapIfGreaterThan(a, i, i + 1)) {
         swapCount.incrementAndGet();
         sorted.set(false);
       }
@@ -178,7 +176,7 @@ public class BrickSortUnrolled extends BrickSort {
     for (int j = i; j < i + partitionSize - 1; j += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
-      if (swapIfLessThan(a, j, j + 1)) {
+      if (swapIfGreaterThan(a, j, j + 1)) {
         swapCount.incrementAndGet();
         sorted.set(false);
       }
