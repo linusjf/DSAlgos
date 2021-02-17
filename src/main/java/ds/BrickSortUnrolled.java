@@ -26,7 +26,7 @@ public class BrickSortUnrolled extends BrickSort {
   private final AtomicBoolean sorted = new AtomicBoolean();
   private final AtomicInteger swapCount = new AtomicInteger();
   private final AtomicInteger comparisonCount = new AtomicInteger();
-  private final AtomicInteger innerLoopCount = new AtomicInteger();
+  protected final AtomicInteger innerLoopCount = new AtomicInteger();
   private int partitionSize;
   private int partitionCount;
   private int firstPartitionSize;
