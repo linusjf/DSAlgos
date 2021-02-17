@@ -37,14 +37,36 @@ public final class ArrayUtils {
     return isSorted(arr.get(), arr.count());
   }
 
-  public static void swap(long[] a, int first, int second) {
-    if (first < 0 || second < 0)
-      throw new IllegalArgumentException("Invalid range specified: " + first + " - " + second);
-    if (first > a.length - 1 || second > a.length - 1)
-      throw new IllegalArgumentException("Invalid range specified: " + first + " - " + second);
-    if (first == second) return;
+  public static boolean swapIfLessThan(long[] a, int first, int second) {
+    checkIndex(a.length, first);
+    checkIndex(a.length, second);
+    if (a[first] < a[second]) return quickSwap(a, first, second);
+    return false;
+  }
+
+  public static boolean swapIfGreaterThan(long[] a, int first, int second) {
+    checkIndex(a.length, first);
+    checkIndex(a.length, second);
+    if (a[first] > a[second]) return quickSwap(a, first, second);
+    return false;
+  }
+
+  private static boolean quickSwap(long[] a, int first, int second) {
+    if (first == second) return false;
     long temp = a[first];
     a[first] = a[second];
     a[second] = temp;
+    return true;
+  }
+
+  private static void checkIndex(int length, int index) {
+    if (index < 0) throw new IllegalArgumentException("Invalid range specified: " + index);
+    if (index > length - 1) throw new IllegalArgumentException("Invalid range specified: " + index);
+  }
+
+  public static boolean swap(long[] a, int first, int second) {
+    checkIndex(a.length, first);
+    checkIndex(a.length, second);
+    return quickSwap(a, first, second);
   }
 }

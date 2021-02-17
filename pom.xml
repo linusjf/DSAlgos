@@ -240,7 +240,7 @@
     <maven.exec.plugin.version>3.0.0</maven.exec.plugin.version>
     <maven.properties.plugin.version>1.0.0</maven.properties.plugin.version>
     <jacoco.maven.plugin.version>0.8.6</jacoco.maven.plugin.version>
-    <lombok.maven.plugin.version>1.18.16.0</lombok.maven.plugin.version>
+    <lombok.maven.plugin.version>1.18.18.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
     <lombok.version>1.18.18</lombok.version>
     <checkstyle.version>8.40</checkstyle.version>
@@ -257,7 +257,7 @@
     <checker.version>3.10.0</checker.version>
     <groovy.version>3.0.7</groovy.version>
     <junit.version>5.7.1</junit.version>
-    <pitest.version>1.6.2</pitest.version>
+    <pitest.version>1.6.3</pitest.version>
     <pitest.maven.version>1.6.2</pitest.maven.version>
   </properties>
   <dependencyManagement>

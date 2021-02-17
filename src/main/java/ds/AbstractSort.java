@@ -23,8 +23,8 @@ public abstract class AbstractSort implements ISort {
     return copy;
   }
 
-  protected final void swap(long[] a, int first, int second) {
-    ArrayUtils.swap(a, first, second);
+  protected final boolean swap(long[] a, int first, int second) {
+    return ArrayUtils.swap(a, first, second);
   }
 
   protected void reset() {
