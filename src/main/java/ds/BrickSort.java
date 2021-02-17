@@ -60,4 +60,12 @@ public class BrickSort extends AbstractBrickSort {
       ++swapCount;
     }
   }
+
+  protected void bubbleStartOdd(long... unusedArray) {
+    throw new UnsupportedOperationException("Unsupported...");
+  }
+
+  protected void bubbleStartEven(long... unusedArray) {
+    throw new UnsupportedOperationException("Unsupported...");
+  }
 }

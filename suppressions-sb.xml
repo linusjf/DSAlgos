@@ -5,7 +5,16 @@
     <Bug pattern="EI_EXPOSE_REP"/>
   </Match>
   <Match>
+    <Class name="ds.tests.BinaryStreamsTest"/>
+    <Bug pattern="PL_PARALLEL_LISTS"/>
+  </Match>
+  <Match>
     <Class name="ds.BrickSortParallel"/>
+    <Method name="sort"/>
+    <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
+  </Match>
+  <Match>
+    <Class name="ds.BrickSortUnrolled"/>
     <Method name="sort"/>
     <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
   </Match>
@@ -44,6 +53,10 @@
   <Match>
     <Class name="ds.BinaryTree"/>
     <Bug pattern="NP_NONNULL_RETURN_VIOLATION"/>
+  </Match>
+  <Match>
+    <Class name="ds.BinaryTree"/>
+    <Bug pattern="CFS_CONFUSING_FUNCTION_SEMANTICS"/>
   </Match>
   <Match>
     <Class name="ds.AVLTree"/>
