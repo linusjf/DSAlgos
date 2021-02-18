@@ -72,10 +72,7 @@ class BrickSortUnrolledTest implements SortProvider {
     int length = high.count();
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    assertEquals(
-        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-        innerLoopCount,
-        MUST_BE_EQUAL);
+    assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
     assertTrue(isSorted(sorted), ARRAY_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
