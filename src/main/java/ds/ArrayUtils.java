@@ -60,10 +60,8 @@ public final class ArrayUtils {
   }
 
   private static void requireValidIndex(int length, int index) {
-    if (index < 0)
-      throw new IllegalArgumentException("Index cannot be " + index);
-    if (index > length - 1)
-      throw new IllegalArgumentException("Index cannot be " + index);
+    if (index < 0) throw new IllegalArgumentException("Index cannot be " + index);
+    if (index > length - 1) throw new IllegalArgumentException("Index cannot be " + index);
   }
 
   public static boolean swap(long[] a, int first, int second) {
