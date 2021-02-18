@@ -93,13 +93,13 @@ public class BrickSortUnrolled extends BrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
+  protected void oddSort(
+      long[] a, int unusedLength, ExecutorService service, int unusedOddTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(partitionCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     int newLength = partitionSize * partitionCount;
     for (int i = 1; i < newLength - 1; i += partitionSize) {
-      // innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));
@@ -109,13 +109,13 @@ public class BrickSortUnrolled extends BrickSort {
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
+  protected void evenSort(
+      long[] a, int unusedLength, ExecutorService service, int unusedEvenTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(partitionCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     int newLength = partitionSize * partitionCount;
     for (int i = 0; i < newLength - 1; i += partitionSize) {
-      //  innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));

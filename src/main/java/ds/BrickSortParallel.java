@@ -1,6 +1,6 @@
 package ds;
 
-import static ds.ArrayUtils.swap;
+import static ds.ArrayUtils.swapIfGreaterThan;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
@@ -85,13 +85,11 @@ public class BrickSortParallel extends BrickSort {
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      if (a[i] > a[i + 1] && (i + 1) < length) {
-        BubbleTask task = BubbleTask.createCopy(bt);
-        task.i = i;
-        futures.add(service.submit(task));
-      }
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i;
+      futures.add(service.submit(task));
     }
-    // assertEquality(futures.size(), oddTaskCount);
+    assertEquality(futures.size(), oddTaskCount);
     for (Future future : futures) future.get();
   }
 
@@ -103,22 +101,20 @@ public class BrickSortParallel extends BrickSort {
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
-      if (a[i] > a[i + 1] && (i + 1) < length) {
-        BubbleTask task = BubbleTask.createCopy(bt);
-        task.i = i;
-        futures.add(service.submit(task));
-      }
+      BubbleTask task = BubbleTask.createCopy(bt);
+      task.i = i;
+      futures.add(service.submit(task));
     }
-    // assertEquality(futures.size(), evenTaskCount);
+    assertEquality(futures.size(), evenTaskCount);
     for (Future future : futures) future.get();
   }
 
   @Override
   protected void bubble(long[] a, int i) {
-    // if (a[i] > a[i + 1]) {
-    if (swap(a, i, i + 1)) swapCount.incrementAndGet();
-    sorted.set(false);
-    // }
+    if (swapIfGreaterThan(a, i, i + 1)) {
+      swapCount.incrementAndGet();
+      sorted.set(false);
+    }
   }
 
   @Override

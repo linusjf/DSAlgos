@@ -9,10 +9,6 @@ public abstract class AbstractBrickSort extends AbstractSort {
 
   protected abstract void bubble(long[] a, int i);
 
-  protected abstract void bubbleStartOdd(long... a);
-
-  protected abstract void bubbleStartEven(long... a);
-
   protected int computeMaxComparisons(int length) {
     return isOdd(length) ? length * ((length - 1) >> 1) : (length >> 1) * (length - 1);
   }
