@@ -35,29 +35,29 @@ class BrickSortUnrolledTest implements SortProvider {
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
   private static final String ILLEGAL_LENGTH_EXPECTED = "Illegal length expected.";
+  private static final String ARRAY_SORTED = "Array must be sorted.";
+  private static final String COUNT_EQUALS =
+      "Comparison count must be same as swap count in reverse ordered array.";
 
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd255() {
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
-    BrickSortUnrolled sorter = new BrickSortUnrolled();
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
-    // final int innerLoopCount = sorter.getInnerLoopCount();
-    // final int outerLoopCount = sorter.getOuterLoopCount();
+    final int innerLoopCount = sorter.getInnerLoopCount();
+    final int outerLoopCount = sorter.getOuterLoopCount();
     int length = high.count();
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    // assertEquals(
-    //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-    // innerLoopCount,
-    // MUST_BE_EQUAL);
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
+        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+        innerLoopCount,
+        MUST_BE_EQUAL);
+    assertTrue(isSorted(sorted), ARRAY_SORTED);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
   @Test
@@ -65,23 +65,20 @@ class BrickSortUnrolledTest implements SortProvider {
   void testReverseSortedEven256() {
     IArray high = new HighArray(256);
     revRange(1, 256).forEach(i -> high.insert(i));
-    BrickSortUnrolled sorter = new BrickSortUnrolled();
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
-    // final int innerLoopCount = sorter.getInnerLoopCount();
-    // final int outerLoopCount = sorter.getOuterLoopCount();
+    final int innerLoopCount = sorter.getInnerLoopCount();
+    final int outerLoopCount = sorter.getOuterLoopCount();
     int length = high.count();
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    // assertEquals(
-    //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-    // innerLoopCount,
-    // MUST_BE_EQUAL);
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
+        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+        innerLoopCount,
+        MUST_BE_EQUAL);
+    assertTrue(isSorted(sorted), ARRAY_SORTED);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
   @Test
@@ -89,23 +86,20 @@ class BrickSortUnrolledTest implements SortProvider {
   void testReverseSortedOdd309() {
     IArray high = new HighArray(309);
     revRange(1, 309).forEach(i -> high.insert(i));
-    BrickSortUnrolled sorter = new BrickSortUnrolled();
+    BrickSortComplex sorter = new BrickSortComplex();
     IArray sorted = sorter.sort(high);
-    // final int innerLoopCount = sorter.getInnerLoopCount();
-    // final int outerLoopCount = sorter.getOuterLoopCount();
+    final int innerLoopCount = sorter.getInnerLoopCount();
+    final int outerLoopCount = sorter.getOuterLoopCount();
     int length = high.count();
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    // assertEquals(
-    //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
-    // innerLoopCount,
-    // MUST_BE_EQUAL);
-    assertTrue(isSorted(sorted), "Array must be sorted");
-    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        "Comparison count must be same as swap count in reverse ordered array.");
+        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+        innerLoopCount,
+        MUST_BE_EQUAL);
+    assertTrue(isSorted(sorted), ARRAY_SORTED);
+    assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
   }
 
   @Test
@@ -150,7 +144,7 @@ class BrickSortUnrolledTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternals();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
-    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), COUNT_EQUALS);
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
     assertFalse(bsc.isSorted(), "sorted must be reset.");
@@ -162,7 +156,7 @@ class BrickSortUnrolledTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.resetInternalsAfterSort();
     assertEquals(0, bsc.getTimeComplexity(), "Time Complexity must be reset.");
-    assertEquals(0, bsc.getComparisonCount(), "Comparison count must be reset.");
+    assertEquals(0, bsc.getComparisonCount(), COUNT_EQUALS);
     assertEquals(0, bsc.getSwapCount(), "Swap count must be reset.");
     assertEquals(0, bsc.getCopyCount(), "Copy count must be reset.");
     assertFalse(bsc.isSorted(), "sorted must be reset.");
@@ -193,7 +187,7 @@ class BrickSortUnrolledTest implements SortProvider {
       }
       BrickSortComplex sorter = new BrickSortComplex();
       IArray sorted = sorter.sort(arr);
-      assertTrue(isSorted(sorted), "Array must be sorted.");
+      assertTrue(isSorted(sorted), ARRAY_SORTED);
     }
 
     @Test
@@ -261,7 +255,7 @@ class BrickSortUnrolledTest implements SortProvider {
       final int oddTaskCount = computeOddTaskCount(length);
       final int evenTaskCount = computeEvenTaskCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-      assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
+      assertEquals(MYRIAD - 1, compCount, COUNT_EQUALS + (MYRIAD - 1));
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
@@ -281,7 +275,7 @@ class BrickSortUnrolledTest implements SortProvider {
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertTrue(
           MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
-          "Comparison count must be in range " + (MYRIAD - 1) + " and " + MYRIAD * (MYRIAD - 1));
+          COUNT_EQUALS + MYRIAD * (MYRIAD - 1));
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
@@ -298,11 +292,8 @@ class BrickSortUnrolledTest implements SortProvider {
       final int oddTaskCount = computeOddTaskCount(length);
       final int evenTaskCount = computeEvenTaskCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-      assertEquals(
-          sorter.getSwapCount(),
-          sorter.getComparisonCount(),
-          "Comparison count must be same as swap count in reverse ordered array.");
-      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
+      assertTrue(isSorted(sorted), ARRAY_SORTED);
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
@@ -322,11 +313,8 @@ class BrickSortUnrolledTest implements SortProvider {
           (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
           innerLoopCount,
           MUST_BE_EQUAL);
-      assertEquals(
-          sorter.getSwapCount(),
-          sorter.getComparisonCount(),
-          "Comparison count must be same as swap count in reverse ordered array.");
-      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
+      assertTrue(isSorted(sorted), ARRAY_SORTED);
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
 
