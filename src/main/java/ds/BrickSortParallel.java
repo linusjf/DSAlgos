@@ -81,7 +81,7 @@ public class BrickSortParallel extends BrickSort {
   protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0, BubbleTask.TaskType.BUBBLE);
+    BubbleTask bt = new BubbleTask(this, a, 0);
     for (int i = 1; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;
@@ -99,7 +99,7 @@ public class BrickSortParallel extends BrickSort {
   protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0, BubbleTask.TaskType.BUBBLE);
+    BubbleTask bt = new BubbleTask(this, a, 0);
     for (int i = 0; i < length - 1; i += 2) {
       ++innerLoopCount;
       ++comparisonCount;

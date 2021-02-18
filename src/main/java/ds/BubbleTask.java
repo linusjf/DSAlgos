@@ -3,23 +3,15 @@ package ds;
 import java.util.concurrent.Callable;
 
 final class BubbleTask implements Cloneable, Callable<Void> {
-  enum TaskType {
-    START_ODD,
-    START_EVEN,
-    BUBBLE
-  }
-
   long[] a;
   int i;
   AbstractBrickSort sorter;
-  TaskType type;
 
   @SuppressWarnings("PMD.ArrayIsStoredDirectly")
-  BubbleTask(AbstractBrickSort sorter, long[] a, int i, TaskType type) {
+  BubbleTask(AbstractBrickSort sorter, long[] a, int i) {
     this.sorter = sorter;
     this.a = a;
     this.i = i;
-    this.type = type;
   }
 
   @Generated
@@ -35,19 +27,7 @@ final class BubbleTask implements Cloneable, Callable<Void> {
 
   @Override
   public Void call() {
-    switch (type) {
-      case START_ODD:
-        sorter.bubbleStartOdd(a);
-        break;
-
-      case START_EVEN:
-        sorter.bubbleStartEven(a);
-        break;
-
-      case BUBBLE:
-        sorter.bubble(a, i);
-        break;
-    }
+    sorter.bubble(a, i);
     return null;
   }
 

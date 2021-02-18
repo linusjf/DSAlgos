@@ -38,16 +38,16 @@ public final class ArrayUtils {
   }
 
   public static boolean swapIfLessThan(long[] a, int first, int second) {
-    checkIndex(a.length, first);
-    checkIndex(a.length, second);
-    if (a[first] < a[second]) return quickSwap(a, first, second);
+    if (checkIndex(a.length, first) && checkIndex(a.length, second)) {
+      if (a[first] < a[second]) return quickSwap(a, first, second);
+    }
     return false;
   }
 
   public static boolean swapIfGreaterThan(long[] a, int first, int second) {
-    checkIndex(a.length, first);
-    checkIndex(a.length, second);
-    if (a[first] > a[second]) return quickSwap(a, first, second);
+    if (checkIndex(a.length, first) && checkIndex(a.length, second)) {
+      if (a[first] > a[second]) return quickSwap(a, first, second);
+    }
     return false;
   }
 
@@ -59,14 +59,13 @@ public final class ArrayUtils {
     return true;
   }
 
-  private static void checkIndex(int length, int index) {
-    if (index < 0) throw new IllegalArgumentException("Invalid range specified: " + index);
-    if (index > length - 1) throw new IllegalArgumentException("Invalid range specified: " + index);
+  private static boolean checkIndex(int length, int index) {
+    return (index > -1 && index < length);
   }
 
   public static boolean swap(long[] a, int first, int second) {
-    checkIndex(a.length, first);
-    checkIndex(a.length, second);
-    return quickSwap(a, first, second);
+    if (checkIndex(a.length, first) && checkIndex(a.length, second))
+      return quickSwap(a, first, second);
+    return false;
   }
 }

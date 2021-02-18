@@ -6,7 +6,6 @@ import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
 import static java.lang.Math.abs;
 
-import ds.BubbleTask.TaskType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletionException;
@@ -21,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** Not thread-safe with state variables. */
 public class BrickSortUnrolled extends BrickSort {
 
-  private static final int PROC_COUNT = Runtime.getRuntime().availableProcessors();
+  private static final int PROC_COUNT = Runtime.getRuntime().availableProcessors() - 1;
   private static final int THRESHOLD = 40;
   private final AtomicBoolean sorted = new AtomicBoolean();
   private final AtomicInteger swapCount = new AtomicInteger();
@@ -29,7 +28,7 @@ public class BrickSortUnrolled extends BrickSort {
   protected final AtomicInteger innerLoopCount = new AtomicInteger();
   private int partitionSize;
   private int partitionCount;
-  private int firstPartitionSize;
+  private int length;
 
   @Override
   protected void reset() {
@@ -51,6 +50,7 @@ public class BrickSortUnrolled extends BrickSort {
   @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
+    this.length = length;
     System.out.println("Into sort");
     if (!shouldSort(length)) {
       sorted.getAndSet(true);
@@ -80,11 +80,11 @@ public class BrickSortUnrolled extends BrickSort {
     final int evenTaskCount = computeEvenTaskCount(length);
     System.out.println("processors = " + PROC_COUNT);
     partitionSize = length / PROC_COUNT;
-    System.out.println("partitionSize = " + partitionSize);
-    firstPartitionSize = a.length % partitionSize;
-    System.out.println("firstPartitionSize = " + firstPartitionSize);
-    if (firstPartitionSize == 0) partitionCount = PROC_COUNT;
-    else partitionCount = PROC_COUNT + 1;
+    System.out.println("calculated partitionSize = " + partitionSize);
+    if (isOdd(partitionSize)) partitionSize = partitionSize + 1;
+    System.out.println("adjusted partitionSize = " + partitionSize);
+    if (partitionSize * PROC_COUNT > length) partitionCount = PROC_COUNT + 1;
+    else partitionCount = PROC_COUNT;
     System.out.println("partitionCount = " + partitionCount);
     while (!sorted.get()) {
       ++outerLoopCount;
@@ -103,20 +103,12 @@ public class BrickSortUnrolled extends BrickSort {
   protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(partitionCount);
-    BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
-    if (partitionCount != PROC_COUNT) {
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.type = TaskType.START_ODD;
-      futures.add(service.submit(task));
-    }
-    int start;
-    if (isOdd(firstPartitionSize)) start = firstPartitionSize;
-    else start = firstPartitionSize + 1;
-    for (int i = start; i < length - 1; i += partitionSize) {
+    BubbleTask bt = new BubbleTask(this, a, 0);
+    int newLength = partitionSize * partitionCount;
+    for (int i = 1; i < newLength - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
-      task.type = TaskType.BUBBLE;
       futures.add(service.submit(task));
     }
     assertEquality(futures.size(), partitionCount);
@@ -127,20 +119,12 @@ public class BrickSortUnrolled extends BrickSort {
   protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(partitionCount);
-    BubbleTask bt = new BubbleTask(this, a, 0, TaskType.BUBBLE);
-    if (partitionCount != PROC_COUNT) {
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.type = TaskType.START_EVEN;
-      futures.add(service.submit(task));
-    }
-    int start;
-    if (isOdd(firstPartitionSize)) start = firstPartitionSize - 1;
-    else start = firstPartitionSize;
-    for (int i = start; i < length - 1; i += partitionSize) {
+    BubbleTask bt = new BubbleTask(this, a, 0);
+    int newLength = partitionSize * partitionCount;
+    for (int i = 0; i < newLength - 1; i += partitionSize) {
       innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
-      task.type = TaskType.BUBBLE;
       futures.add(service.submit(task));
     }
     assertEquality(futures.size(), partitionCount);
@@ -148,32 +132,8 @@ public class BrickSortUnrolled extends BrickSort {
   }
 
   @Override
-  protected void bubbleStartEven(long[] a) {
-    for (int i = 0; i < firstPartitionSize - 1; i += 2) {
-      innerLoopCount.incrementAndGet();
-      comparisonCount.incrementAndGet();
-      if (swapIfGreaterThan(a, i, i + 1)) {
-        swapCount.incrementAndGet();
-        sorted.set(false);
-      } 
-    }
-  }
-
-  @Override
-  protected void bubbleStartOdd(long[] a) {
-    for (int i = 1; i < firstPartitionSize - 1; i += 2) {
-      innerLoopCount.incrementAndGet();
-      comparisonCount.incrementAndGet();
-      if (swapIfGreaterThan(a, i, i + 1)) {
-        swapCount.incrementAndGet();
-        sorted.set(false);
-      }
-    }
-  }
-
-  @Override
   protected void bubble(long[] a, int i) {
-    for (int j = i; j < i + partitionSize - 1; j += 2) {
+    for (int j = i; j < i + partitionSize - 1 && j < length - 1; j += 2) {
       innerLoopCount.incrementAndGet();
       comparisonCount.incrementAndGet();
       if (swapIfGreaterThan(a, j, j + 1)) {

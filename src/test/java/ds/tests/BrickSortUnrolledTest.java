@@ -16,7 +16,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.LongStream;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -127,7 +126,6 @@ class BrickSortUnrolledTest implements SortProvider {
         "Comparison count must be same as swap count in reverse ordered array.");
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testToStringClass")
   void testToStringClass() {
@@ -137,7 +135,6 @@ class BrickSortUnrolledTest implements SortProvider {
         sorter.toString().startsWith(className), () -> "ToString must start with " + className);
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testZeroTimeComplexity")
   void testZeroTimeComplexity() {
@@ -147,7 +144,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testOneTimeComplexity")
   void testOneTimeComplexity() {
@@ -157,7 +153,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testNMinusOneTimeComplexity")
   void testNMinusOneTimeComplexity() {
@@ -167,7 +162,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertTrue(bsc.isSorted(), SORTED_MUST_BE_SET);
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testReset")
   void testReset() {
@@ -180,7 +174,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testResetAfterSort")
   void testResetAfterSort() {
@@ -193,7 +186,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertFalse(bsc.isSorted(), "sorted must be reset.");
   }
 
-  @Disabled
   @Test
   @DisplayName("BrickSortUnrolledTest.testStateAfterReset")
   void testStateAfterReset() {
@@ -208,7 +200,6 @@ class BrickSortUnrolledTest implements SortProvider {
     assertEquals(oldOuterLoopCount, outerLoopCount, "Outer loop count must be same.");
   }
 
-  @Disabled
   @Nested
   class MyriadTests {
     @Test
@@ -412,7 +403,6 @@ class BrickSortUnrolledTest implements SortProvider {
     }
   }
 
-  @Disabled
   @Nested
   class CornerCasesTest {
     @Test
@@ -432,7 +422,6 @@ class BrickSortUnrolledTest implements SortProvider {
     }
   }
 
-  @Disabled
   @Nested
   @DisplayName("BrickSortUnrolledTest.ComputeTaskCountTest")
   class ComputeTaskCountTest {
