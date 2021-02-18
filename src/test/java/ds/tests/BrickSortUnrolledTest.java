@@ -39,12 +39,9 @@ class BrickSortUnrolledTest implements SortProvider {
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd255() {
-    System.out.println("Start test");
     IArray high = new HighArray(255);
     revRange(1, 255).forEach(i -> high.insert(i));
-    System.out.println(high);
     BrickSortUnrolled sorter = new BrickSortUnrolled();
-    System.out.println("Calling sort");
     IArray sorted = sorter.sort(high);
     // final int innerLoopCount = sorter.getInnerLoopCount();
     // final int outerLoopCount = sorter.getOuterLoopCount();
@@ -55,9 +52,6 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
-    System.out.println(sorted);
-    System.out.println("Swap count: " + sorter.getSwapCount());
-    System.out.println("Comparison count: " + sorter.getComparisonCount());
     assertTrue(isSorted(sorted), "Array must be sorted");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
@@ -69,12 +63,9 @@ class BrickSortUnrolledTest implements SortProvider {
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedEven256() {
-    System.out.println("Start test");
     IArray high = new HighArray(256);
     revRange(1, 256).forEach(i -> high.insert(i));
-    System.out.println(high);
     BrickSortUnrolled sorter = new BrickSortUnrolled();
-    System.out.println("Calling sort");
     IArray sorted = sorter.sort(high);
     // final int innerLoopCount = sorter.getInnerLoopCount();
     // final int outerLoopCount = sorter.getOuterLoopCount();
@@ -85,9 +76,6 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
-    System.out.println(sorted);
-    System.out.println("Swap count: " + sorter.getSwapCount());
-    System.out.println("Comparison count: " + sorter.getComparisonCount());
     assertTrue(isSorted(sorted), "Array must be sorted");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(
@@ -99,12 +87,9 @@ class BrickSortUnrolledTest implements SortProvider {
   @Test
   @DisplayName("BrickSortUnrolledTest.testReverseSortedOdd255")
   void testReverseSortedOdd309() {
-    System.out.println("Start test");
     IArray high = new HighArray(309);
     revRange(1, 309).forEach(i -> high.insert(i));
-    System.out.println(high);
     BrickSortUnrolled sorter = new BrickSortUnrolled();
-    System.out.println("Calling sort");
     IArray sorted = sorter.sort(high);
     // final int innerLoopCount = sorter.getInnerLoopCount();
     // final int outerLoopCount = sorter.getOuterLoopCount();
@@ -115,9 +100,6 @@ class BrickSortUnrolledTest implements SortProvider {
     //  (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
     // innerLoopCount,
     // MUST_BE_EQUAL);
-    System.out.println(sorted);
-    System.out.println("Swap count: " + sorter.getSwapCount());
-    System.out.println("Comparison count: " + sorter.getComparisonCount());
     assertTrue(isSorted(sorted), "Array must be sorted");
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     assertEquals(

@@ -22,10 +22,10 @@ public class BrickSortUnrolled extends BrickSort {
 
   private static final int PROC_COUNT = Runtime.getRuntime().availableProcessors() - 1;
   private static final int THRESHOLD = 40;
-  private final AtomicBoolean sorted = new AtomicBoolean();
-  private final AtomicInteger swapCount = new AtomicInteger();
-  private final AtomicInteger comparisonCount = new AtomicInteger();
   protected final AtomicInteger innerLoopCount = new AtomicInteger();
+  protected final AtomicBoolean sorted = new AtomicBoolean();
+  protected final AtomicInteger swapCount = new AtomicInteger();
+  protected final AtomicInteger comparisonCount = new AtomicInteger();
   private int partitionSize;
   private int partitionCount;
   private int length;
@@ -51,17 +51,14 @@ public class BrickSortUnrolled extends BrickSort {
   @Override
   protected void sort(long[] a, int length) {
     this.length = length;
-    System.out.println("Into sort");
     if (!shouldSort(length)) {
       sorted.getAndSet(true);
       return;
     }
-    System.out.println("Starting executor service");
     if (length <= THRESHOLD) {
       sequentialSort(a, length);
       return;
     }
-    System.out.println("Starting executor service");
     ExecutorService service = Executors.newWorkStealingPool();
     try {
       sortInterruptibly(a, length, service);
@@ -78,14 +75,10 @@ public class BrickSortUnrolled extends BrickSort {
     final int maxComparisons = computeMaxComparisons(length);
     final int oddTaskCount = computeOddTaskCount(length);
     final int evenTaskCount = computeEvenTaskCount(length);
-    System.out.println("processors = " + PROC_COUNT);
     partitionSize = length / PROC_COUNT;
-    System.out.println("calculated partitionSize = " + partitionSize);
     if (isOdd(partitionSize)) partitionSize = partitionSize + 1;
-    System.out.println("adjusted partitionSize = " + partitionSize);
     if (partitionSize * PROC_COUNT > length) partitionCount = PROC_COUNT + 1;
     else partitionCount = PROC_COUNT;
-    System.out.println("partitionCount = " + partitionCount);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
@@ -106,7 +99,7 @@ public class BrickSortUnrolled extends BrickSort {
     BubbleTask bt = new BubbleTask(this, a, 0);
     int newLength = partitionSize * partitionCount;
     for (int i = 1; i < newLength - 1; i += partitionSize) {
-      innerLoopCount.incrementAndGet();
+      // innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));
@@ -122,7 +115,7 @@ public class BrickSortUnrolled extends BrickSort {
     BubbleTask bt = new BubbleTask(this, a, 0);
     int newLength = partitionSize * partitionCount;
     for (int i = 0; i < newLength - 1; i += partitionSize) {
-      innerLoopCount.incrementAndGet();
+      //  innerLoopCount.incrementAndGet();
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));
@@ -146,6 +139,11 @@ public class BrickSortUnrolled extends BrickSort {
   @Override
   public int getSwapCount() {
     return swapCount.intValue();
+  }
+
+  @Override
+  public int getTimeComplexity() {
+    return innerLoopCount.intValue();
   }
 
   @Override
