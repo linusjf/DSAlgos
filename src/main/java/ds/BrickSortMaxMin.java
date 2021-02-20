@@ -68,14 +68,15 @@ public class BrickSortMaxMin extends BrickSort {
       ++outerLoopCount;
       sorted.set(true);
       sort(a, length, service, evenTaskCount);
-      if (swapCount.intValue() == maxComparisons) sorted.set(true);
+      if (swapCount.intValue() >= maxComparisons) sorted.set(true);
     }
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void sort(long[] a, int length, ExecutorService service, int evenTaskCount)
+  protected void sort(long[] a, int length, ExecutorService service, int unused)
       throws InterruptedException, ExecutionException {
-    List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
+    int taskCount = computeOddTaskCount(length) + computeEvenTaskCount(length);
+    List<Future<Void>> futures = new ArrayList<>(taskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     int iterations = 0;
     int i;
@@ -85,7 +86,7 @@ public class BrickSortMaxMin extends BrickSort {
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));
-      if (!isOdd(iterations) && iterations > 0) {
+      if (iterations > 0) {
         ++comparisonCount;
         BubbleTask oddTask = BubbleTask.createCopy(bt);
         oddTask.i = i - 1;
@@ -98,7 +99,7 @@ public class BrickSortMaxMin extends BrickSort {
       oddTask.i = i - 1;
       futures.add(service.submit(oddTask));
     }
-    assertEquality(futures.size(), computeOddTaskCount(length) + computeEvenTaskCount(length));
+    assertEquality(futures.size(), taskCount);
     for (Future future : futures) future.get();
   }
 

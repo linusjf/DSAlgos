@@ -377,7 +377,7 @@
             <includes>
               <include>**/*BrickSort*Test.java</include>
             </includes>
-            <trimStackTrace>false</trimStackTrace>
+            <trimStackTrace>true</trimStackTrace>
           </configuration>
         </plugin>
         <plugin>
