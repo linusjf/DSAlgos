@@ -59,7 +59,7 @@ public class BrickSortUnrolled extends BrickSort {
       sequentialSort(a, length);
       return;
     }
-    ExecutorService service = Executors.newWorkStealingPool();
+    ExecutorService service = Executors.newSingleThreadExecutor();
     try {
       sortInterruptibly(a, length, service);
     } catch (ExecutionException | InterruptedException ee) {

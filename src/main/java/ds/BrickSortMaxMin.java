@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Not thread-safe with state variables. */
-public class BrickSortParallel extends BrickSort {
+public class BrickSortMaxMin extends BrickSort {
 
   private static final int THRESHOLD = 40;
   private final AtomicBoolean sorted = new AtomicBoolean();
@@ -67,45 +67,38 @@ public class BrickSortParallel extends BrickSort {
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
-      oddSort(a, length, service, oddTaskCount);
-      if (swapCount.intValue() == maxComparisons) {
-        sorted.set(true);
-        break;
-      }
-      evenSort(a, length, service, evenTaskCount);
+      sort(a, length, service, evenTaskCount);
       if (swapCount.intValue() == maxComparisons) sorted.set(true);
     }
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void oddSort(long[] a, int length, ExecutorService service, int oddTaskCount)
-      throws InterruptedException, ExecutionException {
-    List<Future<Void>> futures = new ArrayList<>(oddTaskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0);
-    for (int i = 1; i < length - 1; i += 2) {
-      ++innerLoopCount;
-      ++comparisonCount;
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.i = i;
-      futures.add(service.submit(task));
-    }
-    assertEquality(futures.size(), oddTaskCount);
-    for (Future future : futures) future.get();
-  }
-
-  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void evenSort(long[] a, int length, ExecutorService service, int evenTaskCount)
+  protected void sort(long[] a, int length, ExecutorService service, int evenTaskCount)
       throws InterruptedException, ExecutionException {
     List<Future<Void>> futures = new ArrayList<>(evenTaskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
-    for (int i = 0; i < length - 1; i += 2) {
+    int iterations = 0;
+    int i;
+    for (i = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
       ++comparisonCount;
       BubbleTask task = BubbleTask.createCopy(bt);
       task.i = i;
       futures.add(service.submit(task));
+      if (!isOdd(iterations) && iterations > 0) {
+        ++comparisonCount;
+        BubbleTask oddTask = BubbleTask.createCopy(bt);
+        oddTask.i = i - 1;
+        futures.add(service.submit(oddTask));
+      }
     }
-    assertEquality(futures.size(), evenTaskCount);
+    if (isOdd(length)) {
+      ++comparisonCount;
+      BubbleTask oddTask = BubbleTask.createCopy(bt);
+      oddTask.i = i - 1;
+      futures.add(service.submit(oddTask));
+    }
+    assertEquality(futures.size(), computeOddTaskCount(length) + computeEvenTaskCount(length));
     for (Future future : futures) future.get();
   }
 
