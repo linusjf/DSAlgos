@@ -76,7 +76,8 @@ public class BrickSortMaxMinParallel extends BrickSort {
     List<Future<Void>> futures = new ArrayList<>(taskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     int i;
-    for (i = 0, int iterations = 0; i < length - 1; i += 2, iterations++) {
+    int iterations;
+    for (i = 0, iterations = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
       ++comparisonCount;
       BubbleTask task = BubbleTask.createCopy(bt);
