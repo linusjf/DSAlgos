@@ -14,6 +14,11 @@
     <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
   </Match>
   <Match>
+    <Class name="ds.BrickSortMaxMinParallel"/>
+    <Method name="sort"/>
+    <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
+  </Match>
+  <Match>
     <Class name="ds.BrickSortUnrolled"/>
     <Method name="sort"/>
     <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CHECKED"/>
