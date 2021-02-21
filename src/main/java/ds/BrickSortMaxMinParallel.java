@@ -61,25 +61,22 @@ public class BrickSortMaxMinParallel extends BrickSort {
   protected void sortInterruptibly(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
     final int maxComparisons = computeMaxComparisons(length);
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
-      brickSort(a, length, service, evenTaskCount);
+      brickSort(a, length, service);
       if (swapCount.intValue() >= maxComparisons) sorted.set(true);
     }
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void brickSort(long[] a, int length, ExecutorService service, int unused)
+  protected void brickSort(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
     int taskCount = computeOddTaskCount(length) + computeEvenTaskCount(length);
     List<Future<Void>> futures = new ArrayList<>(taskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
-    int iterations = 0;
     int i;
-    for (i = 0; i < length - 1; i += 2, iterations++) {
+    for (i = 0, int iterations = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
       ++comparisonCount;
       BubbleTask task = BubbleTask.createCopy(bt);

@@ -1,6 +1,5 @@
 package ds.tests;
 
-import static ds.AbstractBrickSort.*;
 import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
@@ -32,7 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("BrickSortMaxMinTest")
 class BrickSortMaxMinTest implements SortProvider {
 
-  private static final String MUST_BE_EQUAL = "Must be equal";
+  private static final String ARRAYS_SORTED = "Arrays must be sorted.";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -84,7 +83,7 @@ class BrickSortMaxMinTest implements SortProvider {
     long[] internal = sorted.getExtentArray();
     assertArrayEquals(a, internal, "Arrays must be sorted and equal.");
     assertEquals(13, sorter.getSwapCount(), "Swap count will be thirteen.");
-    assertTrue(isSorted(sorted), "Array must be sorted.");
+    assertTrue(isSorted(sorted), ARRAYS_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -185,7 +184,7 @@ class BrickSortMaxMinTest implements SortProvider {
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
         "Comparison count must be same as swap count in reverse ordered array.");
-    assertTrue(isSorted(sorted), "Array must be sorted.");
+    assertTrue(isSorted(sorted), ARRAYS_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -197,7 +196,7 @@ class BrickSortMaxMinTest implements SortProvider {
     revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     BrickSortMaxMin sorter = new BrickSortMaxMin();
     IArray sorted = sorter.sort(high);
-    assertTrue(isSorted(sorted), "Array must be sorted.");
+    assertTrue(isSorted(sorted), ARRAYS_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
 
@@ -357,7 +356,7 @@ class BrickSortMaxMinTest implements SortProvider {
       }
       BrickSortMaxMin sorter = new BrickSortMaxMin();
       IArray sorted = sorter.sort(arr);
-      assertTrue(isSorted(sorted), "Array must be sorted.");
+      assertTrue(isSorted(sorted), ARRAYS_SORTED);
     }
 
     @Test
