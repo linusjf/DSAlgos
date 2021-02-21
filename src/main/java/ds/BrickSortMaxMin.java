@@ -1,7 +1,6 @@
 package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
-import static ds.AssertionUtils.*;
 import static ds.MathUtils.isOdd;
 
 /** Not thread-safe with state variables. */

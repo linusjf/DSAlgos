@@ -1,7 +1,6 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
-import static ds.BrickSortMaxMinParallel.*;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("BrickSortMaxMinParallelTest")
 class BrickSortMaxMinParallelTest implements SortProvider {
 
-  private static final String MUST_BE_EQUAL = "Must be equal";
   private static final String ZERO_TASKS_EXPECTED = "Zero tasks expected.";
   private static final String ONE_TASK_EXPECTED = "One task expected.";
   private static final String HALF_TASKS_EXPECTED = "Half tasks expected.";
