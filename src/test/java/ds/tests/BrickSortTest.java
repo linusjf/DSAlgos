@@ -1,5 +1,6 @@
 package ds.tests;
 
+import static ds.AbstractBrickSort.*;
 import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.*;
 import static ds.tests.TestData.*;
@@ -10,9 +11,11 @@ import ds.BrickSort;
 import ds.HighArray;
 import ds.IArray;
 import ds.OrdArray;
+import ds.RandomUtils;
 import java.util.Random;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -27,6 +30,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 @SuppressWarnings("PMD.LawOfDemeter")
 @DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
+
+  private static final String MUST_BE_EQUAL = "Must be equal";
 
   @ParameterizedTest
   @CsvSource(INIT_DATA)
@@ -338,6 +343,191 @@ class BrickSortTest implements SortProvider {
     BrickSortComplex bsc = new BrickSortComplex();
     bsc.sortSingleElementArray();
     assertTrue(bsc.isSorted(), SORTED);
+  }
+
+  @Nested
+  @DisplayName("BrickSortTest.MyriadTests")
+  class MyriadTests {
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testSortRandom")
+    void testSortRandom() {
+      HighArray arr = new HighArray(MYRIAD);
+      try (LongStream stream = RandomUtils.longStream().limit(MYRIAD)) {
+        stream.forEach(i -> arr.insert(i));
+      }
+      BrickSort sorter = new BrickSort();
+      IArray sorted = sorter.sort(arr);
+      assertTrue(isSorted(sorted), "Array must be sorted.");
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testStreamUnSorted")
+    void testStreamUnSorted() {
+      IArray high = new HighArray(MYRIAD);
+      IArray ord = new OrdArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD)
+          .unordered()
+          .forEach(
+              i -> {
+                high.insert(i);
+                ord.insert(i);
+              });
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      long[] extentSorted = sorted.getExtentArray();
+      long[] extent = ord.getExtentArray();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testStreamSorted")
+    void testStreamSorted() {
+      IArray high = new HighArray(MYRIAD);
+      IArray ord = new OrdArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD)
+          .forEach(
+              i -> {
+                high.insert(i);
+                ord.insert(i);
+              });
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      long[] extentSorted = sorted.getExtentArray();
+      long[] extent = ord.getExtentArray();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testComparisonCountSorted")
+    void testComparisonCountSorted() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      int compCount = sorter.getComparisonCount();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testComparisonCountUnsorted")
+    void testComparisonCountUnsorted() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).parallel().unordered().forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      int compCount = sorter.getComparisonCount();
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertTrue(
+          MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
+          "Comparison count must be in range " + (MYRIAD - 1) + " and " + MYRIAD * (MYRIAD - 1));
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testReverseSorted")
+    void testReverseSorted() {
+      IArray high = new HighArray(MYRIAD);
+      revRange(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(
+          sorter.getSwapCount(),
+          sorter.getComparisonCount(),
+          "Comparison count must be same as swap count in reverse ordered array.");
+      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testReverseSortedOdd")
+    void testReverseSortedOdd() {
+      IArray high = new HighArray(MYRIAD + 1);
+      revRange(1, MYRIAD + 1).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      IArray sorted = sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals(
+          (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+          innerLoopCount,
+          MUST_BE_EQUAL);
+      assertEquals(
+          sorter.getSwapCount(),
+          sorter.getComparisonCount(),
+          "Comparison count must be same as swap count in reverse ordered array.");
+      assertTrue(isSorted(sorted), "Array must be sorted");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testSwapCount")
+    void testSwapCount() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
+
+    @Test
+    @DisplayName("BrickSortTest.MyriadTests.testTimeComplexity")
+    void testTimeComplexity() {
+      IArray high = new HighArray(MYRIAD);
+      LongStream.rangeClosed(1, MYRIAD).forEach(i -> high.insert(i));
+      BrickSortComplex sorter = new BrickSortComplex();
+      sorter.sort(high);
+      final int innerLoopCount = sorter.getInnerLoopCount();
+      final int outerLoopCount = sorter.getOuterLoopCount();
+      int length = high.count();
+      final int oddTaskCount = computeOddTaskCount(length);
+      final int evenTaskCount = computeEvenTaskCount(length);
+      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      assertEquals(MYRIAD - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
+      assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
+    }
   }
 
   static class BrickSortComplex extends BrickSort {

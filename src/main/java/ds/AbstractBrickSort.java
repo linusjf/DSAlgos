@@ -1,6 +1,7 @@
 package ds;
 
 import static ds.MathUtils.isOdd;
+import static java.lang.Math.abs;
 
 public abstract class AbstractBrickSort extends AbstractSort {
 
@@ -14,4 +15,14 @@ public abstract class AbstractBrickSort extends AbstractSort {
   }
 
   public abstract boolean isSorted();
+
+  public static int computeOddTaskCount(int length) {
+    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
+    return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+  }
+
+  public static int computeEvenTaskCount(int length) {
+    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
+    return length >> 1;
+  }
 }
