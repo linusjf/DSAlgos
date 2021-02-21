@@ -31,7 +31,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("BrickSortTest")
 class BrickSortTest implements SortProvider {
 
-  private static final String COUNT_EQUALS = "Comparison count must be same as swap count in reverse ordered array.";
+  private static final String COUNT_EQUALS =
+      "Comparison count must be same as swap count in reverse ordered array.";
   private static final String ARRAYS_SORTED = "Arrays must be sorted.";
   private static final String MUST_BE_EQUAL = "Must be equal";
 
@@ -182,10 +183,7 @@ class BrickSortTest implements SortProvider {
     revRange(1, SCORE).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
-    assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        COUNT_EQUALS);
+    assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
     assertTrue(isSorted(sorted), ARRAYS_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
@@ -198,10 +196,7 @@ class BrickSortTest implements SortProvider {
     revRange(1, SCORE + 1).forEach(i -> high.insert(i));
     BrickSort sorter = new BrickSort();
     IArray sorted = sorter.sort(high);
-    assertEquals(
-        sorter.getSwapCount(),
-        sorter.getComparisonCount(),
-        COUNT_EQUALS);
+    assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
     assertTrue(isSorted(sorted), ARRAYS_SORTED);
     assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
   }
@@ -465,10 +460,7 @@ class BrickSortTest implements SortProvider {
       final int oddTaskCount = computeOddTaskCount(length);
       final int evenTaskCount = computeEvenTaskCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
-      assertEquals(
-          sorter.getSwapCount(),
-          sorter.getComparisonCount(),
-          COUNT_EQUALS);
+      assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
       assertTrue(isSorted(sorted), "Array must be sorted");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -489,10 +481,7 @@ class BrickSortTest implements SortProvider {
           (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
           innerLoopCount,
           MUST_BE_EQUAL);
-      assertEquals(
-          sorter.getSwapCount(),
-          sorter.getComparisonCount(),
-          COUNT_EQUALS);
+      assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
       assertTrue(isSorted(sorted), "Array must be sorted");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
