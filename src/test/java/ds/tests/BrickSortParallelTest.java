@@ -1,7 +1,7 @@
 package ds.tests;
 
 import static ds.ArrayUtils.*;
-import static ds.BrickSortParallel.*;
+import static ds.AbstractBrickSort.*;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
