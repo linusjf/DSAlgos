@@ -66,13 +66,13 @@ public class BrickSortMaxMinParallel extends BrickSort {
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);
-      sort(a, length, service, evenTaskCount);
+      brickSort(a, length, service, evenTaskCount);
       if (swapCount.intValue() >= maxComparisons) sorted.set(true);
     }
   }
 
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void sort(long[] a, int length, ExecutorService service, int unused)
+  protected void brickSort(long[] a, int length, ExecutorService service, int unused)
       throws InterruptedException, ExecutionException {
     int taskCount = computeOddTaskCount(length) + computeEvenTaskCount(length);
     List<Future<Void>> futures = new ArrayList<>(taskCount);
