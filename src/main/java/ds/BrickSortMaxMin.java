@@ -2,123 +2,58 @@ package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
 import static ds.AssertionUtils.*;
-import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
-import static java.lang.Math.abs;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /** Not thread-safe with state variables. */
-public class BrickSortMaxMin extends BrickSort {
+public class BrickSortMaxMin extends AbstractBrickSort {
 
-  private static final int THRESHOLD = 40;
-  private final AtomicBoolean sorted = new AtomicBoolean();
-  private final AtomicInteger swapCount = new AtomicInteger();
+  protected boolean sorted;
+
+  @Override
+  public boolean isSorted() {
+    return sorted;
+  }
 
   @Override
   protected void reset() {
     super.reset();
-    sorted.getAndSet(false);
-    swapCount.set(0);
+    sorted = false;
   }
 
-  private void sequentialSort(long[] a, int length) {
-    super.sort(a, length);
-    sorted.getAndSet(super.sorted);
-    swapCount.set(super.swapCount);
-  }
-
-  @SuppressWarnings("PMD.LawOfDemeter")
   @Override
   protected void sort(long[] a, int length) {
-    if (!shouldSort(length)) {
-      sorted.getAndSet(true);
+    reset();
+    if (length <= 1) {
+      sorted = true;
       return;
     }
-    if (length <= THRESHOLD) {
-      sequentialSort(a, length);
-      return;
-    }
-    ExecutorService service = Executors.newSingleThreadExecutor();
-    try {
-      sortInterruptibly(a, length, service);
-    } catch (ExecutionException | InterruptedException ee) {
-      throw new CompletionException(ee);
-    } finally {
-      terminateExecutor(service, length, TimeUnit.MILLISECONDS);
-    }
-    assertServiceTerminated(service);
-  }
-
-  protected void sortInterruptibly(long[] a, int length, ExecutorService service)
-      throws InterruptedException, ExecutionException {
     final int maxComparisons = computeMaxComparisons(length);
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
-    while (!sorted.get()) {
+    while (!sorted) {
       ++outerLoopCount;
-      sorted.set(true);
-      sort(a, length, service, evenTaskCount);
-      if (swapCount.intValue() >= maxComparisons) sorted.set(true);
+      sorted = true;
+      brickSort(a, length);
+      if (swapCount == maxComparisons) sorted = true;
     }
   }
 
-  @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
-  protected void sort(long[] a, int length, ExecutorService service, int unused)
-      throws InterruptedException, ExecutionException {
-    int taskCount = computeOddTaskCount(length) + computeEvenTaskCount(length);
-    List<Future<Void>> futures = new ArrayList<>(taskCount);
-    BubbleTask bt = new BubbleTask(this, a, 0);
-    int iterations = 0;
+  protected void brickSort(long[] a, int length) {
+    int iterations;
     int i;
-    for (i = 0; i < length - 1; i += 2, iterations++) {
+    for (i = 0, iterations = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
-      ++comparisonCount;
-      BubbleTask task = BubbleTask.createCopy(bt);
-      task.i = i;
-      futures.add(service.submit(task));
-      if (iterations > 0) {
-        ++comparisonCount;
-        BubbleTask oddTask = BubbleTask.createCopy(bt);
-        oddTask.i = i - 1;
-        futures.add(service.submit(oddTask));
-      }
+      bubble(a, i);
+      if (iterations > 0) bubble(a, i - 1);
     }
-    if (isOdd(length)) {
-      ++comparisonCount;
-      BubbleTask oddTask = BubbleTask.createCopy(bt);
-      oddTask.i = i - 1;
-      futures.add(service.submit(oddTask));
-    }
-    assertEquality(futures.size(), taskCount);
-    for (Future future : futures) future.get();
+    if (isOdd(length)) bubble(a, i - 1);
   }
 
   @Override
   protected void bubble(long[] a, int i) {
+    ++comparisonCount;
     if (swapIfGreaterThan(a, i, i + 1)) {
-      swapCount.incrementAndGet();
-      sorted.set(false);
+      sorted = false;
+      ++swapCount;
     }
-  }
-
-  @Override
-  public int getSwapCount() {
-    return swapCount.intValue();
-  }
-
-  @Override
-  public boolean isSorted() {
-    return sorted.get();
   }
 
   @SuppressWarnings("PMD.LawOfDemeter")
@@ -147,15 +82,5 @@ public class BrickSortMaxMin extends BrickSort {
         .append(sorted)
         .append(lineSeparator);
     return sb.toString();
-  }
-
-  public static int computeOddTaskCount(int length) {
-    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
-    return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
-  }
-
-  public static int computeEvenTaskCount(int length) {
-    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
-    return length >> 1;
   }
 }

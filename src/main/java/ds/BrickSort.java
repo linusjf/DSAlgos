@@ -1,5 +1,7 @@
 package ds;
 
+import static ds.ArrayUtils.swapIfGreaterThan;
+
 public class BrickSort extends AbstractBrickSort {
 
   protected boolean sorted;
@@ -39,7 +41,6 @@ public class BrickSort extends AbstractBrickSort {
   protected void oddSort(long[] a, int length) {
     for (int i = 1; i < length - 1; i = i + 2) {
       ++innerLoopCount;
-      ++comparisonCount;
       bubble(a, i);
     }
   }
@@ -47,15 +48,14 @@ public class BrickSort extends AbstractBrickSort {
   protected void evenSort(long[] a, int length) {
     for (int i = 0; i < length - 1; i = i + 2) {
       ++innerLoopCount;
-      ++comparisonCount;
       bubble(a, i);
     }
   }
 
   @Override
   protected void bubble(long[] a, int i) {
-    if (a[i] > a[i + 1]) {
-      swap(a, i, i + 1);
+    ++comparisonCount;
+    if (swapIfGreaterThan(a, i, i + 1)) {
       sorted = false;
       ++swapCount;
     }
