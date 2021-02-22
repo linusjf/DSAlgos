@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import ds.BinaryTree;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
