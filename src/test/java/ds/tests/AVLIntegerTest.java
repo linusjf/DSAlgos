@@ -3,7 +3,8 @@ package ds.tests;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
-import ds.BinaryTree;
+import ds.AVLTree;
+import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,21 +17,21 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @DisplayName("BinaryTreeTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
-class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
+class AVLIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   @BeforeAll
   public void init() {
-    randomTree = new BinaryTree<Integer>();
+    randomTree = new AVLTree<Integer>();
     Random random = new Random();
     for (int i = 0; i < 100; i++) randomTree.add(random.nextInt(1000));
-    
+
     singleElement = 0;
     singleElementList = singletonList(0);
     severalElementsList = asList(new Integer[] {1, 2, 5, 8, 9, 10});
     severalElementsInOrderList = asList(new Integer[] {1, 2, 5, 8, 9, 10});
-    severalElementsPreOrderList = asList(new Integer[] {5, 2, 1, 9, 8, 10});
-    severalElementsPostOrderList = asList(new Integer[] {1, 2, 8, 10, 9, 5});
-    severalElementsLevelOrderList = asList(new Integer[] {5, 2, 9, 1, 8, 10});
+    severalElementsPreOrderList = asList(new Integer[] {8, 2, 1, 5, 9, 10});
+    severalElementsPostOrderList = asList(new Integer[] {1, 5, 2, 10, 9, 8});
+    severalElementsLevelOrderList = asList(new Integer[] {8, 2, 9, 1, 5, 10});
     severalNonExistentList = asList(new Integer[] {-1, 0, 3, 4, 6, 7, 11});
 
     duplicateElement = 1;
@@ -41,17 +42,17 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   @BeforeEach
   public void setup() {
-    empty = new BinaryTree<Integer>();
-    one = new BinaryTree<Integer>();
+    empty = new AVLTree<Integer>();
+    one = new AVLTree<Integer>();
     one.add(0);
-    several = new BinaryTree<Integer>();
+    several = new AVLTree<Integer>();
     several.add(5);
     several.add(2);
     several.add(1);
     several.add(9);
     several.add(8);
     several.add(10);
-    duplicates = new BinaryTree<Integer>();
+    duplicates = new AVLTree<Integer>();
     duplicates.add(5);
     duplicates.add(3);
     duplicates.add(3);

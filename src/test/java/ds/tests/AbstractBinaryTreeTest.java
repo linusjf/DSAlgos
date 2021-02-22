@@ -21,6 +21,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   Tree<T> one;
   Tree<T> several;
   Tree<T> duplicates;
+  Tree<T> randomTree;
   T singleElement;
   List<T> singleElementList;
   List<T> severalElementsList;
@@ -34,6 +35,12 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   List<T> duplicateElementList;
   List<T> duplicateTwoElementList;
   List<T> duplicateThreeElementList;
+
+  @Test
+  @DisplayName("AbstractBinaryTreeTest.testRandomInserts")
+  public void testRandomInserts() {
+    for (T s : randomTree.values()) assertEquals(s, randomTree.find(s).value(), "Value not found!");
+  }
 
   @Test
   @DisplayName("AbstractBinaryTreeTest.testEmptyContainsZeroItems")
