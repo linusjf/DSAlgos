@@ -258,7 +258,7 @@
     <groovy.version>3.0.7</groovy.version>
     <junit.version>5.7.1</junit.version>
     <pitest.version>1.6.4</pitest.version>
-    <pitest.maven.version>1.6.2</pitest.maven.version>
+    <pitest.maven.version>1.6.4</pitest.maven.version>
   </properties>
   <dependencyManagement>
     <dependencies>
