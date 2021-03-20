@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Generated
 /** Not thread-safe with state variables. */
 public class BrickSortMaxMinParallel extends BrickSort {
 
