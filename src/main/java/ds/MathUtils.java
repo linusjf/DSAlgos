@@ -20,7 +20,7 @@ public final class MathUtils {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
     return length >> 1;
   }
-  
+
   public static boolean isOdd(int num) {
     return (num & 1) == 1;
   }

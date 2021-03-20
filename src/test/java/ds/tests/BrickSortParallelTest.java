@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static ds.MathUtils.*;
 import static ds.ArrayUtils.*;
+import static ds.MathUtils.*;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,9 +51,7 @@ class BrickSortParallelTest implements SortProvider {
     final int oddCount = computeOddCount(length);
     final int evenCount = computeEvenCount(length);
     assertEquals(
-        (oddCount + evenCount) * (outerLoopCount - 1) + oddCount,
-        innerLoopCount,
-        MUST_BE_EQUAL);
+        (oddCount + evenCount) * (outerLoopCount - 1) + oddCount, innerLoopCount, MUST_BE_EQUAL);
     assertEquals(
         sorter.getSwapCount(),
         sorter.getComparisonCount(),
@@ -273,9 +271,7 @@ class BrickSortParallelTest implements SortProvider {
       final int oddCount = computeOddCount(length);
       final int evenCount = computeEvenCount(length);
       assertEquals(
-          (oddCount + evenCount) * (outerLoopCount - 1) + oddCount,
-          innerLoopCount,
-          MUST_BE_EQUAL);
+          (oddCount + evenCount) * (outerLoopCount - 1) + oddCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(
           sorter.getSwapCount(),
           sorter.getComparisonCount(),
@@ -431,19 +427,15 @@ class BrickSortParallelTest implements SortProvider {
     @Test
     @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLength")
     void testMaxValueLength() {
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
-          (Integer.MAX_VALUE - 2) / 2,
-          computeOddCount(Integer.MAX_VALUE - 1),
-          HALF_TASKS_EXPECTED);
+          (Integer.MAX_VALUE - 2) / 2, computeOddCount(Integer.MAX_VALUE - 1), HALF_TASKS_EXPECTED);
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
           computeEvenCount(Integer.MAX_VALUE - 1),

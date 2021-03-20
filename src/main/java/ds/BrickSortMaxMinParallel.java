@@ -1,9 +1,9 @@
 package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
-import static ds.MathUtils.*;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
+import static ds.MathUtils.*;
 import static ds.MathUtils.isOdd;
 
 import java.util.ArrayList;

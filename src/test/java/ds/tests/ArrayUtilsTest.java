@@ -180,18 +180,18 @@ class ArrayUtilsTest {
         () -> ArrayUtils.getDoubleCapacity(-1 * SCORE),
         EXCEPTION_EXPECTED);
   }
-  
+
   @Test
   @DisplayName("ArrayUtilsTest.testSwapLessThanTrue")
   void testSwapLessThanTrue() {
-    long[] a = { 1, 2, 3};
+    long[] a = {1, 2, 3};
     assertTrue(swapIfLessThan(a, 1, 2));
   }
-  
+
   @Test
   @DisplayName("ArrayUtilsTest.testSwapLessThanFalse")
   void testSwapLessThanFalse() {
-    long[] a = { 1, 2, 2};
+    long[] a = {1, 2, 2};
     assertFalse(swapIfLessThan(a, 1, 2));
   }
 }

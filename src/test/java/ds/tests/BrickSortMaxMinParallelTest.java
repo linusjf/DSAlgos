@@ -1,7 +1,7 @@
 package ds.tests;
 
-import static ds.MathUtils.*;
 import static ds.ArrayUtils.*;
+import static ds.MathUtils.*;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -357,19 +357,15 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-      assertEquals(
-          Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
-          (Integer.MAX_VALUE - 2) / 2,
-          computeOddCount(Integer.MAX_VALUE - 1),
-          HALF_TASKS_EXPECTED);
+          (Integer.MAX_VALUE - 2) / 2, computeOddCount(Integer.MAX_VALUE - 1), HALF_TASKS_EXPECTED);
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
           computeEvenCount(Integer.MAX_VALUE - 1),
