@@ -1,5 +1,7 @@
 package ds;
 
+import static java.lang.Math.abs;
+
 public final class MathUtils {
 
   private static final String INVALID_ARGUMENT = "Invalid argument: ";
@@ -9,6 +11,16 @@ public final class MathUtils {
     throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
   }
 
+  public static int computeOddCount(int length) {
+    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
+    return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
+  }
+
+  public static int computeEvenCount(int length) {
+    if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
+    return length >> 1;
+  }
+  
   public static boolean isOdd(int num) {
     return (num & 1) == 1;
   }
