@@ -1,6 +1,7 @@
 package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
+import static ds.MathUtils.*;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.isOdd;
@@ -72,7 +73,7 @@ public class BrickSortMaxMinParallel extends BrickSort {
   @SuppressWarnings({"PMD.LawOfDemeter", "PMD.SystemPrintln"})
   protected void brickSort(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
-    int taskCount = computeOddTaskCount(length) + computeEvenTaskCount(length);
+    int taskCount = computeOddCount(length) + computeEvenCount(length);
     List<Future<Void>> futures = new ArrayList<>(taskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
     int i;

@@ -1,6 +1,7 @@
 package ds;
 
 import static ds.ArrayUtils.swapIfGreaterThan;
+import static ds.MathUtils.*;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 
@@ -60,8 +61,8 @@ public class BrickSortParallel extends BrickSort {
   protected void sortInterruptibly(long[] a, int length, ExecutorService service)
       throws InterruptedException, ExecutionException {
     final int maxComparisons = computeMaxComparisons(length);
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
+    final int oddTaskCount = computeOddCount(length);
+    final int evenTaskCount = computeEvenCount(length);
     while (!sorted.get()) {
       ++outerLoopCount;
       sorted.set(true);

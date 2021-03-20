@@ -1,6 +1,6 @@
 package ds.tests;
 
-import static ds.AbstractBrickSort.*;
+import static ds.MathUtils.*;
 import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,10 +48,10 @@ class BrickSortParallelTest implements SortProvider {
     final int innerLoopCount = sorter.getInnerLoopCount();
     final int outerLoopCount = sorter.getOuterLoopCount();
     int length = high.count();
-    final int oddTaskCount = computeOddTaskCount(length);
-    final int evenTaskCount = computeEvenTaskCount(length);
+    final int oddCount = computeOddCount(length);
+    final int evenCount = computeEvenCount(length);
     assertEquals(
-        (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+        (oddCount + evenCount) * (outerLoopCount - 1) + oddCount,
         innerLoopCount,
         MUST_BE_EQUAL);
     assertEquals(
@@ -169,9 +169,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -194,9 +194,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -212,9 +212,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -230,9 +230,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertTrue(
           MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
           "Comparison count must be in range " + (MYRIAD - 1) + " and " + MYRIAD * (MYRIAD - 1));
@@ -249,9 +249,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(
           sorter.getSwapCount(),
           sorter.getComparisonCount(),
@@ -270,10 +270,10 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
       assertEquals(
-          (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
+          (oddCount + evenCount) * (outerLoopCount - 1) + oddCount,
           innerLoopCount,
           MUST_BE_EQUAL);
       assertEquals(
@@ -294,9 +294,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -311,9 +311,9 @@ class BrickSortParallelTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddTaskCount(length);
-      final int evenTaskCount = computeEvenTaskCount(length);
-      assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
+      final int oddCount = computeOddCount(length);
+      final int evenCount = computeEvenCount(length);
+      assertEquals((oddCount + evenCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(MYRIAD - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
     }
@@ -359,94 +359,94 @@ class BrickSortParallelTest implements SortProvider {
   }
 
   @Nested
-  @DisplayName("BrickSortParallelTest.ComputeTaskCountTest")
-  class ComputeTaskCountTest {
+  @DisplayName("BrickSortParallelTest.ComputeCountTest")
+  class ComputeCountTest {
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testZeroLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testZeroLength")
     void testZeroLength() {
-      assertEquals(0, computeOddTaskCount(0), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(0), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeOddCount(0), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenCount(0), ZERO_TASKS_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinusOneLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testMinusOneLength")
     void testMinusOneLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeOddCount(-1), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class, () -> computeEvenTaskCount(-1), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenCount(-1), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinusTwoLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testMinusTwoLength")
     void testMinusTwoLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeOddCount(-2), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class, () -> computeEvenTaskCount(-2), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenCount(-2), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMinValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testMinValueLength")
     void testMinValueLength() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> computeOddTaskCount(Integer.MIN_VALUE),
+          () -> computeOddCount(Integer.MIN_VALUE),
           ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
           IllegalArgumentException.class,
-          () -> computeEvenTaskCount(Integer.MIN_VALUE),
+          () -> computeEvenCount(Integer.MIN_VALUE),
           ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testOneValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testOneValueLength")
     void testOneValueLength() {
-      assertEquals(0, computeOddTaskCount(1), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenTaskCount(1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeOddCount(1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenCount(1), ZERO_TASKS_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testTwoValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testTwoValueLength")
     void testTwoValueLength() {
-      assertEquals(0, computeOddTaskCount(2), ZERO_TASKS_EXPECTED);
-      assertEquals(1, computeEvenTaskCount(2), ONE_TASK_EXPECTED);
+      assertEquals(0, computeOddCount(2), ZERO_TASKS_EXPECTED);
+      assertEquals(1, computeEvenCount(2), ONE_TASK_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testThreeValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testThreeValueLength")
     void testThreeValueLength() {
-      assertEquals(1, computeOddTaskCount(3), ONE_TASK_EXPECTED);
-      assertEquals(1, computeEvenTaskCount(3), ONE_TASK_EXPECTED);
+      assertEquals(1, computeOddCount(3), ONE_TASK_EXPECTED);
+      assertEquals(1, computeEvenCount(3), ONE_TASK_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testFourValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testFourValueLength")
     void testFourValueLength() {
-      assertEquals(1, computeOddTaskCount(4), ONE_TASK_EXPECTED);
-      assertEquals(2, computeEvenTaskCount(4), "Two tasks expected");
+      assertEquals(1, computeOddCount(4), ONE_TASK_EXPECTED);
+      assertEquals(2, computeEvenCount(4), "Two tasks expected");
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMaxValueLength")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLength")
     void testMaxValueLength() {
       assertEquals(
-          Integer.MAX_VALUE / 2, computeOddTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+          Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
       assertEquals(
-          Integer.MAX_VALUE / 2, computeEvenTaskCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+          Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
     @Test
-    @DisplayName("BrickSortParallelTest.ComputeTaskCountTest.testMaxValueLengthEven")
+    @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
           (Integer.MAX_VALUE - 2) / 2,
-          computeOddTaskCount(Integer.MAX_VALUE - 1),
+          computeOddCount(Integer.MAX_VALUE - 1),
           HALF_TASKS_EXPECTED);
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
-          computeEvenTaskCount(Integer.MAX_VALUE - 1),
+          computeEvenCount(Integer.MAX_VALUE - 1),
           HALF_TASKS_EXPECTED);
     }
   }

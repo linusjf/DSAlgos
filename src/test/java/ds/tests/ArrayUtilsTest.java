@@ -1,6 +1,6 @@
 package ds.tests;
 
-import static ds.ArrayUtils.isSorted;
+import static ds.ArrayUtils.*;
 import static ds.tests.TestConstants.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -179,5 +179,19 @@ class ArrayUtilsTest {
         IllegalStateException.class,
         () -> ArrayUtils.getDoubleCapacity(-1 * SCORE),
         EXCEPTION_EXPECTED);
+  }
+  
+  @Test
+  @DisplayName("ArrayUtilsTest.testSwapLessThanTrue")
+  void testSwapLessThanTrue() {
+    long[] a = { 1, 2, 3};
+    assertTrue(swapIfLessThan(a, 1, 2));
+  }
+  
+  @Test
+  @DisplayName("ArrayUtilsTest.testSwapLessThanFalse")
+  void testSwapLessThanFalse() {
+    long[] a = { 1, 2, 2};
+    assertFalse(swapIfLessThan(a, 1, 2));
   }
 }
