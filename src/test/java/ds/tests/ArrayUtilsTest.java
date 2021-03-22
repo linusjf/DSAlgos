@@ -159,7 +159,7 @@ class ArrayUtilsTest {
   void testMaxInt() {
     assertThrows(
         IllegalStateException.class,
-        () -> ArrayUtils.getDoubleCapacity(Integer.MAX_VALUE),
+        () -> getDoubleCapacity(Integer.MAX_VALUE),
         EXCEPTION_EXPECTED);
   }
 

@@ -4,7 +4,6 @@ import static ds.ArrayUtils.swapIfGreaterThan;
 import static ds.AssertionUtils.*;
 import static ds.ExecutorUtils.terminateExecutor;
 import static ds.MathUtils.*;
-import static ds.MathUtils.isOdd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,9 +76,8 @@ public class BrickSortMaxMinParallel extends BrickSort {
     int taskCount = computeOddPairCount(length) + computeEvenPairCount(length);
     List<Future<Void>> futures = new ArrayList<>(taskCount);
     BubbleTask bt = new BubbleTask(this, a, 0);
-    int i;
-    int iterations;
-    for (i = 0, iterations = 0; i < length - 1; i += 2, iterations++) {
+    int i = 0;
+    for (int iterations = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
       ++comparisonCount;
       BubbleTask task = BubbleTask.createCopy(bt);

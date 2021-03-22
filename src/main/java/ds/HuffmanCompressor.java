@@ -41,7 +41,7 @@ public class HuffmanCompressor extends HuffmanBase {
 
     // tabulate frequency counts
     int[] freq = new int[R];
-    for (int i : input) freq[i]++;
+    for (char i : input) freq[i]++;
 
     // build Huffman trie
     Node root = buildTrie(freq);
@@ -57,7 +57,7 @@ public class HuffmanCompressor extends HuffmanBase {
     bos.write(input.length);
 
     // use Huffman code to encode input
-    for (int i : input) {
+    for (char i : input) {
       String code = st[i];
       for (int j = 0; j < code.length(); j++) {
         if (code.charAt(j) == ZERO_CHARACTER) bos.write(false);
