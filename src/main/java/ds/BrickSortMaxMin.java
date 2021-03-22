@@ -36,14 +36,15 @@ public class BrickSortMaxMin extends AbstractBrickSort {
   }
 
   protected void brickSort(long[] a, int length) {
-    int iterations;
-    int i;
-    for (i = 0, iterations = 0; i < length - 1; i += 2, iterations++) {
+    int i = 0;
+    for (int iterations = 0; i < length - 1; i += 2, iterations++) {
       ++innerLoopCount;
       bubble(a, i);
-      if (iterations > 0) bubble(a, i - 1);
+      if (iterations > 0) 
+        bubble(a, i - 1);
     }
-    if (isOdd(length)) bubble(a, i - 1);
+    if (isOdd(length)) 
+      bubble(a, i - 1);
   }
 
   @Override

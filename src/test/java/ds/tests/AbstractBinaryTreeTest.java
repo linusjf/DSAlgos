@@ -43,6 +43,13 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   }
 
   @Test
+  @DisplayName("AbstractBinaryTreeTest.testRandomRemoves")
+  public void testRandomRemoves() {
+    for (T s : randomTree.values()) randomTree.remove(s);
+    assertTreeEmpty(randomTree);
+  }
+
+  @Test
   @DisplayName("AbstractBinaryTreeTest.testEmptyContainsZeroItems")
   public void testEmptyContainsZeroItems() {
     assertTreeEmpty(empty);

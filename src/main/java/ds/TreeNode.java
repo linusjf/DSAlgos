@@ -203,6 +203,7 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     return Objects.toString(val);
   }
 
+  @Generated
   @Override
   public ITreeNode<T> clone() {
     try {
