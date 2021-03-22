@@ -67,7 +67,8 @@ class MathUtilsTest {
   @Test
   @DisplayName("MathUtilsTest.testComputeEvenPairCountNegative")
   void testComputeEvenPairCountNegative() {
-    assertThrows(IllegalArgumentException.class, () -> computeEvenPairCount(-1), EXCEPTION_EXPECTED);
+    assertThrows(
+        IllegalArgumentException.class, () -> computeEvenPairCount(-1), EXCEPTION_EXPECTED);
   }
 
   @Test

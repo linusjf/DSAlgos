@@ -427,15 +427,19 @@ class BrickSortParallelTest implements SortProvider {
     @Test
     @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLength")
     void testMaxValueLength() {
-      assertEquals(Integer.MAX_VALUE / 2, computeOddPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-      assertEquals(Integer.MAX_VALUE / 2, computeEvenPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeOddPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(
+          Integer.MAX_VALUE / 2, computeEvenPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortParallelTest.ComputeCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
-          (Integer.MAX_VALUE - 2) / 2, computeOddPairCount(Integer.MAX_VALUE - 1), HALF_TASKS_EXPECTED);
+          (Integer.MAX_VALUE - 2) / 2,
+          computeOddPairCount(Integer.MAX_VALUE - 1),
+          HALF_TASKS_EXPECTED);
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
           computeEvenPairCount(Integer.MAX_VALUE - 1),
