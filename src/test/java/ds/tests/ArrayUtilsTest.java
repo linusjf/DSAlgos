@@ -136,21 +136,21 @@ class ArrayUtilsTest {
   @Test
   @DisplayName("ArrayUtilsTest.testDoubleCapacity")
   void testDoubleCapacity() {
-    long[] arr = ArrayUtils.getDoubleCapacity(TEN);
+    long[] arr = getDoubleCapacity(TEN);
     assertEquals(SCORE, arr.length, "Double the value expected.");
   }
 
   @Test
   @DisplayName("ArrayUtilsTest.testDoubleCapacityOdd")
   void testDoubleCapacityOdd() {
-    long[] arr = ArrayUtils.getDoubleCapacity(TEN + 1);
+    long[] arr = getDoubleCapacity(TEN + 1);
     assertEquals(SCORE + 2, arr.length, "Double the value expected.");
   }
 
   @Test
   @DisplayName("ArrayUtilsTest.testDoubleCapacityZero")
   void testDoubleCapacityZero() {
-    long[] arr = ArrayUtils.getDoubleCapacity(0);
+    long[] arr = getDoubleCapacity(0);
     assertEquals(0, arr.length, "Zero value expected.");
   }
 
@@ -168,7 +168,7 @@ class ArrayUtilsTest {
   void testNegativeSize() {
     assertThrows(
         IllegalStateException.class,
-        () -> ArrayUtils.getDoubleCapacity(Integer.MIN_VALUE),
+        () -> getDoubleCapacity(Integer.MIN_VALUE),
         EXCEPTION_EXPECTED);
   }
 
@@ -176,22 +176,20 @@ class ArrayUtilsTest {
   @DisplayName("ArrayUtilsTest.testNegativeSize")
   void testNegativeSizeScore() {
     assertThrows(
-        IllegalStateException.class,
-        () -> ArrayUtils.getDoubleCapacity(-1 * SCORE),
-        EXCEPTION_EXPECTED);
+        IllegalStateException.class, () -> getDoubleCapacity(-1 * SCORE), EXCEPTION_EXPECTED);
   }
 
   @Test
   @DisplayName("ArrayUtilsTest.testSwapLessThanTrue")
   void testSwapLessThanTrue() {
     long[] a = {1, 2, 3};
-    assertTrue(swapIfLessThan(a, 1, 2));
+    assertTrue(swapIfLessThan(a, 1, 2), "Less than swap expected.");
   }
 
   @Test
   @DisplayName("ArrayUtilsTest.testSwapLessThanFalse")
   void testSwapLessThanFalse() {
     long[] a = {1, 2, 2};
-    assertFalse(swapIfLessThan(a, 1, 2));
+    assertFalse(swapIfLessThan(a, 1, 2), "Less than swap not expected.");
   }
 }

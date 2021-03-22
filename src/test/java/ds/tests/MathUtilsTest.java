@@ -23,6 +23,7 @@ class MathUtilsTest {
   private static final String MUST_RETURN_FALSE = "Must return false.";
   private static final String EXCEPTION_EXPECTED = "Exception expected.";
   private static final String EXCEPTION_NOT_EXPECTED = "Exception not expected.";
+  private static final String ONE_EXPECTED = "One expected!";
 
   @Test
   @DisplayName("MathUtilsTest.testPrivateConstructor")
@@ -31,6 +32,48 @@ class MathUtilsTest {
         ReflectException.class,
         () -> on(MathUtils.class).create(),
         "Private constructor throws exception.");
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeOddCount")
+  void testComputeOddCount() {
+    assertEquals(0, computeOddCount(0), "Zero expected!");
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeOddCountOne")
+  void testComputeOddCountOne() {
+    assertEquals(1, computeOddCount(1), ONE_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeOddCountTwo")
+  void testComputeOddCountTwo() {
+    assertEquals(1, computeOddCount(2), ONE_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeEvenCount")
+  void testComputeEvenCount() {
+    assertEquals(1, computeEvenCount(0), ONE_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeEvenCountTwo")
+  void testComputeEvenCountTwo() {
+    assertEquals(2, computeEvenCount(2), ONE_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeEvenCountNegative")
+  void testComputeEvenCountNegative() {
+    assertThrows(IllegalArgumentException.class, () -> computeEvenCount(-1), EXCEPTION_EXPECTED);
+  }
+
+  @Test
+  @DisplayName("MathUtilsTest.testComputeOddCountNegative")
+  void testComputeOddCountNegative() {
+    assertThrows(IllegalArgumentException.class, () -> computeOddCount(-1), EXCEPTION_EXPECTED);
   }
 
   @Test
@@ -60,7 +103,7 @@ class MathUtilsTest {
   @Test
   @DisplayName("MathUtilsTest.testMinusTwo")
   void testMinusTwo() {
-    assertFalse(isOdd(-2), "Minus Two is even!");
+    assertFalse(isOdd(-2), "-2 is not odd.");
   }
 
   @Test

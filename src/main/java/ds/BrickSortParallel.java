@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Generated
 /** Not thread-safe with state variables. */
+@Generated
 public class BrickSortParallel extends BrickSort {
 
   private static final int THRESHOLD = 40;
