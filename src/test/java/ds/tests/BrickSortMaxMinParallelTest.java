@@ -291,26 +291,26 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testZeroLength")
     void testZeroLength() {
-      assertEquals(0, computeOddCount(0), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenCount(0), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeOddPairCount(0), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenPairCount(0), ZERO_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMinusOneLength")
     void testMinusOneLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddCount(-1), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeOddPairCount(-1), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class, () -> computeEvenCount(-1), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenPairCount(-1), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMinusTwoLength")
     void testMinusTwoLength() {
       assertThrows(
-          IllegalArgumentException.class, () -> computeOddCount(-2), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeOddPairCount(-2), ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
-          IllegalArgumentException.class, () -> computeEvenCount(-2), ILLEGAL_LENGTH_EXPECTED);
+          IllegalArgumentException.class, () -> computeEvenPairCount(-2), ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
@@ -318,57 +318,57 @@ class BrickSortMaxMinParallelTest implements SortProvider {
     void testMinValueLength() {
       assertThrows(
           IllegalArgumentException.class,
-          () -> computeOddCount(Integer.MIN_VALUE),
+          () -> computeOddPairCount(Integer.MIN_VALUE),
           ILLEGAL_LENGTH_EXPECTED);
       assertThrows(
           IllegalArgumentException.class,
-          () -> computeEvenCount(Integer.MIN_VALUE),
+          () -> computeEvenPairCount(Integer.MIN_VALUE),
           ILLEGAL_LENGTH_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testOneValueLength")
     void testOneValueLength() {
-      assertEquals(0, computeOddCount(1), ZERO_TASKS_EXPECTED);
-      assertEquals(0, computeEvenCount(1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeOddPairCount(1), ZERO_TASKS_EXPECTED);
+      assertEquals(0, computeEvenPairCount(1), ZERO_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testTwoValueLength")
     void testTwoValueLength() {
-      assertEquals(0, computeOddCount(2), ZERO_TASKS_EXPECTED);
-      assertEquals(1, computeEvenCount(2), ONE_TASK_EXPECTED);
+      assertEquals(0, computeOddPairCount(2), ZERO_TASKS_EXPECTED);
+      assertEquals(1, computeEvenPairCount(2), ONE_TASK_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testThreeValueLength")
     void testThreeValueLength() {
-      assertEquals(1, computeOddCount(3), ONE_TASK_EXPECTED);
-      assertEquals(1, computeEvenCount(3), ONE_TASK_EXPECTED);
+      assertEquals(1, computeOddPairCount(3), ONE_TASK_EXPECTED);
+      assertEquals(1, computeEvenPairCount(3), ONE_TASK_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testFourValueLength")
     void testFourValueLength() {
-      assertEquals(1, computeOddCount(4), ONE_TASK_EXPECTED);
-      assertEquals(2, computeEvenCount(4), "Two tasks expected");
+      assertEquals(1, computeOddPairCount(4), ONE_TASK_EXPECTED);
+      assertEquals(2, computeEvenPairCount(4), "Two tasks expected");
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLength")
     void testMaxValueLength() {
-      assertEquals(Integer.MAX_VALUE / 2, computeOddCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
-      assertEquals(Integer.MAX_VALUE / 2, computeEvenCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeOddPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
+      assertEquals(Integer.MAX_VALUE / 2, computeEvenPairCount(Integer.MAX_VALUE), HALF_TASKS_EXPECTED);
     }
 
     @Test
     @DisplayName("BrickSortMaxMinParallelTest.ComputeTaskCountTest.testMaxValueLengthEven")
     void testMaxValueLengthEven() {
       assertEquals(
-          (Integer.MAX_VALUE - 2) / 2, computeOddCount(Integer.MAX_VALUE - 1), HALF_TASKS_EXPECTED);
+          (Integer.MAX_VALUE - 2) / 2, computeOddPairCount(Integer.MAX_VALUE - 1), HALF_TASKS_EXPECTED);
       assertEquals(
           (Integer.MAX_VALUE - 1) / 2,
-          computeEvenCount(Integer.MAX_VALUE - 1),
+          computeEvenPairCount(Integer.MAX_VALUE - 1),
           HALF_TASKS_EXPECTED);
     }
   }

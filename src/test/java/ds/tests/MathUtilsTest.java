@@ -35,45 +35,45 @@ class MathUtilsTest {
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeOddCount")
-  void testComputeOddCount() {
-    assertEquals(0, computeOddCount(0), "Zero expected!");
+  @DisplayName("MathUtilsTest.testComputeOddPairCount")
+  void testComputeOddPairCount() {
+    assertEquals(0, computeOddPairCount(0), "Zero expected!");
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeOddCountOne")
-  void testComputeOddCountOne() {
-    assertEquals(1, computeOddCount(1), ONE_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeOddPairCountOne")
+  void testComputeOddPairCountOne() {
+    assertEquals(0, computeOddPairCount(1), "Zero expected.");
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeOddCountTwo")
-  void testComputeOddCountTwo() {
-    assertEquals(1, computeOddCount(2), ONE_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeOddPairCountTwo")
+  void testComputeOddPairCountTwo() {
+    assertEquals(0, computeOddPairCount(2), "Zero expected.");
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeEvenCount")
-  void testComputeEvenCount() {
-    assertEquals(1, computeEvenCount(0), ONE_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeEvenPairCount")
+  void testComputeEvenPairCount() {
+    assertEquals(0, computeEvenPairCount(0), "Zero expected.");
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeEvenCountTwo")
-  void testComputeEvenCountTwo() {
-    assertEquals(2, computeEvenCount(2), ONE_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeEvenPairCountTwo")
+  void testComputeEvenPairCountTwo() {
+    assertEquals(1, computeEvenPairCount(2), ONE_EXPECTED);
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeEvenCountNegative")
-  void testComputeEvenCountNegative() {
-    assertThrows(IllegalArgumentException.class, () -> computeEvenCount(-1), EXCEPTION_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeEvenPairCountNegative")
+  void testComputeEvenPairCountNegative() {
+    assertThrows(IllegalArgumentException.class, () -> computeEvenPairCount(-1), EXCEPTION_EXPECTED);
   }
 
   @Test
-  @DisplayName("MathUtilsTest.testComputeOddCountNegative")
-  void testComputeOddCountNegative() {
-    assertThrows(IllegalArgumentException.class, () -> computeOddCount(-1), EXCEPTION_EXPECTED);
+  @DisplayName("MathUtilsTest.testComputeOddPairCountNegative")
+  void testComputeOddPairCountNegative() {
+    assertThrows(IllegalArgumentException.class, () -> computeOddPairCount(-1), EXCEPTION_EXPECTED);
   }
 
   @Test

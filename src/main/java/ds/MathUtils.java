@@ -11,12 +11,12 @@ public final class MathUtils {
     throw new InstantiationException("Private constructor for: " + MathUtils.class.getName());
   }
 
-  public static int computeOddCount(int length) {
+  public static int computeOddPairCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
     return isOdd(length) ? length >> 1 : abs(length - 1) >> 1;
   }
 
-  public static int computeEvenCount(int length) {
+  public static int computeEvenPairCount(int length) {
     if (length < 0) throw new IllegalArgumentException("Illegal argument value: " + length);
     return length >> 1;
   }

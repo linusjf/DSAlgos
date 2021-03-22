@@ -379,8 +379,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -404,8 +404,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertArrayEquals(extentSorted, extent, "Elements must be sorted and equal.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -422,8 +422,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(MYRIAD - 1, compCount, "Comparison count must be " + (MYRIAD - 1));
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -440,8 +440,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertTrue(
           MYRIAD - 1 <= compCount && compCount <= (MYRIAD * MYRIAD - 1),
@@ -459,8 +459,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(sorter.getSwapCount(), sorter.getComparisonCount(), COUNT_EQUALS);
       assertTrue(isSorted(sorted), "Array must be sorted");
@@ -477,8 +477,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals(
           (oddTaskCount + evenTaskCount) * (outerLoopCount - 1) + oddTaskCount,
           innerLoopCount,
@@ -498,8 +498,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(0, sorter.getSwapCount(), "Swap count must be zero.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
@@ -515,8 +515,8 @@ class BrickSortTest implements SortProvider {
       final int innerLoopCount = sorter.getInnerLoopCount();
       final int outerLoopCount = sorter.getOuterLoopCount();
       int length = high.count();
-      final int oddTaskCount = computeOddCount(length);
-      final int evenTaskCount = computeEvenCount(length);
+      final int oddTaskCount = computeOddPairCount(length);
+      final int evenTaskCount = computeEvenPairCount(length);
       assertEquals((oddTaskCount + evenTaskCount) * outerLoopCount, innerLoopCount, MUST_BE_EQUAL);
       assertEquals(MYRIAD - 1, sorter.getTimeComplexity(), "Time complexity must be twenty.");
       assertTrue(sorter.isSorted(), SORTED_MUST_BE_SET);
