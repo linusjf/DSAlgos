@@ -172,15 +172,15 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     ITreeNode<T> left = t.left();
     ITreeNode<T> right = t.right();
     T value = t.value();
-
     int cmp = obj.compareTo(value);
-    if (cmp < 0) t.setLeft(left.remove(obj));
-    else if (cmp > 0) t.setRight(right.remove(obj));
-    else if (isNull(left) || isNull(right)) t = isNull(left) ? right : left;
-    else {
-      t.setValue(findMin(right).value());
-      t.setRight(right.remove(t.value()));
-    }
+    if (cmp == 0) {
+      if (isNull(left) || isNull(right)) t = isNull(left) ? right : left;
+      else {
+        t.setValue(findMin(right).value());
+        t.setRight(right.remove(t.value()));
+      }
+    } else if (cmp < 0) t.setLeft(left.remove(obj));
+    else t.setRight(right.remove(obj));
     return t;
   }
 

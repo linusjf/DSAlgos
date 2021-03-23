@@ -19,7 +19,7 @@ public final class TreeChecks {
    * @return {@code true} if the AVL tree invariants are fine
    */
   @SuppressWarnings("PMD.SystemPrintln")
-  public static <T extends Comparable<T>> boolean check(AVLTree<T> tree) {
+  public static <T extends Comparable<T>> boolean check(Tree<T> tree) {
     boolean bst = isBST(tree);
     if (!bst) System.out.println("Symmetric order not consistent");
     boolean avl = isAVL(tree);

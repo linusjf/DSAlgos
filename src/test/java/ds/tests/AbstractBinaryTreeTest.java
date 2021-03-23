@@ -22,6 +22,7 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   Tree<T> several;
   Tree<T> duplicates;
   Tree<T> randomTree;
+  Tree<T> anotherRandomTree;
   T singleElement;
   List<T> singleElementList;
   List<T> severalElementsList;
@@ -47,6 +48,13 @@ abstract class AbstractBinaryTreeTest<T extends Comparable<T>> extends BaseTreeT
   public void testRandomRemoves() {
     for (T s : randomTree.values()) randomTree.remove(s);
     assertTreeEmpty(randomTree);
+  }
+
+  @Test
+  @DisplayName("AbstractBinaryTreeTest.testMoreRandomRemoves")
+  public void testMoreRandomRemoves() {
+    for (T s : anotherRandomTree.valuesLevelOrder()) anotherRandomTree.remove(s);
+    assertTreeEmpty(anotherRandomTree);
   }
 
   @Test

@@ -22,8 +22,12 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
   @BeforeAll
   public void init() {
     randomTree = new BinaryTree<Integer>();
+    anotherRandomTree = new BinaryTree<Integer>();
     Random random = new Random();
-    for (int i = 0; i < 100; i++) randomTree.add(random.nextInt(1000));
+    for (int i = 0; i < 100; i++) {
+      randomTree.add(random.nextInt(1000));
+      anotherRandomTree.add(random.nextInt(1000));
+    }
 
     singleElement = 0;
     singleElementList = singletonList(0);

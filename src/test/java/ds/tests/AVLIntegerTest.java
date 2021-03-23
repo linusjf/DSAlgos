@@ -22,8 +22,12 @@ class AVLIntegerTest extends AbstractBinaryTreeTest<Integer> {
   @BeforeAll
   public void init() {
     randomTree = new AVLTree<Integer>();
+    anotherRandomTree = new AVLTree<Integer>();
     Random random = new Random();
-    for (int i = 0; i < 100; i++) randomTree.add(random.nextInt(1000));
+    for (int i = 0; i < 100; i++) {
+      randomTree.add(random.nextInt(1000));
+      anotherRandomTree.add(random.nextInt(1000));
+    }
 
     singleElement = 0;
     singleElementList = singletonList(0);
