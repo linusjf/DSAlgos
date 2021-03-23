@@ -75,6 +75,7 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     }
     requireNonNull(iterable);
     List<T> result = new ArrayList<>();
+    for (T val : iterable) result.add(val);
     return Collections.unmodifiableCollection(result).iterator();
   }
 

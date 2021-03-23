@@ -1,5 +1,6 @@
 package ds;
 
+import static ds.AssertionUtils.assertEquality;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -26,9 +27,8 @@ public final class TreeChecks {
     if (!avl) System.out.println("AVL property not consistent");
     boolean sizeConsistent = isSizeConsistent(tree);
     if (!sizeConsistent) System.out.println("Subtree counts not consistent");
-    boolean rankConsistent = isRankConsistent(tree);
-    if (!rankConsistent) System.out.println("Ranks not consistent");
-    return bst && avl && sizeConsistent && rankConsistent;
+    checkRankConsistency(tree);
+    return bst && avl && sizeConsistent;
   }
 
   /**
@@ -117,7 +117,7 @@ public final class TreeChecks {
    *
    * @return {@code true} if rank is consistent
    */
-  public static <T extends Comparable<T>> boolean isRankConsistent(Tree<T> tree) {
+  public static <T extends Comparable<T>> void checkRankConsistency(Tree<T> tree) {
     int treeSize = tree.size();
     Iterable<T> iterable = tree.values();
     List<T> result = new ArrayList<>();
@@ -127,8 +127,7 @@ public final class TreeChecks {
       T val = result.get(i);
       int rank = tree.rank(val);
       int rankIt = tree.rankFromValues(val);
-      if (rank != rankIt) return false;
+      assertEquality(rank, rankIt);
     }
-    return true;
   }
 }

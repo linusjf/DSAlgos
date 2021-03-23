@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
+import ds.Tree;
 import ds.BinaryTree;
 import ds.TreeChecks;
 import java.util.Random;
@@ -22,16 +23,19 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
+  Tree<Integer> leftSidedTree;
   @BeforeAll
   public void init() {
     randomTree = new BinaryTree<Integer>();
     anotherRandomTree = new BinaryTree<Integer>();
+    leftSidedTree = new BinaryTree<Integer>();
     Random random = new Random();
     for (int i = 0; i < 100; i++) {
       randomTree.add(random.nextInt(1000));
       anotherRandomTree.add(random.nextInt(1000));
     }
-
+    for (int i = 10; i > 0; i--)
+      leftSidedTree.add(i);
     singleElement = 0;
     singleElementList = singletonList(0);
     severalElementsList = asList(new Integer[] {1, 2, 5, 8, 9, 10});
@@ -72,6 +76,7 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
   @Test
   @DisplayName("BSTIntegerTest.testTree")
   public void testTrees() {
+    assertFalse(TreeChecks.check(leftSidedTree), "Tree must not pass all checks.");
     assertFalse(TreeChecks.check(duplicates), "Tree must not pass all checks.");
     assertFalse(TreeChecks.check(several), "Tree must not pass all checks.");
     assertTrue(TreeChecks.check(empty), "Tree must pass all checks.");

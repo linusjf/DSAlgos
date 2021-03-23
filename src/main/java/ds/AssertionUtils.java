@@ -10,8 +10,9 @@ public final class AssertionUtils {
   }
 
   @Generated
-  public static void assertEquality(int size, int count) {
-    if (size != count) throw new AssertionError("Size is not the same as count.");
+  public static void assertEquality(int first, int second) {
+    if (first != second)
+      throw new AssertionError(Integer.toString(first) + " is not the same as " + second);
   }
 
   @Generated
