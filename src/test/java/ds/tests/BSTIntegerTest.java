@@ -2,12 +2,15 @@ package ds.tests;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.*;
 
 import ds.BinaryTree;
+import ds.TreeChecks;
 import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
@@ -64,5 +67,14 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
     duplicates.add(8);
     duplicates.add(5);
     duplicates.add(10);
+  }
+
+  @Test
+  @DisplayName("BSTIntegerTest.testTree")
+  public void testTrees() {
+    assertFalse(TreeChecks.check(duplicates), "Tree must not pass all checks.");
+    assertFalse(TreeChecks.check(several), "Tree must not pass all checks.");
+    assertTrue(TreeChecks.check(empty), "Tree must pass all checks.");
+    assertFalse(TreeChecks.check(one), "Tree must not pass all checks.");
   }
 }
