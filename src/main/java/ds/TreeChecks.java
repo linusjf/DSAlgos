@@ -115,7 +115,6 @@ public final class TreeChecks {
   /**
    * Checks if rank is consistent.
    *
-   * @return {@code true} if rank is consistent
    */
   public static <T extends Comparable<T>> void checkRankConsistency(Tree<T> tree) {
     int treeSize = tree.size();

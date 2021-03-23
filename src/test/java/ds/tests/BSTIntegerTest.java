@@ -4,8 +4,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ds.Tree;
 import ds.BinaryTree;
+import ds.Tree;
 import ds.TreeChecks;
 import java.util.Random;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,18 +24,21 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
   Tree<Integer> leftSidedTree;
+  Tree<Integer> rightSidedTree;
+
   @BeforeAll
   public void init() {
     randomTree = new BinaryTree<Integer>();
     anotherRandomTree = new BinaryTree<Integer>();
     leftSidedTree = new BinaryTree<Integer>();
+    rightSidedTree = new BinaryTree<Integer>();
     Random random = new Random();
     for (int i = 0; i < 100; i++) {
       randomTree.add(random.nextInt(1000));
       anotherRandomTree.add(random.nextInt(1000));
     }
-    for (int i = 10; i > 0; i--)
-      leftSidedTree.add(i);
+    for (int i = 10; i > 0; i--) leftSidedTree.add(i);
+    for (int i = 1; i <= 10; i++) rightSidedTree.add(i);
     singleElement = 0;
     singleElementList = singletonList(0);
     severalElementsList = asList(new Integer[] {1, 2, 5, 8, 9, 10});
