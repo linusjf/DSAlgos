@@ -306,7 +306,7 @@
       <dependency>
         <groupId>org.jooq</groupId>
         <artifactId>joor</artifactId>
-        <version>0.9.13</version>
+        <version>0.9.14</version>
         <scope>test</scope>
       </dependency>
       <dependency>
