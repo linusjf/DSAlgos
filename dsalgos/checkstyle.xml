@@ -19,7 +19,7 @@ Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
   <property name="haltOnException" value="${cs.haltOnException}"/>
   <module name="OrderedProperties"/>
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="package\-info\.java$"/>
+    <property name="fileNamePattern" value="(module\-info\.java$)|(package\-info\.java$)"/>
   </module>
   <module name="SeverityMatchFilter">
     <property name="severity" value="ignore"/>
