@@ -80,7 +80,7 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
   @Test
   @DisplayName("BSTIntegerTest.testTree")
   public void testTrees() {
-    assertFalse(TreeChecks.check(leftSidedTree),TREE_MUST_NOT_PASS_CHECKS );
+    assertFalse(TreeChecks.check(leftSidedTree), TREE_MUST_NOT_PASS_CHECKS);
     assertFalse(TreeChecks.check(duplicates), TREE_MUST_NOT_PASS_CHECKS);
     assertFalse(TreeChecks.check(several), TREE_MUST_NOT_PASS_CHECKS);
     assertTrue(TreeChecks.check(empty), TREE_MUST_NOT_PASS_CHECKS);
