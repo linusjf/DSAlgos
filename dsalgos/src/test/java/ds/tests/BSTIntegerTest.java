@@ -23,6 +23,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.SAME_THREAD)
 class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
 
+  private static final String TREE_MUST_NOT_PASS_CHECKS = "Tree must not pass all checks.";
   Tree<Integer> leftSidedTree;
   Tree<Integer> rightSidedTree;
 
@@ -79,10 +80,10 @@ class BSTIntegerTest extends AbstractBinaryTreeTest<Integer> {
   @Test
   @DisplayName("BSTIntegerTest.testTree")
   public void testTrees() {
-    assertFalse(TreeChecks.check(leftSidedTree), "Tree must not pass all checks.");
-    assertFalse(TreeChecks.check(duplicates), "Tree must not pass all checks.");
-    assertFalse(TreeChecks.check(several), "Tree must not pass all checks.");
-    assertTrue(TreeChecks.check(empty), "Tree must pass all checks.");
-    assertFalse(TreeChecks.check(one), "Tree must not pass all checks.");
+    assertFalse(TreeChecks.check(leftSidedTree),TREE_MUST_NOT_PASS_CHECKS );
+    assertFalse(TreeChecks.check(duplicates), TREE_MUST_NOT_PASS_CHECKS);
+    assertFalse(TreeChecks.check(several), TREE_MUST_NOT_PASS_CHECKS);
+    assertTrue(TreeChecks.check(empty), TREE_MUST_NOT_PASS_CHECKS);
+    assertFalse(TreeChecks.check(one), TREE_MUST_NOT_PASS_CHECKS);
   }
 }
