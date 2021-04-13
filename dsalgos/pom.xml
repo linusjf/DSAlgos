@@ -722,6 +722,7 @@
                 <sourceDirectory>src/main/java</sourceDirectory>
               </configuration>
             </execution>
+            <!--
             <execution>
               <id>test-delombok</id>
               <phase>generate-sources</phase>
@@ -732,7 +733,8 @@
                 <addOutputDirectory>true</addOutputDirectory>
                 <sourceDirectory>src/test/java</sourceDirectory>
               </configuration>
-            </execution>
+              </execution>
+            -->
           </executions>
         </plugin>
         <plugin>
@@ -754,6 +756,7 @@
                 <goal>run</goal>
               </goals>
             </execution>
+            <!--
             <execution>
               <id>tests</id>
               <phase>generate-sources</phase>
@@ -768,7 +771,8 @@
               <goals>
                 <goal>run</goal>
               </goals>
-            </execution>
+              </execution>
+            -->
           </executions>
         </plugin>
         <plugin>
