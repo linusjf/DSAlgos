@@ -1,4 +1,4 @@
-open module dsalgos {
+module ds {
   requires java.logging;
 
   exports ds;

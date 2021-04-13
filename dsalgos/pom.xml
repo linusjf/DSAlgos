@@ -375,9 +375,11 @@
             <runOrder>alphabetical</runOrder>
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
+            <argline>--add-opens ds/ds=ALL-UNNAMED</argline>
             <includes>
               <include>**/*Test.java</include>
             </includes>
+            <useModulePath>false</useModulePath>
             <trimStackTrace>true</trimStackTrace>
           </configuration>
         </plugin>
