@@ -375,7 +375,8 @@
             <runOrder>alphabetical</runOrder>
             <rerunFailingTestsCount>2</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g -XX:MaxMetaspaceSize=512m</argline>
-            <argline>--illegal-access=permit</argline>
+            <argline>--add-opens ds/ds=org.jooq.joor --add-opens ds/ds=nl.jqno.equalsverifier --add-opens ds/ds=ALL_UNNAMED</argline>
+            <argline>--illegal-access=deny</argline>
             <includes>
               <include>**/*Test.java</include>
             </includes>

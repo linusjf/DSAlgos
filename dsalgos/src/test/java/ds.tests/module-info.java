@@ -1,6 +1,6 @@
 open module ds.tests {
-  requires ds;
   requires java.logging;
+  requires ds;
   requires org.jooq.joor;
   requires nl.jqno.equalsverifier;
   requires transitive org.junit.jupiter.api;
