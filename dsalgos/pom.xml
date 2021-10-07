@@ -242,7 +242,7 @@
     <jacoco.maven.plugin.version>0.8.6</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
-    <lombok.version>1.18.20</lombok.version>
+    <lombok.version>1.18.22</lombok.version>
     <checkstyle.version>9.0.1</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
