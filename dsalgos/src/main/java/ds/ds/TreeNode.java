@@ -22,6 +22,8 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   int size;
   // number of copies in node
   int refCount;
+  // priority
+  int priority;
 
   /**
    * Constructor for TreeNode.
@@ -35,6 +37,7 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.left = left;
     this.right = right;
     this.refCount = 1;
+    this.priority = Integer.MAX_VALUE;
   }
 
   TreeNode(T val) {
@@ -82,6 +85,11 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   @Override
   public void setHeight(int ht) {
     this.height = ht;
+  }
+  
+  @Override
+  public void setPriority(int pr) {
+    this.priority = pr;
   }
 
   @Override
