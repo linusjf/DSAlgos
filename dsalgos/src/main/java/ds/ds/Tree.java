@@ -57,6 +57,9 @@ public interface Tree<E> {
    */
   boolean isEmpty();
 
+  /** Empty the tree. */
+  void makeEmpty();
+
   /**
    * Remove an object with a matching value from the tree. If multiple matches are possible, only
    * the first matching object is removed.

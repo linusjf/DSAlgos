@@ -46,6 +46,12 @@ public abstract class AbstractTree<T extends Comparable<T>> implements Tree<T> {
     return isNull(treeRoot);
   }
 
+  /** Empty the tree. */
+  @Override
+  public void makeEmpty() {
+    treeRoot = null;
+  }
+
   @Override
   public Iterator<T> iterator(TraversalOrder order) {
     return new TreeIterator<>(treeRoot, order);
