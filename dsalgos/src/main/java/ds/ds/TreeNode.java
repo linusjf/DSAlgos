@@ -37,7 +37,6 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     this.left = left;
     this.right = right;
     this.refCount = 1;
-    this.priority = Integer.MAX_VALUE;
   }
 
   TreeNode(T val) {
@@ -68,11 +67,6 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
     return this.height;
   }
 
-  @Override
-  public int priority() {
-    return this.priority;
-  }
-
   private int height(ITreeNode<T> x) {
     return isNull(x) ? -1 : x.height();
   }
@@ -90,11 +84,6 @@ public class TreeNode<T extends Comparable<T>> implements ITreeNode<T> {
   @Override
   public void setHeight(int ht) {
     this.height = ht;
-  }
-
-  @Override
-  public void setPriority(int pr) {
-    this.priority = pr;
   }
 
   @Override

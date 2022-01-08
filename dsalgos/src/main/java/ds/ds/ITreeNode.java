@@ -25,15 +25,11 @@ public interface ITreeNode<E> extends Cloneable {
 
   void setHeight(int height);
 
-  void setPriority(int priority);
-
   int height();
 
   int balanceFactor();
 
   int refCount();
-
-  int priority();
 
   void incrementRefCount();
 

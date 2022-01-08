@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 
 /** https://www.sanfoundry.com/java-program-implement-treap/ */
 @SuppressWarnings({"PMD.CommentSize", "nullness", "PMD.LawOfDemeter"})
-public class TreapTree<E extends ITreapData<E>> extends AbstractTree<E> {
+public class TreapTree<T extends ITreapData<E>> extends AbstractTree<E> {
   /**
    * Store an object in the tree. The object must conform to type Comparable in order to be inserted
    * in the correct location. Multiple objects representing the same value can be added.
@@ -16,10 +16,22 @@ public class TreapTree<E extends ITreapData<E>> extends AbstractTree<E> {
    * @param obj reference to Comparable object to add.
    */
   @Override
-  public void add(E obj) {
+  public void add(T obj) {
     requireNonNull(obj);
-    if (isNull(treeRoot)) treeRoot = new TreeNode<>(obj, null, null);
-    else treeRoot.insert(obj);
+    if (isNull(treeRoot)) 
+      treeRoot = insert(obj,treeRoot);
+  }
+
+  private void insert(T obj,ITreeNode<T> node) {
+   if (isNull(node))
+     return new TreeNode<>(obj, null, null);
+   int cmp = obj.compareTo(node);
+   if (cmp < 0) {
+     
+   }
+   else {
+   }
+   return node;
   }
 
   /**
@@ -29,7 +41,7 @@ public class TreapTree<E extends ITreapData<E>> extends AbstractTree<E> {
    * @return true if the value is found.
    */
   @Override
-  public boolean contains(E obj) {
+  public boolean contains(T obj) {
     return nonNull(find(obj));
   }
 
@@ -40,9 +52,10 @@ public class TreapTree<E extends ITreapData<E>> extends AbstractTree<E> {
    * @return node.
    */
   @Override
-  public ITreeNode<E> find(E obj) {
+  public ITreeNode<T> find(T obj) {
     requireNonNull(obj);
-    if (isNull(treeRoot)) return null;
+    if (isNull(treeRoot)) 
+      return null;
     return treeRoot.find(obj);
   }
 
@@ -53,7 +66,7 @@ public class TreapTree<E extends ITreapData<E>> extends AbstractTree<E> {
    * @param obj Remove an object with a matching value from the tree.
    */
   @Override
-  public void remove(E obj) {
+  public void remove(T obj) {
     if (nonNull(treeRoot)) treeRoot = treeRoot.remove(obj);
   }
 
