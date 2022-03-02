@@ -243,7 +243,7 @@
     <lombok.maven.plugin.version>1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
     <lombok.version>1.18.22</lombok.version>
-    <checkstyle.version>9.3</checkstyle.version>
+    <checkstyle.version>10.0</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
     <pmd.version>6.43.0</pmd.version>
@@ -254,7 +254,7 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <checker.version>3.21.2</checker.version>
+    <checker.version>3.21.3</checker.version>
     <groovy.version>3.0.9</groovy.version>
     <junit.version>5.8.2</junit.version>
     <pitest.version>1.7.3</pitest.version>
