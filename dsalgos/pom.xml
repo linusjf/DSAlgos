@@ -243,10 +243,10 @@
     <lombok.maven.plugin.version>1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
     <lombok.version>1.18.22</lombok.version>
-    <checkstyle.version>10.0</checkstyle.version>
+    <checkstyle.version>10.1</checkstyle.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>checkstyle.properties</checkstyle.properties>
-    <pmd.version>6.43.0</pmd.version>
+    <pmd.version>6.44.0</pmd.version>
     <spotbugs.version>4.5.2</spotbugs.version>
     <spotbugs.excludeFilterFile>suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>suppressions-xpath.xml</checkstyle.suppressionsFile>
