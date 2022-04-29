@@ -257,7 +257,7 @@
     <checker.version>3.21.3</checker.version>
     <groovy.version>3.0.10</groovy.version>
     <junit.version>5.8.2</junit.version>
-    <pitest.version>1.7.3</pitest.version>
+    <pitest.version>1.7.6</pitest.version>
     <pitest.maven.version>1.6.4</pitest.maven.version>
   </properties>
   <dependencyManagement>
