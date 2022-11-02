@@ -279,7 +279,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <checker.version>3.26.0</checker.version>
+    <checker.version>3.27.0</checker.version>
     <groovy.version>3.0.10</groovy.version>
     <junit.version>5.9.0</junit.version>
     <pitest.version>1.9.9</pitest.version>
