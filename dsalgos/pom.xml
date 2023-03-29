@@ -441,6 +441,12 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-inline</artifactId>
+        <version>5.2.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
         <version>3.14.1</version>
@@ -480,6 +486,10 @@
       <artifactId>mockito-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-inline</artifactId>
+    </dependency>
+    <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
     </dependency>
@@ -515,10 +525,7 @@
             <rerunFailingTestsCount>0</rerunFailingTestsCount>
             <argline>-Xms1g -Xmx4g
             -XX:MaxMetaspaceSize=512m</argline>
-            <argline>--add-opens ds/ds=org.jooq.joor --add-opens
-            ds/ds=nl.jqno.equalsverifier --add-opens
-            ds/ds=ALL_UNNAMED</argline>
-            <argline>--illegal-access=deny</argline>
+            <argline>--illegal-access=permit</argline>
             <includes>
               <include>**/*Test.java</include>
             </includes>
@@ -572,25 +579,6 @@
               <goals>
                 <goal>compile</goal>
               </goals>
-              <configuration>
-                <!--  <annotationProcessorPaths>
-                  <path>
-                    <groupId>org.checkerframework</groupId>
-                    <artifactId>checker</artifactId>
-                    <version>${checker.version}</version>
-                  </path>
-                </annotationProcessorPaths>
-                <annotationProcessors>
-                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor>
-                  <annotationProcessor>org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker</annotationProcessor>
-                </annotationProcessors> -->
-              </configuration>
             </execution>
             <execution>
               <id>compile-test</id>
@@ -897,19 +885,6 @@
                 <sourceDirectory>src/main/java</sourceDirectory>
               </configuration>
             </execution>
-            <!--
-            <execution>
-              <id>test-delombok</id>
-              <phase>generate-sources</phase>
-              <goals>
-                <goal>testDelombok</goal>
-              </goals>
-              <configuration>
-                <addOutputDirectory>true</addOutputDirectory>
-                <sourceDirectory>src/test/java</sourceDirectory>
-              </configuration>
-              </execution>
-            -->
           </executions>
         </plugin>
         <plugin>
@@ -931,23 +906,6 @@
                 <goal>run</goal>
               </goals>
             </execution>
-            <!--
-            <execution>
-              <id>tests</id>
-              <phase>generate-sources</phase>
-              <configuration>
-                <target>
-                  <copy todir="${basedir}/src/test/java">
-                    <fileset dir="${basedir}/target/generated-test-sources/delombok"/>
-                  </copy>
-                  <delete dir="${basedir}/target/generated-test-sources/delombok"/>
-                </target>
-              </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
-              </execution>
-            -->
           </executions>
         </plugin>
         <plugin>
