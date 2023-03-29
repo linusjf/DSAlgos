@@ -55,9 +55,9 @@ public class DoubleNode<T> implements INode<T> {
 
   @Generated
   @Override
-  @SuppressWarnings("fenum:argument.type.incompatible")
+  @SuppressWarnings("fenum")
   public String toString() {
-    return Objects.toString(data);
+    return data.toString();
   }
 
   @Generated

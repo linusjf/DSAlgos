@@ -71,11 +71,7 @@ public class SinglyLinkedList<T> extends AbstractList<T> {
     return startNode;
   }
 
-  @SuppressWarnings({
-    "PMD.LawOfDemeter",
-    "nullness:argument.type.incompatible",
-    "fenum:argument.type.incompatible"
-  })
+  @SuppressWarnings({"PMD.LawOfDemeter", "nullness:argument.type.incompatible", "fenum"})
   @Override
   public boolean delete(T data) {
     requireNonNull(data, DATA_NON_NULL);
