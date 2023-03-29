@@ -21,7 +21,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
   "PMD.LawOfDemeter",
   "PMD.JUnitTestContainsTooManyAsserts",
   "PMD.GodClass",
-  "initialization.field.uninitialized"
+  "allcheckers"
 })
 @DisplayName("CircularDoublyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -62,7 +62,6 @@ class CircularDoublyLinkedListTest {
     assertSame(head, tail, "Same object.");
   }
 
-  @SuppressWarnings("nullness:argument.type.incompatible")
   @Test
   @DisplayName("CircularDoublyLinkedListTest.testAddNull")
   void testAddNull() {

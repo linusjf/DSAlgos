@@ -31,7 +31,7 @@
                 <path>
                   <groupId>org.checkerframework</groupId>
                   <artifactId>checker</artifactId>
-                  <version>3.32.0</version>
+                  <version>${checker.version}</version>
                 </path>
               </annotationProcessorPaths>
               <annotationProcessors>
@@ -51,7 +51,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.32.0</version>
+          <version>${checker.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -527,6 +527,8 @@
             </includes>
             <useModulePath>false</useModulePath>
             <trimStackTrace>true</trimStackTrace>
+            <!-- Activate the use of TCP to transmit events to the plugin -->
+            <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
           </configuration>
         </plugin>
         <plugin>
