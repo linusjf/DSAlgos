@@ -19,3 +19,4 @@ buildNumber.properties
 DSAlgos-xpath.xml
 !*tale*.txt
 !abra.txt
+.attach*
