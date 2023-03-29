@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>ds</groupId>
@@ -221,25 +221,25 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>19</maven.compiler.target>
     <maven.compiler.release>19</maven.compiler.release>
     <maven.minimal.version>3.5.4</maven.minimal.version>
-    <java.version>17</java.version>
+    <java.version>19</java.version>
     <maven.surefire.plugin.version>
-    3.0.0-M5</maven.surefire.plugin.version>
+    3.0.0</maven.surefire.plugin.version>
     <maven.install.plugin.version>
-    3.0.0-M1</maven.install.plugin.version>
+    3.1.1</maven.install.plugin.version>
     <maven.deploy.plugin.version>
-    3.0.0-M1</maven.deploy.plugin.version>
-    <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+    3.1.1</maven.deploy.plugin.version>
+    <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
     <maven.compiler.plugin.version>
-    3.8.1</maven.compiler.plugin.version>
+    3.11.0</maven.compiler.plugin.version>
     <maven.resources.plugin.version>
-    3.2.0</maven.resources.plugin.version>
-    <maven.site.plugin.version>3.9.1</maven.site.plugin.version>
-    <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+    3.3.1</maven.resources.plugin.version>
+    <maven.site.plugin.version>4.0.0-M6</maven.site.plugin.version>
+    <maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
     <maven.spotbugs.plugin.version>
-    4.2.2</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.19.0</maven.pmd.plugin.version>
+    4.7.3.3</maven.spotbugs.plugin.version>
+    <maven.pmd.plugin.version>3.20.0</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>
-    3.1.2</maven.checkstyle.plugin.version>
+    3.2.1</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>
     3.1.1</maven.project.info.reports.plugin.version>
     <maven.enforcer.plugin.version>
@@ -259,7 +259,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.properties.plugin.version>
     1.0.0</maven.properties.plugin.version>
     <jacoco.maven.plugin.version>
-    0.8.7</jacoco.maven.plugin.version>
+    0.8.8</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>
     1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>1.12.1</gmavenplus.plugin.version>
@@ -281,8 +281,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <checker.version>3.27.0</checker.version>
     <groovy.version>3.0.10</groovy.version>
-    <junit.version>5.9.0</junit.version>
-    <pitest.version>1.9.9</pitest.version>
+    <junit.version>5.9.2</junit.version>
+    <pitest.version>1.11.7</pitest.version>
     <pitest.maven.version>1.6.4</pitest.maven.version>
   </properties>
   <dependencyManagement>
