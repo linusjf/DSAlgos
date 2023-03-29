@@ -400,7 +400,7 @@
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.9.2</junit.version>
     <pitest.version>1.11.7</pitest.version>
-    <pitest.maven.version>1.6.4</pitest.maven.version>
+    <pitest.maven.version>1.11.7</pitest.maven.version>
   </properties>
   <dependencyManagement>
     <dependencies>
