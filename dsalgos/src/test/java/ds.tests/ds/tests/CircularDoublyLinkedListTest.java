@@ -17,7 +17,12 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.JUnitTestContainsTooManyAsserts", "PMD.GodClass"})
+@SuppressWarnings({
+  "PMD.LawOfDemeter",
+  "PMD.JUnitTestContainsTooManyAsserts",
+  "PMD.GodClass",
+  "initialization.field.uninitialized"
+})
 @DisplayName("CircularDoublyLinkedListTest")
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.SAME_THREAD)
