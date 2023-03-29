@@ -20,30 +20,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <fork>true</fork>
-              <!-- Must fork or else JVM arguments are ignored. -->
-              <compilerArguments>
-                <Xmaxerrs>10000</Xmaxerrs>
-                <Xmaxwarns>10000</Xmaxwarns>
-              </compilerArguments>
-              <annotationProcessorPaths>
-                <path>
-                  <groupId>org.checkerframework</groupId>
-                  <artifactId>checker</artifactId>
-                  <version>${checker.version}</version>
-                </path>
-              </annotationProcessorPaths>
-              <annotationProcessors>
-                <!-- Add all the checkers you want to enable here -->
-                <annotationProcessor>
-                org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-              </annotationProcessors>
-              <compilerArgs>
-                <!-- <arg>-Awarns</arg> -->
-                <!-- -Awarns turns type-checking errors into warnings. -->
-              </compilerArgs>
-            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -577,6 +553,43 @@
               <goals>
                 <goal>compile</goal>
               </goals>
+              <configuration>
+                <fork>true</fork>
+                <!-- Must fork or else JVM arguments are ignored. -->
+                <compilerArguments>
+                  <Xmaxerrs>10000</Xmaxerrs>
+                  <Xmaxwarns>10000</Xmaxwarns>
+                </compilerArguments>
+                <annotationProcessorPaths>
+                  <path>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker</artifactId>
+                    <version>${checker.version}</version>
+                  </path>
+                </annotationProcessorPaths>
+                <annotationProcessors>
+                  <annotationProcessor>
+                  org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.checker.signature.SignatureChecker</annotationProcessor>
+                  <annotationProcessor>
+                  org.checkerframework.common.returnsreceiver.ReturnsReceiverChecker</annotationProcessor>
+                </annotationProcessors>
+                <compilerArgs>
+                  <!-- <arg>-Awarns</arg> -->
+                  <!-- -Awarns turns type-checking errors into warnings. -->
+                </compilerArgs>
+              </configuration>
             </execution>
             <execution>
               <id>compile-test</id>
