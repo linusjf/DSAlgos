@@ -220,7 +220,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>19</maven.compiler.target>
     <maven.compiler.release>19</maven.compiler.release>
     <maven.minimal.version>3.5.4</maven.minimal.version>
-<<<<<<< HEAD
     <java.version>19</java.version>
     <maven.surefire.plugin.version>
     3.0.0</maven.surefire.plugin.version>
