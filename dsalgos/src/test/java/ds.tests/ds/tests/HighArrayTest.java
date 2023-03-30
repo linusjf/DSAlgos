@@ -5,7 +5,6 @@ import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.getModCount;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.HighArray;
 import ds.IArray;
@@ -515,25 +514,6 @@ class HighArrayTest {
           .append(ZERO)
           .append(System.lineSeparator());
       assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_DATA)
-    @DisplayName("HighArrayTest.ToStringTests.testDisplay")
-    void testDisplay(@AggregateWith(HighArrayArgumentsAggregator.class) IArray arr) {
-      IArray highArray = spy(arr);
-
-      doAnswer(
-              i -> {
-                i.callRealMethod();
-                return null;
-              })
-          .when(highArray)
-          .display();
-      highArray.display();
-      doCallRealMethod().when(highArray).display();
-      highArray.display();
-      verify(highArray, times(2)).display();
     }
   }
 

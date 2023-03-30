@@ -22,8 +22,6 @@ public interface IArray {
 
   boolean syncDelete(long value);
 
-  void display();
-
   IArray copy();
 
   IArray sort(ISort sorter);

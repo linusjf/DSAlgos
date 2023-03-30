@@ -6,7 +6,6 @@ import static ds.tests.TestData.*;
 import static ds.tests.TestUtils.*;
 import static org.joor.Reflect.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import ds.IArray;
 import ds.OrdArray;
@@ -613,25 +612,6 @@ class OrdArrayTest {
           .append("nElems = 0")
           .append(lineSeparator);
       assertEquals(sb.toString(), arr.toString(), "Strings must be equal.");
-    }
-
-    @ParameterizedTest
-    @CsvSource(INIT_TOSTRING_DATA)
-    @DisplayName("OrdArrayTest.ToStringTests.testDisplay")
-    void testDisplay(@AggregateWith(OrdArrayArgumentsAggregator.class) IArray arr) {
-      IArray ordArray = spy(arr);
-
-      doAnswer(
-              i -> {
-                i.callRealMethod();
-                return null;
-              })
-          .when(ordArray)
-          .display();
-      ordArray.display();
-      doCallRealMethod().when(ordArray).display();
-      ordArray.display();
-      verify(ordArray, times(2)).display();
     }
   }
 

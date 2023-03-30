@@ -85,12 +85,6 @@ public abstract class AbstractArray implements IArray {
   }
 
   @Override
-  @SuppressWarnings({"PMD.SystemPrintln", "PMD.LawOfDemeter"})
-  public void display() {
-    System.out.println(this);
-  }
-
-  @Override
   @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})
   public String toString() {
     int length = nElems.intValue();
