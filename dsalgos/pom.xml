@@ -176,6 +176,11 @@
                 <artifactId>checkstyle</artifactId>
                 <version>${checkstyle.version}</version>
               </dependency>
+              <dependency>
+                <groupId>com.github.sevntu.checkstyle</groupId>
+                <artifactId>sevntu-checks</artifactId>
+                <version>${sevntu.version}</version>
+              </dependency>
             </dependencies>
             <executions>
               <execution>
@@ -358,6 +363,7 @@
     <gmavenplus.plugin.version>2.1.0</gmavenplus.plugin.version>
     <lombok.version>1.18.26</lombok.version>
     <checkstyle.version>10.9.3</checkstyle.version>
+    <sevntu.version>1.23.1</sevntu.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>
     checkstyle.properties</checkstyle.properties>
@@ -701,6 +707,11 @@
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
               <version>${checkstyle.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.github.sevntu.checkstyle</groupId>
+              <artifactId>sevntu-checks</artifactId>
+              <version>${sevntu.version}</version>
             </dependency>
           </dependencies>
         </plugin>
