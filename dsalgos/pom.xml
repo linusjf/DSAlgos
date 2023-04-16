@@ -177,7 +177,7 @@
                 <version>${checkstyle.version}</version>
               </dependency>
               <dependency>
-                <groupId>com.github.sevntu.checkstyle</groupId>
+                <groupId>com.github.sevntu-checkstyle</groupId>
                 <artifactId>sevntu-checks</artifactId>
                 <version>${sevntu.version}</version>
               </dependency>
@@ -363,7 +363,7 @@
     <gmavenplus.plugin.version>2.1.0</gmavenplus.plugin.version>
     <lombok.version>1.18.26</lombok.version>
     <checkstyle.version>10.9.3</checkstyle.version>
-    <sevntu.version>1.23.1</sevntu.version>
+    <sevntu.version>1.44.1</sevntu.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>
     checkstyle.properties</checkstyle.properties>
@@ -696,7 +696,7 @@
           <executions>
             <execution>
               <id>checkstyle</id>
-              <phase>verify</phase>
+              <phase>validate</phase>
               <goals>
                 <goal>check</goal>
               </goals>
@@ -709,7 +709,7 @@
               <version>${checkstyle.version}</version>
             </dependency>
             <dependency>
-              <groupId>com.github.sevntu.checkstyle</groupId>
+              <groupId>com.github.sevntu-checkstyle</groupId>
               <artifactId>sevntu-checks</artifactId>
               <version>${sevntu.version}</version>
             </dependency>
