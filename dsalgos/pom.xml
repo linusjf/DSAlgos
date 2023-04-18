@@ -350,7 +350,8 @@
     <maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
     <maven.spotbugs.plugin.version>
     4.7.3.4</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.20.0</maven.pmd.plugin.version>
+    <maven.pmd.plugin.version>
+    3.20.1-pmd-7-SNAPSHOT</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>
     3.2.1</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>
@@ -382,7 +383,6 @@
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>
     checkstyle.properties</checkstyle.properties>
-    <pmd.version>7.0.0-rc1</pmd.version>
     <spotbugs.version>4.7.3</spotbugs.version>
     <spotbugs.excludeFilterFile>
     suppressions-sb.xml</spotbugs.excludeFilterFile>
@@ -393,12 +393,26 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
+    <pmd.version>7.0.0-rc1</pmd.version>
     <checker.version>3.33.0</checker.version>
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.9.2</junit.version>
     <pitest.version>1.12.0</pitest.version>
     <pitest.maven.version>1.12.0</pitest.maven.version>
   </properties>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>https://repository.apache.org/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
   <dependencyManagement>
     <dependencies>
       <dependency>
