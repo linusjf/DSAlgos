@@ -31,11 +31,11 @@ def renameSuppressions() {
 
 def getClassPath(classLoader, sb) {
   classLoader.getURLs().each {url->
-     sb.append("${url.getFile().toString()}")
-       .append(System.getProperty("path.separator"))
-  }
+    sb.append("${url.getFile().toString()}")
+      .append(System.getProperty("path.separator"))
+      }
   if (classLoader.parent) {
-     getClassPath(classLoader.parent, sb)
+    getClassPath(classLoader.parent, sb)
   }
   return sb.toString()
 }
