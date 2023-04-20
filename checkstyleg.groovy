@@ -1,9 +1,9 @@
 import java.nio.file.Files
-import java.nio.file.StandardCopyOption  
+import java.nio.file.StandardCopyOption
 import java.nio.file.Paths
 
 def backupSuppressions() {
-  def supprFileName = 
+  def supprFileName =
       project.properties["checkstyle.suppressionsFile"]
   def suppr = Paths.get(supprFileName)
   def target = null
@@ -17,7 +17,7 @@ def backupSuppressions() {
 }
 
 def renameSuppressions() {
-  def supprFileName = 
+  def supprFileName =
       project.properties["checkstyle.suppressionsFile"]
   def suppr = Paths.get(project.name + "-xpath.xml")
   def target = null
@@ -42,13 +42,13 @@ def getClassPath(classLoader, sb) {
 
 backupSuppressions()
 
-def cp = getClassPath(this.class.classLoader, 
+def cp = getClassPath(this.class.classLoader,
     new StringBuilder())
-def csMainClass = 
+def csMainClass =
       project.properties["cs.main.class"]
-def csRules = 
+def csRules =
       project.properties["checkstyle.rules"]
-def csProps = 
+def csProps =
       project.properties["checkstyle.properties"]
 
 String[] args = ["java", "-cp", cp,

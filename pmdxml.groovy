@@ -14,13 +14,13 @@ def getClassPath(classLoader, sb) {
 
 def getXmlFiles() {
  File baseDir = project.basedir
- FilenameFilter fileNameFilter = 
- { 
-   dir,name -> 
-   name.toLowerCase().endsWith(".xml") || 
+ FilenameFilter fileNameFilter =
+ {
+   dir,name ->
+   name.toLowerCase().endsWith(".xml") ||
    name.toLowerCase().endsWith(".pom")
  }
- String[] xmlFiles = 
+ String[] xmlFiles =
  baseDir.listFiles(fileNameFilter)
  StringBuilder sb = new StringBuilder()
  for (file in xmlFiles)
@@ -29,42 +29,42 @@ def getXmlFiles() {
  return sb.toString()
 }
 
-def pmdMainClass = 
+def pmdMainClass =
       project.properties["pmd.main.class"]
-def pmdRules = 
+def pmdRules =
         project.properties["pmd.xml.rules"]
 
 def classLoader = Class.forName(pmdMainClass).getClassLoader()
-def cp = getClassPath(classLoader, 
+def cp = getClassPath(classLoader,
     new StringBuilder())
 
 String xmlFiles = getXmlFiles()
 
-PrintStream o = new PrintStream("filelist.txt"); 
-PrintStream console = System.out; 
-System.setOut(o); 
-System.out.print(xmlFiles); 
+PrintStream o = new PrintStream("filelist.txt");
+PrintStream console = System.out;
+System.setOut(o);
+System.out.print(xmlFiles);
 System.setOut(console);
 
 Files.createDirectories(Paths.get("target"));
 
-String[] args = ["java", 
-  "-cp", 
+String[] args = ["java",
+  "-cp",
   cp,
     pmdMainClass,
-    "-R", 
+    "-R",
     pmdRules,
-"-cache", 
+"-cache",
   "pmdxml.cache",
-  "-failOnViolation", 
+  "-failOnViolation",
   "false",
-  "-r", 
+  "-r",
   "target/pmdxml.txt",
-  "-l", 
+  "-l",
   "xml",
-"-f", 
+"-f",
   "text",
-  "-filelist", 
+  "-filelist",
   "filelist.txt",
 "-V"]
 
