@@ -400,6 +400,14 @@
     <pitest.version>1.12.0</pitest.version>
     <pitest.maven.version>1.12.0</pitest.maven.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>sonatype</id>
+      <name>Sonatype Snapshots</name>
+      <url>
+      https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
   <pluginRepositories>
     <pluginRepository>
       <id>apache.snapshots</id>
