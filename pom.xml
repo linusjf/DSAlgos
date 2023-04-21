@@ -398,7 +398,7 @@
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.9.2</junit.version>
     <pitest.version>1.12.0</pitest.version>
-    <pitest.maven.version>1.12.0</pitest.maven.version>
+    <pitest.maven.version>1.13.0</pitest.maven.version>
   </properties>
   <repositories>
     <repository>
