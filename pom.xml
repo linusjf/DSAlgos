@@ -393,7 +393,7 @@
     <pmd.main.class>net.sourceforge.pmd.PMD</pmd.main.class>
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
-    <pmd.version>7.0.0-rc1</pmd.version>
+    <pmd.version>7.0.0-SNAPSHOT</pmd.version>
     <checker.version>3.33.0</checker.version>
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.9.2</junit.version>
