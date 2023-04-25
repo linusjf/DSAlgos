@@ -373,7 +373,7 @@
     <maven.properties.plugin.version>
     1.1.0</maven.properties.plugin.version>
     <jacoco.maven.plugin.version>
-    0.8.9</jacoco.maven.plugin.version>
+    0.8.10</jacoco.maven.plugin.version>
     <lombok.maven.plugin.version>
     1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>2.1.0</gmavenplus.plugin.version>
