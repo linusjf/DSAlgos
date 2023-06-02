@@ -353,7 +353,7 @@
     <maven.pmd.plugin.version>
     3.20.1-pmd-7-SNAPSHOT</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>
-    3.2.2</maven.checkstyle.plugin.version>
+    3.3.0</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>
     3.4.4</maven.project.info.reports.plugin.version>
     <maven.enforcer.plugin.version>
