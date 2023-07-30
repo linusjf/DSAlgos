@@ -378,7 +378,7 @@
     1.18.20.0</lombok.maven.plugin.version>
     <gmavenplus.plugin.version>3.0.0</gmavenplus.plugin.version>
     <lombok.version>1.18.28</lombok.version>
-    <checkstyle.version>10.12.1</checkstyle.version>
+    <checkstyle.version>10.12.2</checkstyle.version>
     <sevntu.version>1.44.1</sevntu.version>
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>
