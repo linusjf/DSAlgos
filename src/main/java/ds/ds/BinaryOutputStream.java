@@ -1,4 +1,5 @@
 package ds;
+
 /******************************************************************************
  *  Write binary data to an output stream, either one 1-bit boolean,
  *  one 8-bit char, one 32-bit int, one 64-bit double, one 32-bit float,
@@ -44,6 +45,7 @@ public final class BinaryOutputStream {
   private int buffer;
   // 8-bit buffer of bits to write out
   private int n;
+
   // number of bits remaining in buffer
 
   /** Initializes a binary output stream from standard output. */

@@ -52,6 +52,7 @@ public final class BinaryInputStream {
   private int buffer;
   // one character buffer
   private int n;
+
   // number of bits left in buffer
 
   /** Initializes a binary input stream from standard input. */

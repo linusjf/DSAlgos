@@ -851,8 +851,7 @@ Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
     <module name="com.github.sevntu.checkstyle.checks.design.ChildBlockLengthCheck">
 
       <property name="blockTypes"
-                value="LITERAL_IF,LITERAL_ELSE,LITERAL_WHILE,LITERAL_DO,LITERAL_FOR,LITERAL_SWITCH,
-               LITERAL_TRY,LITERAL_CATCH" />
+                value="LITERAL_IF,LITERAL_ELSE,LITERAL_WHILE,LITERAL_DO,LITERAL_FOR,LITERAL_SWITCH,                LITERAL_TRY,LITERAL_CATCH" />
       <property name="maxChildBlockPercentage"
                 value="90" />
       <property name="ignoreBlockLinesCount"
