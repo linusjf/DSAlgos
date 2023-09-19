@@ -361,7 +361,7 @@
     3.2.2</xml.format.maven.plugin.version>
     <fmt.maven.plugin.version>2.13</fmt.maven.plugin.version>
     <maven.versions.plugin.version>
-    2.16.0</maven.versions.plugin.version>
+    2.16.1</maven.versions.plugin.version>
     <maven.antrun.plugin.version>
     3.1.0</maven.antrun.plugin.version>
     <maven.dependency.plugin.version>
