@@ -349,7 +349,7 @@
     <maven.site.plugin.version>4.0.0-M9</maven.site.plugin.version>
     <maven.clean.plugin.version>3.3.1</maven.clean.plugin.version>
     <maven.spotbugs.plugin.version>
-    4.7.3.5</maven.spotbugs.plugin.version>
+    4.7.3.6</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.21.0</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>
     3.3.0</maven.checkstyle.plugin.version>
