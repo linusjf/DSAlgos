@@ -352,7 +352,7 @@
     4.7.3.6</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.21.0</maven.pmd.plugin.version>
     <maven.checkstyle.plugin.version>
-    3.3.0</maven.checkstyle.plugin.version>
+    3.3.1</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>
     3.4.5</maven.project.info.reports.plugin.version>
     <maven.enforcer.plugin.version>
