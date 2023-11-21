@@ -354,7 +354,7 @@
     <maven.checkstyle.plugin.version>
     3.3.1</maven.checkstyle.plugin.version>
     <maven.project.info.reports.plugin.version>
-    3.4.5</maven.project.info.reports.plugin.version>
+    3.5.0</maven.project.info.reports.plugin.version>
     <maven.enforcer.plugin.version>
     3.4.1</maven.enforcer.plugin.version>
     <xml.format.maven.plugin.version>
