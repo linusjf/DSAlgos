@@ -382,7 +382,7 @@
     <checkstyle.rules>checkstyle.xml</checkstyle.rules>
     <checkstyle.properties>
     checkstyle.properties</checkstyle.properties>
-    <spotbugs.version>4.8.0</spotbugs.version>
+    <spotbugs.version>4.8.2</spotbugs.version>
     <spotbugs.excludeFilterFile>
     suppressions-sb.xml</spotbugs.excludeFilterFile>
     <checkstyle.suppressionsFile>
