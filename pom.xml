@@ -393,7 +393,7 @@
     <pmd.rules>pmdrules.xml</pmd.rules>
     <pmd.xml.rules>pmdxmlrules.xml</pmd.xml.rules>
     <pmd.version>7.0.0-rc4</pmd.version>
-    <checker.version>3.40.0</checker.version>
+    <checker.version>3.41.0</checker.version>
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.10.1</junit.version>
     <pitest.version>1.15.3</pitest.version>
