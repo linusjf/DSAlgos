@@ -396,7 +396,7 @@
     <checker.version>3.42.0</checker.version>
     <groovy.version>4.0.10</groovy.version>
     <junit.version>5.10.1</junit.version>
-    <pitest.version>1.15.5</pitest.version>
+    <pitest.version>1.15.6</pitest.version>
     <pitest.maven.version>1.15.6</pitest.maven.version>
   </properties>
   <repositories>
